@@ -1,0 +1,59 @@
+# ASP.NET Core (.NET) specific ignores
+# Bỏ qua thư mục bin và obj được tạo khi build
+WebAPI/**/bin/
+WebAPI/**/obj/
+
+
+# Bỏ qua file cấu hình người dùng
+WebAPI/**/*.csproj.user
+
+# Bỏ qua file appsettings.local.json (nếu có, dùng cho local development)
+WebAPI/Src/Presentation/appsettings.local.json
+WebAPI/Src/Presentation/*.env
+
+# Bỏ qua thư mục chứa kết quả test
+WebAPI/Tests/TestResults/
+
+# Bỏ qua file log
+*.log
+
+# Python/Flask specific ignores
+# Bỏ qua virtual environment của Python
+ChatBotAPI/venv/
+ChatBotAPI/.venv/
+ChatBotAPI/env/
+ChatBotAPI/.env/
+
+# Bỏ qua file bytecode của Python
+ChatBotAPI/**/*.pyc
+ChatBotAPI/**/__pycache__/
+ChatBotAPI/**/.pytest_cache/
+
+# Bỏ qua file .env chứa biến môi trường
+ChatBotAPI/.env
+
+# Bỏ qua file tạm của Python
+ChatBotAPI/*.pyo
+ChatBotAPI/*.pyd
+
+# Common ignores for both projects
+# Bỏ qua thư mục .idea (nếu dùng IntelliJ IDEA)
+.idea/
+
+# Bỏ qua thư mục .vscode (cấu hình VSCode)
+.vscode/
+
+# Bỏ qua file tạm của hệ điều hành
+.DS_Store
+Thumbs.db
+
+# Bỏ qua node_modules (nếu có dùng npm trong tương lai)
+node_modules/
+
+# Bỏ qua file lock của package manager
+package-lock.json
+yarn.lock
+
+# Bỏ qua thư mục chứa file tạm hoặc build
+dist/
+build/

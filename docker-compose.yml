@@ -1,0 +1,95 @@
+version: '3.8'
+
+services:
+  webapi:
+    build:
+      context: ./Backend/WebAPI
+      dockerfile: Dockerfile
+      target: ${ENV_MODE:-development} # Thay đổi: development hoặc production
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ENV_MODE:-Development} # Thay đổi: Development hoặc Production
+      - ASPNETCORE_URLS=http://+:5000
+      # Cập nhật chuỗi kết nối cho MSSQL
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=${MSSQL_DB};User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;
+    volumes:
+      - ./Backend/WebAPI:/app # Xóa trong Production (mount mã nguồn, chỉ dùng trong Development)
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  chatbotapi:
+    build:
+      context: ./Backend/ChatBotAPI
+      dockerfile: Dockerfile
+      target: ${ENV_MODE:-development} # Thay đổi: development hoặc production
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./Backend/ChatBotAPI:/app # Xóa trong Production (mount mã nguồn, chỉ dùng trong Development)
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+      target: ${ENV_MODE:-development} # Thay đổi: development hoặc production
+      args:
+        - APP_MODE=${APP_MODE:-dev-all} # Thay đổi: dev-all/dev-admin/dev-learner (Development) hoặc build-all/build-admin/build-learner (Production)
+    ports:
+      - "4201:4201"
+      - "4202:4202"
+      - "80:80"
+    environment:
+      - APP_MODE=${APP_MODE:-dev-all} # Thay đổi: dev-all/dev-admin/dev-learner (Development) hoặc build-all/build-admin/build-learner (Production)
+    volumes:
+      - ./Frontend:/app # Xóa trong Production (mount mã nguồn, chỉ dùng trong Development)
+    depends_on:
+      - webapi
+      - chatbotapi
+    networks:
+      - app-network
+
+  proxy:
+    build:
+      context: ./Nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - webapi
+      - chatbotapi
+    volumes:
+      # Giữ trong cả Development và Production
+      - ./Nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./Nginx/certs:/etc/letsencrypt/live:ro
+    networks:
+      - app-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SA_PASSWORD}
+      - MSSQL_PID=Express
+      - MSSQL_DB=${MSSQL_DB}
+    volumes:
+      - mssql_data:/var/opt/mssql # Volume lưu trữ dữ liệu MSSQL
+    ports:
+      - "1433:1433"
+    networks:
+      - app-network
+
+volumes:
+  mssql_data:
+    # Volume cho MSSQL, giữ trong cả Development và Production
+
+networks:
+  app-network:
+    driver: bridge

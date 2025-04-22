@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "National Park Regular";
+  src: url("D:\\All-Courses\\Y3-S3\\CT208\\Project\\Frontend\\public\\fonts\\NationalPark-Regular.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "National Park Regular", sans-serif;
+}
+
+/* .toast {
+  @apply bg-blue-600 text-white p-4 rounded-lg;
+}
+
+.toast-success {
+  @apply bg-green-600;
+}
+
+.toast-error {
+  @apply bg-red-600;
+}
+
+.swal2-popup {
+  @apply bg-gray-900 text-white rounded-lg p-6;
+}
+
+.swal2-confirm {
+  @apply bg-green-600 text-white px-4 py-2 rounded;
+} */
