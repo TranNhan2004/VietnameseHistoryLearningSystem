@@ -1,0 +1,6 @@
+{
+    "folders": [
+        { "path": "./Backend/ChatBotAPI" },
+        { "path": "./Frontend" }
+    ]
+}

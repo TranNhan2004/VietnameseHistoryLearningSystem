@@ -4,8 +4,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'my-gradmagenta': '#6A11CB',
-        'my-gradblue': '#2575fc',
+        'my-purple': '#6A11CB',
+        'my-blue': '#2575fC',
         'my-offwhite': '#F8F9FA',
         'my-darknavy': '#1A1A2E',
         'my-lavender': '#B39DDB',
