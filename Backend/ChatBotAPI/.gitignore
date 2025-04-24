@@ -1,0 +1,28 @@
+# Bỏ qua file log
+*.log
+
+# Python/Flask specific ignores
+# Bỏ qua virtual environment của Python
+venv/
+.venv/
+env/
+.env/
+
+# Bỏ qua file bytecode của Python
+**/*.pyc
+**/__pycache__/
+**/.pytest_cache/
+
+# Bỏ qua file .env chứa biến môi trường
+*.env
+
+# Bỏ qua file tạm của Python
+*.pyo
+*.pyd
+
+# Bỏ qua thư mục .vscode (cấu hình VSCode)
+.vscode/
+
+# Bỏ qua thư mục chứa file tạm hoặc build
+dist/
+build/
