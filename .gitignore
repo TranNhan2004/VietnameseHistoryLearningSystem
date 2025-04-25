@@ -1,4 +1,3 @@
-Certificates/
-
+.idea
 *.env
 *.code-workspace

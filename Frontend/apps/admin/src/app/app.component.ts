@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from "./components/navbar/navbar.component";
+import { HasAuthLayoutComponent } from './pages/has-auth-layout/has-auth-layout.component';
 
 @Component({
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet, HasAuthLayoutComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
