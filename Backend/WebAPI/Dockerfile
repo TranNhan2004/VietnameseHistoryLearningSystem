@@ -1,14 +1,11 @@
-# Sử dụng image OpenJDK 24 làm base image
-FROM openjdk:24-jdk
-
-# Thiết lập thư mục làm việc trong container
+FROM openjdk:25-slim-bullseye
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apt-utils \
+    && apt-get install -y maven \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
-
-# Sao chép file build (jar) từ project vào container
-COPY target/*.jar app.jar
-
-# Mở port mà ứng dụng Spring Boot sử dụng (mặc định 8080)
-EXPOSE 8080
-
-# Lệnh chạy ứng dụng Spring Boot
-ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY ./pom.xml .
+COPY ./src ./src
+RUN mvn clean package -DskipTests
+EXPOSE 9000
+CMD ["java", "-jar", "target/WebAPI-0.0.1-SNAPSHOT.jar"]

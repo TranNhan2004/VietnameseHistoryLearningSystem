@@ -1,0 +1,79 @@
+services:
+  webapi:
+    build:
+      context: ./Backend/WebAPI
+      dockerfile: Dockerfile
+    env_file:
+      - ./Backend/WebAPI/src/main/resources/.env
+    depends_on:
+      - mysql
+    ports:
+      - "9000:9000"
+    networks:
+      - app-network
+
+  chatbotapi:
+    build:
+      context: ./Backend/ChatBotAPI
+      dockerfile: Dockerfile
+    env_file:
+      - ./Backend/ChatBotAPI/.env
+    depends_on:
+      - mysql
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:9.0
+    env_file:
+      - ./Backend/WebAPI/src/main/resources/db/.env
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3312:3306"
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    command: >
+      sh -c "if [ \"$APP_MODE\" = \"dev-admin\" ]; then npm run dev-admin;
+             elif [ \"$APP_MODE\" = \"dev-learner\" ]; then npm run dev-learner;
+             elif [ \"$APP_MODE\" = \"dev-all\" ]; then npm run dev-all;
+             else echo \"Invalid APP_MODE\"; exit 1; fi"
+    env_file:
+      - ./Frontend/.env
+    ports:
+      - "4201:4201"
+      - "4202:4202"
+    volumes:
+      - ./Frontend:/app
+    depends_on:
+      - mysql
+      - webapi
+    networks:
+      - app-network
+
+  tunnel:
+    build:
+      context: ./Tunnel
+      dockerfile: Dockerfile
+    env_file:
+      - ./Tunnel/.env
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - webapi
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:
+    driver: bridge
