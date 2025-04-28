@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev-all": "nx run-many --targets=serve --projects=admin,learner --configuration=development --parallel --port=4201,4202 --host 0.0.0.0",
-    "dev-admin": "npx nx serve admin --host 0.0.0.0 --port 4201",
-    "dev-learner": "npx nx serve learner --host 0.0.0.0 --port 4202",
-    "build-all": "npx nx build admin --configuration=production --output-path=dist/admin && npx nx build learner --configuration=production --output-path=dist/learner",
+    "dev-all": "concurrently \"npm run dev-admin\" \"npm run dev-learner\"",
+    "dev-admin": "npx nx serve admin --host 0.0.0.0 --port 4201 --allowed-hosts=admin-vhl.trannhanweb.io.vn",
+    "dev-learner": "npx nx serve learner --host 0.0.0.0 --port 4202 --allowed-hosts=learner-vhl.trannhanweb.io.vn",
+    "build-all": "concurrently \"npm run build-admin\" \"npm run build-learner\"",
     "build-admin": "npx nx build admin --configuration=production --output-path=dist/admin",
     "build-learner": "npx nx build learner --configuration=production --output-path=dist/learner"
   },

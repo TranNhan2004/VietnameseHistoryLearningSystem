@@ -1,0 +1,24 @@
+package com.vhl.webapi.entities.specific;
+
+import com.vhl.webapi.enums.LearnerRank;
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Data
+@Table(name = "learners")
+@PrimaryKeyJoinColumn(name = "id")
+public class Learner extends BaseUser {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "learner_rank", nullable = false)
+    private LearnerRank rank = LearnerRank.BEGINNER;
+
+    @Column(name = "point", nullable = false)
+    private int point = 0;
+
+    @Column(name = "best_score")
+    private Integer bestScore;
+
+    @Column(name = "worst_score")
+    private Integer worstScore;
+}

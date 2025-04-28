@@ -28,7 +28,7 @@ services:
   mysql:
     image: mysql:9.0
     env_file:
-      - ./Backend/WebAPI/src/main/resources/db/.env
+      - ./Backend/WebAPI/src/main/resources/db/mysql/.env
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
@@ -36,27 +36,22 @@ services:
     networks:
       - app-network
 
-  frontend:
-    build:
-      context: ./Frontend
-      dockerfile: Dockerfile
-    command: >
-      sh -c "if [ \"$APP_MODE\" = \"dev-admin\" ]; then npm run dev-admin;
-             elif [ \"$APP_MODE\" = \"dev-learner\" ]; then npm run dev-learner;
-             elif [ \"$APP_MODE\" = \"dev-all\" ]; then npm run dev-all;
-             else echo \"Invalid APP_MODE\"; exit 1; fi"
-    env_file:
-      - ./Frontend/.env
-    ports:
-      - "4201:4201"
-      - "4202:4202"
-    volumes:
-      - ./Frontend:/app
-    depends_on:
-      - mysql
-      - webapi
-    networks:
-      - app-network
+  #  frontend:
+  #    build:
+  #      context: ./Frontend
+  #      dockerfile: Dockerfile
+  #    env_file:
+  #      - ./Frontend/.env
+  #    ports:
+  #      - "4201:4201"
+  #      - "4202:4202"
+  #    volumes:
+  #      - ./Frontend:/app
+  #    depends_on:
+  #      - mysql
+  #      - webapi
+  #    networks:
+  #      - app-network
 
   tunnel:
     build:
