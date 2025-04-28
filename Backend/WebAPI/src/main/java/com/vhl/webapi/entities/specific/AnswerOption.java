@@ -3,6 +3,8 @@ package com.vhl.webapi.entities.specific;
 import com.vhl.webapi.entities.superclass.IBaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
@@ -14,7 +16,8 @@ public class AnswerOption extends IBaseEntity {
     @Column(name = "is_correct", nullable = false)
     private boolean isCorrect = false;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "question_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Question question;
 }

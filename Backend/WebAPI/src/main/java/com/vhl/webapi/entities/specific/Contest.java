@@ -1,12 +1,12 @@
 package com.vhl.webapi.entities.specific;
 
 import com.vhl.webapi.entities.superclass.ICUBaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,4 +23,7 @@ public class Contest extends ICUBaseEntity {
 
     @Column(name = "end_date", nullable = false)
     private LocalDateTime endTime;
+
+    @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContestQuestion> contestQuestions = new ArrayList<>();
 }

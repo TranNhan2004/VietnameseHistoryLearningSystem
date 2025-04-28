@@ -3,6 +3,8 @@ package com.vhl.webapi.entities.specific;
 import com.vhl.webapi.entities.superclass.IBaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
@@ -14,7 +16,8 @@ public class Image extends IBaseEntity {
     @Column(name = "ordinal_number", nullable = false)
     private int ordinalNumber;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "lesson_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Lesson lesson;
 }

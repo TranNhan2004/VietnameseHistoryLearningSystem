@@ -3,6 +3,11 @@ package com.vhl.webapi.entities.specific;
 import com.vhl.webapi.entities.superclass.ICUBaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,10 +29,21 @@ public class Lesson extends ICUBaseEntity {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "historical_period_id")
+    @JoinColumn(name = "historical_period_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
     private HistoricalPeriod historicalPeriod;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "admin_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Admin admin;
+
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Paragraph> paragraphs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions = new ArrayList<>();
 }

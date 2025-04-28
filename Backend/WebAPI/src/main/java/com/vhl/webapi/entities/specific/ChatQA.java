@@ -3,6 +3,8 @@ package com.vhl.webapi.entities.specific;
 import com.vhl.webapi.entities.superclass.ICBaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
@@ -20,7 +22,8 @@ public class ChatQA extends ICBaseEntity {
     @Column(name = "disliked", nullable = false)
     private boolean disliked = false;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "chat_history_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ChatHistory chatHistory;
 }

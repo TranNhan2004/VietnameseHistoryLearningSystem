@@ -4,6 +4,9 @@ import com.vhl.webapi.entities.superclass.ICUBaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "comments")
@@ -18,4 +21,7 @@ public class Comment extends ICUBaseEntity {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "lesson_id", nullable = false)
     private Lesson lesson;
+
+    @OneToMany(mappedBy = "comment_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 }
