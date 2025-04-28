@@ -8,7 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
-@Table(name = "image")
+@Table(name = "images")
 public class Image extends IBaseEntity {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
