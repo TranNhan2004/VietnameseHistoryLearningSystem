@@ -1,7 +1,7 @@
 CREATE TABLE answer_options
 (
     id          CHAR(22) NOT NULL,
-    content     TEXT     NULL,
+    content     TEXT     NOT NULL,
     is_correct  BIT(1)   NOT NULL DEFAULT 0,
     question_id CHAR(22) NOT NULL,
     CONSTRAINT pk_answer_options PRIMARY KEY (id)

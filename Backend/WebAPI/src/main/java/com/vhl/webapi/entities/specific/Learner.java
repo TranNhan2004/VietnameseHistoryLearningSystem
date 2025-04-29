@@ -17,8 +17,8 @@ public class Learner extends BaseUser {
     private int point = 0;
 
     @Column(name = "best_score")
-    private Integer bestScore;
+    private Double bestScore;
 
     @Column(name = "worst_score")
-    private Integer worstScore;
+    private Double worstScore;
 }

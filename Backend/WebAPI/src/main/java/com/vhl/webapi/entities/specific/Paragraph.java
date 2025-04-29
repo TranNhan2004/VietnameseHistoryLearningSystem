@@ -10,7 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @Table(name = "paragraphs")
 public class Paragraph extends IBaseEntity {
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "ordinal_number", nullable = false)

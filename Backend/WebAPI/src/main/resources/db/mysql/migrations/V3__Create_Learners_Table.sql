@@ -2,9 +2,9 @@ CREATE TABLE learners
 (
     id          CHAR(22)                                                NOT NULL,
     `rank`      ENUM ('BEGINNER', 'INTERMEDIATE', 'ADVANCED', 'EXPERT') NOT NULL DEFAULT 'BEGINNER',
-    point       INT                                                     NOT NULL,
-    best_score  INT                                                     NULL,
-    worst_score INT                                                     NULL,
+    point       INT                                                     NOT NULL DEFAULT 0 CHECK ( point >= 0 ),
+    best_score  DOUBLE                                                  NULL,
+    worst_score DOUBLE                                                  NULL,
     CONSTRAINT pk_learners PRIMARY KEY (id)
 );
 

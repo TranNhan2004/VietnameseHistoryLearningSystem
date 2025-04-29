@@ -2,7 +2,7 @@ CREATE TABLE contest_questions
 (
     id                    CHAR(22) NOT NULL,
     point                 DOUBLE   NOT NULL CHECK ( point > 0 ),
-    point_allocation_rule TEXT     NOT NULL DEFAULT '1:1.0',
+    point_allocation_rule TEXT     NOT NULL DEFAULT ('1:1.0'),
     contest_id            CHAR(22) NOT NULL,
     question_id           CHAR(22) NOT NULL,
     CONSTRAINT pk_contest_questions PRIMARY KEY (id)

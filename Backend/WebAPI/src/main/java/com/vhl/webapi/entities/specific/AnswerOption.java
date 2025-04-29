@@ -10,7 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @Table(name = "answer_options")
 public class AnswerOption extends IBaseEntity {
-    @Column(name = "content", columnDefinition = "TEXT")
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "is_correct", nullable = false)

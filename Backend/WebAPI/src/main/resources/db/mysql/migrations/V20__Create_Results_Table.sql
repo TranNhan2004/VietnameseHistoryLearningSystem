@@ -1,13 +1,14 @@
 CREATE TABLE results
 (
-    id                    CHAR(22) NOT NULL,
-    start_time            DATETIME NOT NULL,
-    end_time              DATETIME NOT NULL CHECK ( end_time > start_time ),
-    correct_answer_number INT      NOT NULL CHECK ( correct_answer_number >= 0 ),
-    score                 DOUBLE   NOT NULL CHECK ( score >= 0 ),
-    learner_id            CHAR(22) NOT NULL,
-    contest_id            CHAR(22) NOT NULL,
-    CONSTRAINT pk_results PRIMARY KEY (id)
+    id                     CHAR(22) NOT NULL,
+    start_time             DATETIME NOT NULL,
+    end_time               DATETIME NOT NULL,
+    correct_answers_number INT      NOT NULL CHECK ( correct_answers_number >= 0 ),
+    score                  DOUBLE   NOT NULL CHECK ( score >= 0 ),
+    learner_id             CHAR(22) NOT NULL,
+    contest_id             CHAR(22) NOT NULL,
+    CONSTRAINT pk_results PRIMARY KEY (id),
+    CONSTRAINT results_end_time__gt__start_time CHECK ( end_time > start_time )
 );
 
 ALTER TABLE results

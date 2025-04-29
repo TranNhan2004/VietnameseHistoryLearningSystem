@@ -21,7 +21,7 @@ public class Result extends IBaseEntity {
     @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
-    @Column(name = "correct_answer_number", nullable = false)
+    @Column(name = "correct_answers_number", nullable = false)
     private int correctAnswersNumber;
 
     @Column(name = "score", nullable = false)
