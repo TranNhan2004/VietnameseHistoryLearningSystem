@@ -10,7 +10,7 @@ import lombok.Data;
 @PrimaryKeyJoinColumn(name = "id")
 public class Learner extends BaseUser {
     @Enumerated(EnumType.STRING)
-    @Column(name = "learner_rank", nullable = false)
+    @Column(name = "rank", nullable = false)
     private LearnerRank rank = LearnerRank.BEGINNER;
 
     @Column(name = "point", nullable = false)

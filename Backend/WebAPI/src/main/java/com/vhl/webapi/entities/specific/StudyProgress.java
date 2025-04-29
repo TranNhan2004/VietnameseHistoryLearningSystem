@@ -14,15 +14,15 @@ import org.hibernate.annotations.OnDeleteAction;
 )
 public class StudyProgress extends ICBaseEntity {
     @Column(name = "progress")
-    public Integer progress;
+    public Double progress;
 
     @ManyToOne
-    @JoinColumn(name = "learner_id")
+    @JoinColumn(name = "learner_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     public Learner learner;
 
     @ManyToOne
-    @JoinColumn(name = "lesson_id")
+    @JoinColumn(name = "lesson_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     public Lesson lesson;
 }

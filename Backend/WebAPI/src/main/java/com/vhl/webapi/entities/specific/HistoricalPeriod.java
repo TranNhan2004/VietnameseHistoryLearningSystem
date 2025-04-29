@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Table(name = "historical_periods")
 public class HistoricalPeriod extends IBaseEntity {
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 1024)
     private String name;
 
     @Column(name = "start_year", nullable = false)

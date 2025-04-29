@@ -18,10 +18,10 @@ public class Contest extends ICUBaseEntity {
     @Column(name = "duration_in_minutes", nullable = false)
     private int durationInMinutes;
 
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
     @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)

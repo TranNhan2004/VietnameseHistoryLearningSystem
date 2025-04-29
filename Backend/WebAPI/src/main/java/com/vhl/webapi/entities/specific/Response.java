@@ -11,17 +11,17 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(
         name = "responses",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uc_res_from_comment_and_to_comment", columnNames = {"from_comment_id", "to_comment_id"})
+                @UniqueConstraint(name = "uc_responses_from_comment_and_to_comment", columnNames = {"from_comment_id", "to_comment_id"})
         }
 )
 public class Response extends IBaseEntity {
     @ManyToOne
-    @JoinColumn(name = "from_comment_id")
+    @JoinColumn(name = "from_comment_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Comment fromComment;
 
     @ManyToOne
-    @JoinColumn(name = "to_comment_id")
+    @JoinColumn(name = "to_comment_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Comment toComment;
 }

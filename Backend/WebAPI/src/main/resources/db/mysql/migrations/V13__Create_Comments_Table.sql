@@ -1,0 +1,16 @@
+CREATE TABLE comments
+(
+    id           CHAR(22)       NOT NULL,
+    updated_at   TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_at   TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    content      VARCHAR(10000) NOT NULL,
+    base_user_id CHAR(22)       NOT NULL,
+    lesson_id    CHAR(22)       NOT NULL,
+    CONSTRAINT pk_comments PRIMARY KEY (id)
+);
+
+ALTER TABLE comments
+    ADD CONSTRAINT FK_COMMENTS_ON_BASE_USER FOREIGN KEY (base_user_id) REFERENCES base_users (id);
+
+ALTER TABLE comments
+    ADD CONSTRAINT FK_COMMENTS_ON_LESSON FOREIGN KEY (lesson_id) REFERENCES lessons (id);

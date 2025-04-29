@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Table(name = "comments")
 public class Comment extends ICUBaseEntity {
-    @Column(name = "content")
+    @Column(name = "content", nullable = false, length = 10000)
     private String content;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -22,6 +22,6 @@ public class Comment extends ICUBaseEntity {
     @JoinColumn(name = "lesson_id", nullable = false)
     private Lesson lesson;
 
-    @OneToMany(mappedBy = "comment_id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "from_comment_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Response> responses = new ArrayList<>();
 }

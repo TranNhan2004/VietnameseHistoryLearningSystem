@@ -17,7 +17,7 @@ public class AnswerOption extends IBaseEntity {
     private boolean isCorrect = false;
 
     @ManyToOne
-    @JoinColumn(name = "question_id")
+    @JoinColumn(name = "question_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Question question;
 }

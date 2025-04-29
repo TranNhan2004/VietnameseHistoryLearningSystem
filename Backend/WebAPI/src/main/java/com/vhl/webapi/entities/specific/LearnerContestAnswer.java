@@ -1,17 +1,22 @@
 package com.vhl.webapi.entities.specific;
 
 import com.vhl.webapi.entities.superclass.IBaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
-@Table(name = "learner_contest_answers")
+@Table(
+        name = "learner_contest_answers",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uc_lca_learner_and_contest_and_answer_option",
+                        columnNames = {"learner_id", "contest_id", "answer_option_id"}
+                )
+        }
+)
 public class LearnerContestAnswer extends IBaseEntity {
     @ManyToOne
     @JoinColumn(name = "learner_id", nullable = false)
