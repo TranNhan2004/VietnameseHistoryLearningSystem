@@ -1,13 +1,12 @@
-package com.vhl.webapi.utils.password;
+package com.vhl.webapi.utils.password.impl;
 
+import com.vhl.webapi.utils.password.interfaces.PasswordUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 
-@Component
-public class PasswordUtils {
+public class PasswordUtilsImpl implements PasswordUtils {
     private final BCryptPasswordEncoder encoder;
 
-    public PasswordUtils() {
+    public PasswordUtilsImpl() {
         encoder = new BCryptPasswordEncoder();
     }
 
