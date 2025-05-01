@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Table(
-        name = "results",
-        uniqueConstraints = {@UniqueConstraint(name = "uc_results_learner_and_contest", columnNames = {"learner_id", "contest_id"})}
+    name = "results",
+    uniqueConstraints = {@UniqueConstraint(name = "uc_results_learner_and_contest", columnNames = {"learner_id", "contest_id"})}
 )
 public class Result extends IBaseEntity {
     @Column(name = "start_time", nullable = false)

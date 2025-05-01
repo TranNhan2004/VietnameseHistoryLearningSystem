@@ -9,10 +9,13 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Data
 @Table(
-        name = "responses",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uc_responses_from_comment_and_to_comment", columnNames = {"from_comment_id", "to_comment_id"})
-        }
+    name = "responses",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "uc_responses_from_comment_and_to_comment",
+            columnNames = {"from_comment_id", "to_comment_id"}
+        )
+    }
 )
 public class Response extends IBaseEntity {
     @ManyToOne

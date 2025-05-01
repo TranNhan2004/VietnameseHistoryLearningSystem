@@ -1,24 +1,24 @@
 package com.vhl.webapi.utils.password.impl;
 
-import com.vhl.webapi.utils.password.interfaces.PasswordUtils;
+import com.vhl.webapi.utils.password.interfaces.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PasswordUtilsImpl implements PasswordUtils {
+public class BCryptPasswordEncoderImpl implements PasswordEncoder {
     private final BCryptPasswordEncoder encoder;
 
-    public PasswordUtilsImpl() {
+    public BCryptPasswordEncoderImpl() {
         encoder = new BCryptPasswordEncoder();
     }
 
     @Override
-    public String hashPassword(String rawPassword) {
+    public String encode(String rawPassword) {
         return encoder.encode(rawPassword);
     }
 
     @Override
-    public boolean verifyPassword(String rawPassword, String hashedPassword) {
-        return encoder.matches(rawPassword, hashedPassword);
+    public boolean matches(String rawPassword, String encodedPassword) {
+        return encoder.matches(rawPassword, encodedPassword);
     }
 }

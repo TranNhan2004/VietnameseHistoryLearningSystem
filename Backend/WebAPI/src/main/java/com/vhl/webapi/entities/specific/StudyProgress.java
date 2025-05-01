@@ -9,8 +9,8 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Data
 @Table(
-        name = "study_progresses",
-        uniqueConstraints = {@UniqueConstraint(name = "uc_sp_learner_and_lesson", columnNames = {"learner_id", "lesson_id"})}
+    name = "study_progresses",
+    uniqueConstraints = {@UniqueConstraint(name = "uc_sp_learner_and_lesson", columnNames = {"learner_id", "lesson_id"})}
 )
 public class StudyProgress extends ICBaseEntity {
     @Column(name = "progress")

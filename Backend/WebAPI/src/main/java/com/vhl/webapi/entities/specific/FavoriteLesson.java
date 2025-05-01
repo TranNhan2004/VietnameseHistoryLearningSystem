@@ -9,8 +9,8 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Data
 @Table(
-        name = "favorite_lessons",
-        uniqueConstraints = {@UniqueConstraint(name = "uc_fl_learner_and_lesson", columnNames = {"learner_id", "lesson_id"})}
+    name = "favorite_lessons",
+    uniqueConstraints = {@UniqueConstraint(name = "uc_fl_learner_and_lesson", columnNames = {"learner_id", "lesson_id"})}
 )
 public class FavoriteLesson extends IBaseEntity {
     @ManyToOne

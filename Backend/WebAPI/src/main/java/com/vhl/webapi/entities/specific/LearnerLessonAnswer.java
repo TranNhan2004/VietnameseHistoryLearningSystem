@@ -9,13 +9,13 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Data
 @Table(
-        name = "learner_lesson_answers",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uc_lla_learner_and_lesson_and_answer_option",
-                        columnNames = {"learner_id", "lesson_id", "answer_option_id"}
-                )
-        }
+    name = "learner_lesson_answers",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "uc_lla_learner_and_lesson_and_answer_option",
+            columnNames = {"learner_id", "lesson_id", "answer_option_id"}
+        )
+    }
 )
 public class LearnerLessonAnswer extends IBaseEntity {
     @ManyToOne
