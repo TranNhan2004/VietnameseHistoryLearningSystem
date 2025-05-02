@@ -2,9 +2,7 @@ package com.vhl.webapi.utils.password.impl;
 
 import com.vhl.webapi.utils.password.interfaces.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 
-@Component
 public class BCryptPasswordEncoderImpl implements PasswordEncoder {
     private final BCryptPasswordEncoder encoder;
 
