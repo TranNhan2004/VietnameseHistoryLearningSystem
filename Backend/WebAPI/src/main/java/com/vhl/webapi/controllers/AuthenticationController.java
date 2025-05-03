@@ -4,8 +4,9 @@ import com.vhl.webapi.dtos.requests.BaseUserDTO;
 import com.vhl.webapi.dtos.requests.LoginDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResponseDTO;
 import com.vhl.webapi.dtos.responses.LoginResponseDTO;
+import com.vhl.webapi.enums.Role;
 import com.vhl.webapi.services.interfaces.AuthenticationService;
-import com.vhl.webapi.utils.Pair;
+import com.vhl.webapi.utils.types.Pair;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,12 +24,16 @@ public class AuthenticationController {
     private final static String ADMIN_RT_COOKIE_NAME = "admin_rt";
     private final static String LEARNER_RT_COOKIE_NAME = "learner_rt";
 
-    private String getCookieName(String type) {
-        return switch (type) {
-            case "ADMIN" -> ADMIN_RT_COOKIE_NAME;
-            case "LEARNER" -> LEARNER_RT_COOKIE_NAME;
-            default -> "";
-        };
+    private String getCookieName(String role) {
+        if (role.contains(Role.ADMIN.name())) {
+            return ADMIN_RT_COOKIE_NAME;
+        }
+
+        if (role.contains(Role.LEARNER.name())) {
+            return LEARNER_RT_COOKIE_NAME;
+        }
+
+        return "";
     }
 
     public String getRefreshTokenFromRequest(HttpServletRequest request, String cookieName) {
@@ -43,7 +48,6 @@ public class AuthenticationController {
         return null;
     }
 
-
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody BaseUserDTO baseUserDTO) {
         BaseUserResponseDTO data = authenticationService.signup(baseUserDTO);
@@ -54,7 +58,7 @@ public class AuthenticationController {
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO, HttpServletResponse response) {
 
         Pair<String, LoginResponseDTO> pair = authenticationService.login(loginDTO);
-        String cookieName = getCookieName(loginDTO.getType());
+        String cookieName = getCookieName(loginDTO.getRole());
 
         Cookie refreshTokenCookie = new Cookie(cookieName, pair.getFirst());
         refreshTokenCookie.setHttpOnly(true);

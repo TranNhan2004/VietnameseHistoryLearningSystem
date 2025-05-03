@@ -4,7 +4,7 @@ import com.vhl.webapi.dtos.requests.BaseUserDTO;
 import com.vhl.webapi.dtos.requests.LoginDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResponseDTO;
 import com.vhl.webapi.dtos.responses.LoginResponseDTO;
-import com.vhl.webapi.utils.Pair;
+import com.vhl.webapi.utils.types.Pair;
 
 public interface AuthenticationService {
     BaseUserResponseDTO signup(BaseUserDTO baseUserDTO);

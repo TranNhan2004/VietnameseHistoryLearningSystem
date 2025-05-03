@@ -2,6 +2,8 @@ package com.vhl.webapi.dtos.requests;
 
 import com.vhl.webapi.constants.errorcodes.BaseUserErrorCode;
 import com.vhl.webapi.constants.regexps.BaseUserRegExp;
+import com.vhl.webapi.enums.Role;
+import com.vhl.webapi.utils.annotations.validation.ValidEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -18,7 +20,7 @@ public class LoginDTO {
     @Pattern(regexp = BaseUserRegExp.PASSWORD__REG_EXP, message = BaseUserErrorCode.PASSWORD__INVALID)
     private String password;
 
-    @NotBlank(message = BaseUserErrorCode.TYPE__REQUIRED)
-    @Pattern(regexp = BaseUserRegExp.TYPE__REG_EXP, message = BaseUserErrorCode.TYPE__INVALID)
-    private String type;
+    @NotBlank(message = BaseUserErrorCode.ROLE__REQUIRED)
+    @ValidEnum(enumClass = Role.class, message = BaseUserErrorCode.ROLE__INVALID)
+    private String role;
 }

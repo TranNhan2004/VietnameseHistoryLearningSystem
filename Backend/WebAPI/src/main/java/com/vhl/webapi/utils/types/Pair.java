@@ -1,4 +1,4 @@
-package com.vhl.webapi.utils;
+package com.vhl.webapi.utils.types;
 
 import lombok.Data;
 

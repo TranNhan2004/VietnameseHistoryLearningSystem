@@ -1,6 +1,7 @@
 package com.vhl.webapi.configs;
 
-import com.vhl.webapi.middlewares.CustomAuthenticationFilter;
+import com.vhl.webapi.exceptions.CustomAuthenticationEntryPoint;
+import com.vhl.webapi.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-    private final CustomAuthenticationFilter customAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,7 +33,12 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()  // login, register, etc.
                 .anyRequest().authenticated()
-            ).addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling(exception ->
+                exception
+                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+            );
 
         return http.build();
     }

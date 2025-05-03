@@ -13,7 +13,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "role")
 @JsonSubTypes({
     @JsonSubTypes.Type(value = AdminDTO.class, name = "ADMIN"),
     @JsonSubTypes.Type(value = LearnerDTO.class, name = "LEARNER")

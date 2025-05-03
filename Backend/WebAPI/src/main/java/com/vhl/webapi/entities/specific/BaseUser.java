@@ -38,4 +38,6 @@ public abstract class BaseUser extends ICUBaseEntity {
 
     @Column(name = "last_login", columnDefinition = "TIMESTAMP")
     protected Instant lastLogin;
+
+    public abstract String getFullRole();
 }

@@ -1,6 +1,7 @@
 package com.vhl.webapi.entities.specific;
 
 import com.vhl.webapi.enums.LearnerRank;
+import com.vhl.webapi.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,4 +22,10 @@ public class Learner extends BaseUser {
 
     @Column(name = "worst_score")
     private Double worstScore;
+
+    
+    @Override
+    public String getFullRole() {
+        return Role.LEARNER.name();
+    }
 }
