@@ -36,6 +36,18 @@ services:
     networks:
       - app-network
 
+  redis:
+    image: redis:7.4.3-alpine
+    volumes:
+      - ./Backend/WebAPI/src/main/resources/db/redis/redis.conf:/etc/redis/redis.conf
+      - redis-data:/data
+    command: [ "redis-server", "/etc/redis/redis.conf" ]
+    ports:
+      - "6739:6739"
+    networks:
+      - app-network
+
+
   #  frontend:
   #    build:
   #      context: ./Frontend
@@ -68,6 +80,7 @@ services:
 
 volumes:
   mysql-data:
+  redis-data:
 
 networks:
   app-network:

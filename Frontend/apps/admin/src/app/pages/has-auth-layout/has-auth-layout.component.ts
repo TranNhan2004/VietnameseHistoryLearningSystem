@@ -18,7 +18,7 @@ export class HasAuthLayoutComponent implements OnInit {
   ngOnInit(): void {
     const env = environment;
     this.httpClient
-      .get(`${env.webApiBaseUrl}/admin`, { responseType: 'text' })
+      .get(`${env.webApiBaseUrl}/api/test/admin`, { responseType: 'text' })
       .subscribe((res: string) => {
         alert(res);
         this.response = res;

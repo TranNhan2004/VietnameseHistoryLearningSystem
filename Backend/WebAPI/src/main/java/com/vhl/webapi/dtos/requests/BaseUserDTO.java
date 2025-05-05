@@ -21,17 +21,17 @@ import java.time.LocalDate;
 public abstract class BaseUserDTO {
     @NotBlank(message = BaseUserErrorCode.USER_NAME__REQUIRED)
     @Size(max = 64, message = BaseUserErrorCode.USER_NAME__TOO_LONG)
-    @Pattern(regexp = BaseUserRegExp.USER_NAME__REG_EXP, message = BaseUserErrorCode.USER_NAME__INVALID)
+    @Pattern(regexp = BaseUserRegExp.USER_NAME, message = BaseUserErrorCode.USER_NAME__INVALID)
     protected String userName;
 
     @NotBlank(message = BaseUserErrorCode.EMAIL__REQUIRED)
     @Size(max = 256, message = BaseUserErrorCode.EMAIL__TOO_LONG)
-    @Pattern(regexp = BaseUserRegExp.EMAIL__REG_EXP, message = BaseUserErrorCode.EMAIL__INVALID)
+    @Pattern(regexp = BaseUserRegExp.EMAIL, message = BaseUserErrorCode.EMAIL__INVALID)
     protected String email;
 
     @NotBlank(message = BaseUserErrorCode.PASSWORD__REQUIRED)
     @Size(min = 8, max = 50, message = BaseUserErrorCode.PASSWORD__TOO_SHORT_OR_LONG)
-    @Pattern(regexp = BaseUserRegExp.PASSWORD__REG_EXP, message = BaseUserErrorCode.PASSWORD__INVALID)
+    @Pattern(regexp = BaseUserRegExp.PASSWORD, message = BaseUserErrorCode.PASSWORD__INVALID)
     protected String password;
 
     @NotBlank(message = BaseUserErrorCode.FIRST_NAME__REQUIRED)

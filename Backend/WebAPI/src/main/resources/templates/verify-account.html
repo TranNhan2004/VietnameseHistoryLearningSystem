@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Xác thực email</title>
+    <title>Xác thực OTP</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: Arial, sans-serif;">
 <table align="center" width="100%" cellpadding="0" cellspacing="0" style="padding: 30px 0;">
@@ -17,15 +17,14 @@
                 </tr>
                 <tr>
                     <td style="padding: 30px; color: #333333;">
-                        <p style="font-size: 16px;">Chào bạn, <strong>${username}</strong>!</p>
-                        <p style="font-size: 16px;">Cảm ơn bạn đã đăng ký tài khoản. Vui lòng nhấn vào nút bên dưới để
-                            xác thực email của bạn:</p>
-                        <div style="text-align: center; margin: 30px 0;">
-                            <a href="${verifyLink}"
-                               style="background: linear-gradient(90deg, #007bff, #a615dc); color: white; text-decoration: none; padding: 12px 24px; border-radius: 5px; font-size: 16px; display: inline-block;">
-                                Xác nhận tài khoản
-                            </a>
+                        <p style="font-size: 16px;">Chào bạn, <strong>{USER_NAME}</strong>!</p>
+                        <p style="font-size: 16px;">Cảm ơn bạn đã đăng ký tài khoản. Dưới đây là mã OTP của bạn để xác
+                            thực email này đã được bạn dùng để đăng ký tài khoản trên hệ thống của chúng tôi:</p>
+                        <div style="text-align: center; margin: 30px 0; font-size: 24px; font-weight: bold; color: #007bff;">
+                            {OTP_CODE}
                         </div>
+                        <p style="font-size: 14px; color: #777777;">Mã OTP này có hiệu lực trong vòng {EXPIRATION_TIME}
+                            phút.</p>
                         <p style="font-size: 14px; color: #777777;">Nếu bạn không tạo tài khoản, vui lòng bỏ qua email
                             này.</p>
                     </td>

@@ -34,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final BaseUserMapper baseUserMapper;
     private final JwtService jwtService;
 
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(BaseUserRegExp.EMAIL__REG_EXP);
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(BaseUserRegExp.EMAIL);
 
     @Override
     public BaseUserResponseDTO signup(BaseUserDTO baseUserDTO) {
@@ -84,7 +84,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new NoInstanceFoundException(BaseUserErrorCode.EMAIL_OR_USER_NAME_OR_PASSWORD__INCORRECT));
         }
 
-        if (!passwordEncoder.matches(loginDTO.getPassword(), baseUser.getPassword())) {
+        if (!baseUser.isActive() && !passwordEncoder.matches(loginDTO.getPassword(), baseUser.getPassword())) {
             throw new NoInstanceFoundException(BaseUserErrorCode.EMAIL_OR_USER_NAME_OR_PASSWORD__INCORRECT);
         }
 

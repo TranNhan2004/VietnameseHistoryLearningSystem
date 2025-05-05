@@ -12,12 +12,12 @@ import lombok.Data;
 @Data
 public class LoginDTO {
     @NotBlank(message = BaseUserErrorCode.EMAIL_OR_USER_NAME__REQUIRED)
-    @Pattern(regexp = BaseUserRegExp.EMAIL_OR_USER_NAME__REG_EXP, message = BaseUserErrorCode.EMAIL_OR_USER_NAME__INVALID)
+    @Pattern(regexp = BaseUserRegExp.EMAIL_OR_USER_NAME, message = BaseUserErrorCode.EMAIL_OR_USER_NAME__INVALID)
     private String emailOrUserName;
 
     @NotBlank(message = BaseUserErrorCode.PASSWORD__REQUIRED)
     @Size(min = 8, max = 50, message = BaseUserErrorCode.PASSWORD__TOO_SHORT_OR_LONG)
-    @Pattern(regexp = BaseUserRegExp.PASSWORD__REG_EXP, message = BaseUserErrorCode.PASSWORD__INVALID)
+    @Pattern(regexp = BaseUserRegExp.PASSWORD, message = BaseUserErrorCode.PASSWORD__INVALID)
     private String password;
 
     @NotBlank(message = BaseUserErrorCode.ROLE__REQUIRED)
