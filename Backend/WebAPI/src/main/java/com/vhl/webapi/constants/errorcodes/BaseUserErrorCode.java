@@ -30,5 +30,6 @@ public class BaseUserErrorCode {
     public static final String AVATAR_URL__TOO_LONG = "AVATAR_URL__TOO_LONG";
 
     public static final String BASE_USER__NOT_FOUND = "BASE_USER__NOT_FOUND";
+    public static final String HAS_BEEN_ACTIVE = "HAS_BEEN_ACTIVE";
 
 }

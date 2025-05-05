@@ -1,6 +1,7 @@
 package com.vhl.webapi.configs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +31,8 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, String> stringRedisTemplate(RedisConnectionFactory connectionFactory) {
+    @Qualifier("stringRedisTemplate")
+    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, String> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
@@ -39,6 +41,7 @@ public class RedisConfig {
     }
 
     @Bean
+    @Qualifier("objectRedisTemplate")
     public RedisTemplate<String, Object> objectRedisTemplate(RedisConnectionFactory connectionFactory,
                                                              ObjectMapper objectMapper) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
