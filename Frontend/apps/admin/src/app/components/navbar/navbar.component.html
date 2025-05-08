@@ -1,6 +1,38 @@
-<div class="h-screen">
-  <div
-    class="bg-gradient-to-b from-my-blue to-my-purple h-full w-[200px] overflow-y-auto text-lg"
-  ></div>
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <div class="bg-gradient-to-b from-my-blue to-my-purple transition-all duration-300 ease-in-out"
+       [ngClass]="isCollapsed ? 'w-[64px]' : 'w-[200px]'">
+    <div class="p-2 flex justify-between items-center">
+      @if (!isCollapsed) {
+        <div class="mt-2 ml-2 text-white text-xl font-bold flex items-center space-x-2">
+          <img ngSrc="images/logo.png" alt="Logo" width="40" height="40">
+          <span>LOTUS</span>
+        </div>
+      }
+      <button mat-icon-button (click)="toggleSidebar()">
+        <mat-icon fontSet="material-icons-round" class="text-white">
+          {{ isCollapsed ? 'keyboard_double_arrow_right' : 'keyboard_double_arrow_left' }}
+        </mat-icon>
+      </button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex flex-col items-start text-white text-lg">
+      @for (item of navItems; track $index) {
+        <a class="flex items-center w-full py-2 px-4 hover:bg-white/10 relative group transition-all duration-300"
+           [routerLink]="item.route"
+           matRipple
+           [matTooltip]="isCollapsed ? item.name : null"
+           matTooltipPosition="right"
+           matTooltipClass="bg-black text-white text-sm px-3 py-1 rounded shadow-lg"
+           [class.bg-blue-400]="router.url === item.route">
+          <mat-icon fontSet="material-icons-round" class="text-white mr-2">{{ item.icon }}</mat-icon>
+          <span class="flex-1 transition-all duration-300 ease-in-out overflow-hidden text-left"
+                [ngStyle]="{ width: isCollapsed ? '0px' : 'auto', opacity: isCollapsed ? 0 : 1 }">
+            {{ item.name }}
+          </span>
+        </a>
+      }
+    </nav>
+  </div>
 </div>
-<router-outlet></router-outlet>

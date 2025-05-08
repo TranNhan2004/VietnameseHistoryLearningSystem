@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: "National Park Regular";
-  src: url("D:\\All-Courses\\Y3-S3\\CT208\\Project\\Frontend\\public\\fonts\\NationalPark-Regular.ttf") format('truetype');
+  src: url("fonts/NationalPark-Regular.ttf") format('truetype');
   font-weight: normal;
   font-style: normal;
 }

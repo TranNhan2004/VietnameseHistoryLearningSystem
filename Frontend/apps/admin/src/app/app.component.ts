@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HasAuthLayoutComponent } from './pages/has-auth-layout/has-auth-layout.component';
+import { LoginComponent } from '../../../../libs/angular-libs/src/lib/components/login/login.component';
 
 @Component({
-  imports: [RouterOutlet, HasAuthLayoutComponent],
+  imports: [LoginComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'Quản trị viên';
+
+  handleActionButtonClick(name: string) {
+    console.log(name);
+  }
 }

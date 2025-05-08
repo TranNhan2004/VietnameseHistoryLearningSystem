@@ -1,0 +1,16 @@
+<div class="relative group">
+  <button
+    [ngClass]="buttonClass"
+    [disabled]="disabled"
+    [type]="isSubmit ? 'submit' : 'button'"
+    (click)="btnClick.emit()"
+  >
+    <mat-icon fontSet="material-icons-round" class="text-xl">{{ buttonConfig.icon }}</mat-icon>
+  </button>
+  <span
+    class="absolute top-full left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100
+        bg-black text-white text-sm rounded px-2 py-1 transition-opacity mt-2 max-w-[300px] text-justify"
+  >
+    {{ buttonConfig.title }}
+  </span>
+</div>

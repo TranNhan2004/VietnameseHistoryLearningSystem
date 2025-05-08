@@ -1,0 +1,59 @@
+<mat-card class="max-w-md mx-auto mt-20 p-6 shadow-lg">
+  <mat-card-header class="px-4 py-2">
+    <mat-card-title class="text-center text-2xl font-bold">
+      Đăng nhập
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Email Field -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          placeholder="Nhập email của bạn"
+          formControlName="email"
+        />
+        @if (loginForm.get('email')?.hasError('required')) {
+          <mat-error>
+            Email là bắt buộc
+          </mat-error>
+        } @else {
+          <mat-error>
+            Vui lòng nhập email hợp lệ
+          </mat-error>
+        }
+
+      </mat-form-field>
+
+      <!-- Password Field -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Mật khẩu</mat-label>
+        <input
+          matInput
+          type="password"
+          placeholder="Nhập mật khẩu"
+          formControlName="password"
+        />
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Mật khẩu là bắt buộc
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+          Mật khẩu tối thiểu 6 ký tự
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Submit Button -->
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="loginForm.invalid"
+        class="w-full py-2 rounded-lg"
+      >
+        Đăng nhập
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
