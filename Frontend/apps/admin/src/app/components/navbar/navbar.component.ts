@@ -1,58 +1,124 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
-import { MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { MatTooltip } from '@angular/material/tooltip';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  matHomeRound,
+  matKeyboardDoubleArrowLeftRound,
+  matKeyboardDoubleArrowRightRound,
+  matLeaderboardRound,
+  matLibraryBooksRound,
+  matPersonRound,
+  matQuizRound,
+  matSettingsRound,
+  matSupervisorAccountRound,
+} from '@ng-icons/material-icons/round';
+import { DummyTextService } from '@frontend/angular-libs';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
   imports: [
     RouterLink,
     NgClass,
-    MatIcon,
-    MatIconButton,
     NgOptimizedImage,
-    MatTooltip,
+    NgIcon,
     NgStyle,
+    RouterOutlet,
+    FooterComponent,
+  ],
+  providers: [
+    provideIcons({
+      matKeyboardDoubleArrowLeftRound,
+      matKeyboardDoubleArrowRightRound,
+      matHomeRound,
+      matLibraryBooksRound,
+      matQuizRound,
+      matSupervisorAccountRound,
+      matLeaderboardRound,
+      matPersonRound,
+      matSettingsRound,
+    }),
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
-export class NavbarComponent implements OnInit {
-  isCollapsed = false;
+export class NavbarComponent implements OnInit, AfterViewInit {
+  @ViewChild('sidebarRef') sidebarRef!: ElementRef;
 
+  isCollapsed = false;
+  isScrollbarVisible = false;
+
+  tooltipVisible = false;
+  tooltipText = '';
+  tooltipTop = 0;
+  tooltipLeft = 0;
+
+  text = '';
   navItems = [
-    { name: 'Trang chủ', icon: 'home', route: '/' },
+    { name: 'Trang chủ', icon: 'matHomeRound', route: '/' },
     {
       name: 'QL bài học',
-      icon: 'library_books',
-      route: '/manage-lesson',
+      icon: 'matLibraryBooksRound',
+      route: '/lessons',
     },
-    {
-      name: 'QL cuộc thi',
-      icon: 'quiz',
-      route: '/manage-lesson',
-    },
+    { name: 'QL cuộc thi', icon: 'matQuizRound', route: '/contests' },
     {
       name: 'QL tài khoản',
-      icon: 'supervisor_account',
-      route: '/manage-account',
+      icon: 'matSupervisorAccountRound',
+      route: '/accounts',
     },
-    { name: 'Thống kê', icon: 'leaderboard', route: '/statistic' },
-    { name: 'Hồ sơ của tôi', icon: 'person', route: '/profile' },
-    { name: 'Cài đặt', icon: 'settings', route: '/settings' },
+    { name: 'Thống kê', icon: 'matLeaderboardRound', route: '/statistic' },
+    { name: 'Hồ sơ của tôi', icon: 'matPersonRound', route: '/profile' },
+    { name: 'Cài đặt', icon: 'matSettingsRound', route: '/settings' },
   ];
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, private dummyText: DummyTextService) {
+    this.text = this.dummyText.generate(20);
+  }
+
+  ngOnInit() {
+    const saved = localStorage.getItem('isCollapsed');
+    this.isCollapsed = saved ? JSON.parse(saved) : false;
+  }
+
+  ngAfterViewInit() {
+    this.checkSidebarOverflow();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.checkSidebarOverflow();
+  }
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
     localStorage.setItem('isCollapsed', JSON.stringify(this.isCollapsed));
+    setTimeout(() => this.checkSidebarOverflow(), 100);
   }
 
-  ngOnInit() {
-    const savedState = localStorage.getItem('isCollapsed');
-    this.isCollapsed = savedState ? JSON.parse(savedState) : false;
+  checkSidebarOverflow() {
+    const el = this.sidebarRef.nativeElement;
+    this.isScrollbarVisible = el.scrollHeight > el.clientHeight;
+  }
+
+  showTooltip(text: string, elementRef: HTMLElement) {
+    const rect = elementRef.getBoundingClientRect();
+    this.tooltipText = text;
+    this.tooltipTop = rect.top + 4;
+    this.tooltipLeft = rect.right - 10;
+    this.tooltipVisible = true;
+  }
+
+  hideTooltip() {
+    this.tooltipVisible = false;
   }
 }

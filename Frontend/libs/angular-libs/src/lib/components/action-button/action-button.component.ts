@@ -1,26 +1,31 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  matAddRound,
+  matDeleteRound,
+  matEditRound,
+  matInfoRound,
+} from '@ng-icons/material-icons/round';
 
 const BUTTON_CONFIG = {
   add: {
-    icon: 'add',
+    icon: 'matAddRound',
     color: 'border-green-300 hover:bg-green-100 text-green-500',
     title: 'Thêm mới',
   },
   edit: {
-    icon: 'edit',
+    icon: 'matDeleteRound',
     color: 'border-yellow-300 hover:bg-yellow-100 text-yellow-500',
     title: 'Chỉnh sửa',
   },
   delete: {
-    icon: 'delete',
+    icon: 'matEditRound',
     color: 'border-red-300 hover:bg-red-100 text-red-500',
     title: 'Xóa',
   },
   info: {
-    icon: 'info',
+    icon: 'matInfoRound',
     color: 'border-blue-300 hover:bg-blue-100 text-blue-500',
     title: 'Xem',
   },
@@ -29,12 +34,15 @@ const BUTTON_CONFIG = {
 @Component({
   selector: 'lib-action-button',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, NgIcon],
+  providers: [
+    provideIcons({ matAddRound, matEditRound, matDeleteRound, matInfoRound }),
+  ],
   templateUrl: './action-button.component.html',
   styleUrl: './action-button.component.css',
 })
 export class ActionButtonComponent {
-  @Input() name!: keyof typeof BUTTON_CONFIG;
+  @Input({ required: true }) name!: keyof typeof BUTTON_CONFIG;
   @Input() disabled = false;
   @Input() isSubmit = false;
   @Input() class = '';

@@ -1,43 +1,38 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MyFormBuilder } from '../../services/my-form-builder.service';
+import { LoginRequestType } from '@frontend/models';
+import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import {
-  MatCard,
-  MatCardContent,
-  MatCardHeader,
-  MatCardTitle,
-} from '@angular/material/card';
-import { MatError, MatFormField, MatLabel } from '@angular/material/input';
+  matEmailRound,
+  matLockRound,
+  matLoginRound,
+} from '@ng-icons/material-icons/round';
 
 @Component({
   selector: 'lib-login',
-  imports: [
-    CommonModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    ReactiveFormsModule,
-    MatFormField,
-    MatLabel,
-    MatError,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, NgIcon],
+  providers: [provideIcons({ matEmailRound, matLockRound, matLoginRound })],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+  constructor(private myFb: MyFormBuilder) {
+    this.loginForm = this.myFb.group<LoginRequestType>({
+      emailOrUserName: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
+  }
+
+  get emailOrUserName() {
+    return this.loginForm.get('emailOrUserName');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
   }
 
   onSubmit() {

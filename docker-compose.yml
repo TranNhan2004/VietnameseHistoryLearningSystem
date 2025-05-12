@@ -72,9 +72,9 @@ services:
     env_file:
       - ./Tunnel/.env
     restart: unless-stopped
-    depends_on:
-      - mysql
-      - webapi
+    #    depends_on:
+    #      - mysql
+    #      - webapi
     networks:
       - app-network
 

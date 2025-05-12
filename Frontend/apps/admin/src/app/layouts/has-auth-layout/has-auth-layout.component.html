@@ -1,7 +1,12 @@
-<div class="flex h-screen">
+<div class="relative h-screen w-screen overflow-hidden">
   <app-navbar></app-navbar>
 
-  <div class="flex-1 overflow-auto p-5">
+  <!-- Main content (dịch sang phải) -->
+  <div
+    class="h-full overflow-auto transition-all duration-300 ease-in-out p-5"
+    [ngStyle]="{ 'margin-left': false ? '64px' : '200px' }"
+  >
     <router-outlet></router-outlet>
+    <p>{{ text }}</p>
   </div>
 </div>
