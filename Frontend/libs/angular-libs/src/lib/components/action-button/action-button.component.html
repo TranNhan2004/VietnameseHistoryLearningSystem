@@ -1,15 +1,18 @@
-<div class="relative group">
+<div class="relative inline-block group">
   <button
     [ngClass]="buttonClass"
     [disabled]="disabled"
     [type]="isSubmit ? 'submit' : 'button'"
     (click)="btnClick.emit()"
   >
-    <ng-icon [name]="buttonConfig.icon" class="text-xl">{{ buttonConfig.icon }}</ng-icon>
+    <ng-icon [name]="buttonConfig.icon" class="text-xl"></ng-icon>
   </button>
+
   <span
-    class="absolute top-full left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100
-        bg-black text-white text-sm rounded px-2 py-1 transition-opacity mt-2 max-w-[300px] text-justify"
+    class="absolute left-1/2 top-full mt-[5px] -translate-x-1/2 translate-y-0 opacity-0
+           group-hover:translate-y-1.5 group-hover:opacity-100 pointer-events-none
+           bg-black text-white text-sm rounded px-2 py-1 transition-all duration-300 ease-out
+           max-w-[300px] text-center z-10 whitespace-nowrap"
   >
     {{ buttonConfig.title }}
   </span>

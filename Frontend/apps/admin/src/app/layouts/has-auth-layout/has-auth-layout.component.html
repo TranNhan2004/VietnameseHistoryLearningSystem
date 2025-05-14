@@ -1,12 +1,2 @@
-<div class="relative h-screen w-screen overflow-hidden">
-  <app-navbar></app-navbar>
-
-  <!-- Main content (dịch sang phải) -->
-  <div
-    class="h-full overflow-auto transition-all duration-300 ease-in-out p-5"
-    [ngStyle]="{ 'margin-left': false ? '64px' : '200px' }"
-  >
-    <router-outlet></router-outlet>
-    <p>{{ text }}</p>
-  </div>
-</div>
+<app-navbar></app-navbar>
+<p>{{ response }}</p>

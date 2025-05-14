@@ -1,17 +1,10 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [NavbarComponent, FooterComponent],
+  imports: [RouterOutlet],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
-  title = 'Quản trị viên';
-
-  handleActionButtonClick(name: string) {
-    console.log(name);
-  }
-}
+export class AppComponent {}

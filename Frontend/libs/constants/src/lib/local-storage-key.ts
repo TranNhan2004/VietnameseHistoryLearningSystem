@@ -1,0 +1,1 @@
+export const IS_COLLAPSED_LSK = 'C8RGJqXAKB7DRuhS6rw89gU8KsNTpjso9DvuhPN3SyU';

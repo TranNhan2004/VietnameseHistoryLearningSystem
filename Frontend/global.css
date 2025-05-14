@@ -9,6 +9,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Cinzel Decorative Regular";
+  src: url("fonts/CinzelDecorative-Regular.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   font-family: "National Park Regular", sans-serif;
 }
@@ -16,6 +23,7 @@ body {
 .error {
   @apply text-red-500 text-sm mt-1
 }
+
 
 /* .toast {
   @apply bg-blue-600 text-white p-4 rounded-lg;

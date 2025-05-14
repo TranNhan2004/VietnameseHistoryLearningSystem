@@ -2,11 +2,9 @@ package com.vhl.webapi.services.impl;
 
 import com.vhl.webapi.constants.errorcodes.BaseUserErrorCode;
 import com.vhl.webapi.constants.errorcodes.JwtErrorCode;
+import com.vhl.webapi.constants.keys.RedisKeyPrefix;
 import com.vhl.webapi.constants.regexps.BaseUserRegExp;
-import com.vhl.webapi.dtos.requests.AdminDTO;
-import com.vhl.webapi.dtos.requests.BaseUserDTO;
-import com.vhl.webapi.dtos.requests.LearnerDTO;
-import com.vhl.webapi.dtos.requests.LoginDTO;
+import com.vhl.webapi.dtos.requests.*;
 import com.vhl.webapi.dtos.responses.BaseUserResponseDTO;
 import com.vhl.webapi.dtos.responses.LoginResponseDTO;
 import com.vhl.webapi.entities.specific.Admin;
@@ -17,15 +15,14 @@ import com.vhl.webapi.mappers.BaseUserMapper;
 import com.vhl.webapi.repositories.BaseUserRepository;
 import com.vhl.webapi.services.interfaces.AuthenticationService;
 import com.vhl.webapi.services.interfaces.JwtService;
-import com.vhl.webapi.utils.types.Pair;
+import com.vhl.webapi.services.interfaces.SSRedisService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.regex.Pattern;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -33,8 +30,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final BaseUserMapper baseUserMapper;
     private final JwtService jwtService;
+    private final SSRedisService ssRedisService;
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile(BaseUserRegExp.EMAIL);
+
+    private String getRefreshTokenRedisKey(String baseUserId, String fullRole) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(RedisKeyPrefix.USER_REFRESH_TOKEN);
+        sb.append(baseUserId);
+        sb.append(fullRole);
+        return sb.toString();
+    }
 
     @Override
     public BaseUserResponseDTO signup(BaseUserDTO baseUserDTO) {
@@ -72,7 +78,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Pair<String, LoginResponseDTO> login(LoginDTO loginDTO) {
+    public LoginResponseDTO login(LoginDTO loginDTO) {
         String emailOrUserName = loginDTO.getEmailOrUserName();
         BaseUser baseUser;
 
@@ -95,22 +101,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         loginResponseDTO.setId(baseUser.getId());
         loginResponseDTO.setEmail(baseUser.getEmail());
         loginResponseDTO.setUserName(baseUser.getUserName());
+        loginResponseDTO.setFullRole(baseUser.getFullRole());
         loginResponseDTO.setAccessToken(accessToken);
 
-        return new Pair<>(refreshToken, loginResponseDTO);
+
+        ssRedisService.set(
+            getRefreshTokenRedisKey(baseUser.getId(), baseUser.getFullRole()),
+            refreshToken,
+            Duration.ofDays(1)
+        );
+
+        return loginResponseDTO;
     }
 
     @Override
-    public LoginResponseDTO getNewAccessToken(String refreshToken, String baseUserId) {
-        if (refreshToken == null || refreshToken.isBlank()) {
-            throw new RuntimeException(JwtErrorCode.TOKEN__REQUIRED);
-        }
+    public LoginResponseDTO getNewAccessToken(RefreshAccessTokenDTO refreshAccessTokenDTO) {
+        String refreshToken = ssRedisService.get(
+            getRefreshTokenRedisKey(refreshAccessTokenDTO.getId(), refreshAccessTokenDTO.getFullRole())
+        ).orElseThrow(() -> new RuntimeException(JwtErrorCode.TOKEN__EXPIRED));
 
-        if (baseUserId == null || baseUserId.isBlank()) {
-            throw new RuntimeException(BaseUserErrorCode.ID__REQUIRED);
-        }
-
-        BaseUser baseUser = baseUserRepository.findById(baseUserId).orElseThrow(
+        BaseUser baseUser = baseUserRepository.findById(refreshAccessTokenDTO.getId()).orElseThrow(
             () -> new NoInstanceFoundException(BaseUserErrorCode.BASE_USER__NOT_FOUND)
         );
 
@@ -125,5 +135,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         return loginResponseDTO;
+    }
+
+    @Override
+    public void logout(LogoutDTO logoutDTO) {
+        ssRedisService.delete(getRefreshTokenRedisKey(logoutDTO.getId(), logoutDTO.getFullRole()));
     }
 }

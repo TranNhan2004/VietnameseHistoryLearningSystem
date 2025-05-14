@@ -2,14 +2,17 @@ package com.vhl.webapi.services.interfaces;
 
 import com.vhl.webapi.dtos.requests.BaseUserDTO;
 import com.vhl.webapi.dtos.requests.LoginDTO;
+import com.vhl.webapi.dtos.requests.LogoutDTO;
+import com.vhl.webapi.dtos.requests.RefreshAccessTokenDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResponseDTO;
 import com.vhl.webapi.dtos.responses.LoginResponseDTO;
-import com.vhl.webapi.utils.types.Pair;
 
 public interface AuthenticationService {
     BaseUserResponseDTO signup(BaseUserDTO baseUserDTO);
 
-    Pair<String, LoginResponseDTO> login(LoginDTO loginDTO);
+    LoginResponseDTO login(LoginDTO loginDTO);
 
-    LoginResponseDTO getNewAccessToken(String refreshToken, String baseUserId);
+    LoginResponseDTO getNewAccessToken(RefreshAccessTokenDTO refreshAccessTokenDTO);
+
+    void logout(LogoutDTO logoutDTO);
 }

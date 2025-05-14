@@ -3,31 +3,61 @@ import { CommonModule } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   matAddRound,
+  matCloseRound,
   matDeleteRound,
   matEditRound,
+  matFilterListRound,
   matInfoRound,
+  matLockOpenRound,
+  matLockRound,
+  matSaveRound,
 } from '@ng-icons/material-icons/round';
 
 const BUTTON_CONFIG = {
   add: {
     icon: 'matAddRound',
-    color: 'border-green-300 hover:bg-green-100 text-green-500',
+    color: 'bg-my-green hover:bg-green-500',
     title: 'Thêm mới',
   },
   edit: {
-    icon: 'matDeleteRound',
-    color: 'border-yellow-300 hover:bg-yellow-100 text-yellow-500',
+    icon: 'matEditRound',
+    color: 'bg-my-yellow hover:bg-yellow-500',
     title: 'Chỉnh sửa',
   },
   delete: {
-    icon: 'matEditRound',
-    color: 'border-red-300 hover:bg-red-100 text-red-500',
+    icon: 'matDeleteRound',
+    color: 'bg-my-coralaccent hover:bg-red-500',
     title: 'Xóa',
   },
   info: {
     icon: 'matInfoRound',
-    color: 'border-blue-300 hover:bg-blue-100 text-blue-500',
+    color: 'bg-my-blue hover:bg-blue-600',
     title: 'Xem',
+  },
+  save: {
+    icon: 'matSaveRound',
+    color: 'bg-my-blue hover:bg-blue-600',
+    title: 'Lưu',
+  },
+  lock: {
+    icon: 'matLockRound',
+    color: 'bg-gray-600 hover:bg-gray-700',
+    title: 'Khóa',
+  },
+  unlock: {
+    icon: 'matLockOpenRound',
+    color: 'bg-my-yellow hover:bg-yellow-500',
+    title: 'Mở khóa',
+  },
+  filter: {
+    icon: 'matFilterListRound',
+    color: 'bg-my-blue hover:bg-blue-600',
+    title: 'Lọc',
+  },
+  cancel: {
+    icon: 'matCloseRound',
+    color: 'bg-gray-400 hover:bg-gray-500',
+    title: 'Hủy',
   },
 };
 
@@ -36,7 +66,17 @@ const BUTTON_CONFIG = {
   standalone: true,
   imports: [CommonModule, NgIcon],
   providers: [
-    provideIcons({ matAddRound, matEditRound, matDeleteRound, matInfoRound }),
+    provideIcons({
+      matAddRound,
+      matDeleteRound,
+      matEditRound,
+      matInfoRound,
+      matSaveRound,
+      matLockRound,
+      matLockOpenRound,
+      matFilterListRound,
+      matCloseRound,
+    }),
   ],
   templateUrl: './action-button.component.html',
   styleUrl: './action-button.component.css',
@@ -54,10 +94,15 @@ export class ActionButtonComponent {
   }
 
   get buttonClass() {
-    return `p-2 w-10 h-10 rounded-lg border-2 flex justify-center items-center ${
-      this.disabled
-        ? 'border-gray-300 bg-gray-200 text-gray-500 cursor-not-allowed'
-        : this.buttonConfig.color
-    } ${this.class}`;
+    return `
+      p-2 w-10 h-10 rounded-lg text-white flex justify-center items-center
+      ${
+        this.disabled
+          ? 'bg-gray-500 cursor-not-allowed'
+          : this.buttonConfig.color
+      }
+      transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg
+      ${this.class}
+    `;
   }
 }

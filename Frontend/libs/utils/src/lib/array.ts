@@ -1,4 +1,4 @@
-import { isNAValue } from './data.utility';
+import { isNAValue } from './data';
 
 export function search<T extends object>(
   arr: T[],

@@ -22,6 +22,7 @@ import {
 } from '@ng-icons/material-icons/round';
 import { DummyTextService } from '@frontend/angular-libs';
 import { FooterComponent } from '../footer/footer.component';
+import { IS_COLLAPSED_LSK } from '@frontend/constants';
 
 @Component({
   selector: 'app-navbar',
@@ -86,7 +87,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    const saved = localStorage.getItem('isCollapsed');
+    const saved = localStorage.getItem(IS_COLLAPSED_LSK);
     this.isCollapsed = saved ? JSON.parse(saved) : false;
   }
 
@@ -101,7 +102,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
-    localStorage.setItem('isCollapsed', JSON.stringify(this.isCollapsed));
+    localStorage.setItem(IS_COLLAPSED_LSK, JSON.stringify(this.isCollapsed));
     setTimeout(() => this.checkSidebarOverflow(), 100);
   }
 

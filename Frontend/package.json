@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "dev-all": "concurrently \"npm run dev-admin\" \"npm run dev-learner\"",
-    "dev-admin": "npx nx serve admin --host 0.0.0.0 --port 4201 --allowed-hosts=admin-vhl.trannhanweb.io.vn",
-    "dev-learner": "npx nx serve learner --host 0.0.0.0 --port 4202 --allowed-hosts=learner-vhl.trannhanweb.io.vn",
+    "dev-admin": "npx nx serve admin --host 0.0.0.0 --port 4201",
+    "dev-learner": "npx nx serve learner --host 0.0.0.0 --port 4202",
     "build-all": "concurrently \"npm run build-admin\" \"npm run build-learner\"",
     "build-admin": "npx nx build admin --configuration=production --output-path=dist/admin",
     "build-learner": "npx nx build learner --configuration=production --output-path=dist/learner"
@@ -22,6 +22,7 @@
     "@angular/router": "~19.2.0",
     "@ng-icons/core": "^31.3.0",
     "@ng-icons/material-icons": "^31.3.0",
+    "crypto-ts": "^1.0.2",
     "lorem-ipsum": "^2.0.8",
     "ngx-toastr": "~18.0.0",
     "rxjs": "~7.8.0",

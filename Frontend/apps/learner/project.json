@@ -49,12 +49,7 @@
             }
           ],
           "outputHashing": "all",
-          "fileReplacements": [
-            {
-              "replace": "apps/learner/src/app/environments/environment.ts",
-              "with": "apps/learner/src/app/environments/environment.prod.ts"
-            }
-          ]
+          "fileReplacements": []
         },
         "development": {
           "optimization": false,

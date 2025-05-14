@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@frontend/angular-libs": ["libs/angular-libs/src/index.ts"],
+      "@frontend/constants": ["libs/constants/src/index.ts"],
       "@frontend/models": ["libs/models/src/index.ts"],
       "@frontend/utils": ["libs/utils/src/index.ts"]
     }

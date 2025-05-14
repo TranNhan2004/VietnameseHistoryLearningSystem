@@ -57,12 +57,11 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
-            "https://admin-vhl.trannhanweb.io.vn",
-            "https://learner-vhl.trannhanweb.io.vn"
+            "https://admin-lotus.trannhanweb.io.vn",
+            "https://learner-lotus.trannhanweb.io.vn"
         ));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

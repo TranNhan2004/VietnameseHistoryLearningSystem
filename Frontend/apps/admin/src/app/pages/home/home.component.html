@@ -1,17 +1,13 @@
 <div class="relative min-h-screen py-12 px-6">
   <div class="container mx-auto">
-    <!-- Tiêu đề -->
     <h1 class="text-4xl font-bold text-center text-my-blue mb-6">Khám Phá Lịch Sử Việt Nam</h1>
 
-    <!-- Mô tả -->
     <p class="text-lg text-center mb-8">
-      Trang web cung cấp công cụ giúp bạn dễ dàng tạo và quản lý bài học, tài khoản người dùng, và các cuộc thi kiến
+      Trang web cung cấp công cụ giúp bạn dễ dàng tạo và quản lý bài học, tài khoản người dùng, và các cuộc thi về kiến
       thức lịch sử Việt Nam một cách trực quan và hiệu quả.
     </p>
 
-    <!-- Các khu vực giới thiệu -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Quản lý bài học -->
       <div
         class="flex flex-col justify-between bg-gradient-to-r from-my-blue to-my-purple p-6 rounded-lg shadow-lg hover:scale-105 transition-transform min-h-[260px]">
         <div>
@@ -21,27 +17,31 @@
           </p>
         </div>
         <button
-          class="mt-6 bg-white text-my-blue py-2 px-4 rounded-md hover:bg-my-purple hover:text-white transition-colors">
+          class="mt-6 bg-white text-my-blue py-2 px-4 rounded-md hover:bg-my-purple hover:text-white transition-colors"
+          (click)="goTo('/lessons')"
+        >
           Quản Lý Bài Học
         </button>
       </div>
 
-      <!-- Quản lý tài khoản -->
       <div
         class="flex flex-col justify-between bg-gradient-to-r from-my-lavender to-my-coralaccent p-6 rounded-lg shadow-lg hover:scale-105 transition-transform min-h-[260px]">
         <div>
           <h3 class="text-2xl font-semibold text-white mb-4">Quản Lý Tài Khoản</h3>
           <p class="text-white">
-            Hệ thống phân quyền rõ ràng, dễ dàng thêm, sửa, xóa và kiểm soát tài khoản người dùng trong hệ thống.
+            Quản trị viên cơ bản có thể xem thông tin người học, quản trị viên cấp cao có thể vô hiệu/kích hoạt tài
+            khoản người học, còn siêu quản trị viên có quyền thêm tài khoản quản trị viên cũng như vô hiệu/kích hoạt,
+            xóa tài khoản trong hệ thống.
           </p>
         </div>
         <button
-          class="mt-6 bg-white text-my-darknavy py-2 px-4 rounded-md hover:bg-my-coralaccent hover:text-white transition-colors">
+          class="mt-6 bg-white text-my-darknavy py-2 px-4 rounded-md hover:bg-my-coralaccent hover:text-white transition-colors"
+          (click)="goTo('/accounts')"
+        >
           Quản Lý Tài Khoản
         </button>
       </div>
 
-      <!-- Quản lý cuộc thi -->
       <div
         class="flex flex-col justify-between bg-gradient-to-r from-my-purple to-my-blue p-6 rounded-lg shadow-lg hover:scale-105 transition-transform min-h-[260px]">
         <div>
@@ -52,21 +52,34 @@
           </p>
         </div>
         <button
-          class="mt-6 bg-white text-my-purple py-2 px-4 rounded-md hover:bg-my-blue hover:text-white transition-colors">
+          class="mt-6 bg-white text-my-purple py-2 px-4 rounded-md hover:bg-my-blue hover:text-white transition-colors"
+          (click)="goTo('/contests')"
+        >
           Quản Lý Cuộc Thi
         </button>
       </div>
     </div>
 
-    <!-- Quy định sử dụng -->
-    <!-- Quy định sử dụng -->
+    <div class="mt-16 text-center">
+      <button
+        class="bg-gradient-to-r from-my-blue to-my-purple text-white
+    font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:scale-105
+    transition-all duration-300 flex items-center justify-center mx-auto mb-4"
+        (click)="goTo('/auth/login')"
+      >
+        <ng-icon name="matLoginRound" class="mr-2" size="24"></ng-icon>
+        <span class="text-xl">Đăng nhập</span>
+      </button>
+      <p class="text-lg">Đăng nhập ngay để khám phá các tính năng của hệ thống</p>
+    </div>
+
     <div class="mt-16 max-w-4xl mx-auto bg-gray-50 border border-gray-200 shadow-md rounded-xl p-8">
       <h3 class="text-3xl font-bold text-my-blue mb-6 text-center">Quy Định Sử Dụng</h3>
       <ul class="space-y-5 text-gray-800 text-lg list-none">
         <li class="flex items-start gap-4">
           <ng-icon name="matCheckCircleRound"
                    class="text-my-purple text-2xl"></ng-icon>
-          Người dùng cần đăng nhập để truy cập các chức năng quản lý bài học và cuộc thi.
+          Các quản trị viên cần đăng nhập để truy cập các chức năng quản lý bài học và cuộc thi.
         </li>
         <li class="flex items-start gap-4">
           <ng-icon name="matCheckCircleRound"
@@ -81,7 +94,7 @@
         <li class="flex items-start gap-4">
           <ng-icon name="matCheckCircleRound"
                    class="text-my-purple text-2xl"></ng-icon>
-          Quản trị viên có toàn quyền chỉnh sửa và xóa tài khoản vi phạm.
+          Để đăng ký tài khoản quản trị viên trên hệ thống, cần liên hệ siêu quản trị viên qua email.
         </li>
       </ul>
     </div>

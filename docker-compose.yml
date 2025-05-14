@@ -7,6 +7,7 @@ services:
       - ./Backend/WebAPI/src/main/resources/.env
     depends_on:
       - mysql
+      - redis
     ports:
       - "9000:9000"
     networks:
@@ -20,6 +21,7 @@ services:
       - ./Backend/ChatBotAPI/.env
     depends_on:
       - mysql
+      - redis
     ports:
       - "8000:8000"
     networks:
@@ -48,22 +50,16 @@ services:
       - app-network
 
 
-  #  frontend:
-  #    build:
-  #      context: ./Frontend
-  #      dockerfile: Dockerfile
-  #    env_file:
-  #      - ./Frontend/.env
-  #    ports:
-  #      - "4201:4201"
-  #      - "4202:4202"
-  #    volumes:
-  #      - ./Frontend:/app
-  #    depends_on:
-  #      - mysql
-  #      - webapi
-  #    networks:
-  #      - app-network
+  nginx:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - webapi
+    networks:
+      - app-network
 
   tunnel:
     build:
@@ -72,9 +68,8 @@ services:
     env_file:
       - ./Tunnel/.env
     restart: unless-stopped
-    #    depends_on:
-    #      - mysql
-    #      - webapi
+    depends_on:
+      - nginx
     networks:
       - app-network
 
