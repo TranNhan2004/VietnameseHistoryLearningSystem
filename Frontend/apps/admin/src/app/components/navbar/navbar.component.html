@@ -3,7 +3,7 @@
   <!-- Sidebar -->
   <div
     #sidebarRef
-    class="fixed top-0 left-0 h-screen overflow-y-auto bg-gradient-to-b from-my-blue to-my-purple transition-all duration-300 ease-in-out"
+    class="fixed top-0 left-0 h-screen overflow-y-auto overflow-x-hidden bg-gradient-to-b from-my-blue to-my-purple transition-all duration-300 ease-in-out"
     [ngClass]="{
       'w-[64px]': isCollapsed && !isScrollbarVisible,
       'w-[80px]': isCollapsed && isScrollbarVisible,
@@ -58,19 +58,16 @@
   </div>
 
   <!-- Main Content -->
-  <div
-    class="flex-1 flex flex-col overflow-y-auto overflow-x-hidden transition-all duration-300 ease-in-out p-5 text-justify min-h-full bg-my-offwhite text-my-darknavy"
-    [ngClass]="{
-      'ml-[64px]': isCollapsed && !isScrollbarVisible,
-      'ml-[80px]': isCollapsed && isScrollbarVisible,
-      'ml-[200px]': !isCollapsed && !isScrollbarVisible,
-      'ml-[216px]': !isCollapsed && isScrollbarVisible
-    }"
-  >
-    <router-outlet></router-outlet>
-    <div class="flex-1"></div> <!-- Spacer để đẩy footer xuống -->
-    <app-footer></app-footer>
-  </div>
+  @if (innerContentMarginLeftClassReady) {
+    <div
+      class="flex-1 flex flex-col overflow-y-auto overflow-x-hidden transition-all duration-300 ease-in-out p-5 text-justify min-h-full bg-my-offwhite text-my-darknavy"
+      [ngClass]="innerContentMarginLeftClass"
+    >
+      <router-outlet></router-outlet>
+      <div class="flex-1"></div> <!-- Spacer để đẩy footer xuống -->
+      <app-footer></app-footer>
+    </div>
+  }
 
   <!-- Tooltip -->
   @if (isCollapsed && tooltipVisible) {

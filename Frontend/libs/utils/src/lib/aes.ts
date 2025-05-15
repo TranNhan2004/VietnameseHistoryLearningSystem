@@ -1,18 +1,18 @@
 import * as CryptoTS from 'crypto-ts';
 import {
-  ADMIN_ACCESS_TOKEN_CKNAME,
-  ADMIN_INFO_CKNAME,
-  LEARNER_ACCESS_TOKEN_CKNAME,
-  LEARNER_INFO_CKNAME,
+  ADMIN_ACCESS_TOKEN_COOKIE_NAME,
+  ADMIN_INFO_COOKIE_NAME,
+  LEARNER_ACCESS_TOKEN_COOKIE_NAME,
+  LEARNER_INFO_COOKIE_NAME,
 } from '@frontend/constants';
 
 export class AESCrypto {
   private static readonly SECRET_KEY = CryptoTS.SHA256(
-    CryptoTS.enc.Utf8.parse(ADMIN_ACCESS_TOKEN_CKNAME)
+    CryptoTS.enc.Utf8.parse(ADMIN_ACCESS_TOKEN_COOKIE_NAME)
       .clone()
-      .concat(CryptoTS.enc.Utf8.parse(LEARNER_ACCESS_TOKEN_CKNAME))
-      .concat(CryptoTS.enc.Utf8.parse(ADMIN_INFO_CKNAME))
-      .concat(CryptoTS.enc.Utf8.parse(LEARNER_INFO_CKNAME))
+      .concat(CryptoTS.enc.Utf8.parse(LEARNER_ACCESS_TOKEN_COOKIE_NAME))
+      .concat(CryptoTS.enc.Utf8.parse(ADMIN_INFO_COOKIE_NAME))
+      .concat(CryptoTS.enc.Utf8.parse(LEARNER_INFO_COOKIE_NAME))
   );
 
   static encypt(data: string) {

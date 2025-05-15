@@ -57,6 +57,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   isCollapsed = false;
   isScrollbarVisible = false;
+  innerContentMarginLeftClass = '';
+  innerContentMarginLeftClassReady = false;
 
   tooltipVisible = false;
   tooltipText = '';
@@ -65,7 +67,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   text = '';
   navItems = [
-    { name: 'Trang chủ', icon: 'matHomeRound', route: '/' },
+    { name: 'Trang chủ', icon: 'matHomeRound', route: '/home' },
     {
       name: 'QL bài học',
       icon: 'matLibraryBooksRound',
@@ -89,10 +91,15 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const saved = localStorage.getItem(IS_COLLAPSED_LSK);
     this.isCollapsed = saved ? JSON.parse(saved) : false;
+    this.updateInnerContentMarginLeftClass();
+    this.checkSidebarOverflow();
   }
 
   ngAfterViewInit() {
     this.checkSidebarOverflow();
+    setTimeout(() => {
+      this.innerContentMarginLeftClassReady = true;
+    });
   }
 
   @HostListener('window:resize')
@@ -103,7 +110,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
     localStorage.setItem(IS_COLLAPSED_LSK, JSON.stringify(this.isCollapsed));
-    setTimeout(() => this.checkSidebarOverflow(), 100);
+    this.updateInnerContentMarginLeftClass();
+    setTimeout(() => {
+      this.checkSidebarOverflow();
+    }, 100);
   }
 
   checkSidebarOverflow() {
@@ -121,5 +131,17 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   hideTooltip() {
     this.tooltipVisible = false;
+  }
+
+  updateInnerContentMarginLeftClass() {
+    if (this.isCollapsed && !this.isScrollbarVisible) {
+      this.innerContentMarginLeftClass = 'ml-[64px]';
+    } else if (this.isCollapsed && this.isScrollbarVisible) {
+      this.innerContentMarginLeftClass = 'ml-[80px]';
+    } else if (!this.isCollapsed && !this.isScrollbarVisible) {
+      this.innerContentMarginLeftClass = 'ml-[200px]';
+    } else {
+      this.innerContentMarginLeftClass = 'ml-[216px]';
+    }
   }
 }

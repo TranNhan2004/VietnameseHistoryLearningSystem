@@ -1,7 +1,0 @@
-export const ADMIN_ACCESS_TOKEN_CKNAME =
-  '6cbIKazIeG65lKR6IIOZ7Qtpd5kvItrV_RQJt4BK8OQ';
-export const LEARNER_ACCESS_TOKEN_CKNAME =
-  'ZxD3Xplw5bquMdr1RHQaOLTxaHvVjHXVGAKc5NX4WiE';
-export const ADMIN_INFO_CKNAME = 'TmjZBDYhw5_PTdGsmGPd3ZuFpnUAAdri6mQx5kXUtio';
-export const LEARNER_INFO_CKNAME =
-  'CqYVtFdDH-h2DlKxv8M1VWKkhi1liO8ZscSL__ImHwE';

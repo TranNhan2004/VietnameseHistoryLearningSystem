@@ -5,7 +5,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { AccountsComponent } from './pages/accounts/accounts.component';
 import { ContestsComponent } from './pages/contests/contests.component';
 import { LoginComponent } from './pages/login/login.component';
-import { HasAuthLayoutComponent } from './layouts/has-auth-layout/has-auth-layout.component';
+import { SidebarLayoutComponent } from './layouts/sidebar-layout/sidebar-layout.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import {
   authenticatedGuard,
@@ -19,11 +19,15 @@ export const appRoutes: Route[] = [
     children: [{ path: 'login', component: LoginComponent }],
   },
   {
+    path: 'home',
+    component: SidebarLayoutComponent,
+    children: [{ path: '', component: HomeComponent }],
+  },
+  {
     path: '',
-    component: HasAuthLayoutComponent,
+    component: SidebarLayoutComponent,
     canActivate: [authenticatedGuard],
     children: [
-      { path: '', component: HomeComponent },
       { path: 'accounts', component: AccountsComponent },
       { path: 'contests', component: ContestsComponent },
       { path: 'lessons', component: LessonsComponent },

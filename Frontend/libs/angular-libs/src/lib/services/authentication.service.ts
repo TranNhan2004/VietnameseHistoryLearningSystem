@@ -7,7 +7,7 @@ import {
   RoleType,
 } from '@frontend/models';
 import { WEB_API_URL } from '@frontend/constants';
-import { AuthHelpers } from '@frontend/utils';
+import { AuthenticationHelpers } from '@frontend/utils';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -34,7 +34,7 @@ export class AuthenticationService {
   }
 
   refreshAccessToken(): Observable<string> {
-    const userInfo = AuthHelpers.getUserInfo(this.role);
+    const userInfo = AuthenticationHelpers.getUserInfo(this.role);
     if (userInfo) {
       const data: RefreshAccessTokenType = {
         id: userInfo.id,
@@ -44,7 +44,7 @@ export class AuthenticationService {
         .post<LoginResponseType>(`${WEB_API_URL}auth/token/refresh`, data)
         .pipe(
           switchMap((res) => {
-            AuthHelpers.saveAccessToken(res.accessToken, this.role);
+            AuthenticationHelpers.saveAccessToken(res.accessToken, this.role);
             return new Observable<string>((observer) => {
               observer.next(res.accessToken);
               observer.complete();
@@ -58,6 +58,6 @@ export class AuthenticationService {
   }
 
   isLoggedIn() {
-    return AuthHelpers.getUserInfo(this.role) !== null;
+    return AuthenticationHelpers.getUserInfo(this.role) !== null;
   }
 }

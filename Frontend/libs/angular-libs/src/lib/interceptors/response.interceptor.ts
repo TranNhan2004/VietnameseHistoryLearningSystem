@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
-import { AuthHelpers } from '@frontend/utils';
+import { AuthenticationHelpers } from '@frontend/utils';
 
 export const responseInterceptor: HttpInterceptorFn = (req, next) => {
   const authenticationService = inject(AuthenticationService);
@@ -20,8 +20,12 @@ export const responseInterceptor: HttpInterceptorFn = (req, next) => {
             return next(clonedRequest);
           }),
           catchError((refreshError) => {
-            AuthHelpers.clearAccessToken(authenticationService.getRole());
-            AuthHelpers.clearUserInfo(authenticationService.getRole());
+            AuthenticationHelpers.clearAccessToken(
+              authenticationService.getRole()
+            );
+            AuthenticationHelpers.clearUserInfo(
+              authenticationService.getRole()
+            );
             return throwError(() => refreshError);
           })
         );

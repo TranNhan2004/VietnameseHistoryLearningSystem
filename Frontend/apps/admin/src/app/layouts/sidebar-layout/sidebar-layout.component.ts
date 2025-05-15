@@ -4,12 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { WEB_API_URL } from '@frontend/constants';
 
 @Component({
-  selector: 'app-has-auth-layout',
+  selector: 'app-sidebar-layout',
   imports: [NavbarComponent],
-  templateUrl: './has-auth-layout.component.html',
-  styleUrl: './has-auth-layout.component.css',
+  templateUrl: './sidebar-layout.component.html',
+  styleUrl: './sidebar-layout.component.css',
 })
-export class HasAuthLayoutComponent implements OnInit {
+export class SidebarLayoutComponent implements OnInit {
   response = '';
 
   constructor(private httpClient: HttpClient) {}

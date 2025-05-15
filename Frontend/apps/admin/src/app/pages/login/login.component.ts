@@ -13,13 +13,16 @@ import {
   MyMetadata,
 } from '@frontend/angular-libs';
 import { LoginRequestType } from '@frontend/models';
-import { EMAIL_OR_USER_NAME_RE, PASSWORD_RE } from '@frontend/constants';
-import { AuthHelpers, MyFormGroupHelper } from '@frontend/utils';
+import {
+  authenticationMessage,
+  EMAIL_OR_USER_NAME_RE,
+  generalMessage,
+  PASSWORD_RE,
+} from '@frontend/constants';
+import { AuthenticationHelpers, MyFormGroupHelper } from '@frontend/utils';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
-import { authenticationMessage } from '../../../../../../libs/constants/src/lib/authentication-message';
-import { generalMessage } from '../../../../../../libs/constants/src/lib/general-message';
 
 @Component({
   selector: 'app-login',
@@ -73,14 +76,14 @@ export class LoginComponent implements OnInit {
       this.authService.login(loginData).subscribe({
         next: async (res) => {
           const { accessToken, ...rest } = res;
-          AuthHelpers.saveAccessToken(accessToken, 'ADMIN');
-          AuthHelpers.saveUserInfo(rest, 'ADMIN');
-          this.toastrService.success(authenticationMessage.SUCCESS);
-          await this.router.navigateByUrl('/');
+          AuthenticationHelpers.saveAccessToken(accessToken, 'ADMIN');
+          AuthenticationHelpers.saveUserInfo(rest, 'ADMIN');
+          this.toastrService.success(authenticationMessage.LOGIN__SUCCESS);
+          await this.router.navigateByUrl('/home');
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === 404) {
-            this.toastrService.error(authenticationMessage.FAILED);
+            this.toastrService.error(authenticationMessage.LOGIN__FAILED);
           } else {
             this.toastrService.error(generalMessage.UNKNOWN_ERROR);
           }

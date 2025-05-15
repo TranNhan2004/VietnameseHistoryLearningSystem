@@ -60,18 +60,20 @@
       </div>
     </div>
 
-    <div class="mt-16 text-center">
-      <button
-        class="bg-gradient-to-r from-my-blue to-my-purple text-white
-    font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:scale-105
-    transition-all duration-300 flex items-center justify-center mx-auto mb-4"
-        (click)="goTo('/auth/login')"
-      >
-        <ng-icon name="matLoginRound" class="mr-2" size="24"></ng-icon>
-        <span class="text-xl">Đăng nhập</span>
-      </button>
-      <p class="text-lg">Đăng nhập ngay để khám phá các tính năng của hệ thống</p>
-    </div>
+    @if (!isLoggedIn()) {
+      <div class="mt-16 text-center">
+        <button
+          class="bg-gradient-to-r from-my-blue to-my-purple text-white
+                  font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:scale-105
+                  transition-all duration-300 flex items-center justify-center mx-auto mb-4"
+          (click)="goTo('/auth/login')"
+        >
+          <ng-icon name="matLoginRound" class="mr-2" size="24"></ng-icon>
+          <span class="text-xl">Đăng nhập</span>
+        </button>
+        <p class="text-lg">Đăng nhập ngay để khám phá các tính năng của hệ thống</p>
+      </div>
+    }
 
     <div class="mt-16 max-w-4xl mx-auto bg-gray-50 border border-gray-200 shadow-md rounded-xl p-8">
       <h3 class="text-3xl font-bold text-my-blue mb-6 text-center">Quy Định Sử Dụng</h3>

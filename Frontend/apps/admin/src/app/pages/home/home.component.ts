@@ -5,7 +5,7 @@ import {
   matCheckCircleRound,
   matLoginRound,
 } from '@ng-icons/material-icons/round';
-import { MyMetadata } from '@frontend/angular-libs';
+import { AuthenticationService, MyMetadata } from '@frontend/angular-libs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,7 +16,11 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  constructor(private myMetadata: MyMetadata, private router: Router) {}
+  constructor(
+    private myMetadata: MyMetadata,
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {}
 
   ngOnInit() {
     this.myMetadata.set({
@@ -29,5 +33,9 @@ export class HomeComponent implements OnInit {
 
   async goTo(url: string) {
     await this.router.navigateByUrl(url);
+  }
+
+  isLoggedIn() {
+    return this.authenticationService.isLoggedIn();
   }
 }
