@@ -15,6 +15,7 @@ import {
 import { LoginRequestType } from '@frontend/models';
 import {
   authenticationMessage,
+  baseUserMessage,
   EMAIL_OR_USER_NAME_RE,
   generalMessage,
   PASSWORD_RE,
@@ -91,4 +92,6 @@ export class LoginComponent implements OnInit {
       });
     }
   }
+
+  protected readonly baseUserMessage = baseUserMessage;
 }

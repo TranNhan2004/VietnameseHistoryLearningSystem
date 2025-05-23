@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   LoginRequestType,
   LoginResponseType,
+  NewAccessTokenResponseType,
   RefreshAccessTokenType,
   RoleType,
 } from '@frontend/models';
@@ -41,7 +42,10 @@ export class AuthenticationService {
         fullRole: userInfo.fullRole,
       };
       return this.httpClient
-        .post<LoginResponseType>(`${WEB_API_URL}auth/token/refresh`, data)
+        .post<NewAccessTokenResponseType>(
+          `${WEB_API_URL}auth/token/refresh`,
+          data
+        )
         .pipe(
           switchMap((res) => {
             AuthenticationHelpers.saveAccessToken(res.accessToken, this.role);

@@ -68,8 +68,8 @@ services:
     env_file:
       - ./Tunnel/.env
     restart: unless-stopped
-    depends_on:
-      - nginx
+    #    depends_on:
+    #      - nginx
     networks:
       - app-network
 

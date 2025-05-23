@@ -1,5 +1,5 @@
 export type BaseUserType = {
-  Id: string;
-  Email: string;
-  Password: string;
+  id: string;
+  email: string;
+  password: string;
 };

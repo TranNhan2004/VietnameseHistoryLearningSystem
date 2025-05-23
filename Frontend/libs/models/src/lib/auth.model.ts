@@ -21,4 +21,6 @@ export type FullRoleType =
   | 'LEARNER';
 
 export type RefreshAccessTokenType = Pick<LoginResponseType, 'id' | 'fullRole'>;
-export type LogoutType = RefreshAccessTokenType;
+export type NewAccessTokenResponseType = Pick<LoginResponseType, 'accessToken'>;
+
+export type LogoutType = Pick<LoginResponseType, 'fullRole'>;

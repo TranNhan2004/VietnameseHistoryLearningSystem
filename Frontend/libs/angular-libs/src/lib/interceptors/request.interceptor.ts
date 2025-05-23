@@ -15,5 +15,12 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
       },
     });
   }
+
+  if (req.url.includes('/auth/')) {
+    req = req.clone({
+      withCredentials: true,
+    });
+  }
+
   return next(req);
 };

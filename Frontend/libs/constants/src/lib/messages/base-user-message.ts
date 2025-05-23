@@ -4,6 +4,6 @@ export const baseUserMessage = {
   EMAIL_OR_USER_NAME__REQUIRED: 'Email/Tên đăng nhập được để trống',
 
   EMAIL__INVALID: 'Email không hợp lệ',
-  PASSWORD_INVALID: 'Mật khẩu không hợp lệ',
+  PASSWORD__INVALID: 'Mật khẩu không hợp lệ',
   EMAIL_OR_USER_NAME__INVALID: 'Email/Tên đăng nhập không hợp lệ',
 };

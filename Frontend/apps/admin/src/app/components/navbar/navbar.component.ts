@@ -91,14 +91,13 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const saved = localStorage.getItem(IS_COLLAPSED_LSK);
     this.isCollapsed = saved ? JSON.parse(saved) : false;
-    this.updateInnerContentMarginLeftClass();
-    this.checkSidebarOverflow();
   }
 
   ngAfterViewInit() {
     this.checkSidebarOverflow();
     setTimeout(() => {
       this.innerContentMarginLeftClassReady = true;
+      this.updateInnerContentMarginLeftClass();
     });
   }
 

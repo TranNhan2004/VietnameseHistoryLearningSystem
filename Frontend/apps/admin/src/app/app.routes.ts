@@ -14,14 +14,19 @@ import {
 
 export const appRoutes: Route[] = [
   {
-    path: 'auth',
-    canActivate: [notAuthenticatedGuard],
-    children: [{ path: 'login', component: LoginComponent }],
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
   },
   {
     path: 'home',
     component: SidebarLayoutComponent,
     children: [{ path: '', component: HomeComponent }],
+  },
+  {
+    path: 'auth',
+    canActivate: [notAuthenticatedGuard],
+    children: [{ path: 'login', component: LoginComponent }],
   },
   {
     path: '',
