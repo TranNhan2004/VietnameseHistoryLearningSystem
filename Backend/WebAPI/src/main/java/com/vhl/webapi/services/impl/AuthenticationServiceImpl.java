@@ -3,9 +3,9 @@ package com.vhl.webapi.services.impl;
 import com.vhl.webapi.constants.errorcodes.BaseUserErrorCode;
 import com.vhl.webapi.constants.regexps.BaseUserRegExp;
 import com.vhl.webapi.dtos.requests.*;
-import com.vhl.webapi.dtos.responses.BaseUserResponseDTO;
-import com.vhl.webapi.dtos.responses.LoginResponseDTO;
-import com.vhl.webapi.dtos.responses.NewAccessTokenResponseDTO;
+import com.vhl.webapi.dtos.responses.BaseUserResDTO;
+import com.vhl.webapi.dtos.responses.LoginResDTO;
+import com.vhl.webapi.dtos.responses.NewAccessTokenResDTO;
 import com.vhl.webapi.entities.specific.Admin;
 import com.vhl.webapi.entities.specific.BaseUser;
 import com.vhl.webapi.entities.specific.Learner;
@@ -32,43 +32,43 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private static final Pattern EMAIL_PATTERN = Pattern.compile(BaseUserRegExp.EMAIL);
 
     @Override
-    public BaseUserResponseDTO signup(BaseUserDTO baseUserDTO) {
-        if (baseUserRepository.existsByUserName(baseUserDTO.getUserName())) {
+    public BaseUserResDTO signup(BaseUserReqDTO baseUserReqDTO) {
+        if (baseUserRepository.existsByUserName(baseUserReqDTO.getUserName())) {
             throw new RuntimeException(BaseUserErrorCode.USER_NAME__ALREADY_EXISTS);
         }
 
-        if (baseUserRepository.existsByEmail(baseUserDTO.getEmail())) {
+        if (baseUserRepository.existsByEmail(baseUserReqDTO.getEmail())) {
             throw new RuntimeException(BaseUserErrorCode.EMAIL__ALREADY_EXISTS);
         }
 
         BaseUser baseUser;
-        BaseUserResponseDTO baseUserResponseDTO;
+        BaseUserResDTO baseUserResDTO;
 
-        if (baseUserDTO instanceof AdminDTO adminDTO) {
+        if (baseUserReqDTO instanceof AdminReqDTO adminDTO) {
             Admin admin = baseUserMapper.toAdmin(adminDTO);
             admin.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
             baseUser = admin;
-            baseUserResponseDTO = baseUserMapper.toAdminResponseDTO(admin);
+            baseUserResDTO = baseUserMapper.toAdminResponseDTO(admin);
 
-        } else if (baseUserDTO instanceof LearnerDTO learnerDTO) {
-            Learner learner = baseUserMapper.toLearner(learnerDTO);
-            learner.setPassword(passwordEncoder.encode(learnerDTO.getPassword()));
+        } else if (baseUserReqDTO instanceof LearnerReqDTO learnerReqDTO) {
+            Learner learner = baseUserMapper.toLearner(learnerReqDTO);
+            learner.setPassword(passwordEncoder.encode(learnerReqDTO.getPassword()));
             baseUser = learner;
-            baseUserResponseDTO = baseUserMapper.toLearnerResponseDTO(learner);
+            baseUserResDTO = baseUserMapper.toLearnerResponseDTO(learner);
 
         } else {
             throw new IllegalArgumentException(BaseUserErrorCode.ROLE__INVALID);
         }
 
         BaseUser savedUser = baseUserRepository.save(baseUser);
-        baseUserResponseDTO.setId(savedUser.getId());
+        baseUserResDTO.setId(savedUser.getId());
 
-        return baseUserResponseDTO;
+        return baseUserResDTO;
     }
 
     @Override
-    public Pair<String, LoginResponseDTO> login(LoginDTO loginDTO) {
-        String emailOrUserName = loginDTO.getEmailOrUserName();
+    public Pair<String, LoginResDTO> login(LoginReqDTO loginReqDTO) {
+        String emailOrUserName = loginReqDTO.getEmailOrUserName();
         BaseUser baseUser;
 
         if (EMAIL_PATTERN.matcher(emailOrUserName).matches()) {
@@ -80,8 +80,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         if (!baseUser.isActive() &&
-            !passwordEncoder.matches(loginDTO.getPassword(), baseUser.getPassword()) &&
-            !baseUser.getFullRole().contains(loginDTO.getRole())
+            !passwordEncoder.matches(loginReqDTO.getPassword(), baseUser.getPassword()) &&
+            !baseUser.getFullRole().contains(loginReqDTO.getRole())
         ) {
             throw new NoInstanceFoundException(BaseUserErrorCode.EMAIL_OR_USER_NAME_OR_PASSWORD__INCORRECT);
         }
@@ -89,30 +89,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String accessToken = jwtService.generateAccessToken(baseUser.getEmail(), baseUser.getId(), baseUser.getFullRole());
         String refreshToken = jwtService.generateRefreshToken(baseUser.getEmail(), baseUser.getId(), baseUser.getFullRole());
 
-        LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
-        loginResponseDTO.setId(baseUser.getId());
-        loginResponseDTO.setEmail(baseUser.getEmail());
-        loginResponseDTO.setUserName(baseUser.getUserName());
-        loginResponseDTO.setFullRole(baseUser.getFullRole());
-        loginResponseDTO.setAccessToken(accessToken);
+        LoginResDTO loginResDTO = new LoginResDTO();
+        loginResDTO.setId(baseUser.getId());
+        loginResDTO.setEmail(baseUser.getEmail());
+        loginResDTO.setUserName(baseUser.getUserName());
+        loginResDTO.setFullRole(baseUser.getFullRole());
+        loginResDTO.setAccessToken(accessToken);
 
-        return new Pair<>(refreshToken, loginResponseDTO);
+        return new Pair<>(refreshToken, loginResDTO);
     }
 
     @Override
-    public NewAccessTokenResponseDTO getNewAccessToken(RefreshAccessTokenDTO refreshAccessTokenDTO, String refreshToken) {
-        BaseUser baseUser = baseUserRepository.findById(refreshAccessTokenDTO.getId()).orElseThrow(
+    public NewAccessTokenResDTO getNewAccessToken(RefreshAccessTokenReqDTO refreshAccessTokenReqDTO, String refreshToken) {
+        BaseUser baseUser = baseUserRepository.findById(refreshAccessTokenReqDTO.getId()).orElseThrow(
             () -> new NoInstanceFoundException(BaseUserErrorCode.BASE_USER__NOT_FOUND)
         );
 
-        NewAccessTokenResponseDTO newAccessTokenResponseDTO = new NewAccessTokenResponseDTO();
+        NewAccessTokenResDTO newAccessTokenResDTO = new NewAccessTokenResDTO();
 
         if (jwtService.validateToken(refreshToken, baseUser.getEmail())) {
             String accessToken = jwtService.generateAccessToken(baseUser.getEmail(), baseUser.getId(), baseUser.getFullRole());
-            newAccessTokenResponseDTO.setAccessToken(accessToken);
+            newAccessTokenResDTO.setAccessToken(accessToken);
         }
 
-        return newAccessTokenResponseDTO;
+        return newAccessTokenResDTO;
     }
 
 }

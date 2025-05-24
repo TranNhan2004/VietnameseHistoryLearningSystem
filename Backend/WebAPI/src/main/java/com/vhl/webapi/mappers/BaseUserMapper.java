@@ -1,9 +1,9 @@
 package com.vhl.webapi.mappers;
 
-import com.vhl.webapi.dtos.requests.AdminDTO;
-import com.vhl.webapi.dtos.requests.LearnerDTO;
-import com.vhl.webapi.dtos.responses.AdminResponseDTO;
-import com.vhl.webapi.dtos.responses.LearnerResponseDTO;
+import com.vhl.webapi.dtos.requests.AdminReqDTO;
+import com.vhl.webapi.dtos.requests.LearnerReqDTO;
+import com.vhl.webapi.dtos.responses.AdminResDTO;
+import com.vhl.webapi.dtos.responses.LearnerResDTO;
 import com.vhl.webapi.entities.specific.Admin;
 import com.vhl.webapi.entities.specific.Learner;
 import org.mapstruct.Mapper;
@@ -16,15 +16,15 @@ public interface BaseUserMapper {
 
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "adminLevel", expression = "java(com.vhl.webapi.enums.AdminLevel.valueOf(adminDTO.getAdminLevel()))")
-    Admin toAdmin(AdminDTO adminDTO);
+    Admin toAdmin(AdminReqDTO adminDTO);
 
     @Mapping(target = "password", ignore = true)
-    @Mapping(target = "rank", expression = "java(com.vhl.webapi.enums.LearnerRank.valueOf(learnerDTO.getRank()))")
-    Learner toLearner(LearnerDTO learnerDTO);
+    @Mapping(target = "rank", expression = "java(com.vhl.webapi.enums.LearnerRank.valueOf(learnerReqDTO.getRank()))")
+    Learner toLearner(LearnerReqDTO learnerReqDTO);
 
     @Mapping(target = "adminLevel", expression = "java(admin.getAdminLevel().name())")
-    AdminResponseDTO toAdminResponseDTO(Admin admin);
+    AdminResDTO toAdminResponseDTO(Admin admin);
 
     @Mapping(target = "rank", expression = "java(learner.getRank().name())")
-    LearnerResponseDTO toLearnerResponseDTO(Learner learner);
+    LearnerResDTO toLearnerResponseDTO(Learner learner);
 }

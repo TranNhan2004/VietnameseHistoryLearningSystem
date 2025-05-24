@@ -1,13 +1,13 @@
 package com.vhl.webapi.controllers;
 
 import com.vhl.webapi.constants.errorcodes.JwtErrorCode;
-import com.vhl.webapi.dtos.requests.BaseUserDTO;
-import com.vhl.webapi.dtos.requests.LoginDTO;
-import com.vhl.webapi.dtos.requests.LogoutDTO;
-import com.vhl.webapi.dtos.requests.RefreshAccessTokenDTO;
-import com.vhl.webapi.dtos.responses.BaseUserResponseDTO;
-import com.vhl.webapi.dtos.responses.LoginResponseDTO;
-import com.vhl.webapi.dtos.responses.NewAccessTokenResponseDTO;
+import com.vhl.webapi.dtos.requests.BaseUserReqDTO;
+import com.vhl.webapi.dtos.requests.LoginReqDTO;
+import com.vhl.webapi.dtos.requests.LogoutReqDTO;
+import com.vhl.webapi.dtos.requests.RefreshAccessTokenReqDTO;
+import com.vhl.webapi.dtos.responses.BaseUserResDTO;
+import com.vhl.webapi.dtos.responses.LoginResDTO;
+import com.vhl.webapi.dtos.responses.NewAccessTokenResDTO;
 import com.vhl.webapi.enums.Role;
 import com.vhl.webapi.services.interfaces.AuthenticationService;
 import com.vhl.webapi.utils.datatypes.Pair;
@@ -58,16 +58,16 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody BaseUserDTO baseUserDTO) {
-        BaseUserResponseDTO data = authenticationService.signup(baseUserDTO);
+    public ResponseEntity<?> signup(@Valid @RequestBody BaseUserReqDTO baseUserReqDTO) {
+        BaseUserResDTO data = authenticationService.signup(baseUserReqDTO);
         return ResponseEntity.ok(data);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO) {
-        Pair<String, LoginResponseDTO> pair = authenticationService.login(loginDTO);
+    public ResponseEntity<?> login(@Valid @RequestBody LoginReqDTO loginReqDTO) {
+        Pair<String, LoginResDTO> pair = authenticationService.login(loginReqDTO);
         String refreshToken = pair.getFirst();
-        String cookieName = getCookieName(loginDTO.getRole());
+        String cookieName = getCookieName(loginReqDTO.getRole());
 
         ResponseCookie cookie = ResponseCookie.from(cookieName, refreshToken)
             .maxAge(24 * 60 * 60)
@@ -84,15 +84,15 @@ public class AuthenticationController {
 
 
     @PostMapping("/token/refresh")
-    public ResponseEntity<?> refresh(HttpServletRequest request, @Valid @RequestBody RefreshAccessTokenDTO refreshAccessTokenDTO) {
-        String cookieName = getCookieName(refreshAccessTokenDTO.getFullRole());
+    public ResponseEntity<?> refresh(HttpServletRequest request, @Valid @RequestBody RefreshAccessTokenReqDTO refreshAccessTokenReqDTO) {
+        String cookieName = getCookieName(refreshAccessTokenReqDTO.getFullRole());
         Cookie cookie = getCookie(request, cookieName);
 
         if (cookie != null) {
             String refreshToken = cookie.getValue();
-            NewAccessTokenResponseDTO newAccessTokenResponseDTO =
-                authenticationService.getNewAccessToken(refreshAccessTokenDTO, refreshToken);
-            return ResponseEntity.ok(newAccessTokenResponseDTO);
+            NewAccessTokenResDTO newAccessTokenResDTO =
+                authenticationService.getNewAccessToken(refreshAccessTokenReqDTO, refreshToken);
+            return ResponseEntity.ok(newAccessTokenResDTO);
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(JwtErrorCode.TOKEN__EXPIRED);
@@ -100,8 +100,8 @@ public class AuthenticationController {
 
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@Valid @RequestBody LogoutDTO logoutDTO) {
-        String cookieName = getCookieName(logoutDTO.getFullRole());
+    public ResponseEntity<Void> logout(@Valid @RequestBody LogoutReqDTO logoutReqDTO) {
+        String cookieName = getCookieName(logoutReqDTO.getFullRole());
         ResponseCookie cookie = ResponseCookie.from(cookieName, "")
             .maxAge(0)
             .path("/")

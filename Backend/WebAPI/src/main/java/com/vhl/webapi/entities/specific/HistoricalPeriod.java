@@ -1,11 +1,10 @@
 package com.vhl.webapi.entities.specific;
 
 import com.vhl.webapi.entities.superclass.IBaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
@@ -20,6 +19,4 @@ public class HistoricalPeriod extends IBaseEntity {
     @Column(name = "end_year", nullable = false)
     private int endYear;
 
-    @OneToMany(mappedBy = "historicalPeriod", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Lesson> lessons = new ArrayList<>();
 }

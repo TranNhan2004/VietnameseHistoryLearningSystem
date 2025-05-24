@@ -1,19 +1,19 @@
 package com.vhl.webapi.services.interfaces;
 
-import com.vhl.webapi.dtos.requests.BaseUserDTO;
-import com.vhl.webapi.dtos.requests.LoginDTO;
-import com.vhl.webapi.dtos.requests.RefreshAccessTokenDTO;
-import com.vhl.webapi.dtos.responses.BaseUserResponseDTO;
-import com.vhl.webapi.dtos.responses.LoginResponseDTO;
-import com.vhl.webapi.dtos.responses.NewAccessTokenResponseDTO;
+import com.vhl.webapi.dtos.requests.BaseUserReqDTO;
+import com.vhl.webapi.dtos.requests.LoginReqDTO;
+import com.vhl.webapi.dtos.requests.RefreshAccessTokenReqDTO;
+import com.vhl.webapi.dtos.responses.BaseUserResDTO;
+import com.vhl.webapi.dtos.responses.LoginResDTO;
+import com.vhl.webapi.dtos.responses.NewAccessTokenResDTO;
 import com.vhl.webapi.utils.datatypes.Pair;
 
 
 public interface AuthenticationService {
-    BaseUserResponseDTO signup(BaseUserDTO baseUserDTO);
+    BaseUserResDTO signup(BaseUserReqDTO baseUserReqDTO);
 
-    Pair<String, LoginResponseDTO> login(LoginDTO loginDTO);
+    Pair<String, LoginResDTO> login(LoginReqDTO loginReqDTO);
 
-    NewAccessTokenResponseDTO getNewAccessToken(RefreshAccessTokenDTO refreshAccessTokenDTO, String refreshToken);
+    NewAccessTokenResDTO getNewAccessToken(RefreshAccessTokenReqDTO refreshAccessTokenReqDTO, String refreshToken);
 
 }

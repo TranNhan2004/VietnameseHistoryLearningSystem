@@ -1,14 +1,14 @@
 package com.vhl.webapi.services.interfaces;
 
-import com.vhl.webapi.dtos.requests.SendOtpDTO;
-import com.vhl.webapi.dtos.requests.VerificationDTO;
+import com.vhl.webapi.dtos.requests.SendOtpReqDTO;
+import com.vhl.webapi.dtos.requests.VerificationReqDTO;
 
 public interface VerificationService {
-    void sendOtpForVerifyAccount(SendOtpDTO sendOtpDTO);
-    
-    void sendOtpForVerifyResetPassword(SendOtpDTO sendOtpDTO);
+    void sendOtpForVerifyAccount(SendOtpReqDTO sendOtpReqDTO);
 
-    boolean verifyAccount(VerificationDTO verificationDTO);
+    void sendOtpForVerifyResetPassword(SendOtpReqDTO sendOtpReqDTO);
 
-    boolean verifyResetPassword(VerificationDTO verificationDTO);
+    boolean verifyAccount(VerificationReqDTO verificationReqDTO);
+
+    boolean verifyResetPassword(VerificationReqDTO verificationReqDTO);
 }
