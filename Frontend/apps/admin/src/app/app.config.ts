@@ -9,6 +9,8 @@ import {
   responseInterceptor,
   ROLE,
 } from '@frontend/angular-libs';
+import { provideIcons } from '@ng-icons/core';
+import { appIcons } from './app.icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,6 +28,7 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
       tapToDismiss: false,
     }),
+    provideIcons(appIcons),
     { provide: ROLE, useValue: 'ADMIN' },
   ],
 };

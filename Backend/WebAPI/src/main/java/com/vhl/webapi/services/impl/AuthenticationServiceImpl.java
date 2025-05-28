@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.regex.Pattern;
 
 @Service
@@ -79,8 +80,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new NoInstanceFoundException(BaseUserErrorCode.EMAIL_OR_USER_NAME_OR_PASSWORD__INCORRECT));
         }
 
-        if (!baseUser.isActive() &&
-            !passwordEncoder.matches(loginReqDTO.getPassword(), baseUser.getPassword()) &&
+        if (!baseUser.isActive() ||
+            !passwordEncoder.matches(loginReqDTO.getPassword(), baseUser.getPassword()) ||
             !baseUser.getFullRole().contains(loginReqDTO.getRole())
         ) {
             throw new NoInstanceFoundException(BaseUserErrorCode.EMAIL_OR_USER_NAME_OR_PASSWORD__INCORRECT);
@@ -95,6 +96,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         loginResDTO.setUserName(baseUser.getUserName());
         loginResDTO.setFullRole(baseUser.getFullRole());
         loginResDTO.setAccessToken(accessToken);
+
+        baseUser.setLastLogin(Instant.now());
+        baseUserRepository.save(baseUser);
 
         return new Pair<>(refreshToken, loginResDTO);
     }

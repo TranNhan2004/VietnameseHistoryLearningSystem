@@ -26,6 +26,7 @@ export const responseInterceptor: HttpInterceptorFn = (req, next) => {
             AuthenticationHelpers.clearUserInfo(
               authenticationService.getRole()
             );
+            window.location.href = '/auth/login';
             return throwError(() => refreshError);
           })
         );

@@ -56,6 +56,7 @@ public class VerificationServiceImpl implements VerificationService {
             throw new RuntimeException(VerificationErrorCode.OTP__INVALID);
         }
 
+        ssRedisService.delete(key);
         return true;
     }
 

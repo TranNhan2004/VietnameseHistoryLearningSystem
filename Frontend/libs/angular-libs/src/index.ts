@@ -3,6 +3,11 @@ export * from './lib/components/action-button/action-button.component';
 
 // ===================================================================================================
 
+// Directives
+export * from './lib/directives/show-hide-password.directive';
+
+// ===================================================================================================
+
 // Guards
 export * from './lib/guards/authenticated.guard';
 export * from './lib/guards/not-authenticated.guard';

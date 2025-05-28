@@ -1,16 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  matEmailRound,
-  matLockRound,
-  matLoginRound,
-} from '@ng-icons/material-icons/round';
+import { NgIcon } from '@ng-icons/core';
 import {
   AuthenticationService,
   MyFormBuilder,
   MyMetadata,
+  ShowHidePasswordDirective,
 } from '@frontend/angular-libs';
 import { LoginRequestType } from '@frontend/models';
 import {
@@ -33,14 +29,15 @@ import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
     NgIcon,
     NgOptimizedImage,
     RouterLink,
+    ShowHidePasswordDirective,
   ],
-  providers: [provideIcons({ matEmailRound, matLockRound, matLoginRound })],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   fh: MyFormGroupHelper;
+  passwordVisible = false;
 
   constructor(
     private myFb: MyFormBuilder,
