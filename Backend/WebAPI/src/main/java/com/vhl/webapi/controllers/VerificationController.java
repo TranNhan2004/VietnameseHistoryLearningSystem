@@ -19,13 +19,13 @@ public class VerificationController {
     @PostMapping("/account/send-otp")
     public ResponseEntity<?> sendOtpForVerifyAccount(@RequestBody SendOtpReqDTO sendOtpReqDTO) {
         verificationService.sendOtpForVerifyAccount(sendOtpReqDTO);
-        return ResponseEntity.ok("Send OTP successfully!");
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/account")
     public ResponseEntity<?> verifyAccount(@RequestBody VerificationReqDTO verificationReqDTO) {
         verificationService.verifyAccount(verificationReqDTO);
-        return ResponseEntity.ok("Verify account successfully!");
+        return ResponseEntity.noContent().build();
     }
 
 }

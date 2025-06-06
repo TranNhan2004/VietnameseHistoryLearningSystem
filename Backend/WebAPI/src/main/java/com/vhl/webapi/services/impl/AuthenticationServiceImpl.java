@@ -14,12 +14,12 @@ import com.vhl.webapi.mappers.BaseUserMapper;
 import com.vhl.webapi.repositories.BaseUserRepository;
 import com.vhl.webapi.services.interfaces.AuthenticationService;
 import com.vhl.webapi.services.interfaces.JwtService;
-import com.vhl.webapi.utils.datatypes.Pair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @Service
@@ -68,7 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Pair<String, LoginResDTO> login(LoginReqDTO loginReqDTO) {
+    public Map<String, Object> login(LoginReqDTO loginReqDTO) {
         String emailOrUserName = loginReqDTO.getEmailOrUserName();
         BaseUser baseUser;
 
@@ -100,7 +100,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         baseUser.setLastLogin(Instant.now());
         baseUserRepository.save(baseUser);
 
-        return new Pair<>(refreshToken, loginResDTO);
+        return Map.of("refreshToken", refreshToken, "loginResDTO", loginResDTO);
     }
 
     @Override

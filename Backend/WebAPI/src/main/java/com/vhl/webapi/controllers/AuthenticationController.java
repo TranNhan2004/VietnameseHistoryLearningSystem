@@ -6,11 +6,9 @@ import com.vhl.webapi.dtos.requests.LoginReqDTO;
 import com.vhl.webapi.dtos.requests.LogoutReqDTO;
 import com.vhl.webapi.dtos.requests.RefreshAccessTokenReqDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResDTO;
-import com.vhl.webapi.dtos.responses.LoginResDTO;
 import com.vhl.webapi.dtos.responses.NewAccessTokenResDTO;
 import com.vhl.webapi.enums.Role;
 import com.vhl.webapi.services.interfaces.AuthenticationService;
-import com.vhl.webapi.utils.datatypes.Pair;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -22,6 +20,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -60,13 +62,18 @@ public class AuthenticationController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody BaseUserReqDTO baseUserReqDTO) {
         BaseUserResDTO data = authenticationService.signup(baseUserReqDTO);
-        return ResponseEntity.ok(data);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(data.getId())
+            .toUri();
+
+        return ResponseEntity.created(location).body(data);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginReqDTO loginReqDTO) {
-        Pair<String, LoginResDTO> pair = authenticationService.login(loginReqDTO);
-        String refreshToken = pair.getFirst();
+        Map<String, Object> map = authenticationService.login(loginReqDTO);
+        String refreshToken = map.get("refreshToken").toString();
         String cookieName = getCookieName(loginReqDTO.getRole());
 
         ResponseCookie cookie = ResponseCookie.from(cookieName, refreshToken)
@@ -79,12 +86,15 @@ public class AuthenticationController {
 
         return ResponseEntity.ok()
             .header("Set-Cookie", cookie.toString())
-            .body(pair.getSecond());
+            .body(map.get("loginResDTO"));
     }
 
 
     @PostMapping("/token/refresh")
-    public ResponseEntity<?> refresh(HttpServletRequest request, @Valid @RequestBody RefreshAccessTokenReqDTO refreshAccessTokenReqDTO) {
+    public ResponseEntity<?> refresh(
+        HttpServletRequest request,
+        @Valid @RequestBody RefreshAccessTokenReqDTO refreshAccessTokenReqDTO
+    ) {
         String cookieName = getCookieName(refreshAccessTokenReqDTO.getFullRole());
         Cookie cookie = getCookie(request, cookieName);
 
@@ -110,7 +120,7 @@ public class AuthenticationController {
             .sameSite("None")
             .build();
 
-        return ResponseEntity.ok()
+        return ResponseEntity.noContent()
             .header("Set-Cookie", cookie.toString())
             .build();
     }
