@@ -4,6 +4,10 @@ import com.vhl.webapi.services.abstraction.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -28,16 +32,27 @@ public class EmailServiceImpl implements EmailService {
         Resource resource = resourceLoader.getResource("classpath:templates/" + templatePath);
         String htmlContent = new String(Files.readAllBytes(Paths.get(resource.getURI())));
 
-        for (java.util.Map.Entry<String, String> entry : placeholders.entrySet()) {
-            htmlContent = htmlContent.replace("{" + entry.getKey() + "}", entry.getValue());
+        Document doc = Jsoup.parse(htmlContent);
+        Elements strongTags = doc.select("strong");
+
+        for (Element strong : strongTags) {
+            String text = strong.text();
+            if (text.startsWith("{") && text.endsWith("}")) {
+                String key = text.substring(1, text.length() - 1);
+                if (placeholders.containsKey(key)) {
+                    strong.text(placeholders.get(key));
+                }
+            }
         }
+
+        String processedHtml = doc.html();
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
         helper.setTo(to);
         helper.setSubject(subject);
-        helper.setText(htmlContent, true);
+        helper.setText(processedHtml, true);
 
         mailSender.send(mimeMessage);
     }

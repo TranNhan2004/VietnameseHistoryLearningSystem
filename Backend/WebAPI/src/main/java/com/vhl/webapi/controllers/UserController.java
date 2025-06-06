@@ -1,5 +1,6 @@
 package com.vhl.webapi.controllers;
 
+import com.vhl.webapi.dtos.responses.BaseUserResDTO;
 import com.vhl.webapi.services.abstraction.BaseUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class UserController {
     private final BaseUserService baseUserService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUser(@PathVariable String id) {
+        BaseUserResDTO baseUserResDTO = baseUserService.getUser(id);
+        return ResponseEntity.ok(baseUserResDTO);
+    }
 
     @PutMapping("/avatar/{id}")
     public ResponseEntity<?> updateAvatar(@PathVariable String id, @RequestParam("avatar") MultipartFile file) {
