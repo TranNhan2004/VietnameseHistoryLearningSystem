@@ -1,6 +1,6 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.services.interfaces.SSRedisService;
+import com.vhl.webapi.services.abstraction.SSRedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;

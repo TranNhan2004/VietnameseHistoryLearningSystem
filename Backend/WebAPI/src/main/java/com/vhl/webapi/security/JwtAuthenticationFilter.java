@@ -1,6 +1,6 @@
 package com.vhl.webapi.security;
 
-import com.vhl.webapi.services.interfaces.JwtService;
+import com.vhl.webapi.services.abstraction.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

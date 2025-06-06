@@ -1,6 +1,6 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.services.interfaces.ContestQuestionService;
+import com.vhl.webapi.services.abstraction.ContestQuestionService;
 import org.springframework.stereotype.Service;
 
 @Service

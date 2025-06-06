@@ -1,6 +1,6 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.services.interfaces.AnswerOptionService;
+import com.vhl.webapi.services.abstraction.AnswerOptionService;
 import org.springframework.stereotype.Service;
 
 @Service

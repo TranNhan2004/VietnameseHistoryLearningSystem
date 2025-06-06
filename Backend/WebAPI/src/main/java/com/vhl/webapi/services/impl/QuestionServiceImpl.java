@@ -1,6 +1,6 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.services.interfaces.QuestionService;
+import com.vhl.webapi.services.abstraction.QuestionService;
 import org.springframework.stereotype.Service;
 
 @Service

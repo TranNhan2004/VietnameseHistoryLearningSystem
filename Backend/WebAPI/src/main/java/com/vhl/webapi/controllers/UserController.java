@@ -1,6 +1,6 @@
 package com.vhl.webapi.controllers;
 
-import com.vhl.webapi.services.interfaces.BaseUserService;
+import com.vhl.webapi.services.abstraction.BaseUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.services.interfaces.StudyProgressService;
+import com.vhl.webapi.services.abstraction.StudyProgressService;
 import org.springframework.stereotype.Service;
 
 @Service

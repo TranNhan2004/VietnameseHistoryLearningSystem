@@ -3,7 +3,7 @@ package com.vhl.webapi.services.impl;
 import com.vhl.webapi.constants.errorcodes.GeneralErrorCode;
 import com.vhl.webapi.constants.errorcodes.JwtErrorCode;
 import com.vhl.webapi.exceptions.CustomAuthenticationException;
-import com.vhl.webapi.services.interfaces.JwtService;
+import com.vhl.webapi.services.abstraction.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

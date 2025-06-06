@@ -1,4 +1,4 @@
-package com.vhl.webapi.services.interfaces;
+package com.vhl.webapi.services.abstraction;
 
 import jakarta.mail.MessagingException;
 

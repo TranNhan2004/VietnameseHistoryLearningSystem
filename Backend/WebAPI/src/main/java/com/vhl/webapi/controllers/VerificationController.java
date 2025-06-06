@@ -2,7 +2,7 @@ package com.vhl.webapi.controllers;
 
 import com.vhl.webapi.dtos.requests.SendOtpReqDTO;
 import com.vhl.webapi.dtos.requests.VerificationReqDTO;
-import com.vhl.webapi.services.interfaces.VerificationService;
+import com.vhl.webapi.services.abstraction.VerificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

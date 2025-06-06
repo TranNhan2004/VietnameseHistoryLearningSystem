@@ -1,6 +1,6 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.services.interfaces.LearnerContestAnswerService;
+import com.vhl.webapi.services.abstraction.LearnerContestAnswerService;
 import org.springframework.stereotype.Service;
 
 @Service

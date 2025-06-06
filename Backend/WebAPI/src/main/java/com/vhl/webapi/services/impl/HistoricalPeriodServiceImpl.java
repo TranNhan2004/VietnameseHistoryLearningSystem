@@ -1,6 +1,6 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.services.interfaces.HistoricalPeriodService;
+import com.vhl.webapi.services.abstraction.HistoricalPeriodService;
 import org.springframework.stereotype.Service;
 
 @Service

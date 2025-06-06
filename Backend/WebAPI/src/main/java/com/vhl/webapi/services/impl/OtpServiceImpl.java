@@ -1,6 +1,6 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.services.interfaces.OtpService;
+import com.vhl.webapi.services.abstraction.OtpService;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;

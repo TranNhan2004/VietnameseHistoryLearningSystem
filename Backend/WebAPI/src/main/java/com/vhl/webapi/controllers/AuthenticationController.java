@@ -8,7 +8,7 @@ import com.vhl.webapi.dtos.requests.RefreshAccessTokenReqDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResDTO;
 import com.vhl.webapi.dtos.responses.NewAccessTokenResDTO;
 import com.vhl.webapi.enums.Role;
-import com.vhl.webapi.services.interfaces.AuthenticationService;
+import com.vhl.webapi.services.abstraction.AuthenticationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

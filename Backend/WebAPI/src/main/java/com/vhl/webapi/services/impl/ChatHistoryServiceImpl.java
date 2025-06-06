@@ -1,6 +1,6 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.services.interfaces.ChatHistoryService;
+import com.vhl.webapi.services.abstraction.ChatHistoryService;
 import org.springframework.stereotype.Service;
 
 @Service

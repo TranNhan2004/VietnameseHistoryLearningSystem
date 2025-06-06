@@ -1,4 +1,4 @@
-package com.vhl.webapi.services.interfaces;
+package com.vhl.webapi.services.abstraction;
 
 import com.vhl.webapi.dtos.requests.SendOtpReqDTO;
 import com.vhl.webapi.dtos.requests.VerificationReqDTO;

@@ -3,7 +3,7 @@ package com.vhl.webapi.services.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
-import com.vhl.webapi.services.interfaces.FileService;
+import com.vhl.webapi.services.abstraction.FileService;
 import com.vhl.webapi.utils.cloudinary.CloudinaryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
