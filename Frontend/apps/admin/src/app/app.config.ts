@@ -8,9 +8,11 @@ import {
   requestInterceptor,
   responseInterceptor,
   ROLE,
+  WEB_API_URL,
 } from '@frontend/angular-libs';
 import { provideIcons } from '@ng-icons/core';
 import { appIcons } from './app.icons';
+import { environment } from './environments/environment.dev';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,5 +32,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideIcons(appIcons),
     { provide: ROLE, useValue: 'ADMIN' },
+    { provide: WEB_API_URL, useValue: environment.webApiUrl },
   ],
 };

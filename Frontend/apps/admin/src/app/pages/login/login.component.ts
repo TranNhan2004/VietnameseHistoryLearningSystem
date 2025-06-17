@@ -8,18 +8,18 @@ import {
   MyMetadata,
   ShowHidePasswordDirective,
 } from '@frontend/angular-libs';
-import { LoginRequestType } from '@frontend/models';
 import {
   authenticationMessage,
-  baseUserMessage,
   EMAIL_OR_USER_NAME_RE,
   generalMessage,
   PASSWORD_RE,
+  userMessage,
 } from '@frontend/constants';
 import { AuthenticationHelpers, MyFormGroupHelper } from '@frontend/utils';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
+import { LoginRequest } from '@frontend/models';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
     private toastrService: ToastrService,
     private router: Router
   ) {
-    this.loginForm = this.myFb.group<LoginRequestType>({
+    this.loginForm = this.myFb.group<LoginRequest>({
       emailOrUserName: [
         '',
         [Validators.required, Validators.pattern(EMAIL_OR_USER_NAME_RE)],
@@ -90,5 +90,5 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  protected readonly baseUserMessage = baseUserMessage;
+  protected readonly baseUserMessage = userMessage;
 }

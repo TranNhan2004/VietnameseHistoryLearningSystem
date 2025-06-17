@@ -58,7 +58,9 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
             "https://admin-lotus.trannhanweb.io.vn",
-            "https://learner-lotus.trannhanweb.io.vn"
+            "https://learner-lotus.trannhanweb.io.vn",
+            "http://localhost:4201",
+            "http://localhost:4202"
         ));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));

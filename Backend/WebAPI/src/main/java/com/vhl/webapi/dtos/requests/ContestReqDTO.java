@@ -1,8 +1,6 @@
 package com.vhl.webapi.dtos.requests;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vhl.webapi.constants.errorcodes.ContestErrorCode;
-import com.vhl.webapi.constants.formats.JsonFormats;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -21,11 +19,9 @@ public class ContestReqDTO {
     private int durationInMinutes;
 
     @NotNull(message = ContestErrorCode.START_TIME__REQUIRED)
-    @JsonFormat(pattern = JsonFormats.DATETIME)
     private LocalDateTime startTime;
 
     @NotNull(message = ContestErrorCode.END_TIME__REQUIRED)
-    @JsonFormat(pattern = JsonFormats.DATETIME)
     private LocalDateTime endTime;
 
     @AssertTrue(message = ContestErrorCode.END_TIME__INVALID)

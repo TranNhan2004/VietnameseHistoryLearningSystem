@@ -1,18 +1,16 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
-  LoginRequestType,
-  LoginResponseType,
-  NewAccessTokenResponseType,
-  RefreshAccessTokenType,
+  LoginRequest,
+  LoginResponse,
+  NewAccessTokenResponse,
+  RefreshAccessToken,
   RoleType,
 } from '@frontend/models';
-import { WEB_API_URL } from '@frontend/constants';
 import { AuthenticationHelpers } from '@frontend/utils';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-
-export const ROLE = new InjectionToken<RoleType>('ROLE');
+import { ROLE, WEB_API_URL } from '../tokens/tokens';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +18,7 @@ export const ROLE = new InjectionToken<RoleType>('ROLE');
 export class AuthenticationService {
   constructor(
     private httpClient: HttpClient,
+    @Inject(WEB_API_URL) private webApiUrl: string,
     @Inject(ROLE) private role: RoleType
   ) {}
 
@@ -27,9 +26,9 @@ export class AuthenticationService {
     return this.role;
   }
 
-  login(data: LoginRequestType) {
-    return this.httpClient.post<LoginResponseType>(
-      `${WEB_API_URL}auth/login`,
+  login(data: LoginRequest) {
+    return this.httpClient.post<LoginResponse>(
+      `${this.webApiUrl}auth/login`,
       data
     );
   }
@@ -37,13 +36,13 @@ export class AuthenticationService {
   refreshAccessToken(): Observable<string> {
     const userInfo = AuthenticationHelpers.getUserInfo(this.role);
     if (userInfo) {
-      const data: RefreshAccessTokenType = {
+      const data: RefreshAccessToken = {
         id: userInfo.id,
         fullRole: userInfo.fullRole,
       };
       return this.httpClient
-        .post<NewAccessTokenResponseType>(
-          `${WEB_API_URL}auth/token/refresh`,
+        .post<NewAccessTokenResponse>(
+          `${this.webApiUrl}auth/token/refresh`,
           data
         )
         .pipe(

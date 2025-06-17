@@ -8,12 +8,16 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/learner",
         "index": "apps/learner/src/index.html",
         "browser": "apps/learner/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/learner/tsconfig.app.json",
         "assets": [
           {
@@ -44,7 +48,13 @@
               "maximumError": "8kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/learner/src/app/environments/environment.dev.ts",
+              "with": "apps/learner/src/app/environments/environment.prod.ts"
+            }
+          ]
         },
         "development": {
           "optimization": false,

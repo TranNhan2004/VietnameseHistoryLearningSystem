@@ -48,11 +48,13 @@ public class AuthenticationController {
 
     private Cookie getCookie(HttpServletRequest request, String cookieName) {
         Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(cookieName)) {
-                    return cookie;
-                }
+        if (cookies == null) {
+            return null;
+        }
+
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(cookieName)) {
+                return cookie;
             }
         }
 
@@ -80,8 +82,8 @@ public class AuthenticationController {
             .maxAge(24 * 60 * 60)
             .path("/")
             .httpOnly(true)
-            .secure(true)
-            .sameSite("None")
+            .secure(false)
+            .sameSite("Lax")
             .build();
 
         return ResponseEntity.ok()
@@ -116,8 +118,8 @@ public class AuthenticationController {
             .maxAge(0)
             .path("/")
             .httpOnly(true)
-            .secure(true)
-            .sameSite("None")
+            .secure(false)
+            .sameSite("Lax")
             .build();
 
         return ResponseEntity.noContent()

@@ -19,9 +19,9 @@ export const appRoutes: Route[] = [
     pathMatch: 'full',
   },
   {
-    path: 'home',
+    path: '',
     component: SidebarLayoutComponent,
-    children: [{ path: '', component: HomeComponent }],
+    children: [{ path: 'home', component: HomeComponent }],
   },
   {
     path: 'auth',
@@ -37,7 +37,10 @@ export const appRoutes: Route[] = [
       { path: 'contests', component: ContestsComponent },
       { path: 'lessons', component: LessonsComponent },
       { path: 'profile', component: ProfileComponent },
-      { path: '**', pathMatch: 'full', component: NotFoundComponent },
+      {
+        path: '**',
+        component: NotFoundComponent,
+      },
     ],
   },
 ];

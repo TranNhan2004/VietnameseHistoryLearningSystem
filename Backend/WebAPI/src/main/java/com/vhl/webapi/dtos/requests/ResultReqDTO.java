@@ -1,8 +1,6 @@
 package com.vhl.webapi.dtos.requests;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vhl.webapi.constants.errorcodes.ResultErrorCode;
-import com.vhl.webapi.constants.formats.JsonFormats;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -14,11 +12,9 @@ import java.time.LocalDateTime;
 @Data
 public class ResultReqDTO {
     @NotNull(message = ResultErrorCode.START_TIME__REQUIRED)
-    @JsonFormat(pattern = JsonFormats.DATETIME)
     private LocalDateTime startTime;
 
     @NotNull(message = ResultErrorCode.END_TIME__REQUIRED)
-    @JsonFormat(pattern = JsonFormats.DATETIME)
     private LocalDateTime endTime;
 
     @NotNull(message = ResultErrorCode.CORRECT_ANSWER_NUMBER__REQUIRED)

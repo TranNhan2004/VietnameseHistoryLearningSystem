@@ -1,4 +1,4 @@
 package com.vhl.webapi.mappers;
 
-public class ChatQAMapper {
+public interface ChatQAMapper {
 }

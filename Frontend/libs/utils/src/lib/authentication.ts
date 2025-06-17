@@ -4,7 +4,7 @@ import {
   LEARNER_ACCESS_TOKEN_COOKIE_NAME,
   LEARNER_INFO_COOKIE_NAME,
 } from '@frontend/constants';
-import { LoginResponseType, RoleType } from '@frontend/models';
+import { LoginResponse, RoleType } from '@frontend/models';
 import { CookieHelpers } from './cookie';
 
 export class AuthenticationHelpers {
@@ -37,7 +37,7 @@ export class AuthenticationHelpers {
   }
 
   static saveUserInfo(
-    data: Omit<LoginResponseType, 'accessToken'>,
+    data: Omit<LoginResponse, 'accessToken'>,
     role: RoleType
   ) {
     CookieHelpers.set(
@@ -49,7 +49,7 @@ export class AuthenticationHelpers {
 
   static getUserInfo(
     role: RoleType
-  ): Omit<LoginResponseType, 'accessToken'> | null {
+  ): Omit<LoginResponse, 'accessToken'> | null {
     const dataStr = CookieHelpers.get(
       AuthenticationHelpers.getUserInfoCookieName(role)
     );

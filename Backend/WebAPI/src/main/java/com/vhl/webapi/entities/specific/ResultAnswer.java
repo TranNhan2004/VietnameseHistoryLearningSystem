@@ -9,24 +9,19 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Data
 @Table(
-    name = "learner_contest_answers",
+    name = "result_answers",
     uniqueConstraints = {
         @UniqueConstraint(
-            name = "uc_lca_learner_and_contest_and_answer_option",
-            columnNames = {"learner_id", "contest_id", "answer_option_id"}
+            name = "uc_ra_result_and_answer_option",
+            columnNames = {"result_id", "answer_option_id"}
         )
     }
 )
-public class LearnerContestAnswer extends IBaseEntity {
+public class ResultAnswer extends IBaseEntity {
     @ManyToOne
-    @JoinColumn(name = "learner_id", nullable = false)
+    @JoinColumn(name = "result_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Learner learner;
-
-    @ManyToOne
-    @JoinColumn(name = "contest_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Contest contest;
+    private Result result;
 
     @ManyToOne
     @JoinColumn(name = "answer_option_id", nullable = false)

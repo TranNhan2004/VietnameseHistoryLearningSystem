@@ -1,16 +1,16 @@
-export type LoginRequestType = {
+export interface LoginRequest {
   emailOrUserName: string;
   password: string;
   role: RoleType;
-};
+}
 
-export type LoginResponseType = {
+export interface LoginResponse {
   id: string;
   email: string;
   userName: string;
   fullRole: FullRoleType;
   accessToken: string;
-};
+}
 
 export type RoleType = 'ADMIN' | 'LEARNER';
 
@@ -20,7 +20,15 @@ export type FullRoleType =
   | 'ADMIN_SUPER_ADVANCED'
   | 'LEARNER';
 
-export type RefreshAccessTokenType = Pick<LoginResponseType, 'id' | 'fullRole'>;
-export type NewAccessTokenResponseType = Pick<LoginResponseType, 'accessToken'>;
+export interface RefreshAccessToken {
+  id: string;
+  fullRole: FullRoleType;
+}
 
-export type LogoutType = Pick<LoginResponseType, 'fullRole'>;
+export interface NewAccessTokenResponse {
+  accessToken: string;
+}
+
+export interface Logout {
+  fullRole: FullRoleType;
+}
