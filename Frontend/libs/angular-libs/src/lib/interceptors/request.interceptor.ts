@@ -8,6 +8,7 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
   const accessToken = AuthenticationHelpers.getAccessToken(
     authenticationService.getRole()
   );
+
   if (accessToken) {
     req = req.clone({
       setHeaders: {
@@ -16,7 +17,7 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
     });
   }
 
-  if (req.url.includes('/auth/')) {
+  if (req.url.includes('auth')) {
     req = req.clone({
       withCredentials: true,
     });

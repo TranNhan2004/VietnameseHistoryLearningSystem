@@ -33,6 +33,10 @@ public class ResultReqDTO {
 
     @AssertTrue(message = ResultErrorCode.END_TIME__INVALID)
     public boolean isValidEndTime() {
+        if (startTime == null || endTime == null) {
+            return true;
+        }
+
         return endTime.isAfter(startTime);
     }
 }

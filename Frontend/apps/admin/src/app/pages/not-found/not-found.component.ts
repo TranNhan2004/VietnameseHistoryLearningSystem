@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyMetadata } from '@frontend/angular-libs';
+import { MyMetadataService } from '@frontend/angular-libs';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -10,10 +10,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './not-found.component.css',
 })
 export class NotFoundComponent {
-  constructor(private myMetadata: MyMetadata) {}
+  constructor(private myMetadatService: MyMetadataService) {}
 
   ngOnInit() {
-    this.myMetadata.set({
+    this.myMetadatService.set({
       title: 'LOTUS Admin | 404',
       description:
         'Trang 404 của trang web admin hỗ trợ học tập lịch sử Việt Nam',

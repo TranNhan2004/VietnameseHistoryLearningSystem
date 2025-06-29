@@ -1,125 +1,135 @@
-<div class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+<div class="flex justify-center p-4">
   <!-- Profile Card -->
-  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl text-lg">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full h-[24.5rem] text-lg">
     <div class="flex items-center justify-between">
       <!-- Avatar Section -->
-      <div class="relative group">
-        <div class="p-[3px] w-32 h-32 rounded-xl overflow-hidden border-2 bg-gradient-to-r from-my-blue to-my-purple">
-          <div class="bg-white rounded-lg">
-            <img [ngSrc]="user.avatarUrl || 'images/logo.png'" width="50" height="50" alt="Avatar"
-                 class="w-full h-auto object-cover rounded-lg">
+      <div class="relative">
+        @if (user.avatarUrl) {
+          <div
+            class="p-1 w-72 h-72 rounded-xl overflow-hidden border-1 bg-gradient-to-r from-my-yellow to-my-coralaccent mb-5">
+            <img
+              [ngSrc]="user.avatarUrl"
+              width="100"
+              height="100"
+              alt="Avatar"
+              class="w-full h-full object-cover rounded-lg transition-opacity duration-300"
+              [class.opacity-30]="isChangeAvatar"
+            />
+
+            @if (isChangeAvatar) {
+              <div class="absolute inset-0 flex items-center justify-center bg-white/50">
+                <ng-icon name="matSyncRound"
+                         class="animate-spin-animation text-gray-500 -mt-10"
+                         size="48"
+                ></ng-icon>
+              </div>
+            }
           </div>
-        </div>
-        <!-- Hover Buttons -->
-        <div
-          class="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button class="bg-myblue text-white px-2 py-1 rounded text-sm hover:bg-blue-600">Update</button>
-          <button class="bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600">Delete</button>
+
+        } @else {
+          <lib-default-avatar [name]="user.firstName" [isChangeAvatar]="isChangeAvatar"></lib-default-avatar>
+        }
+
+        <div class="flex items-center justify-center w-full space-x-2">
+          <div>
+            <lib-action-button
+              name="edit"
+              mainTitle="Chỉnh ảnh"
+              title="Chỉnh ảnh"
+              class="min-w-[21px]"
+              [disabled]="isChangeAvatar"
+              (btnClick)="fileInput.click()">
+            </lib-action-button>
+
+            <input
+              type="file"
+              #fileInput
+              accept=".jpg, .jpeg, .png"
+              (change)="onAvatarSelected($event)"
+              style="display: none"
+            />
+          </div>
+          <div>
+            <lib-action-button
+              name="delete"
+              mainTitle="Xoá ảnh"
+              title="Xoá ảnh"
+              class="min-w-[25px]"
+              [disabled]="isChangeAvatar || !user.avatarUrl"
+              (btnClick)="deleteAvatar()"
+            >
+            </lib-action-button>
+          </div>
         </div>
       </div>
 
       <!-- User Info -->
-      <div class="flex-1 ml-6">
-        <h2 class="text-xl font-bold text-gray-800">{{ user.userName }}</h2>
-        <p class="text-gray-600">{{ user.email }}</p>
-        <p class="text-gray-600">{{ user.lastName + ' ' + user.firstName }}</p>
+      <div class="flex-1 ml-6 space-y-4">
+        <h2 class="text-4xl font-bold text-gray-800">{{ user.userName }}</h2>
+        <p class="text-gray-600 text-2xl">{{ user.email }}</p>
+        <p class="text-gray-600 text-2xl">{{ user.lastName + ' ' + user.firstName }}</p>
       </div>
 
       <!-- Role Section -->
-      <div class="ml-auto mr-20 mt-[-10px]">
-        <h2 class="text-xl font-semibold text-gray-800">Vai trò</h2>
-        <p class="text-myblue font-semibold">{{ fullRoleReader[fullRole] }}</p>
+      <div class="ml-auto mr-32">
+        <h2 class="text-gray-500 text-2xl">Vai trò</h2>
+        <p class="text-myblue font-semibold text-3xl">{{ fullRoleReader[fullRole] }}</p>
       </div>
 
       <!-- Admin Role & Dates -->
-      <div class="text-left">
-        <p class="text-sm text-gray-500">Ngày tạo: {{ user.createdAt | date: 'dd/MM/yyyy-HH:MM:SS' }}</p>
-        <p class="text-sm text-gray-500">Ngày cập nhật gần nhất: {{ user.updatedAt | date: 'dd/MM/yyyy-HH:MM:SS' }}</p>
-        <p class="text-sm text-gray-500">Ngày đăng nhập gần nhất: {{ user.lastLogin | date: 'dd/MM/yyyy-HH:MM:SS' }}</p>
+      <div class="text-left space-y-4 mr-12">
+        <div>
+          <p class="text-gray-500 text-xl">Ngày tạo:</p>
+          <p class="text-xl">{{ user.createdAt | date: DATE_TIME_FORMAT }}</p>
+        </div>
+        <div>
+          <p class="text-gray-500 text-xl">Ngày cập nhật gần nhất:</p>
+          <p class="text-xl">{{ user.updatedAt | date: DATE_TIME_FORMAT }}</p>
+        </div>
+        <div>
+          <p class="text-gray-500 text-xl">Ngày đăng nhập gần nhất:</p>
+          <p class="text-xl">{{ user.lastLogin | date: DATE_TIME_FORMAT }}</p>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Form Sections -->
-  <!--  <div class="mt-8 bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl space-y-6">-->
-  <!--    &lt;!&ndash; Section 1: Username & Email &ndash;&gt;-->
-  <!--    <div class="border-b pb-4">-->
-  <!--      <div class="flex justify-between items-center">-->
-  <!--        <h3 class="text-lg font-semibold text-gray-800">Account Information</h3>-->
-  <!--        <button (click)="toggleEdit('account')" class="text-myblue hover:text-blue-600">-->
-  <!--          {{ editModes.account ? 'Cancel' : 'Edit' }}-->
-  <!--        </button>-->
-  <!--      </div>-->
-  <!--      <div *ngIf="editModes.account" class="mt-4 space-y-4">-->
-  <!--        <div>-->
-  <!--          <label class="block text-sm font-medium text-gray-700">Username</label>-->
-  <!--          <input [(ngModel)]="user.username" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">-->
-  <!--        </div>-->
-  <!--        <div>-->
-  <!--          <label class="block text-sm font-medium text-gray-700">Email</label>-->
-  <!--          <input [(ngModel)]="user.email" type="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">-->
-  <!--        </div>-->
-  <!--        <div>-->
-  <!--          <label class="block text-sm font-medium text-gray-700">OTP Code</label>-->
-  <!--          <input [(ngModel)]="otpCode" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">-->
-  <!--        </div>-->
-  <!--        <button (click)="updateAccount()" class="bg-myblue text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>-->
-  <!--      </div>-->
-  <!--    </div>-->
+<div class="p-4">
+  <!-- Toggle Edit Mode Button -->
+  <div class="flex justify-between items-center">
+    <div class="flex items-center space-x-3 mb-6">
+      <p class="text-xl">Chế độ chỉnh sửa</p>
+      <button (click)="toggleEditMode()">
+        @if (editMode) {
+          <ng-icon name="matToggleOnRound" size="54" color="blue"></ng-icon>
+        } @else {
+          <ng-icon name="matToggleOffRound" size="54" color="gray"></ng-icon>
+        }
+      </button>
+    </div>
 
-  <!-- Section 2: Password -->
-  <!--    <div class="border-b pb-4">-->
-  <!--      <div class="flex justify-between items-center">-->
-  <!--        <h3 class="text-lg font-semibold text-gray-800">Change Password</h3>-->
-  <!--        <button (click)="toggleEdit('password')" class="text-myblue hover:text-blue-600">-->
-  <!--          {{ editModes.password ? 'Cancel' : 'Edit' }}-->
-  <!--        </button>-->
-  <!--      </div>-->
-  <!--      <div *ngIf="editModes.password" class="mt-4 space-y-4">-->
-  <!--        <div>-->
-  <!--          <label class="block text-sm font-medium text-gray-700">New Password</label>-->
-  <!--          <input [(ngModel)]="newPassword" type="password"-->
-  <!--                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">-->
-  <!--        </div>-->
-  <!--        <div>-->
-  <!--          <label class="block text-sm font-medium text-gray-700">Confirm Password</label>-->
-  <!--          <input [(ngModel)]="confirmPassword" type="password"-->
-  <!--                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">-->
-  <!--        </div>-->
-  <!--        <div>-->
-  <!--          <label class="block text-sm font-medium text-gray-700">OTP Code</label>-->
-  <!--          <input [(ngModel)]="otpCode" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">-->
-  <!--        </div>-->
-  <!--        <button (click)="updatePassword()" class="bg-myblue text-white px-4 py-2 rounded hover:bg-blue-600">Save-->
-  <!--        </button>-->
-  <!--      </div>-->
-  <!--    </div>-->
+    <div class="ml-auto">
+      <button
+        class="bg-gradient-to-r from-my-yellow to-my-coralaccent text-white
+                  font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg hover:scale-105
+                  transition-all duration-300 flex items-center justify-center mx-auto mb-4"
+        (click)="logout()"
+      >
+        <ng-icon name="matLogoutRound" class="mr-2" size="24"></ng-icon>
+        <span class="text-lg">Đăng xuất</span>
+      </button>
+    </div>
+  </div>
 
-  <!-- Section 3: Personal Info -->
-  <!--    <div>-->
-  <!--      <div class="flex justify-between items-center">-->
-  <!--        <h3 class="text-lg font-semibold text-gray-800">Personal Information</h3>-->
-  <!--        <button (click)="toggleEdit('personal')" class="text-myblue hover:text-blue-600">-->
-  <!--          {{ editModes.personal ? 'Cancel' : 'Edit' }}-->
-  <!--        </button>-->
-  <!--      </div>-->
-  <!--      <div *ngIf="editModes.personal" class="mt-4 space-y-4">-->
-  <!--        <div>-->
-  <!--          <label class="block text-sm font-medium text-gray-700">First Name</label>-->
-  <!--          <input [(ngModel)]="user.firstName" type="text"-->
-  <!--                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">-->
-  <!--        </div>-->
-  <!--        <div>-->
-  <!--          <label class="block text-sm font-medium text-gray-700">Last Name</label>-->
-  <!--          <input [(ngModel)]="user.lastName" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">-->
-  <!--        </div>-->
-  <!--        <div>-->
-  <!--          <label class="block text-sm font-medium text-gray-700">Date of Birth</label>-->
-  <!--          <input [(ngModel)]="user.dob" type="date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">-->
-  <!--        </div>-->
-  <!--        <button (click)="updatePersonalInfo()" class="bg-myblue text-white px-4 py-2 rounded hover:bg-blue-600">Save-->
-  <!--        </button>-->
-  <!--      </div>-->
-  <!--    </div>-->
-  <!--  </div>-->
+  <!-- Grid Layout -->
+  <div class="grid grid-cols-12 gap-6">
+    <div class="col-span-12 md:col-span-6">
+      <app-update-user-info [editMode]="editMode" [(user)]="user"></app-update-user-info>
+    </div>
+
+    <div class="col-span-12 md:col-span-6">
+      <app-update-password [editMode]="editMode" (logoutFn)="logout()"></app-update-password>
+    </div>
+  </div>
 </div>

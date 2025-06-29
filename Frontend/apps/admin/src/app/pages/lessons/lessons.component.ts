@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActionButtonComponent, MyMetadata } from '@frontend/angular-libs';
+import {
+  ActionButtonComponent,
+  MyMetadataService,
+} from '@frontend/angular-libs';
 
 @Component({
   selector: 'app-lessons',
@@ -9,10 +12,10 @@ import { ActionButtonComponent, MyMetadata } from '@frontend/angular-libs';
   styleUrl: './lessons.component.css',
 })
 export class LessonsComponent implements OnInit {
-  constructor(private myMetadata: MyMetadata) {}
+  constructor(private myMetadataService: MyMetadataService) {}
 
   ngOnInit() {
-    this.myMetadata.set({
+    this.myMetadataService.set({
       title: 'LOTUS Admin | Quản lý bài học',
       description: 'Quản lý các bài học về lịch sử Việt Nam',
       keywords:

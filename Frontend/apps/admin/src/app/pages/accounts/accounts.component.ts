@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyMetadata } from '@frontend/angular-libs';
+import { MyMetadataService } from '@frontend/angular-libs';
 
 @Component({
   selector: 'app-accounts',
@@ -9,10 +9,10 @@ import { MyMetadata } from '@frontend/angular-libs';
   styleUrl: './accounts.component.css',
 })
 export class AccountsComponent implements OnInit {
-  constructor(private myMetadata: MyMetadata) {}
+  constructor(private myMetadataService: MyMetadataService) {}
 
   ngOnInit() {
-    this.myMetadata.set({
+    this.myMetadataService.set({
       title: 'LOTUS Admin | Quản lý tài khoản',
       description: 'Quản lý tài khoản của các nhóm người dùng',
       keywords:

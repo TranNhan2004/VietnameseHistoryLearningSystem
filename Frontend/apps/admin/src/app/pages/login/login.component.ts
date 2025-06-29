@@ -4,9 +4,9 @@ import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import {
   AuthenticationService,
-  MyFormBuilder,
-  MyMetadata,
-  ShowHidePasswordDirective,
+  MyFormBuilderService,
+  MyMetadataService,
+  PasswordInputComponent,
 } from '@frontend/angular-libs';
 import {
   authenticationMessage,
@@ -29,7 +29,7 @@ import { LoginRequest } from '@frontend/models';
     NgIcon,
     NgOptimizedImage,
     RouterLink,
-    ShowHidePasswordDirective,
+    PasswordInputComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -37,21 +37,32 @@ import { LoginRequest } from '@frontend/models';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   fh: MyFormGroupHelper;
-  passwordVisible = false;
 
   constructor(
-    private myFb: MyFormBuilder,
-    private myMetadata: MyMetadata,
+    private myFBS: MyFormBuilderService,
+    private myMetadatService: MyMetadataService,
     private authService: AuthenticationService,
     private toastrService: ToastrService,
     private router: Router
   ) {
-    this.loginForm = this.myFb.group<LoginRequest>({
+    this.loginForm = this.myFBS.group<LoginRequest>({
       emailOrUserName: [
         '',
-        [Validators.required, Validators.pattern(EMAIL_OR_USER_NAME_RE)],
+        [
+          Validators.required,
+          Validators.pattern(EMAIL_OR_USER_NAME_RE),
+          Validators.maxLength(256),
+        ],
       ],
-      password: ['', [Validators.required, Validators.pattern(PASSWORD_RE)]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(PASSWORD_RE),
+          Validators.minLength(8),
+          Validators.maxLength(50),
+        ],
+      ],
       role: ['ADMIN'],
     });
 
@@ -59,7 +70,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.myMetadata.set({
+    this.myMetadatService.set({
       title: 'LOTUS Admin | Đăng nhập',
       description:
         'Đăng nhập vào trang web admin hỗ trợ học tập lịch sử Việt Nam',
@@ -90,5 +101,5 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  protected readonly baseUserMessage = userMessage;
+  protected readonly userMessage = userMessage;
 }

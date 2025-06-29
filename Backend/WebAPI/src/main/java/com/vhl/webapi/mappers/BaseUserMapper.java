@@ -19,7 +19,6 @@ public interface BaseUserMapper {
     Admin toAdmin(AdminReqDTO adminDTO);
 
     @Mapping(target = "password", ignore = true)
-    @Mapping(target = "rank", expression = "java(com.vhl.webapi.enums.LearnerRank.valueOf(learnerReqDTO.getRank()))")
     Learner toLearner(LearnerReqDTO learnerReqDTO);
 
     @Mapping(target = "adminLevel", expression = "java(admin.getAdminLevel().name())")

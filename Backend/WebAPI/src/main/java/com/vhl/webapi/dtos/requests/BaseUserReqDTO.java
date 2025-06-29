@@ -44,7 +44,4 @@ public abstract class BaseUserReqDTO {
 
     @Past(message = BaseUserErrorCode.DOB__INVALID)
     protected LocalDate dateOfBirth;
-
-    @Size(max = 2048, message = BaseUserErrorCode.AVATAR_URL__TOO_LONG)
-    protected String avatarUrl;
 }

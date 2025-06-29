@@ -4,7 +4,7 @@ export interface BaseUser {
   email: string;
   firstName: string;
   lastName: string;
-  dateOfBirth: string | null;
+  dateOfBirth: Date | null;
   avatarUrl: string | null;
   lastLogin: Date | null;
   createdAt: Date;
@@ -20,4 +20,25 @@ export interface Learner extends BaseUser {
   point: number;
   bestScore: number | null;
   worstScore: number | null;
+}
+
+export interface Avatar {
+  avatarUrl: string;
+}
+
+export interface UpdatePassword {
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
+export interface UpdateUserInfo {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Date | null;
+}
+
+export interface ResetPassword {
+  newPassword: string;
+  confirmNewPassword: string;
 }

@@ -1,0 +1,21 @@
+<div
+  class="relative p-1 w-72 h-72 rounded-xl overflow-hidden border-1 bg-gradient-to-r from-my-yellow to-my-coralaccent mb-5">
+
+  <!-- Avatar Letter -->
+  <div
+    class="w-full h-full flex items-center justify-center rounded-lg text-9xl font-bold text-white transition-opacity duration-300"
+    [class.opacity-30]="isChangeAvatar">
+    {{ firstLetter }}
+  </div>
+
+  <!-- Overlay spinner khi uploading -->
+  @if (isChangeAvatar) {
+    <div class="absolute inset-0 flex items-center justify-center bg-white/50">
+      <ng-icon
+        name="matSyncRound"
+        class="animate-spin-animation text-gray-500 block"
+        size="48">
+      </ng-icon>
+    </div>
+  }
+</div>

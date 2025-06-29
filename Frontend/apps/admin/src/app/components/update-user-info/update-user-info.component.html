@@ -1,0 +1,85 @@
+<h3 class="text-2xl font-bold mb-4 text-my-blue">Thông tin cá nhân</h3>
+<form [formGroup]="userInfoForm" class="space-y-4">
+  <label class="flex items-center space-x-3 text-gray-700">
+    <span class="min-w-[140px]">Họ:</span>
+    <div class="min-w-[500px]">
+      <input
+        type="text"
+        formControlName="lastName"
+        [ngClass]="{
+         'flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-myblue w-full': true,
+         'cursor-not-allowed caret-transparent bg-gray-300': !editMode
+        }"
+        [readonly]="!editMode"
+        [disabled]="!editMode"
+      />
+
+      @if (editMode && userInfoFH.isInvalid('lastName')) {
+        @if (userInfoFH.hasError('lastName', 'required')) {
+          <p class="error max-w-[500px]">{{ userMessage.LAST_NAME__REQUIRED }}</p>
+        } @else if (userInfoFH.hasError('lastName', 'maxlength')) {
+          <p class="error max-w-[500px]">{{ userMessage.LAST_NAME__TOO_LONG }}</p>
+        }
+      }
+    </div>
+  </label>
+
+  <label class="flex items-center space-x-3 text-gray-700">
+    <span class="min-w-[140px]">Tên:</span>
+    <div class="min-w-[500px]">
+      <input
+        type="text"
+        formControlName="firstName"
+        [ngClass]="{
+         'flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-myblue w-full': true,
+         'cursor-not-allowed caret-transparent bg-gray-300': !editMode
+        }"
+        [readonly]="!editMode"
+        [disabled]="!editMode"
+      />
+
+      @if (editMode && userInfoFH.isInvalid('firstName')) {
+        @if (userInfoFH.hasError('firstName', 'required')) {
+          <p class="error max-w-[500px]">{{ userMessage.FIRST_NAME__REQUIRED }}</p>
+        } @else if (userInfoFH.hasError('firstName', 'maxlength')) {
+          <p class="error max-w-[500px]">{{ userMessage.FIRST_NAME__TOO_LONG }}</p>
+        }
+      }
+    </div>
+  </label>
+
+  <label class="flex items-center space-x-3 text-gray-700">
+    <span class="min-w-[140px]">Ngày sinh (m/d/y):</span>
+    <div class="min-w-[500px]">
+      <input
+        type="date"
+        formControlName="dateOfBirth"
+        [ngClass]="{
+         'flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-myblue w-full': true,
+         'cursor-not-allowed caret-transparent bg-gray-300': !editMode
+        }"
+        [readonly]="!editMode"
+        [disabled]="!editMode"
+      />
+    </div>
+  </label>
+
+  @if (editMode) {
+    <div class="flex space-x-2 mt-4">
+      <lib-action-button
+        name="save"
+        mainTitle="Lưu"
+        title=""
+        [disabled]="userInfoForm.invalid"
+        (btnClick)="saveUserInfo()"
+      ></lib-action-button>
+
+      <lib-action-button
+        name="cancel"
+        mainTitle="Hủy"
+        title=""
+        (btnClick)="cancelEditUserInfo()"
+      ></lib-action-button>
+    </div>
+  }
+</form>

@@ -4,7 +4,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Injectable({
   providedIn: 'root',
 })
-export class MyMetadata {
+export class MyMetadataService {
   constructor(private title: Title, private meta: Meta) {}
 
   set(metadata: { title?: string; description?: string; keywords?: string }) {

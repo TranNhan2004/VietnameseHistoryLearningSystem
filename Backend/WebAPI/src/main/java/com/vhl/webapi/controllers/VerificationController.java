@@ -3,6 +3,7 @@ package com.vhl.webapi.controllers;
 import com.vhl.webapi.dtos.requests.SendOtpReqDTO;
 import com.vhl.webapi.dtos.requests.VerificationReqDTO;
 import com.vhl.webapi.services.abstraction.VerificationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +18,13 @@ public class VerificationController {
     private final VerificationService verificationService;
 
     @PostMapping("/account/send-otp")
-    public ResponseEntity<?> sendOtpForVerifyAccount(@RequestBody SendOtpReqDTO sendOtpReqDTO) {
+    public ResponseEntity<?> sendOtpForVerifyAccount(@Valid @RequestBody SendOtpReqDTO sendOtpReqDTO) {
         verificationService.sendOtpForVerifyAccount(sendOtpReqDTO);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/account")
-    public ResponseEntity<?> verifyAccount(@RequestBody VerificationReqDTO verificationReqDTO) {
+    public ResponseEntity<?> verifyAccount(@Valid @RequestBody VerificationReqDTO verificationReqDTO) {
         verificationService.verifyAccount(verificationReqDTO);
         return ResponseEntity.noContent().build();
     }

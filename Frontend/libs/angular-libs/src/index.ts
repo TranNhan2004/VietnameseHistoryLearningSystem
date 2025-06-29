@@ -1,10 +1,8 @@
 // ===================================================================================================
 // Components
 export * from './lib/components/action-button/action-button.component';
-
-// ===================================================================================================
-// Directives
-export * from './lib/directives/show-hide-password.directive';
+export * from './lib/components/default-avatar/default-avatar.component';
+export * from './lib/components/password-input/password-input.component';
 
 // ===================================================================================================
 // Guards
@@ -21,11 +19,12 @@ export * from './lib/interceptors/response.interceptor';
 
 // ===================================================================================================
 // Services
-export * from './lib/services/user.service';
+export * from './lib/services/alert.service';
 export * from './lib/services/authentication.service';
 export * from './lib/services/dummy-text.service';
 export * from './lib/services/my-form-builder.service';
 export * from './lib/services/my-metadata.service';
+export * from './lib/services/user.service';
 
 // ===================================================================================================
 // Services

@@ -1,8 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
+  FullRoleType,
   LoginRequest,
   LoginResponse,
+  Logout,
   NewAccessTokenResponse,
   RefreshAccessToken,
   RoleType,
@@ -62,5 +64,13 @@ export class AuthenticationService {
 
   isLoggedIn() {
     return AuthenticationHelpers.getUserInfo(this.role) !== null;
+  }
+
+  logout(fullRole: FullRoleType) {
+    const role: RoleType = fullRole.includes('ADMIN') ? 'ADMIN' : 'LEARNER';
+    const data: Logout = { fullRole: fullRole };
+    AuthenticationHelpers.clearUserInfo(role);
+    AuthenticationHelpers.clearAccessToken(role);
+    return this.httpClient.post(`${this.webApiUrl}auth/logout`, data);
   }
 }

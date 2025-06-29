@@ -10,6 +10,9 @@ public class BaseUserErrorCode {
     public static final String LAST_NAME__REQUIRED = "LAST_NAME__REQUIRED";
     public static final String ROLE__REQUIRED = "ROLE__REQUIRED";
     public static final String FULL_ROLE__REQUIRED = "FULL_ROLE__REQUIRED";
+    public static final String OLD_PASSWORD__REQUIRED = "OLD_PASSWORD__REQUIRED";
+    public static final String NEW_PASSWORD__REQUIRED = "NEW_PASSWORD__REQUIRED";
+    public static final String CONFIRM_NEW_PASSWORD__REQUIRED = "CONFIRM_NEW_PASSWORD__REQUIRED";
 
     public static final String USER_NAME__ALREADY_EXISTS = "USER_NAME__ALREADY_EXISTS";
     public static final String EMAIL__ALREADY_EXISTS = "EMAIL__ALREADY_EXISTS";
@@ -35,4 +38,8 @@ public class BaseUserErrorCode {
 
     public static final String AVATAR__UPDATE_FAILED = "AVATAR__UPLOAD_FAILED";
     public static final String AVATAR__DELETE_FAILED = "AVATAR__DELETE_FAILED";
+
+    public static final String OLD_PASSWORD__INVALID = "OLD_PASSWORD_INVALID";
+    public static final String NEW_PASSWORD__INVALID = "NEW_PASSWORD__INVALID";
+    public static final String CONFIRM_NEW_PASSWORD__INVALID = "CONFIRM_NEW_PASSWORD__INVALID";
 }

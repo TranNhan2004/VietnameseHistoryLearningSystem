@@ -13,6 +13,14 @@ module.exports = {
         'my-yellow': '#e3c60d',
         'my-green': '#11b662',
       },
+      keyframes: {
+        spin: {
+          to: { transform: 'rotate(360deg)' },
+        },
+      },
+      animation: {
+        'spin-animation': 'spin 1s linear infinite',
+      },
     },
   },
   plugins: [],

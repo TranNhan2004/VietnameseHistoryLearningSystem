@@ -1,7 +1,11 @@
 package com.vhl.webapi.controllers;
 
+import com.vhl.webapi.dtos.requests.UpdatePasswordReqDTO;
+import com.vhl.webapi.dtos.requests.UpdateUserInfoReqDTO;
+import com.vhl.webapi.dtos.responses.AvatarResDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResDTO;
 import com.vhl.webapi.services.abstraction.BaseUserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +23,25 @@ public class UserController {
         return ResponseEntity.ok(baseUserResDTO);
     }
 
+    @PutMapping("/info/{id}")
+    public ResponseEntity<?> updateInfo(@PathVariable String id, @Valid @RequestBody UpdateUserInfoReqDTO updateUserInfoReqDTO) {
+        baseUserService.updateInfo(id, updateUserInfoReqDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/password/{id}")
+    public ResponseEntity<?> updatePassword(@PathVariable String id, @Valid @RequestBody UpdatePasswordReqDTO updatePasswordReqDTO) {
+        baseUserService.updatePassword(id, updatePasswordReqDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @PutMapping("/avatar/{id}")
     public ResponseEntity<?> updateAvatar(@PathVariable String id, @RequestParam("avatar") MultipartFile file) {
         String url = baseUserService.updateAvatar(id, file);
-        return ResponseEntity.ok(url);
+        AvatarResDTO avatarResDTO = new AvatarResDTO();
+        avatarResDTO.setAvatarUrl(url);
+        return ResponseEntity.ok(avatarResDTO);
     }
 
     @DeleteMapping("/avatar/{id}")

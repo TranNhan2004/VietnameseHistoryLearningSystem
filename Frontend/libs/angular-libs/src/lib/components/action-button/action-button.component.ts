@@ -83,9 +83,11 @@ const BUTTON_CONFIG = {
 })
 export class ActionButtonComponent {
   @Input({ required: true }) name!: keyof typeof BUTTON_CONFIG;
+  @Input() mainTitle = '';
   @Input() disabled = false;
   @Input() isSubmit = false;
   @Input() class = '';
+  @Input() title = '';
 
   @Output() btnClick = new EventEmitter<void>();
 
@@ -94,15 +96,20 @@ export class ActionButtonComponent {
   }
 
   get buttonClass() {
+    const mainTitleClass =
+      this.mainTitle.trim() === '' ? 'p-2 w-10 h-10' : 'px-4 py-2 w-full';
+
+    const disabledClass = this.disabled
+      ? 'bg-gray-500 cursor-not-allowed'
+      : this.buttonConfig.color;
+
     return `
-      p-2 w-10 h-10 rounded-lg text-white flex justify-center items-center
-      ${
-        this.disabled
-          ? 'bg-gray-500 cursor-not-allowed'
-          : this.buttonConfig.color
-      }
-      transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg
-      ${this.class}
-    `;
+        ${mainTitleClass} h-10 rounded-lg text-white flex justify-center items-center ${disabledClass}
+        transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg ${this.class}
+      `;
+  }
+
+  get buttonTitle() {
+    return this.title.trim() ?? this.buttonConfig.title;
   }
 }

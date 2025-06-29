@@ -2,11 +2,30 @@ export const userMessage = {
   EMAIL__REQUIRED: 'Email không được để trống',
   PASSWORD__REQUIRED: 'Mật khẩu không được để trống',
   EMAIL_OR_USER_NAME__REQUIRED: 'Email/Tên đăng nhập được để trống',
+  FIRST_NAME__REQUIRED: 'Tên không được bỏ trống',
+  LAST_NAME__REQUIRED: 'Họ không được bỏ trống',
+  OLD_PASSWORD__REQUIRED: 'Mật khẩu cũ không được bỏ trống',
+  NEW_PASSWORD__REQUIRED: 'Mật khẩu mới không được bỏ trống',
+  CONFIRM_NEW_PASSWORD__REQUIRED: 'Mật khẩu nhập lại không được bỏ trống',
 
   EMAIL__INVALID: 'Email không hợp lệ',
   PASSWORD__INVALID:
     'Mật khẩu phải chứa ít nhất 1 chữ thường (a-z), 1 chữ hoa (A-Z), 1 chữ số (0-9) và 1 ký tự đặc biệt',
+  OLD_PASSWORD__INVALID:
+    'Mật khẩu cũ phải chứa ít nhất 1 chữ thường (a-z), 1 chữ hoa (A-Z), 1 chữ số (0-9) và 1 ký tự đặc biệt',
+  NEW_PASSWORD__INVALID:
+    'Mật khẩu mới phải chứa ít nhất 1 chữ thường (a-z), 1 chữ hoa (A-Z), 1 chữ số (0-9) và 1 ký tự đặc biệt',
+  CONFIRM_NEW_PASSWORD__INVALID:
+    'Mật khẩu nhập lại phải chứa ít nhất 1 chữ thường (a-z), 1 chữ hoa (A-Z), 1 chữ số (0-9) và 1 ký tự đặc biệt',
   EMAIL_OR_USER_NAME__INVALID: 'Email/Tên đăng nhập không hợp lệ',
 
+  FIRST_NAME__TOO_LONG: 'Tên quá dài, tối đa 100 ký tự',
+  LAST_NAME__TOO_LONG: 'Họ quá dài, tối đa 50 ký tự',
+
   NOT_FOUND: 'Không tìm thấy thông tin người dùng',
+
+  UPDATE_INFO_SUCCESS: 'Cập nhật thông tin tài khoản thành công',
+  UPDATE_PASSWORD_SUCCESS: 'Đổi mật khẩu thành công',
+  UPDATE_AVATAR_SUCCESS: 'Cập nhật avatar thành công',
+  DELETE_AVATAR_SUCCESS: 'Xoá avatar thành công',
 };

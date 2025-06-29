@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyMetadata } from '@frontend/angular-libs';
+import { MyMetadataService } from '@frontend/angular-libs';
 
 @Component({
   selector: 'app-contests',
@@ -9,10 +9,10 @@ import { MyMetadata } from '@frontend/angular-libs';
   styleUrl: './contests.component.css',
 })
 export class ContestsComponent implements OnInit {
-  constructor(private myMetadata: MyMetadata) {}
+  constructor(private myMetadataService: MyMetadataService) {}
 
   ngOnInit() {
-    this.myMetadata.set({
+    this.myMetadataService.set({
       title: 'LOTUS Admin | Quản lý cuộc thi',
       description: 'Quản lý các bài thi trắc nghiệm về lịch sử Việt Nam',
       keywords:

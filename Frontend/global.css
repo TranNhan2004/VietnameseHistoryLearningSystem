@@ -21,11 +21,7 @@ body {
 }
 
 .error {
-  @apply text-red-500 text-sm mt-1
-}
-
-.toggle-show-hide-password-div {
-  @apply relative
+  @apply text-red-500 text-sm mt-1 break-words
 }
 
 .toggle-show-hide-password-btn {

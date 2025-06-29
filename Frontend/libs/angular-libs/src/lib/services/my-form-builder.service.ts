@@ -11,7 +11,7 @@ type ControlConfig<T> = [T | null, ValidatorFn[]?];
 @Injectable({
   providedIn: 'root',
 })
-export class MyFormBuilder {
+export class MyFormBuilderService {
   group<T extends Record<string, any>>(
     controlsConfig: { [K in keyof T]: ControlConfig<T[K]> },
     options?: AbstractControlOptions

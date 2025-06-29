@@ -5,7 +5,10 @@ import {
   matCheckCircleRound,
   matLoginRound,
 } from '@ng-icons/material-icons/round';
-import { AuthenticationService, MyMetadata } from '@frontend/angular-libs';
+import {
+  AuthenticationService,
+  MyMetadataService,
+} from '@frontend/angular-libs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,13 +20,13 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   constructor(
-    private myMetadata: MyMetadata,
-    private router: Router,
-    private authenticationService: AuthenticationService
+    private myMetadataService: MyMetadataService,
+    private authenticationService: AuthenticationService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.myMetadata.set({
+    this.myMetadataService.set({
       title: 'LOTUS Admin | Trang chủ',
       description: 'Trang chủ trang web admin hỗ trợ học tập lịch sử Việt Nam',
       keywords:
