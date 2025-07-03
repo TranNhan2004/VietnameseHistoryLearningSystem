@@ -39,7 +39,9 @@ public class BaseUserErrorCode {
     public static final String AVATAR__UPDATE_FAILED = "AVATAR__UPLOAD_FAILED";
     public static final String AVATAR__DELETE_FAILED = "AVATAR__DELETE_FAILED";
 
-    public static final String OLD_PASSWORD__INVALID = "OLD_PASSWORD_INVALID";
+    public static final String OLD_PASSWORD__INVALID = "OLD_PASSWORD__INVALID";
     public static final String NEW_PASSWORD__INVALID = "NEW_PASSWORD__INVALID";
     public static final String CONFIRM_NEW_PASSWORD__INVALID = "CONFIRM_NEW_PASSWORD__INVALID";
+
+    public static final String OLD_PASSWORD__NOT_CORRECT = "OLD_PASSWORD__NOT_CORRECT";
 }

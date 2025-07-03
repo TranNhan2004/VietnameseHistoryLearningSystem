@@ -22,6 +22,13 @@ export const userMessage = {
   FIRST_NAME__TOO_LONG: 'Tên quá dài, tối đa 100 ký tự',
   LAST_NAME__TOO_LONG: 'Họ quá dài, tối đa 50 ký tự',
 
+  OLD_PASSWORD__NOT_CORRECT: 'Mật khẩu cũ không đúng',
+
+  NEW_PASSWORD__DUPLICATE: 'Mật khẩu mới không được giống mật khẩu cũ',
+
+  CONFIRM_NEW_PASSWORD__NOT_MATCH:
+    'Mật khẩu nhập lại phải khớp với mật khẩu mới',
+
   NOT_FOUND: 'Không tìm thấy thông tin người dùng',
 
   UPDATE_INFO_SUCCESS: 'Cập nhật thông tin tài khoản thành công',

@@ -86,6 +86,14 @@ export class UpdatePasswordComponent implements OnChanges {
     this.passwordFH = new MyFormGroupHelper(this.passwordForm);
   }
 
+  get passwordInputClass() {
+    return {
+      'border rounded-lg p-2 focus:outline-none focus:ring focus:border-myblue w-full':
+        true,
+      'bg-gray-300 cursor-not-allowed caret-transparent': !this.editMode,
+    };
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.passwordForm.markAsPristine();
     this.passwordForm.markAsUntouched();
@@ -127,4 +135,5 @@ export class UpdatePasswordComponent implements OnChanges {
   }
 
   protected readonly userMessage = userMessage;
+  protected readonly confirm = confirm;
 }

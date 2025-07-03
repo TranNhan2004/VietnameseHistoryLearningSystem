@@ -36,7 +36,7 @@ public class BaseUserServiceImpl implements BaseUserService {
         BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(
             () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
         );
-        
+
         if (baseUser.getFullRole().contains(Role.ADMIN.name())) {
             return baseUserMapper.toAdminResponseDTO((Admin) baseUser);
         } else if (baseUser.getFullRole().contains(Role.LEARNER.name())) {
@@ -65,8 +65,8 @@ public class BaseUserServiceImpl implements BaseUserService {
         );
 
         String hashedOldPassword = baseUser.getPassword();
-        if (!hashedOldPassword.equals(passwordEncoder.encode(updatePasswordReqDTO.getOldPassword()))) {
-            throw new RuntimeException(BaseUserErrorCode.OLD_PASSWORD__INVALID);
+        if (!passwordEncoder.matches(updatePasswordReqDTO.getOldPassword(), hashedOldPassword)) {
+            throw new RuntimeException(BaseUserErrorCode.OLD_PASSWORD__NOT_CORRECT);
         }
 
         String hashedNewPassword = passwordEncoder.encode(updatePasswordReqDTO.getNewPassword());

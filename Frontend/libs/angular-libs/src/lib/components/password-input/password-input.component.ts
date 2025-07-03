@@ -21,18 +21,21 @@ import {
   ],
 })
 export class PasswordInputComponent implements ControlValueAccessor {
-  @Input() id = '';
-  @Input() placeholder = '';
+  @Input() inputId = '';
+  @Input() inputPlaceholder = '';
   @Input() inputClass = '';
   @Input() inputNgClass: string | string[] | { [klass: string]: any } = '';
-  @Input() readonly = false;
-  @Input() disabled = false;
+  @Input() inputReadonly = false;
+  @Input() inputDisabled = false;
 
   @Input() containerClass = '';
   @Input() containerNgClass: string | string[] | { [klass: string]: any } = '';
 
+  @Input() visibilityClass = '';
+  @Input() visibilityNgClass: string | string[] | { [klass: string]: any } = '';
+
   isVisible = false;
-  value = '';
+  inputValue = '';
 
   onChange: any = () => {};
   onTouched: any = () => {};
@@ -43,12 +46,12 @@ export class PasswordInputComponent implements ControlValueAccessor {
 
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    this.value = input.value;
-    this.onChange(this.value);
+    this.inputValue = input.value;
+    this.onChange(this.inputValue);
   }
 
   writeValue(value: string): void {
-    this.value = value ?? '';
+    this.inputValue = value ?? '';
   }
 
   registerOnChange(fn: any): void {

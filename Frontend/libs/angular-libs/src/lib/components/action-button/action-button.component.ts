@@ -87,7 +87,7 @@ export class ActionButtonComponent {
   @Input() disabled = false;
   @Input() isSubmit = false;
   @Input() class = '';
-  @Input() title = '';
+  @Input() title: string | undefined = undefined;
 
   @Output() btnClick = new EventEmitter<void>();
 
@@ -110,6 +110,6 @@ export class ActionButtonComponent {
   }
 
   get buttonTitle() {
-    return this.title.trim() ?? this.buttonConfig.title;
+    return this.title ?? this.buttonConfig.title;
   }
 }
