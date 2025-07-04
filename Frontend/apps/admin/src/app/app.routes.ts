@@ -1,6 +1,5 @@
 import { Route } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { LessonsComponent } from './pages/lessons/lessons.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AccountsComponent } from './pages/accounts/accounts.component';
 import { ContestsComponent } from './pages/contests/contests.component';
@@ -11,6 +10,7 @@ import {
   authenticatedGuard,
   notAuthenticatedGuard,
 } from '@frontend/angular-libs';
+import { LessonsOuterComponent } from './pages/lessons-outer/lessons-outer.component';
 
 export const appRoutes: Route[] = [
   {
@@ -35,7 +35,7 @@ export const appRoutes: Route[] = [
     children: [
       { path: 'accounts', component: AccountsComponent },
       { path: 'contests', component: ContestsComponent },
-      { path: 'lessons', component: LessonsComponent },
+      { path: 'lessons', component: LessonsOuterComponent },
       { path: 'profile', component: ProfileComponent },
       {
         path: '**',

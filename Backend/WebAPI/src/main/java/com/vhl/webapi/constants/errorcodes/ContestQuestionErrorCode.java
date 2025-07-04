@@ -8,6 +8,4 @@ public class ContestQuestionErrorCode {
 
     public static final String POINT__INVALID = "POINT__INVALID";
     public static final String POINT_ALLOCATION_RULE__INVALID = "POINT_ALLOCATION_RULE__INVALID";
-
-
 }
