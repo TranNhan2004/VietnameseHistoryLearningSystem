@@ -36,3 +36,17 @@ export const userMessage = {
   UPDATE_AVATAR_SUCCESS: 'Cập nhật avatar thành công',
   DELETE_AVATAR_SUCCESS: 'Xoá avatar thành công',
 };
+
+const learnerMessage = {
+  ADDED_POINT_REQUIRED: 'Điểm cộng thêm là bắt buộc.',
+
+  ADDED_POINT_NOT_NEGATIVE: 'Điểm cộng thêm không được âm.',
+  BEST_SCORE_NOT_NEGATIVE: 'Điểm cao nhất không được âm.',
+  WORST_SCORE_NOT_NEGATIVE: 'Điểm thấp nhất không được âm.',
+};
+
+const learnerLessonAnswerMessage = {
+  LEARNER_ID__REQUIRED: 'ID người học là bắt buộc.',
+  LESSON_ID__REQUIRED: 'ID bài học là bắt buộc.',
+  ANSWER_OPTION_ID__REQUIRED: 'ID đáp án là bắt buộc.',
+};

@@ -16,48 +16,39 @@ import {
 const BUTTON_CONFIG = {
   add: {
     icon: 'matAddRound',
-    color: 'bg-my-green hover:bg-green-500',
     title: 'Thêm mới',
-  },
-  edit: {
-    icon: 'matEditRound',
-    color: 'bg-my-yellow hover:bg-yellow-500',
-    title: 'Chỉnh sửa',
-  },
-  delete: {
-    icon: 'matDeleteRound',
-    color: 'bg-my-coralaccent hover:bg-red-500',
-    title: 'Xóa',
-  },
-  info: {
-    icon: 'matInfoRound',
-    color: 'bg-my-blue hover:bg-blue-600',
-    title: 'Xem',
   },
   save: {
     icon: 'matSaveRound',
-    color: 'bg-my-blue hover:bg-blue-600',
     title: 'Lưu',
+  },
+  edit: {
+    icon: 'matEditRound',
+    title: 'Chỉnh sửa',
+  },
+  info: {
+    icon: 'matInfoRound',
+    title: 'Xem',
+  },
+  filter: {
+    icon: 'matFilterListRound',
+    title: 'Lọc',
+  },
+  delete: {
+    icon: 'matDeleteRound',
+    title: 'Xóa',
+  },
+  cancel: {
+    icon: 'matCloseRound',
+    title: 'Hủy',
   },
   lock: {
     icon: 'matLockRound',
-    color: 'bg-gray-600 hover:bg-gray-700',
     title: 'Khóa',
   },
   unlock: {
     icon: 'matLockOpenRound',
-    color: 'bg-my-yellow hover:bg-yellow-500',
     title: 'Mở khóa',
-  },
-  filter: {
-    icon: 'matFilterListRound',
-    color: 'bg-my-blue hover:bg-blue-600',
-    title: 'Lọc',
-  },
-  cancel: {
-    icon: 'matCloseRound',
-    color: 'bg-gray-400 hover:bg-gray-500',
-    title: 'Hủy',
   },
 };
 
@@ -86,7 +77,7 @@ export class ActionButtonComponent {
   @Input() mainTitle = '';
   @Input() disabled = false;
   @Input() isSubmit = false;
-  @Input() class = '';
+  @Input() btnClass = '';
   @Input() title: string | undefined = undefined;
 
   @Output() btnClick = new EventEmitter<void>();
@@ -97,15 +88,13 @@ export class ActionButtonComponent {
 
   get buttonClass() {
     const mainTitleClass =
-      this.mainTitle.trim() === '' ? 'p-2 w-10 h-10' : 'px-4 py-2 w-full';
+      this.mainTitle.trim() === '' ? 'p-2 w-10' : 'px-4 py-2 w-full';
 
-    const disabledClass = this.disabled
-      ? 'bg-gray-500 cursor-not-allowed'
-      : this.buttonConfig.color;
+    const disabledClass = this.disabled ? 'bg-gray-200 cursor-not-allowed' : '';
 
     return `
-        ${mainTitleClass} h-10 rounded-lg text-white flex justify-center items-center ${disabledClass}
-        transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg ${this.class}
+        ${mainTitleClass} h-10 rounded-lg flex justify-center items-center bg-white text-my-darknavy
+        ${disabledClass} ${this.btnClass}
       `;
   }
 

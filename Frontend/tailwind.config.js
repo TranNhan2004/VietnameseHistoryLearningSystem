@@ -10,8 +10,10 @@ module.exports = {
         'my-darknavy': '#1A1A2E',
         'my-lavender': '#B39DDB',
         'my-coralaccent': '#FF6B6B',
-        'my-yellow': '#e3c60d',
-        'my-green': '#11b662',
+        'my-yellow': '#E3C60D',
+        'my-green': '#11B662',
+        'my-lightblue': '#bbd3f8',
+        'my-lightpurple': '#d4b6f2',
       },
       keyframes: {
         spin: {

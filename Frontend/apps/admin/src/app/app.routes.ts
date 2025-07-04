@@ -11,6 +11,7 @@ import {
   notAuthenticatedGuard,
 } from '@frontend/angular-libs';
 import { LessonsOuterComponent } from './pages/lessons-outer/lessons-outer.component';
+import { AddHistoricalPeriodComponent } from './pages/add-historical-period/add-historical-period.component';
 
 export const appRoutes: Route[] = [
   {
@@ -36,6 +37,10 @@ export const appRoutes: Route[] = [
       { path: 'accounts', component: AccountsComponent },
       { path: 'contests', component: ContestsComponent },
       { path: 'lessons', component: LessonsOuterComponent },
+      {
+        path: 'add-historical-period',
+        component: AddHistoricalPeriodComponent,
+      },
       { path: 'profile', component: ProfileComponent },
       {
         path: '**',

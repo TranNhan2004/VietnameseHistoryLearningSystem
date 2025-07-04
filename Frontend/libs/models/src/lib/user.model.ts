@@ -1,5 +1,6 @@
-export interface BaseUser {
-  id: string;
+import { CreateTime, Id, UpdateTime } from './abstracts.model';
+
+export interface BaseUser extends Id, CreateTime, UpdateTime {
   userName: string;
   email: string;
   firstName: string;
@@ -7,8 +8,6 @@ export interface BaseUser {
   dateOfBirth: Date | null;
   avatarUrl: string | null;
   lastLogin: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export interface Admin extends BaseUser {

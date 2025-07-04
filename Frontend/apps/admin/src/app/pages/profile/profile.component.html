@@ -6,7 +6,7 @@
       <div class="relative">
         @if (user.avatarUrl) {
           <div
-            class="p-1 w-72 h-72 rounded-xl overflow-hidden border-1 bg-gradient-to-r from-my-yellow to-my-coralaccent mb-5">
+            class="p-1 w-72 h-72 rounded-xl overflow-hidden border-1 bg-gradient-to-r from-my-blue to-my-purple mb-5">
             <img
               [ngSrc]="user.avatarUrl"
               width="100"
@@ -30,13 +30,12 @@
           <lib-default-avatar [name]="user.firstName" [isChangeAvatar]="isChangeAvatar"></lib-default-avatar>
         }
 
-        <div class="flex items-center justify-center w-full space-x-2">
+        <div class="flex items-center justify-center w-full space-x-4">
           <div>
             <lib-action-button
               name="edit"
               mainTitle="Chỉnh ảnh"
               title="Chỉnh ảnh"
-              class="min-w-[21px]"
               [disabled]="isChangeAvatar"
               (btnClick)="fileInput.click()">
             </lib-action-button>
@@ -54,7 +53,6 @@
               name="delete"
               mainTitle="Xoá ảnh"
               title="Xoá ảnh"
-              class="min-w-[25px]"
               [disabled]="isChangeAvatar || !user.avatarUrl"
               (btnClick)="deleteAvatar()"
             >

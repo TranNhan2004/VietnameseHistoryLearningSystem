@@ -67,21 +67,52 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   text = '';
   navItems = [
-    { name: 'Trang chủ', icon: 'matHomeRound', route: '/home' },
+    {
+      name: 'Trang chủ',
+      icon: 'matHomeRound',
+      route: '/home',
+      includeRoutes: ['/home'],
+    },
     {
       name: 'QL bài học',
       icon: 'matLibraryBooksRound',
       route: '/lessons',
+      includeRoutes: [
+        '/lessons',
+        '/add-historical-period',
+        '/edit-historical-period',
+      ],
     },
-    { name: 'QL cuộc thi', icon: 'matQuizRound', route: '/contests' },
+    {
+      name: 'QL cuộc thi',
+      icon: 'matQuizRound',
+      route: '/contests',
+      includeRoutes: ['/contest'],
+    },
     {
       name: 'QL tài khoản',
       icon: 'matSupervisorAccountRound',
       route: '/accounts',
+      includeRoutes: ['/accounts'],
     },
-    { name: 'Thống kê', icon: 'matLeaderboardRound', route: '/statistic' },
-    { name: 'Hồ sơ của tôi', icon: 'matPersonRound', route: '/profile' },
-    { name: 'Cài đặt', icon: 'matSettingsRound', route: '/settings' },
+    {
+      name: 'Thống kê',
+      icon: 'matLeaderboardRound',
+      route: '/statistic',
+      includeRoutes: ['/statistic'],
+    },
+    {
+      name: 'Hồ sơ của tôi',
+      icon: 'matPersonRound',
+      route: '/profile',
+      includeRoutes: ['/profile'],
+    },
+    {
+      name: 'Cài đặt',
+      icon: 'matSettingsRound',
+      route: '/settings',
+      includeRoutes: ['/settings'],
+    },
   ];
 
   constructor(public router: Router, private dummyText: DummyTextService) {

@@ -1,79 +1,83 @@
-<h3 class="text-2xl font-bold mb-4 text-my-blue">Thông tin thời kỳ lịch sử</h3>
+<div class="p-4">
+  <h3 class="text-2xl font-bold mb-8 text-my-blue">Thông tin thời kỳ lịch sử</h3>
 
-<form [formGroup]="formGroup" class="space-y-4">
+  <form [formGroup]="formGroup" class="space-y-4">
 
-  <!-- Name -->
-  <label class="flex items-center space-x-3 text-gray-700">
-    <span class="w-[20%]">Tên thời kỳ:</span>
-    <div class="w-[70%]">
-      <input
-        type="text"
-        formControlName="name"
-        class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
-      />
+    <!-- Name -->
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[10%]">Tên thời kỳ:</span>
+      <div class="w-[50%]">
+        <input
+          type="text"
+          formControlName="name"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
 
-      @if (editMode && formHelper.isInvalid('name')) {
-        @if (formHelper.hasError('name', 'required')) {
-          <p class="error">Tên thời kỳ không được để trống</p>
-        } @else if (formHelper.hasError('name', 'maxlength')) {
-          <p class="error">Tên quá dài</p>
+        @if (formHelper.isInvalid('name')) {
+          @if (formHelper.hasError('name', 'required')) {
+            <p class="error">{{ historicalPeriodMessage.NAME__REQUIRED }}</p>
+          } @else if (formHelper.hasError('name', 'maxlength')) {
+            <p class="error">{{ historicalPeriodMessage.NAME__TOO_LONG }}</p>
+          }
         }
-      }
-    </div>
-  </label>
+      </div>
+    </label>
 
-  <!-- Start Year -->
-  <label class="flex items-center space-x-3 text-gray-700">
-    <span class="w-[20%]">Năm bắt đầu:</span>
-    <div class="w-[70%]">
-      <input
-        type="number"
-        formControlName="startYear"
-        class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
-      />
+    <!-- Start Year -->
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[10%]">Năm bắt đầu:</span>
+      <div class="w-[50%]">
+        <input
+          type="number"
+          formControlName="startYear"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
 
-      @if (editMode && formHelper.isInvalid('startYear')) {
-        @if (formHelper.hasError('startYear', 'required')) {
-          <p class="error">Năm bắt đầu không được để trống</p>
+        @if (formHelper.isInvalid('startYear')) {
+          @if (formHelper.hasError('startYear', 'required')) {
+            <p class="error">{{ historicalPeriodMessage.START_YEAR__REQUIRED }}</p>
+          }
         }
-      }
-    </div>
-  </label>
+      </div>
+    </label>
 
-  <!-- End Year -->
-  <label class="flex items-center space-x-3 text-gray-700">
-    <span class="w-[20%]">Năm kết thúc:</span>
-    <div class="w-[70%]">
-      <input
-        type="number"
-        formControlName="endYear"
-        class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
-      />
+    <!-- End Year -->
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[10%]">Năm kết thúc:</span>
+      <div class="w-[50%]">
+        <input
+          type="number"
+          formControlName="endYear"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
 
-      @if (editMode && formHelper.isInvalid('endYear')) {
-        @if (formHelper.hasError('endYear', 'required')) {
-          <p class="error">Năm kết thúc không được để trống</p>
+        @if (formHelper.isInvalid('endYear')) {
+          @if (formHelper.hasError('endYear', 'required')) {
+            <p class="error">{{ historicalPeriodMessage.END_YEAR__REQUIRED }}</p>
+          }
+        } @else if (formGroup.get('endYear')?.value < formGroup.get('startYear')?.value) {
+          <p class="error">{{ historicalPeriodMessage.END_YEAR__INVALID }}</p>
         }
-      }
-    </div>
-  </label>
-
-  @if (editMode) {
-    <div class="flex justify-end space-x-2 mr-[8%]">
+      </div>
+    </label>
+  </form>
+  <div class="mt-10 p-4 w-full bg-gradient-to-r from-my-lightblue to-my-lightpurple flex items-center rounded-xl">
+    <div class="flex justify-end ml-auto space-x-2 ">
       <lib-action-button
         name="save"
         mainTitle="Lưu"
         title=""
         [disabled]="formGroup.invalid"
-        (btnClick)="save.emit()"
+        (btnClick)="saveFn.emit()"
       ></lib-action-button>
 
       <lib-action-button
         name="cancel"
         mainTitle="Thoát"
         title=""
-        (btnClick)="cancel.emit()"
+        (btnClick)="cancelFn.emit()"
       ></lib-action-button>
     </div>
-  }
-</form>
+  </div>
+</div>
+

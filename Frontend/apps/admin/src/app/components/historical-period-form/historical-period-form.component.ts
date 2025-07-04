@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MyFormGroupHelper } from '@frontend/utils';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActionButtonComponent } from '@frontend/angular-libs';
+import { historicalPeriodMessage } from '@frontend/constants';
 
 @Component({
   selector: 'app-historical-period-form',
@@ -13,8 +14,8 @@ import { ActionButtonComponent } from '@frontend/angular-libs';
 export class HistoricalPeriodFormComponent {
   @Input({ required: true }) formGroup!: FormGroup;
   @Input() formHelper!: MyFormGroupHelper;
-  @Input() editMode = false;
 
-  @Output() save = new EventEmitter<void>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() saveFn = new EventEmitter<void>();
+  @Output() cancelFn = new EventEmitter<void>();
+  protected readonly historicalPeriodMessage = historicalPeriodMessage;
 }

@@ -28,8 +28,8 @@ public class HistoricalPeriodController {
         return ResponseEntity.ok(historicalPeriodService.getHistoricalPeriodById(id));
     }
 
-    @PreAuthorize("@roleChecker.hasFullRole('ADMIN')")
-    @PostMapping("/{id}")
+    @PreAuthorize("@roleChecker.hasRolePrefix('ADMIN')")
+    @PostMapping("")
     public ResponseEntity<?> createHistoricalPeriod(@Valid @RequestBody HistoricalPeriodReqDTO historicalPeriodReqDTO) {
         HistoricalPeriodResDTO data = historicalPeriodService.createHistoricalPeriod(historicalPeriodReqDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -40,7 +40,7 @@ public class HistoricalPeriodController {
         return ResponseEntity.created(location).body(data);
     }
 
-    @PreAuthorize("@roleChecker.hasFullRole('ADMIN')")
+    @PreAuthorize("@roleChecker.hasRolePrefix('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateHistoricalPeriod(
         @PathVariable String id,
@@ -50,7 +50,7 @@ public class HistoricalPeriodController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("@roleChecker.hasFullRole('ADMIN')")
+    @PreAuthorize("@roleChecker.hasRolePrefix('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteHistoricalPeriod(@PathVariable String id) {
         historicalPeriodService.deleteHistoricalPeriod(id);

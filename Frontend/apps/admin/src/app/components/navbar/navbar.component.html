@@ -42,7 +42,7 @@
               #itemRef
               class="relative flex items-center w-full py-2 px-4 hover:bg-white/10 transition-all duration-300"
               [routerLink]="item.route"
-              [ngClass]="{ 'bg-blue-400': router.url === item.route }"
+              [ngClass]="{ 'bg-blue-400': item.includeRoutes.includes(router.url) }"
               (mouseenter)="showTooltip(item.name, itemRef)"
               (mouseleave)="hideTooltip()"
             >

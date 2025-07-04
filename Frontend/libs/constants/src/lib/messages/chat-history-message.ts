@@ -7,3 +7,7 @@ export const chatHistoryMessage = {
   // Success
   DELETE__SUCCESS: 'Xóa lịch sử trò chuyện thành công.',
 };
+
+export const chatQAMessage = {
+  QUESTION__REQUIRED: 'Câu hỏi là bắt buộc.',
+};
