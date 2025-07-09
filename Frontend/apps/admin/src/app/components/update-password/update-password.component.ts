@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UpdatePassword } from '@frontend/models';
+import { ActionButtonName, UpdatePassword } from '@frontend/models';
 import { PASSWORD_RE, userMessage } from '@frontend/constants';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationHelpers, MyFormGroupHelper } from '@frontend/utils';
@@ -136,4 +136,5 @@ export class UpdatePasswordComponent implements OnChanges {
 
   protected readonly userMessage = userMessage;
   protected readonly confirm = confirm;
+  protected readonly ActionButtonName = ActionButtonName;
 }

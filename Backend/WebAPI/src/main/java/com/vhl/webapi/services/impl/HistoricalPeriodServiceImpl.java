@@ -29,6 +29,7 @@ public class HistoricalPeriodServiceImpl implements HistoricalPeriodService {
 
     @Override
     public HistoricalPeriodResDTO getHistoricalPeriodById(String id) {
+        System.out.println(id);
         HistoricalPeriod historicalPeriod = historicalPeriodRepository.findById(id)
             .orElseThrow(() -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND));
         return historicalPeriodMapper.toHistoricalPeriodResDTO(historicalPeriod);
@@ -55,7 +56,7 @@ public class HistoricalPeriodServiceImpl implements HistoricalPeriodService {
         if (!historicalPeriodRepository.existsById(id)) {
             throw new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND);
         }
-        
+
         historicalPeriodRepository.deleteById(id);
     }
 }

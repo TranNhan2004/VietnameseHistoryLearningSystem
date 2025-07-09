@@ -1,5 +1,7 @@
 export * from './lib/formats/date';
 
+export * from './lib/icons/material-icons';
+
 export * from './lib/keys/authentication';
 export * from './lib/keys/local-storage-key';
 
@@ -14,6 +16,7 @@ export * from './lib/messages/result-message';
 export * from './lib/messages/user-message';
 export * from './lib/messages/verification-message';
 
+export * from './lib/objects/historical-period';
 export * from './lib/objects/user';
 
 export * from './lib/reg-exps/reg-exp';

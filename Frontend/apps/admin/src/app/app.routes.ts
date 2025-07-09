@@ -12,6 +12,8 @@ import {
 } from '@frontend/angular-libs';
 import { LessonsOuterComponent } from './pages/lessons-outer/lessons-outer.component';
 import { AddHistoricalPeriodComponent } from './pages/add-historical-period/add-historical-period.component';
+import { HistoricalPeriodDetailsComponent } from './pages/historical-period-details/historical-period-details.component';
+import { EditHistoricalPeriodComponent } from './pages/edit-historical-period/edit-historical-period.component';
 
 export const appRoutes: Route[] = [
   {
@@ -36,10 +38,23 @@ export const appRoutes: Route[] = [
     children: [
       { path: 'accounts', component: AccountsComponent },
       { path: 'contests', component: ContestsComponent },
-      { path: 'lessons', component: LessonsOuterComponent },
+      { path: 'lessons-outer', component: LessonsOuterComponent },
       {
-        path: 'add-historical-period',
-        component: AddHistoricalPeriodComponent,
+        path: 'historical-periods',
+        children: [
+          {
+            path: 'add',
+            component: AddHistoricalPeriodComponent,
+          },
+          {
+            path: ':id',
+            component: HistoricalPeriodDetailsComponent,
+          },
+          {
+            path: ':id/edit',
+            component: EditHistoricalPeriodComponent,
+          },
+        ],
       },
       { path: 'profile', component: ProfileComponent },
       {

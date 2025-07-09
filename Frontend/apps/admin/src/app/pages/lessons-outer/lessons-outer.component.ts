@@ -1,21 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActionButtonComponent } from '@frontend/angular-libs';
+import {
+  ActionButtonComponent,
+  AlertService,
+  HistoricalPeriodService,
+} from '@frontend/angular-libs';
 import { Router } from '@angular/router';
-import { HistoricalPeriodService } from '../../../../../../libs/angular-libs/src/lib/services/historical-period.service';
-import { HistoricalPeriodResponse } from '@frontend/models';
+import {
+  ActionButtonName,
+  DisplayedData,
+  DisplayedDataAction,
+  HistoricalPeriodResponse,
+} from '@frontend/models';
+import { TableComponent } from '../../components/table/table.component';
+import { toHistoricalYear } from '@frontend/utils';
+import { SearchComponent } from '../../components/search/search.component';
+import { SortComponent } from '../../components/sort/sort.component';
+import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
+import { historicalPeriodMessage } from '@frontend/constants';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-lessons-outer',
-  imports: [CommonModule, ActionButtonComponent],
+  imports: [
+    CommonModule,
+    ActionButtonComponent,
+    TableComponent,
+    SearchComponent,
+    SortComponent,
+  ],
   templateUrl: './lessons-outer.component.html',
   styleUrl: './lessons-outer.component.css',
 })
 export class LessonsOuterComponent implements OnInit {
   historicalPeriods: HistoricalPeriodResponse[] = [];
+  originialDisplayedData: DisplayedData[] = [];
+  displayedData: DisplayedData[] = [];
 
   constructor(
     private historicalPeriodService: HistoricalPeriodService,
+    private alertService: AlertService,
+    private toastrService: ToastrService,
     private router: Router
   ) {}
 
@@ -23,11 +48,75 @@ export class LessonsOuterComponent implements OnInit {
     this.historicalPeriodService.getAll().subscribe({
       next: (res) => {
         this.historicalPeriods = [...res];
+        this.originialDisplayedData = this.historicalPeriods.map((item) => ({
+          _id: item.id,
+          _startYear: item.startYear,
+          _endYear: item.endYear,
+          'Tên thời kỳ': item.name,
+          'Năm bắt đầu': toHistoricalYear(item.startYear),
+          'Năm kết thúc': toHistoricalYear(item.endYear),
+        }));
+        this.displayedData = [...this.originialDisplayedData];
       },
     });
   }
 
-  async goToAddHistoricalPeriodPage() {
-    await this.router.navigateByUrl('add-historical-period');
+  async actionClick(event: DisplayedDataAction) {
+    switch (event.action) {
+      case 'info':
+        await this.infoData(event.dataId);
+        break;
+      case 'edit':
+        await this.updateData(event.dataId);
+        break;
+      case 'delete':
+        await this.deleteData(event.dataId);
+        break;
+    }
   }
+
+  async infoData(id: string) {
+    await this.router.navigateByUrl(`/historical-periods/${id}`);
+  }
+
+  async updateData(id: string) {
+    await this.router.navigateByUrl(`/historical-periods/${id}/edit`);
+  }
+
+  async deleteData(id: string) {
+    await this.alertService.deleteWarning(() => {
+      this.historicalPeriodService.delete(id).subscribe({
+        next: () => {
+          this.historicalPeriods = this.historicalPeriods.filter(
+            (item) => item.id !== id
+          );
+          this.originialDisplayedData = this.originialDisplayedData.filter(
+            (item) => item._id !== id
+          );
+          this.displayedData = [...this.originialDisplayedData];
+          this.toastrService.success(
+            historicalPeriodMessage['DELETE__SUCCESS']
+          );
+        },
+        error: (err: HttpErrorResponse) => {
+          const key = err.error.message as keyof typeof historicalPeriodMessage;
+          this.toastrService.error(historicalPeriodMessage[key]);
+        },
+      });
+    });
+  }
+
+  filterData(filtered: DisplayedData[]) {
+    this.displayedData = [...filtered];
+  }
+
+  sortData(sorted: DisplayedData[]) {
+    this.displayedData = [...sorted];
+  }
+
+  async goToAddHistoricalPeriodPage() {
+    await this.router.navigateByUrl('/historical-periods/add');
+  }
+
+  protected readonly ActionButtonName = ActionButtonName;
 }

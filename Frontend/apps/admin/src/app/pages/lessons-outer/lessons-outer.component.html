@@ -1,3 +1,47 @@
-<lib-action-button name="add" (btnClick)="goToAddHistoricalPeriodPage()"></lib-action-button>
+<div class="p-4">
+  <h1 class="mt-5 font-bold text-my-blue text-4xl text-left">Danh sách thời kỳ lịch sử</h1>
+  <div class="mt-2 h-1 w-full bg-gradient-to-r from-my-blue to-my-coralaccent rounded-lg"></div>
 
-<p>{{ historicalPeriods | json }}</p>
+  <div class="flex items-center justify-between mt-5">
+    <div class="w-[40%]">
+      <app-search
+        [originalData]="originialDisplayedData"
+        [searchKeys]="['Tên thời kỳ', 'Năm bắt đầu', 'Năm kết thúc']"
+        (filterData)="filterData($event)"
+        placeholder="Tìm kiếm theo tên thời kỳ, năm bắt đầu và kết thúc"
+      >
+      </app-search>
+    </div>
+    <div class="flex items-center space-x-4">
+      <app-sort
+        [originalData]="originialDisplayedData"
+        [sortOptions]="[
+          { label: 'Tên thời kỳ', type: 'all', sortedKey: 'Tên thời kỳ' },
+          { label: 'Năm bắt đầu', type: 'all', sortedKey: '_startYear' },
+          { label: 'Năm kết thúc', type: 'all', sortedKey: '_endYear' }
+        ]"
+        (sortData)="sortData($event)"
+      >
+      </app-sort>
+      <lib-action-button
+        [name]="ActionButtonName.Add"
+        mainTitle="Thêm mới"
+        title=""
+        (btnClick)="goToAddHistoricalPeriodPage()"
+      ></lib-action-button>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <app-table
+      [displayedData]="displayedData"
+      [actionButtonConfigs]="[
+        { name: ActionButtonName.Info },
+        { name: ActionButtonName.Edit },
+        { name: ActionButtonName.Delete },
+        { name: ActionButtonName.LinkTo }
+      ]"
+      (actionClick)="actionClick($event)"
+    ></app-table>
+  </div>
+</div>

@@ -24,4 +24,21 @@ export class HistoricalPeriodService {
       `${this.webApiUrl}historical-periods`
     );
   }
+
+  getById(id: string) {
+    return this.httpClient.get<HistoricalPeriodResponse>(
+      `${this.webApiUrl}historical-periods/${id}`
+    );
+  }
+
+  update(id: string, data: HistoricalPeriod) {
+    return this.httpClient.put(
+      `${this.webApiUrl}historical-periods/${id}`,
+      data
+    );
+  }
+
+  delete(id: string) {
+    return this.httpClient.delete(`${this.webApiUrl}historical-periods/${id}`);
+  }
 }

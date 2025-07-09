@@ -1,79 +1,61 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  matAddRound,
-  matCloseRound,
-  matDeleteRound,
-  matEditRound,
-  matFilterListRound,
-  matInfoRound,
-  matLockOpenRound,
-  matLockRound,
-  matSaveRound,
-} from '@ng-icons/material-icons/round';
+import { NgIcon } from '@ng-icons/core';
+import { ActionButtonName } from '@frontend/models';
 
-const BUTTON_CONFIG = {
-  add: {
-    icon: 'matAddRound',
-    title: 'Thêm mới',
-  },
-  save: {
-    icon: 'matSaveRound',
-    title: 'Lưu',
-  },
-  edit: {
-    icon: 'matEditRound',
-    title: 'Chỉnh sửa',
-  },
-  info: {
-    icon: 'matInfoRound',
-    title: 'Xem',
-  },
-  filter: {
-    icon: 'matFilterListRound',
-    title: 'Lọc',
-  },
-  delete: {
-    icon: 'matDeleteRound',
-    title: 'Xóa',
-  },
-  cancel: {
-    icon: 'matCloseRound',
-    title: 'Hủy',
-  },
-  lock: {
-    icon: 'matLockRound',
-    title: 'Khóa',
-  },
-  unlock: {
-    icon: 'matLockOpenRound',
-    title: 'Mở khóa',
-  },
-};
+const BUTTON_CONFIG: Record<ActionButtonName, { icon: string; title: string }> =
+  {
+    [ActionButtonName.Add]: {
+      icon: 'matAddRound',
+      title: 'Thêm mới',
+    },
+    [ActionButtonName.Save]: {
+      icon: 'matSaveRound',
+      title: 'Lưu',
+    },
+    [ActionButtonName.Edit]: {
+      icon: 'matEditRound',
+      title: 'Chỉnh sửa',
+    },
+    [ActionButtonName.Info]: {
+      icon: 'matInfoRound',
+      title: 'Chi tiết',
+    },
+    [ActionButtonName.Filter]: {
+      icon: 'matFilterListRound',
+      title: 'Lọc',
+    },
+    [ActionButtonName.Delete]: {
+      icon: 'matDeleteRound',
+      title: 'Xóa',
+    },
+    [ActionButtonName.Cancel]: {
+      icon: 'matCloseRound',
+      title: 'Hủy',
+    },
+    [ActionButtonName.Lock]: {
+      icon: 'matLockRound',
+      title: 'Khóa',
+    },
+    [ActionButtonName.Unlock]: {
+      icon: 'matLockOpenRound',
+      title: 'Mở khóa',
+    },
+    [ActionButtonName.LinkTo]: {
+      icon: 'matArrowOutwardRound',
+      title: 'Dẫn đến',
+    },
+  };
 
 @Component({
   selector: 'lib-action-button',
   standalone: true,
   imports: [CommonModule, NgIcon],
-  providers: [
-    provideIcons({
-      matAddRound,
-      matDeleteRound,
-      matEditRound,
-      matInfoRound,
-      matSaveRound,
-      matLockRound,
-      matLockOpenRound,
-      matFilterListRound,
-      matCloseRound,
-    }),
-  ],
   templateUrl: './action-button.component.html',
   styleUrl: './action-button.component.css',
 })
 export class ActionButtonComponent {
-  @Input({ required: true }) name!: keyof typeof BUTTON_CONFIG;
+  @Input({ required: true }) name!: ActionButtonName;
   @Input() mainTitle = '';
   @Input() disabled = false;
   @Input() isSubmit = false;

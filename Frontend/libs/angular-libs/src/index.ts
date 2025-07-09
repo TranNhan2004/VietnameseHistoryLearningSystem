@@ -22,6 +22,7 @@ export * from './lib/interceptors/response.interceptor';
 export * from './lib/services/alert.service';
 export * from './lib/services/authentication.service';
 export * from './lib/services/dummy-text.service';
+export * from './lib/services/historical-period.service';
 export * from './lib/services/my-form-builder.service';
 export * from './lib/services/my-metadata.service';
 export * from './lib/services/user.service';

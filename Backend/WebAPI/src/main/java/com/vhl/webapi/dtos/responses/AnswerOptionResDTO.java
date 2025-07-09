@@ -6,5 +6,5 @@ import lombok.Data;
 public class AnswerOptionResDTO {
     private String id;
     private String content;
-    private boolean isCorrect = false;
+    private boolean isCorrect;
 }

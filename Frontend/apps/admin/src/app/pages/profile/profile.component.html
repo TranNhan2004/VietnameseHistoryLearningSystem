@@ -33,9 +33,9 @@
         <div class="flex items-center justify-center w-full space-x-4">
           <div>
             <lib-action-button
-              name="edit"
+              [name]="ActionButtonName.Edit"
               mainTitle="Chỉnh ảnh"
-              title="Chỉnh ảnh"
+              title=""
               [disabled]="isChangeAvatar"
               (btnClick)="fileInput.click()">
             </lib-action-button>
@@ -50,9 +50,9 @@
           </div>
           <div>
             <lib-action-button
-              name="delete"
+              [name]="ActionButtonName.Delete"
               mainTitle="Xoá ảnh"
-              title="Xoá ảnh"
+              title=""
               [disabled]="isChangeAvatar || !user.avatarUrl"
               (btnClick)="deleteAvatar()"
             >

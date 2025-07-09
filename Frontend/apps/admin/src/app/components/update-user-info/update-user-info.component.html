@@ -67,7 +67,7 @@
   @if (editMode) {
     <div class="flex justify-end space-x-2 mr-[8%]">
       <lib-action-button
-        name="save"
+        [name]="ActionButtonName.Save"
         mainTitle="Lưu"
         title=""
         [disabled]="userInfoForm.invalid"
@@ -75,7 +75,7 @@
       ></lib-action-button>
 
       <lib-action-button
-        name="cancel"
+        [name]="ActionButtonName.Cancel"
         mainTitle="Hủy"
         title=""
         (btnClick)="cancelEditUserInfo()"

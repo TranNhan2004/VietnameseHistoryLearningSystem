@@ -11,8 +11,8 @@ import {
   WEB_API_URL,
 } from '@frontend/angular-libs';
 import { provideIcons } from '@ng-icons/core';
-import { appIcons } from './app.icons';
 import { environment } from './environments/environment.dev';
+import { materialIcons } from '@frontend/constants';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,7 +30,7 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
       tapToDismiss: false,
     }),
-    provideIcons(appIcons),
+    provideIcons(materialIcons),
     { provide: ROLE, useValue: 'ADMIN' },
     { provide: WEB_API_URL, useValue: environment.webApiUrl },
   ],

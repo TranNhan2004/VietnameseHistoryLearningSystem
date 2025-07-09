@@ -8,21 +8,11 @@ import {
 } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  matHomeRound,
-  matKeyboardDoubleArrowLeftRound,
-  matKeyboardDoubleArrowRightRound,
-  matLeaderboardRound,
-  matLibraryBooksRound,
-  matPersonRound,
-  matQuizRound,
-  matSettingsRound,
-  matSupervisorAccountRound,
-} from '@ng-icons/material-icons/round';
+import { NgIcon } from '@ng-icons/core';
 import { DummyTextService } from '@frontend/angular-libs';
 import { FooterComponent } from '../footer/footer.component';
 import { IS_COLLAPSED_LSK } from '@frontend/constants';
+import { NavbarItem } from '@frontend/models';
 
 @Component({
   selector: 'app-navbar',
@@ -35,19 +25,6 @@ import { IS_COLLAPSED_LSK } from '@frontend/constants';
     NgStyle,
     RouterOutlet,
     FooterComponent,
-  ],
-  providers: [
-    provideIcons({
-      matKeyboardDoubleArrowLeftRound,
-      matKeyboardDoubleArrowRightRound,
-      matHomeRound,
-      matLibraryBooksRound,
-      matQuizRound,
-      matSupervisorAccountRound,
-      matLeaderboardRound,
-      matPersonRound,
-      matSettingsRound,
-    }),
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
@@ -66,52 +43,48 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   tooltipLeft = 0;
 
   text = '';
-  navItems = [
+  navItems: NavbarItem[] = [
     {
       name: 'Trang chủ',
       icon: 'matHomeRound',
       route: '/home',
-      includeRoutes: ['/home'],
+      prefixRoutes: ['/home'],
     },
     {
       name: 'QL bài học',
       icon: 'matLibraryBooksRound',
-      route: '/lessons',
-      includeRoutes: [
-        '/lessons',
-        '/add-historical-period',
-        '/edit-historical-period',
-      ],
+      route: '/lessons-outer',
+      prefixRoutes: ['/lessons', '/historical-period'],
     },
     {
       name: 'QL cuộc thi',
       icon: 'matQuizRound',
       route: '/contests',
-      includeRoutes: ['/contest'],
+      prefixRoutes: ['/contest'],
     },
     {
       name: 'QL tài khoản',
       icon: 'matSupervisorAccountRound',
       route: '/accounts',
-      includeRoutes: ['/accounts'],
+      prefixRoutes: ['/accounts'],
     },
     {
       name: 'Thống kê',
       icon: 'matLeaderboardRound',
       route: '/statistic',
-      includeRoutes: ['/statistic'],
+      prefixRoutes: ['/statistic'],
     },
     {
       name: 'Hồ sơ của tôi',
       icon: 'matPersonRound',
       route: '/profile',
-      includeRoutes: ['/profile'],
+      prefixRoutes: ['/profile'],
     },
     {
       name: 'Cài đặt',
       icon: 'matSettingsRound',
       route: '/settings',
-      includeRoutes: ['/settings'],
+      prefixRoutes: ['/settings'],
     },
   ];
 
@@ -173,5 +146,14 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     } else {
       this.innerContentMarginLeftClass = 'ml-[216px]';
     }
+  }
+
+  isInRoute(item: NavbarItem, url: string) {
+    for (const prefix of item.prefixRoutes) {
+      if (url.includes(prefix)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

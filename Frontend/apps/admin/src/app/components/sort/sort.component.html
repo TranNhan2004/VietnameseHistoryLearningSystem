@@ -1,0 +1,12 @@
+<select
+  [(ngModel)]="selected"
+  (change)="onSortChange()"
+  class="border-[3px] border-my-lightblue bg-white px-4 py-[4%] rounded-xl w-full focus:outline-none cursor-pointer"
+>
+  <option value="">-- Sắp xếp --</option>
+  @for (option of renderedOptions; track $index) {
+    <option [value]="option.sortedKey + '|' + option.direction">
+      {{ option.label }}
+    </option>
+  }
+</select>

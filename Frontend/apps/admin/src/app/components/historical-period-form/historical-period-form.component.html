@@ -55,7 +55,7 @@
           @if (formHelper.hasError('endYear', 'required')) {
             <p class="error">{{ historicalPeriodMessage.END_YEAR__REQUIRED }}</p>
           }
-        } @else if (formGroup.get('endYear')?.value < formGroup.get('startYear')?.value) {
+        } @else if (formGroup.get('endYear')?.value <= formGroup.get('startYear')?.value) {
           <p class="error">{{ historicalPeriodMessage.END_YEAR__INVALID }}</p>
         }
       </div>
@@ -64,7 +64,7 @@
   <div class="mt-10 p-4 w-full bg-gradient-to-r from-my-lightblue to-my-lightpurple flex items-center rounded-xl">
     <div class="flex justify-end ml-auto space-x-2 ">
       <lib-action-button
-        name="save"
+        [name]="ActionButtonName.Save"
         mainTitle="Lưu"
         title=""
         [disabled]="formGroup.invalid"
@@ -72,7 +72,7 @@
       ></lib-action-button>
 
       <lib-action-button
-        name="cancel"
+        [name]="ActionButtonName.Cancel"
         mainTitle="Thoát"
         title=""
         (btnClick)="cancelFn.emit()"

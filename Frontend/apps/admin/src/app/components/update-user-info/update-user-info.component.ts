@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Admin, UpdateUserInfo } from '@frontend/models';
+import { ActionButtonName, Admin, UpdateUserInfo } from '@frontend/models';
 import { initialAdmin, userMessage } from '@frontend/constants';
 import { MyFormGroupHelper } from '@frontend/utils';
 import {
@@ -66,7 +66,7 @@ export class UpdateUserInfoComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.userInfoForm.markAsPristine();
     this.userInfoForm.markAsUntouched();
-    
+
     if (!this.editMode) {
       this.setUserInfoForm();
     }
@@ -98,4 +98,6 @@ export class UpdateUserInfoComponent implements OnChanges {
   }
 
   protected readonly userMessage = userMessage;
+  protected readonly ActionButtonComponent = ActionButtonComponent;
+  protected readonly ActionButtonName = ActionButtonName;
 }

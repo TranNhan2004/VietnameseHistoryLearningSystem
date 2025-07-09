@@ -16,7 +16,7 @@ import {
 import { AuthenticationHelpers } from '@frontend/utils';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
-import { Admin, FullRoleType } from '@frontend/models';
+import { ActionButtonName, Admin, FullRoleType } from '@frontend/models';
 import { NgIcon } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -136,4 +136,5 @@ export class ProfileComponent {
 
   protected readonly fullRoleReader = fullRoleReader;
   protected readonly DATE_TIME_FORMAT = DATE_TIME_FORMAT;
+  protected readonly ActionButtonName = ActionButtonName;
 }
