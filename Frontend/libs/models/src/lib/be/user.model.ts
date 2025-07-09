@@ -38,6 +38,7 @@ export interface UpdateUserInfo {
 }
 
 export interface ResetPassword {
+  email: string;
   newPassword: string;
   confirmNewPassword: string;
 }

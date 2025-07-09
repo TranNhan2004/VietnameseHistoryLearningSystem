@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { WEB_API_URL } from '../tokens/tokens';
+import { WEB_API_URL } from '../../tokens/tokens';
 import { HistoricalPeriod, HistoricalPeriodResponse } from '@frontend/models';
 
 @Injectable({

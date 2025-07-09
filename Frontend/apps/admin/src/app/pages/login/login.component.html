@@ -1,12 +1,12 @@
 <div class="max-w-4xl h-[450px] mx-auto mt-20 bg-white shadow-2xl rounded-2xl overflow-hidden flex">
   <div class="w-1/2 hidden md:block">
     <img
-      ngSrc="images/thang-long.jpg"
-      width="30"
-      height="20"
-      alt="Thành Thăng Long"
-      title="Thành Thăng Long"
-      class="w-full h-full object-cover opacity-60"
+      ngSrc="images/bac-ho.jpg"
+      width="500"
+      height="500"
+      alt="Bác Hồ - Chủ tịch Hồ Chí Minh vĩ đại"
+      title="Bác Hồ - Chủ tịch Hồ Chí Minh vĩ đại"
+      class="w-full h-full object-cover"
     />
   </div>
 
@@ -65,7 +65,7 @@
       </div>
 
       <div class="flex justify-between">
-        <a routerLink="/auth/forgot-password" class="text-sm text-blue-600 hover:underline">Quên mật khẩu?</a>
+        <a routerLink="/reset-password" class="text-sm text-blue-600 hover:underline">Quên mật khẩu?</a>
         <a routerLink="/home" class="text-sm text-blue-600 hover:underline">Về trang chủ</a>
       </div>
 
@@ -74,7 +74,7 @@
         [disabled]="loginForm.invalid"
         class="w-full py-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold
         hover:from-blue-600 hover:to-purple-700 transition duration-300 ease-in-out flex items-center
-        justify-center gap-2 cursor-pointer"
+        justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
       >
         <ng-icon name="matLoginRound"></ng-icon>
         Đăng nhập

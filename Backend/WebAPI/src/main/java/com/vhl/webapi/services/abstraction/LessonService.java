@@ -6,9 +6,9 @@ import com.vhl.webapi.dtos.responses.LessonResDTO;
 import java.util.List;
 
 public interface LessonService {
-    List<LessonResDTO> getAllLessons();
+    List<LessonResDTO> getAllLessonsByHistoricalPeriodId(String historicalPeriodId);
 
-    LessonResDTO getLesson(String id);
+    LessonResDTO getLessonById(String id);
 
     LessonResDTO createLesson(LessonReqDTO lessonReqDTO);
 

@@ -31,18 +31,20 @@ export const userMessage = {
 
   NOT_FOUND: 'Không tìm thấy thông tin người dùng',
 
-  UPDATE_INFO_SUCCESS: 'Cập nhật thông tin tài khoản thành công',
-  UPDATE_PASSWORD_SUCCESS: 'Đổi mật khẩu thành công',
-  UPDATE_AVATAR_SUCCESS: 'Cập nhật avatar thành công',
-  DELETE_AVATAR_SUCCESS: 'Xoá avatar thành công',
+  UPDATE_INFO__SUCCESS: 'Cập nhật thông tin tài khoản thành công',
+  UPDATE_PASSWORD__SUCCESS: 'Đổi mật khẩu thành công',
+  UPDATE_AVATAR__SUCCESS: 'Cập nhật avatar thành công',
+  DELETE_AVATAR__SUCCESS: 'Xoá avatar thành công',
+  RESET_PASSWORD__SUCCESS:
+    'Đặt lại mật khẩu thành công. Vui lòng đăng nhập lại.',
 };
 
 const learnerMessage = {
-  ADDED_POINT_REQUIRED: 'Điểm cộng thêm là bắt buộc.',
+  ADDED_POINT__REQUIRED: 'Điểm cộng thêm là bắt buộc.',
 
-  ADDED_POINT_NOT_NEGATIVE: 'Điểm cộng thêm không được âm.',
-  BEST_SCORE_NOT_NEGATIVE: 'Điểm cao nhất không được âm.',
-  WORST_SCORE_NOT_NEGATIVE: 'Điểm thấp nhất không được âm.',
+  ADDED_POINT__NOT_NEGATIVE: 'Điểm cộng thêm không được âm.',
+  BEST_SCORE__NOT_NEGATIVE: 'Điểm cao nhất không được âm.',
+  WORST_SCORE__NOT_NEGATIVE: 'Điểm thấp nhất không được âm.',
 };
 
 const learnerLessonAnswerMessage = {

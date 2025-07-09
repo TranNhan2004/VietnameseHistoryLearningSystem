@@ -3,6 +3,7 @@ package com.vhl.webapi.services.impl;
 import com.vhl.webapi.constants.errorcodes.BaseUserErrorCode;
 import com.vhl.webapi.constants.errorcodes.GeneralErrorCode;
 import com.vhl.webapi.constants.storage.CloudinaryStorageFolder;
+import com.vhl.webapi.dtos.requests.ResetPasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdatePasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdateUserInfoReqDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResDTO;
@@ -20,8 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -75,11 +74,6 @@ public class BaseUserServiceImpl implements BaseUserService {
     }
 
     @Override
-    public void deleteMany(List<String> ids) {
-        baseUserRepository.deleteAllById(ids);
-    }
-
-    @Override
     public String updateAvatar(String id, MultipartFile file) {
         try {
             BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(
@@ -117,4 +111,24 @@ public class BaseUserServiceImpl implements BaseUserService {
             throw new RuntimeException(BaseUserErrorCode.AVATAR__DELETE_FAILED);
         }
     }
+
+    @Override
+    public void delete(String id) {
+        if (!baseUserRepository.existsById(id)) {
+            throw new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND);
+        }
+
+        baseUserRepository.deleteById(id);
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordReqDTO resetPasswordReqDTO) {
+        BaseUser baseUser = baseUserRepository.findByEmail(resetPasswordReqDTO.getEmail())
+            .orElseThrow(() -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND));
+
+        baseUser.setPassword(passwordEncoder.encode(resetPasswordReqDTO.getNewPassword()));
+        baseUserRepository.save(baseUser);
+    }
+
+
 }

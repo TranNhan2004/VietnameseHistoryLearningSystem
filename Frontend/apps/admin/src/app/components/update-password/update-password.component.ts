@@ -114,7 +114,7 @@ export class UpdatePasswordComponent implements OnChanges {
           this.userService.updatePassword(userId, data).subscribe({
             next: () => {
               this.toastrService.success(
-                userMessage['UPDATE_PASSWORD_SUCCESS']
+                userMessage['UPDATE_PASSWORD__SUCCESS']
               );
               this.logoutFn.emit();
             },

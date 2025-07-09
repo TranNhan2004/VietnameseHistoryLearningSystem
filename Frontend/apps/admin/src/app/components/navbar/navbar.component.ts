@@ -9,7 +9,6 @@ import {
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
-import { DummyTextService } from '@frontend/angular-libs';
 import { FooterComponent } from '../footer/footer.component';
 import { IS_COLLAPSED_LSK } from '@frontend/constants';
 import { NavbarItem } from '@frontend/models';
@@ -42,7 +41,6 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   tooltipTop = 0;
   tooltipLeft = 0;
 
-  text = '';
   navItems: NavbarItem[] = [
     {
       name: 'Trang chủ',
@@ -88,9 +86,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     },
   ];
 
-  constructor(public router: Router, private dummyText: DummyTextService) {
-    this.text = this.dummyText.generate(20);
-  }
+  constructor(public router: Router) {}
 
   ngOnInit() {
     const saved = localStorage.getItem(IS_COLLAPSED_LSK);
@@ -98,8 +94,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.checkSidebarOverflow();
     setTimeout(() => {
+      this.checkSidebarOverflow();
       this.innerContentMarginLeftClassReady = true;
       this.updateInnerContentMarginLeftClass();
     });

@@ -86,36 +86,34 @@
           </td>
           <td class="px-4 py-3">
             <div class="flex items-center space-x-2">
-              @for (actionButtonConfig of actionButtonConfigs; track $index) {
-                @if (actionButtonConfig.title !== undefined && actionButtonConfig.mainTitle !== undefined) {
-                  <lib-action-button
-                    [name]="actionButtonConfig.name"
-                    [mainTitle]="actionButtonConfig.mainTitle"
-                    [title]="actionButtonConfig.title"
-                    (btnClick)="onActionClick({ action: actionButtonConfig.name, dataId: item._id })"
-                  >
-                  </lib-action-button>
-                } @else if (actionButtonConfig.mainTitle !== undefined) {
-                  <lib-action-button
-                    [name]="actionButtonConfig.name"
-                    [mainTitle]="actionButtonConfig.mainTitle"
-                    (btnClick)="onActionClick({ action: actionButtonConfig.name, dataId: item._id })"
-                  >
-                  </lib-action-button>
-                } @else if (actionButtonConfig.title !== undefined) {
-                  <lib-action-button
-                    [name]="actionButtonConfig.name"
-                    [title]="actionButtonConfig.title"
-                    (btnClick)="onActionClick({ action: actionButtonConfig.name, dataId: item._id })"
-                  >
-                  </lib-action-button>
-                } @else {
-                  <lib-action-button
-                    [name]="actionButtonConfig.name"
-                    (btnClick)="onActionClick({ action: actionButtonConfig.name, dataId: item._id })"
-                  >
-                  </lib-action-button>
-                }
+              @for (action of actionButtonConfigs; track $index) {
+                <lib-action-button
+                  *ngIf="action.title !== undefined && action.mainTitle !== undefined"
+                  [name]="action.name"
+                  [mainTitle]="action.mainTitle"
+                  [title]="action.title"
+                  (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                ></lib-action-button>
+
+                <lib-action-button
+                  *ngIf="action.title === undefined && action.mainTitle !== undefined"
+                  [name]="action.name"
+                  [mainTitle]="action.mainTitle"
+                  (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                ></lib-action-button>
+
+                <lib-action-button
+                  *ngIf="action.title !== undefined && action.mainTitle === undefined"
+                  [name]="action.name"
+                  [title]="action.title"
+                  (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                ></lib-action-button>
+
+                <lib-action-button
+                  *ngIf="action.title === undefined && action.mainTitle === undefined"
+                  [name]="action.name"
+                  (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                ></lib-action-button>
               }
             </div>
           </td>

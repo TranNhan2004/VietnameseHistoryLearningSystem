@@ -4,10 +4,11 @@ import {
   Admin,
   Avatar,
   Learner,
+  ResetPassword,
   UpdatePassword,
   UpdateUserInfo,
 } from '@frontend/models';
-import { WEB_API_URL } from '../tokens/tokens';
+import { WEB_API_URL } from '../../tokens/tokens';
 
 @Injectable({
   providedIn: 'root',
@@ -45,5 +46,9 @@ export class UserService {
 
   deleteAvatar(id: string) {
     return this.httpClient.delete(`${this.webApiUrl}users/avatar/${id}`);
+  }
+
+  resetPassword(data: ResetPassword) {
+    return this.httpClient.put(`${this.webApiUrl}users/reset-password`, data);
   }
 }

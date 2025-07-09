@@ -19,9 +19,14 @@ module.exports = {
         spin: {
           to: { transform: 'rotate(360deg)' },
         },
+        'bounce-dots-kf': {
+          '0%, 80%, 100%': { transform: 'translateY(0)' },
+          '40%': { transform: 'translateY(-6px)' },
+        },
       },
       animation: {
         'spin-animation': 'spin 1s linear infinite',
+        'bounce-dots': 'bounce-dots-kf 1s infinite',
       },
     },
   },

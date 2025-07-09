@@ -1,5 +1,6 @@
 package com.vhl.webapi.controllers;
 
+import com.vhl.webapi.dtos.requests.ResetPasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdatePasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdateUserInfoReqDTO;
 import com.vhl.webapi.dtos.responses.AvatarResDTO;
@@ -47,6 +48,18 @@ public class UserController {
     @DeleteMapping("/avatar/{id}")
     public ResponseEntity<?> deleteAvatar(@PathVariable String id) {
         baseUserService.deleteAvatar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        baseUserService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordReqDTO resetPasswordReqDTO) {
+        baseUserService.resetPassword(resetPasswordReqDTO);
         return ResponseEntity.noContent().build();
     }
 }

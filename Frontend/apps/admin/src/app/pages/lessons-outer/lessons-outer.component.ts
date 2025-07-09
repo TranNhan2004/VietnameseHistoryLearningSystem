@@ -63,14 +63,17 @@ export class LessonsOuterComponent implements OnInit {
 
   async actionClick(event: DisplayedDataAction) {
     switch (event.action) {
-      case 'info':
+      case ActionButtonName.Add:
         await this.infoData(event.dataId);
         break;
-      case 'edit':
+      case ActionButtonName.Edit:
         await this.updateData(event.dataId);
         break;
-      case 'delete':
+      case ActionButtonName.Delete:
         await this.deleteData(event.dataId);
+        break;
+      case ActionButtonName.LinkTo:
+        await this.goToRelatedLessons(event.dataId);
         break;
     }
   }
@@ -104,6 +107,10 @@ export class LessonsOuterComponent implements OnInit {
         },
       });
     });
+  }
+
+  async goToRelatedLessons(id: string) {
+    await this.router.navigateByUrl(`/historical-periods/${id}/lessons`);
   }
 
   filterData(filtered: DisplayedData[]) {

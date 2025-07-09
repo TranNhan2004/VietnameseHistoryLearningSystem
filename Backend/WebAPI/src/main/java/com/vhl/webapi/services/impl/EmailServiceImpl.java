@@ -4,20 +4,19 @@ import com.vhl.webapi.services.abstraction.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,27 +24,41 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
     private final ResourceLoader resourceLoader;
 
+    private final Map<String, String> templateCache = new ConcurrentHashMap<>();
+
+    private String loadTemplateContent(String templatePath) throws IOException {
+        if (templateCache.containsKey(templatePath)) {
+            return templateCache.get(templatePath);
+        }
+
+
+        Resource resource = resourceLoader.getResource("classpath:templates/" + templatePath);
+
+
+        String content;
+        try (BufferedReader reader = new BufferedReader(
+            new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+            content = reader.lines().collect(Collectors.joining("\n"));
+        }
+
+        templateCache.put(templatePath, content);
+        return content;
+    }
+
+    private String renderTemplate(String templateContent, Map<String, String> placeholders) {
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+            templateContent = templateContent.replace("{" + entry.getKey() + "}", entry.getValue());
+        }
+        return templateContent;
+    }
+
     @Override
     public void sendHtmlEmail(String to, String subject, String templatePath,
                               Map<String, String> placeholders) throws MessagingException, IOException {
 
-        Resource resource = resourceLoader.getResource("classpath:templates/" + templatePath);
-        String htmlContent = new String(Files.readAllBytes(Paths.get(resource.getURI())));
+        String rawTemplate = loadTemplateContent(templatePath);
 
-        Document doc = Jsoup.parse(htmlContent);
-        Elements strongTags = doc.select("strong");
-
-        for (Element strong : strongTags) {
-            String text = strong.text();
-            if (text.startsWith("{") && text.endsWith("}")) {
-                String key = text.substring(1, text.length() - 1);
-                if (placeholders.containsKey(key)) {
-                    strong.text(placeholders.get(key));
-                }
-            }
-        }
-
-        String processedHtml = doc.html();
+        String processedHtml = renderTemplate(rawTemplate, placeholders);
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");

@@ -77,7 +77,7 @@ export class UpdateUserInfoComponent implements OnChanges {
       const data: UpdateUserInfo = this.userInfoForm.value;
       this.userService.updateInfo(this.user.id, data).subscribe({
         next: () => {
-          this.toastrService.success(userMessage['UPDATE_INFO_SUCCESS']);
+          this.toastrService.success(userMessage['UPDATE_INFO__SUCCESS']);
           this.userChange.emit({
             ...this.user,
             ...data,

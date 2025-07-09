@@ -19,13 +19,17 @@ export * from './lib/interceptors/response.interceptor';
 
 // ===================================================================================================
 // Services
-export * from './lib/services/alert.service';
-export * from './lib/services/authentication.service';
-export * from './lib/services/dummy-text.service';
-export * from './lib/services/historical-period.service';
-export * from './lib/services/my-form-builder.service';
-export * from './lib/services/my-metadata.service';
-export * from './lib/services/user.service';
+
+export * from './lib/services/be/authentication.service';
+export * from './lib/services/be/historical-period.service';
+export * from './lib/services/be/lesson.service';
+export * from './lib/services/be/user.service';
+export * from './lib/services/be/verification.service';
+
+export * from './lib/services/fe/alert.service';
+export * from './lib/services/fe/dummy-text.service';
+export * from './lib/services/fe/my-form-builder.service';
+export * from './lib/services/fe/my-metadata.service';
 
 // ===================================================================================================
 // Services

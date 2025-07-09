@@ -7,3 +7,10 @@ export interface HistoricalPeriod {
 }
 
 export interface HistoricalPeriodResponse extends Id, HistoricalPeriod {}
+
+export interface Lesson {
+  title: string;
+  videoUrl: string | null;
+}
+
+export interface LessonResponse extends Id, Lesson {}

@@ -18,13 +18,13 @@ public class LessonController {
     private final LessonService lessonService;
 
     @GetMapping("")
-    public ResponseEntity<?> getAllLessons() {
-        return ResponseEntity.ok(lessonService.getAllLessons());
+    public ResponseEntity<?> getAllLessons(@RequestParam String historicalPeriodId) {
+        return ResponseEntity.ok(lessonService.getAllLessonsByHistoricalPeriodId(historicalPeriodId));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getLessonById(@PathVariable String id) {
-        return ResponseEntity.ok(lessonService.getLesson(id));
+        return ResponseEntity.ok(lessonService.getLessonById(id));
     }
 
     @PostMapping("")

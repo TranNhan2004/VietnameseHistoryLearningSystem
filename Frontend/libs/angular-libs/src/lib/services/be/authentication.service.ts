@@ -12,7 +12,7 @@ import {
 import { AuthenticationHelpers } from '@frontend/utils';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ROLE, WEB_API_URL } from '../tokens/tokens';
+import { ROLE, WEB_API_URL } from '../../tokens/tokens';
 
 @Injectable({
   providedIn: 'root',

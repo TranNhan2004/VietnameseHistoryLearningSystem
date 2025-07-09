@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HistoricalPeriodFormComponent } from '../../components/historical-period-form/historical-period-form.component';
 import { FormGroup, Validators } from '@angular/forms';
@@ -8,19 +8,19 @@ import {
   HistoricalPeriodService,
   MyFormBuilderService,
 } from '@frontend/angular-libs';
-import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute, Router } from '@angular/router';
 import { HistoricalPeriod } from '@frontend/models';
+import { ToastrService } from 'ngx-toastr';
 import { historicalPeriodMessage } from '@frontend/constants';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-edit-historical-period',
+  selector: 'app-add-historical-period',
   imports: [CommonModule, HistoricalPeriodFormComponent],
-  templateUrl: './edit-historical-period.component.html',
-  styleUrl: './edit-historical-period.component.css',
+  templateUrl: './create-historical-period.component.html',
+  styleUrl: './create-historical-period.component.css',
 })
-export class EditHistoricalPeriodComponent implements OnInit {
+export class CreateHistoricalPeriodComponent {
   historicalPeriodForm: FormGroup;
   historicalPeriodFH: MyFormGroupHelper;
 
@@ -29,8 +29,7 @@ export class EditHistoricalPeriodComponent implements OnInit {
     private historicalPeriodService: HistoricalPeriodService,
     private toastrService: ToastrService,
     private alertService: AlertService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {
     this.historicalPeriodForm = this.myFB.group<HistoricalPeriod>({
       name: ['', [Validators.required, Validators.maxLength(1024)]],
@@ -41,39 +40,25 @@ export class EditHistoricalPeriodComponent implements OnInit {
     this.historicalPeriodFH = new MyFormGroupHelper(this.historicalPeriodForm);
   }
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id') ?? '';
-    this.historicalPeriodService.getById(id).subscribe({
-      next: (res) => {
-        this.historicalPeriodForm.setValue({
-          name: res.name,
-          startYear: res.startYear,
-          endYear: res.endYear,
-        });
-      },
-      error: (err: HttpErrorResponse) => {
-        const key = err.error.message as keyof typeof historicalPeriodMessage;
-        this.toastrService.error(historicalPeriodMessage[key]);
-      },
-    });
-  }
-
   save() {
-    const id = this.route.snapshot.paramMap.get('id') ?? '';
-
     if (this.historicalPeriodForm.valid) {
       const data: HistoricalPeriod = this.historicalPeriodForm.value;
-      this.historicalPeriodService.update(id, data).subscribe({
+      this.historicalPeriodService.create(data).subscribe({
         next: () => {
+          this.historicalPeriodForm.setValue({
+            name: '',
+            startYear: 0,
+            endYear: 1,
+          });
+
+          this.historicalPeriodForm.markAsPristine();
+          this.historicalPeriodForm.markAsUntouched();
+
           this.toastrService.success(
-            historicalPeriodMessage['UPDATE__SUCCESS']
+            historicalPeriodMessage['CREATE__SUCCESS']
           );
         },
-        error: async (err: HttpErrorResponse) => {
-          if (err.status === 404) {
-            await this.router.navigateByUrl('/404');
-          }
-
+        error: (err: HttpErrorResponse) => {
           const key = err.error.message as keyof typeof historicalPeriodMessage;
           this.toastrService.error(historicalPeriodMessage[key]);
         },

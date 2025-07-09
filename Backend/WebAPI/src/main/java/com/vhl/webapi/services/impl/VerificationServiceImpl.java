@@ -1,6 +1,7 @@
 package com.vhl.webapi.services.impl;
 
 import com.vhl.webapi.constants.errorcodes.BaseUserErrorCode;
+import com.vhl.webapi.constants.errorcodes.GeneralErrorCode;
 import com.vhl.webapi.constants.errorcodes.VerificationErrorCode;
 import com.vhl.webapi.constants.keys.RedisKeyPrefix;
 import com.vhl.webapi.dtos.requests.SendOtpReqDTO;
@@ -34,9 +35,8 @@ public class VerificationServiceImpl implements VerificationService {
         String otp = otpService.generate(10, false);
         String hashedOtp = SHA256.hashes(otp);
         Map<String, String> placeholders = new HashMap<>();
-        placeholders.put("USER_NAME", sendOtpReqDTO.getUserName());
-        placeholders.put("OTP_CODE", otp);
-        placeholders.put("EXPIRATION_TIME", "10");
+        placeholders.put("otpCode", otp);
+        placeholders.put("expirationTime", "10");
 
         try {
             emailService.sendHtmlEmail(sendOtpReqDTO.getEmail(), emailSubject, emailTemplatePath, placeholders);
@@ -64,7 +64,7 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     public void sendOtpForVerifyAccount(SendOtpReqDTO sendOtpReqDTO) {
         BaseUser baseUser = baseUserRepository.findByEmail(sendOtpReqDTO.getEmail()).orElseThrow(
-            () -> new NoInstanceFoundException(BaseUserErrorCode.BASE_USER__NOT_FOUND)
+            () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
         );
 
         if (baseUser.isActive()) {
@@ -81,6 +81,10 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     public void sendOtpForVerifyResetPassword(SendOtpReqDTO sendOtpReqDTO) {
+        if (!baseUserRepository.existsByEmail(sendOtpReqDTO.getEmail())) {
+            throw new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND);
+        }
+
         sendOtp(
             sendOtpReqDTO,
             "ĐẶT LẠI MẬT KHẨU",
@@ -92,7 +96,7 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     public boolean verifyAccount(VerificationReqDTO verificationReqDTO) {
         BaseUser baseUser = baseUserRepository.findByEmail(verificationReqDTO.getEmail()).orElseThrow(
-            () -> new NoInstanceFoundException(BaseUserErrorCode.BASE_USER__NOT_FOUND)
+            () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
         );
 
         if (baseUser.isActive()) {

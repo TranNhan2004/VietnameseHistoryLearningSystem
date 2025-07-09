@@ -29,4 +29,16 @@ public class VerificationController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/reset-password/send-otp")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody SendOtpReqDTO sendOtpReqDTO) {
+        verificationService.sendOtpForVerifyResetPassword(sendOtpReqDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody VerificationReqDTO verificationReqDTO) {
+        verificationService.verifyResetPassword(verificationReqDTO);
+        return ResponseEntity.noContent().build();
+    }
+
 }

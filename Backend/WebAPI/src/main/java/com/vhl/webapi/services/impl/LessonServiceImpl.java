@@ -21,8 +21,8 @@ public class LessonServiceImpl implements LessonService {
     private final LessonMapper lessonMapper;
 
     @Override
-    public List<LessonResDTO> getAllLessons() {
-        List<Lesson> lessons = lessonRepository.findAll();
+    public List<LessonResDTO> getAllLessonsByHistoricalPeriodId(String historicalPeriodId) {
+        List<Lesson> lessons = lessonRepository.findByHistoricalPeriodId(historicalPeriodId);
         return lessons.stream()
             .map(lessonMapper::toLessonResDTO)
             .toList();
@@ -30,7 +30,7 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     @Transactional
-    public LessonResDTO getLesson(String id) {
+    public LessonResDTO getLessonById(String id) {
         Lesson lesson = lessonRepository.findById(id)
             .orElseThrow(() -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND));
 
@@ -41,7 +41,6 @@ public class LessonServiceImpl implements LessonService {
 
         return lessonMapper.toLessonResDTO(lesson);
     }
-
 
     @Override
     public LessonResDTO createLesson(LessonReqDTO lessonReqDTO) {

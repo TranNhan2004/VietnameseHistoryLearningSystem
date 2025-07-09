@@ -95,7 +95,7 @@ export class ProfileComponent {
       this.userService.updateAvatar(this.userId, file).subscribe({
         next: (res) => {
           this.user.avatarUrl = res.avatarUrl;
-          this.toastrService.success(userMessage['UPDATE_AVATAR_SUCCESS']);
+          this.toastrService.success(userMessage['UPDATE_AVATAR__SUCCESS']);
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
@@ -114,7 +114,7 @@ export class ProfileComponent {
     this.userService.deleteAvatar(this.userId).subscribe({
       next: () => {
         this.user.avatarUrl = '';
-        this.toastrService.success(userMessage['DELETE_AVATAR_SUCCESS']);
+        this.toastrService.success(userMessage['DELETE_AVATAR__SUCCESS']);
       },
       error: (err: HttpErrorResponse) => {
         const key = err.error.message as keyof typeof userMessage;

@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, switchMap, throwError } from 'rxjs';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '../services/be/authentication.service';
 import { AuthenticationHelpers } from '@frontend/utils';
 
 export const responseInterceptor: HttpInterceptorFn = (req, next) => {
