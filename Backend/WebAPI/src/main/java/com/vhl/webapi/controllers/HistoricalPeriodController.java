@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/historical-periods")
@@ -20,12 +21,14 @@ public class HistoricalPeriodController {
 
     @GetMapping("")
     public ResponseEntity<?> getAllHistoricalPeriods() {
-        return ResponseEntity.ok(historicalPeriodService.getHistoricalPeriods());
+        List<HistoricalPeriodResDTO> historicalPeriodResDTOS = historicalPeriodService.getHistoricalPeriods();
+        return ResponseEntity.ok(historicalPeriodResDTOS);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getHistoricalPeriodById(@PathVariable String id) {
-        return ResponseEntity.ok(historicalPeriodService.getHistoricalPeriodById(id));
+        HistoricalPeriodResDTO historicalPeriodResDTO = historicalPeriodService.getHistoricalPeriodById(id);
+        return ResponseEntity.ok(historicalPeriodResDTO);
     }
 
     @PreAuthorize("@roleChecker.hasRolePrefix('ADMIN')")

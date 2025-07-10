@@ -25,7 +25,7 @@ public class Lesson extends ICUBaseEntity {
     @Column(name = "views", nullable = false)
     private int views = 0;
 
-    @Column(name = "description", length = 1024)
+    @Column(name = "description", nullable = false, length = 2048)
     private String description;
 
     @ManyToOne

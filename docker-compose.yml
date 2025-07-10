@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./Backend/WebAPI/src/main/resources/.env
+      - ./Backend/WebAPI/src/main/resources/.env.docker
     depends_on:
       - mysql
       - redis

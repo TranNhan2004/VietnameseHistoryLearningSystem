@@ -19,5 +19,5 @@ export interface ActionButtonConfigForTable {
 export interface SortOption {
   label: string;
   sortedKey: keyof DisplayedData;
-  type: 'all' | 'asc' | 'dsc';
+  type: 'asc' | 'dsc';
 }

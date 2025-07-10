@@ -10,13 +10,12 @@ export * from './lib/messages/chat-history-message';
 export * from './lib/messages/comment-message';
 export * from './lib/messages/contest-message';
 export * from './lib/messages/general-message';
-export * from './lib/messages/historical-period-message';
+export * from './lib/messages/lesson-message';
 export * from './lib/messages/question-message';
-export * from './lib/messages/result-message';
 export * from './lib/messages/user-message';
 export * from './lib/messages/verification-message';
 
-export * from './lib/objects/historical-period';
+export * from './lib/objects/lesson';
 export * from './lib/objects/user';
 
 export * from './lib/reg-exps/reg-exp';

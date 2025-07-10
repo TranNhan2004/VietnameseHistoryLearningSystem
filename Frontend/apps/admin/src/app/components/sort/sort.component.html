@@ -4,8 +4,8 @@
   class="border-[3px] border-my-lightblue bg-white px-4 py-[4%] rounded-xl w-full focus:outline-none cursor-pointer"
 >
   <option value="">-- Sắp xếp --</option>
-  @for (option of renderedOptions; track $index) {
-    <option [value]="option.sortedKey + '|' + option.direction">
+  @for (option of sortOptions; track $index) {
+    <option [value]="option.sortedKey + '|' + option.type">
       {{ option.label }}
     </option>
   }

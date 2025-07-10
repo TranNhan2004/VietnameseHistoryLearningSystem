@@ -27,14 +27,14 @@ public class ImageServiceImpl implements ImageService {
     public ImageResDTO uploadImage(ImageReqDTO imageReqDTO, MultipartFile file) {
         try {
             String url = fileService.uploadFile(file, CloudinaryStorageFolder.LESSON_IMAGE, "image");
-            imageReqDTO.setImageUrl(url);
 
             Image image = imageMapper.toImage(imageReqDTO);
+            image.setImageUrl(url);
             imageRepository.save(image);
             return imageMapper.toImageResDTO(image);
 
         } catch (Exception e) {
-            throw new RuntimeException(ImageErrorCode.UPLOAD_IMAGE__FAILED);
+            throw new RuntimeException(ImageErrorCode.IMAGE__UPLOAD_FAILED);
         }
     }
 
@@ -49,7 +49,7 @@ public class ImageServiceImpl implements ImageService {
             imageRepository.delete(image);
 
         } catch (Exception e) {
-            throw new RuntimeException(ImageErrorCode.DELETE_IMAGE__FAILED);
+            throw new RuntimeException(ImageErrorCode.IMAGE__DELETE_FAILED);
         }
 
     }

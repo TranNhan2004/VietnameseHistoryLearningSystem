@@ -17,4 +17,14 @@ export class LessonService {
       `${this.webApiUrl}lessons?historicalPeriodId=${historicalPeriodId}`
     );
   }
+
+  getById(id: string) {
+    return this.httpClient.get<LessonResponse>(
+      `${this.webApiUrl}lessons/${id}`
+    );
+  }
+
+  delete(id: string) {
+    return this.httpClient.delete(`${this.webApiUrl}lessons/${id}`);
+  }
 }

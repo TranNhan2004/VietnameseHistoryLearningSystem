@@ -36,7 +36,7 @@ public class BaseUserErrorCode {
     public static final String BASE_USER__NOT_FOUND = "BASE_USER__NOT_FOUND";
     public static final String HAS_BEEN_ACTIVE = "HAS_BEEN_ACTIVE";
 
-    public static final String AVATAR__UPDATE_FAILED = "AVATAR__UPLOAD_FAILED";
+    public static final String AVATAR__UPLOAD_FAILED = "AVATAR__UPLOAD_FAILED";
     public static final String AVATAR__DELETE_FAILED = "AVATAR__DELETE_FAILED";
 
     public static final String OLD_PASSWORD__INVALID = "OLD_PASSWORD__INVALID";

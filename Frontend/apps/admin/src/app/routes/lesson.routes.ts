@@ -5,6 +5,8 @@ import { HistoricalPeriodDetailsComponent } from '../pages/historical-period-det
 import { UpdateHistoricalPeriodComponent } from '../pages/update-historical-period/update-historical-period.component';
 import { LessonsComponent } from '../pages/lessons/lessons.component';
 import { LessonDetailsComponent } from '../pages/lesson-details/lesson-details.component';
+import { CreateLessonComponent } from '../pages/create-lesson/create-lesson.component';
+import { UpdateLessonComponent } from '../pages/update-lesson/update-lesson.component';
 
 export const lessonRoutes: Route[] = [
   { path: 'lessons-outer', component: LessonsOuterComponent },
@@ -31,8 +33,16 @@ export const lessonRoutes: Route[] = [
             component: LessonsComponent,
           },
           {
+            path: 'add',
+            component: CreateLessonComponent,
+          },
+          {
             path: ':id',
             component: LessonDetailsComponent,
+          },
+          {
+            path: ':id/edit',
+            component: UpdateLessonComponent,
           },
         ],
       },

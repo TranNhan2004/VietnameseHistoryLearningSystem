@@ -8,8 +8,6 @@ import lombok.Data;
 
 @Data
 public class ImageReqDTO {
-    private String imageUrl;
-
     @NotNull(message = ImageErrorCode.ORDINAL_NUMBER__REQUIRED)
     @Min(value = 1, message = ImageErrorCode.ORDINAL_NUMBER__INVALID)
     private int ordinalNumber;

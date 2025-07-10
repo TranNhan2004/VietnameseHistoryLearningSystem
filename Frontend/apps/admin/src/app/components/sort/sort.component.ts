@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DisplayedData, SortOption } from '@frontend/models';
 import { FormsModule } from '@angular/forms';
@@ -9,53 +9,12 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './sort.component.html',
   styleUrl: './sort.component.css',
 })
-export class SortComponent implements OnInit {
+export class SortComponent {
   @Input({ required: true }) originalData: DisplayedData[] = [];
   @Input({ required: true }) sortOptions: SortOption[] = [];
   @Output() sortData = new EventEmitter<DisplayedData[]>();
 
-  renderedOptions: {
-    label: SortOption['label'];
-    sortedKey: SortOption['sortedKey'];
-    direction: Omit<SortOption['type'], 'all'>;
-  }[] = [];
-
   selected = '';
-
-  ngOnInit() {
-    this.buildRenderedOptions();
-  }
-
-  buildRenderedOptions() {
-    this.renderedOptions = [];
-
-    for (const opt of this.sortOptions) {
-      if (opt.type === 'all') {
-        this.renderedOptions.push({
-          label: `${opt.label} (Tăng dần)`,
-          sortedKey: opt.sortedKey,
-          direction: 'asc',
-        });
-        this.renderedOptions.push({
-          label: `${opt.label} (Giảm dần)`,
-          sortedKey: opt.sortedKey,
-          direction: 'dsc',
-        });
-      } else if (opt.type === 'asc') {
-        this.renderedOptions.push({
-          label: `${opt.label} (Tăng dần)`,
-          sortedKey: opt.sortedKey,
-          direction: 'asc',
-        });
-      } else {
-        this.renderedOptions.push({
-          label: `${opt.label} (Giảm dần)`,
-          sortedKey: opt.sortedKey,
-          direction: 'dsc',
-        });
-      }
-    }
-  }
 
   onSortChange() {
     if (!this.selected) {

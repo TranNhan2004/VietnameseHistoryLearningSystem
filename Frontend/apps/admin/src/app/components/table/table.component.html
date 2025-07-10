@@ -68,55 +68,62 @@
     </tr>
     </thead>
     <tbody class="divide-y divide-gray-200">
-      @for (item of pagedData; track item._id; let i = $index) {
-        <tr class="hover:bg-gray-50">
-          <td class="px-4 py-3 text-sm text-gray-800">
-            {{ (currentPage - 1) * pageSize + i + 1 }}
-          </td>
-          <td class="px-4 py-3 text-gray-800">
-            @for (entry of getDisplayedEntries(item); track $index) {
-              <div>
-                <span class="font-bold">{{ entry[0] }}: </span>
-                <span *ngIf="entry[1] === null">—</span>
-                <span *ngIf="isDate(entry[1])">{{ entry[1] | date:'dd/MM/yyyy' }}</span>
-                <span *ngIf="!isDate(entry[1]) && isIsoDateString(entry[1])">{{ entry[1] | date:'dd/MM/yyyy' }}</span>
-                <span *ngIf="!isDate(entry[1]) && !isIsoDateString(entry[1]) && entry[1] !== null">{{ entry[1] }}</span>
-              </div>
-            }
-          </td>
-          <td class="px-4 py-3">
-            <div class="flex items-center space-x-2">
-              @for (action of actionButtonConfigs; track $index) {
-                <lib-action-button
-                  *ngIf="action.title !== undefined && action.mainTitle !== undefined"
-                  [name]="action.name"
-                  [mainTitle]="action.mainTitle"
-                  [title]="action.title"
-                  (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
-                ></lib-action-button>
-
-                <lib-action-button
-                  *ngIf="action.title === undefined && action.mainTitle !== undefined"
-                  [name]="action.name"
-                  [mainTitle]="action.mainTitle"
-                  (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
-                ></lib-action-button>
-
-                <lib-action-button
-                  *ngIf="action.title !== undefined && action.mainTitle === undefined"
-                  [name]="action.name"
-                  [title]="action.title"
-                  (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
-                ></lib-action-button>
-
-                <lib-action-button
-                  *ngIf="action.title === undefined && action.mainTitle === undefined"
-                  [name]="action.name"
-                  (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
-                ></lib-action-button>
+      @if (pagedData.length > 0) {
+        @for (item of pagedData; track item._id; let i = $index) {
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 text-sm text-gray-800">
+              {{ (currentPage - 1) * pageSize + i + 1 }}
+            </td>
+            <td class="px-4 py-3 text-gray-800">
+              @for (entry of getDisplayedEntries(item); track $index) {
+                <div>
+                  <span class="font-bold">{{ entry[0] }}: </span>
+                  <span *ngIf="entry[1] === null">—</span>
+                  <span *ngIf="isDate(entry[1])">{{ entry[1] | date:'dd/MM/yyyy' }}</span>
+                  <span *ngIf="!isDate(entry[1]) && isIsoDateString(entry[1])">{{ entry[1] | date:'dd/MM/yyyy' }}</span>
+                  <span
+                    *ngIf="!isDate(entry[1]) && !isIsoDateString(entry[1]) && entry[1] !== null">{{ entry[1] }}</span>
+                </div>
               }
-            </div>
-          </td>
+            </td>
+            <td class="px-4 py-3">
+              <div class="flex items-center space-x-2">
+                @for (action of actionButtonConfigs; track $index) {
+                  <lib-action-button
+                    *ngIf="action.title !== undefined && action.mainTitle !== undefined"
+                    [name]="action.name"
+                    [mainTitle]="action.mainTitle"
+                    [title]="action.title"
+                    (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                  ></lib-action-button>
+
+                  <lib-action-button
+                    *ngIf="action.title === undefined && action.mainTitle !== undefined"
+                    [name]="action.name"
+                    [mainTitle]="action.mainTitle"
+                    (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                  ></lib-action-button>
+
+                  <lib-action-button
+                    *ngIf="action.title !== undefined && action.mainTitle === undefined"
+                    [name]="action.name"
+                    [title]="action.title"
+                    (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                  ></lib-action-button>
+
+                  <lib-action-button
+                    *ngIf="action.title === undefined && action.mainTitle === undefined"
+                    [name]="action.name"
+                    (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                  ></lib-action-button>
+                }
+              </div>
+            </td>
+          </tr>
+        }
+      } @else {
+        <tr class="hover:bg-gray-50">
+          <td colspan="3" height="50" class="italic text-center">Không có dữ liệu</td>
         </tr>
       }
     </tbody>

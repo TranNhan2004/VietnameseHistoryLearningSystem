@@ -29,4 +29,6 @@ export const materialIcons = {
   matInfoRound: matIcons.matInfoRound,
   matLockOpenRound: matIcons.matLockOpenRound,
   matSaveRound: matIcons.matSaveRound,
+  matKeyboardArrowLeftRound: matIcons.matKeyboardArrowLeftRound,
+  matKeyboardArrowRightRound: matIcons.matKeyboardArrowRightRound,
 };

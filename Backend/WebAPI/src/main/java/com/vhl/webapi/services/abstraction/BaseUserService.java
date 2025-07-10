@@ -3,6 +3,7 @@ package com.vhl.webapi.services.abstraction;
 import com.vhl.webapi.dtos.requests.ResetPasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdatePasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdateUserInfoReqDTO;
+import com.vhl.webapi.dtos.responses.AvatarResDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +15,7 @@ public interface BaseUserService {
 
     void updatePassword(String id, UpdatePasswordReqDTO updatePasswordReqDTO);
 
-    String updateAvatar(String id, MultipartFile file);
+    AvatarResDTO uploadAvatar(String id, MultipartFile file);
 
     void deleteAvatar(String id);
 

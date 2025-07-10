@@ -38,10 +38,8 @@ public class UserController {
 
 
     @PutMapping("/avatar/{id}")
-    public ResponseEntity<?> updateAvatar(@PathVariable String id, @RequestParam("avatar") MultipartFile file) {
-        String url = baseUserService.updateAvatar(id, file);
-        AvatarResDTO avatarResDTO = new AvatarResDTO();
-        avatarResDTO.setAvatarUrl(url);
+    public ResponseEntity<?> uploadAvatar(@PathVariable String id, @RequestParam("avatar") MultipartFile file) {
+        AvatarResDTO avatarResDTO = baseUserService.uploadAvatar(id, file);
         return ResponseEntity.ok(avatarResDTO);
     }
 

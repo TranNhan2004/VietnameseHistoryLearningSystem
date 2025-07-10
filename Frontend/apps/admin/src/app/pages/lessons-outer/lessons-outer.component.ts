@@ -4,6 +4,7 @@ import {
   ActionButtonComponent,
   AlertService,
   HistoricalPeriodService,
+  SharedService,
 } from '@frontend/angular-libs';
 import { Router } from '@angular/router';
 import {
@@ -41,6 +42,7 @@ export class LessonsOuterComponent implements OnInit {
     private historicalPeriodService: HistoricalPeriodService,
     private alertService: AlertService,
     private toastrService: ToastrService,
+    private sharedService: SharedService,
     private router: Router
   ) {}
 
@@ -50,6 +52,7 @@ export class LessonsOuterComponent implements OnInit {
         this.historicalPeriods = [...res];
         this.originialDisplayedData = this.historicalPeriods.map((item) => ({
           _id: item.id,
+          _name: item.name,
           _startYear: item.startYear,
           _endYear: item.endYear,
           'Tên thời kỳ': item.name,
@@ -110,6 +113,15 @@ export class LessonsOuterComponent implements OnInit {
   }
 
   async goToRelatedLessons(id: string) {
+    const data = this.originialDisplayedData.find(
+      (item) => item._id === id
+    ) as DisplayedData;
+    this.sharedService.put(
+      id,
+      `Thời kỳ ${data['Tên thời kỳ']?.toString().toLowerCase()} (${
+        data['Năm bắt đầu']
+      } - ${data['Năm kết thúc']})`
+    );
     await this.router.navigateByUrl(`/historical-periods/${id}/lessons`);
   }
 

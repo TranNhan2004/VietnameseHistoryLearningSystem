@@ -1,1 +1,64 @@
-<p>lesson-form works!</p>
+<div class="p-4">
+  <h3 class="text-2xl font-bold mb-8 text-my-blue">Thông tin thời kỳ lịch sử</h3>
+
+  <form [formGroup]="formGroup" class="space-y-4">
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[10%]">Tiêu đề:</span>
+      <div class="w-[50%]">
+        <input
+          type="text"
+          formControlName="title"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
+
+        @if (formHelper.isInvalid('title')) {
+          @if (formHelper.hasError('title', 'required')) {
+            <p class="error">{{ lessonMessage.TITLE__REQUIRED }}</p>
+          } @else if (formHelper.hasError('title', 'maxlength')) {
+            <p class="error">{{ lessonMessage.TITLE__TOO_LONG }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[10%]">Mô tả:</span>
+      <div class="w-[50%]">
+        <textarea
+          type="text"
+          formControlName="description"
+          rows="5"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        ></textarea>
+
+        @if (formHelper.isInvalid('description')) {
+          @if (formHelper.hasError('description', 'required')) {
+            <p class="error">{{ lessonMessage.DESCRIPTION__REQUIRED }}</p>
+          } @else if (formHelper.hasError('description', 'maxlength')) {
+            <p class="error">{{ lessonMessage.DESCRIPTION__TOO_LONG }}</p>
+          }
+        }
+      </div>
+    </label>
+  </form>
+  <div class="mt-10 p-4 w-full bg-gradient-to-r from-my-lightblue to-my-lightpurple flex items-center rounded-xl">
+    <div class="flex justify-end ml-auto space-x-2 ">
+      <lib-action-button
+        [name]="ActionButtonName.Save"
+        mainTitle="Lưu"
+        title=""
+        [disabled]="formGroup.invalid"
+        (btnClick)="saveFn.emit()"
+      ></lib-action-button>
+
+      <lib-action-button
+        [name]="ActionButtonName.Cancel"
+        mainTitle="Thoát"
+        title=""
+        (btnClick)="cancelFn.emit()"
+      ></lib-action-button>
+    </div>
+  </div>
+</div>
+

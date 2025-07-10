@@ -16,9 +16,12 @@
       <app-sort
         [originalData]="originialDisplayedData"
         [sortOptions]="[
-          { label: 'Tên thời kỳ', type: 'all', sortedKey: 'Tên thời kỳ' },
-          { label: 'Năm bắt đầu', type: 'all', sortedKey: '_startYear' },
-          { label: 'Năm kết thúc', type: 'all', sortedKey: '_endYear' }
+          { label: 'Tên thời kỳ (A-Z)', type: 'asc', sortedKey: '_name' },
+          { label: 'Tên thời kỳ (Z-A)', type: 'dsc', sortedKey: '_name' },
+          { label: 'Năm bắt đầu (Tăng dần)', type: 'asc', sortedKey: '_startYear' },
+          { label: 'Năm bắt đầu (Giảm dần)', type: 'dsc', sortedKey: '_startYear' },
+          { label: 'Năm kết thúc (Tăng dần)', type: 'asc', sortedKey: '_endYear' },
+          { label: 'Năm kết thúc (Giảm dần)', type: 'dsc', sortedKey: '_endYear' }
         ]"
         (sortData)="sortData($event)"
       >

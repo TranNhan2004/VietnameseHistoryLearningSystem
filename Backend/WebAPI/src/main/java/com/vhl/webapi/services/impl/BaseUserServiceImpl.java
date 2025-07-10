@@ -6,6 +6,7 @@ import com.vhl.webapi.constants.storage.CloudinaryStorageFolder;
 import com.vhl.webapi.dtos.requests.ResetPasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdatePasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdateUserInfoReqDTO;
+import com.vhl.webapi.dtos.responses.AvatarResDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResDTO;
 import com.vhl.webapi.entities.specific.Admin;
 import com.vhl.webapi.entities.specific.BaseUser;
@@ -74,7 +75,7 @@ public class BaseUserServiceImpl implements BaseUserService {
     }
 
     @Override
-    public String updateAvatar(String id, MultipartFile file) {
+    public AvatarResDTO uploadAvatar(String id, MultipartFile file) {
         try {
             BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(
                 () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
@@ -88,10 +89,13 @@ public class BaseUserServiceImpl implements BaseUserService {
 
             baseUser.setAvatarUrl(url);
             baseUserRepository.save(baseUser);
-            return baseUser.getAvatarUrl();
+
+            AvatarResDTO avatarResDTO = new AvatarResDTO();
+            avatarResDTO.setAvatarUrl(baseUser.getAvatarUrl());
+            return avatarResDTO;
 
         } catch (Exception e) {
-            throw new RuntimeException(BaseUserErrorCode.AVATAR__UPDATE_FAILED);
+            throw new RuntimeException(BaseUserErrorCode.AVATAR__UPLOAD_FAILED);
         }
     }
 
