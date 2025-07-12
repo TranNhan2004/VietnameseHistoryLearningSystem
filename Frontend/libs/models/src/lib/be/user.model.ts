@@ -1,6 +1,6 @@
 import { CreateTime, Id, UpdateTime } from './abstracts.model';
 
-export interface BaseUser extends Id, CreateTime, UpdateTime {
+export interface BaseUserResponse extends Id, CreateTime, UpdateTime {
   userName: string;
   email: string;
   firstName: string;
@@ -10,18 +10,18 @@ export interface BaseUser extends Id, CreateTime, UpdateTime {
   lastLogin: Date | null;
 }
 
-export interface Admin extends BaseUser {
+export interface AdminResponse extends BaseUserResponse {
   adminLevel: 'BASIC' | 'ADVANCED' | 'SUPER_ADVANCED';
 }
 
-export interface Learner extends BaseUser {
+export interface LearnerResponse extends BaseUserResponse {
   rank: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'EXPERT';
   point: number;
   bestScore: number | null;
   worstScore: number | null;
 }
 
-export interface Avatar {
+export interface AvatarResponse {
   avatarUrl: string;
 }
 

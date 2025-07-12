@@ -14,13 +14,14 @@ import {
   DisplayedDataAction,
   LessonResponse,
 } from '@frontend/models';
-import { historicalPeriodMessage } from '@frontend/constants';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { SearchComponent } from '../../components/search/search.component';
 import { SortComponent } from '../../components/sort/sort.component';
 import { TableComponent } from '../../components/table/table.component';
 import { ToastrService } from 'ngx-toastr';
 import { NgIcon } from '@ng-icons/core';
+import { lessonMessages } from '@frontend/constants';
+import { environment } from '../../environments/environment.dev';
 
 @Component({
   selector: 'app-lessons',
@@ -50,7 +51,7 @@ export class LessonsComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.myMetadataService.set({
       title: 'LOTUS Admin | Quản lý bài học',
       description: 'Quản lý các bài học về lịch sử Việt Nam',
@@ -61,10 +62,14 @@ export class LessonsComponent implements OnInit {
     const historicalPeriodId =
       this.route.parent?.snapshot.paramMap.get('id') ?? '';
 
+    if (!this.sharedService.has(historicalPeriodId)) {
+      await this.router.navigateByUrl('/404');
+    }
+
     this.lessonService
       .getAllByHistoricalPeriodId(historicalPeriodId)
       .subscribe({
-        next: (res) => {
+        next: async (res) => {
           this.lessons = [...res];
           this.originialDisplayedData = this.lessons.map((item) => ({
             _id: item.id,
@@ -87,7 +92,7 @@ export class LessonsComponent implements OnInit {
 
   async actionClick(event: DisplayedDataAction) {
     switch (event.action) {
-      case ActionButtonName.Add:
+      case ActionButtonName.Info:
         await this.infoData(event.dataId);
         break;
       case ActionButtonName.Edit:
@@ -100,11 +105,11 @@ export class LessonsComponent implements OnInit {
   }
 
   async infoData(id: string) {
-    await this.router.navigateByUrl(`/historical-periods/${id}`);
+    await this.router.navigate([`${id}`], { relativeTo: this.route });
   }
 
   async updateData(id: string) {
-    await this.router.navigateByUrl(`/historical-periods/${id}/edit`);
+    await this.router.navigate([`${id}/edit`], { relativeTo: this.route });
   }
 
   async deleteData(id: string) {
@@ -116,14 +121,15 @@ export class LessonsComponent implements OnInit {
             (item) => item._id !== id
           );
           this.displayedData = [...this.originialDisplayedData];
-          this.toastrService.success(
-            historicalPeriodMessage['DELETE__SUCCESS']
-          );
+          this.toastrService.success(lessonMessages['DELETE__SUCCESS']);
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err);
-          const key = err.error.message as keyof typeof historicalPeriodMessage;
-          this.toastrService.error(historicalPeriodMessage[key]);
+          if (!environment.production) {
+            console.log(err);
+          }
+
+          const key = err.error.message as keyof typeof lessonMessages;
+          this.toastrService.error(lessonMessages[key]);
         },
       });
     });

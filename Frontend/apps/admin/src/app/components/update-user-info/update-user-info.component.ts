@@ -8,8 +8,12 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActionButtonName, Admin, UpdateUserInfo } from '@frontend/models';
-import { initialAdmin, userMessage } from '@frontend/constants';
+import {
+  ActionButtonName,
+  AdminResponse,
+  UpdateUserInfo,
+} from '@frontend/models';
+import { initialAdminResponse, userMessages } from '@frontend/constants';
 import { MyFormGroupHelper } from '@frontend/utils';
 import {
   ActionButtonComponent,
@@ -28,8 +32,8 @@ import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 })
 export class UpdateUserInfoComponent implements OnChanges {
   @Input({ required: true }) editMode = false;
-  @Input({ required: true }) user: Admin = initialAdmin;
-  @Output() userChange = new EventEmitter<Admin>();
+  @Input({ required: true }) user: AdminResponse = initialAdminResponse;
+  @Output() userChange = new EventEmitter<AdminResponse>();
 
   userInfoForm: FormGroup;
   userInfoFH: MyFormGroupHelper;
@@ -77,15 +81,15 @@ export class UpdateUserInfoComponent implements OnChanges {
       const data: UpdateUserInfo = this.userInfoForm.value;
       this.userService.updateInfo(this.user.id, data).subscribe({
         next: () => {
-          this.toastrService.success(userMessage['UPDATE_INFO__SUCCESS']);
+          this.toastrService.success(userMessages['INFO__UPDATE_SUCCESS']);
           this.userChange.emit({
             ...this.user,
             ...data,
           });
         },
         error: (err: HttpErrorResponse) => {
-          const key = err.error.message as keyof typeof userMessage;
-          this.toastrService.error(userMessage[key]);
+          const key = err.error.message as keyof typeof userMessages;
+          this.toastrService.error(userMessages[key]);
         },
       });
     }
@@ -97,7 +101,7 @@ export class UpdateUserInfoComponent implements OnChanges {
     });
   }
 
-  protected readonly userMessage = userMessage;
+  protected readonly userMessages = userMessages;
   protected readonly ActionButtonComponent = ActionButtonComponent;
   protected readonly ActionButtonName = ActionButtonName;
 }

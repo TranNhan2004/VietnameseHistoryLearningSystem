@@ -1,7 +1,9 @@
 package com.vhl.webapi.exceptions;
 
+import com.vhl.webapi.constants.errorcodes.GeneralErrorCode;
 import com.vhl.webapi.utils.errors.ErrorResponseUtils;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -57,14 +59,39 @@ public class GlobalExceptionHandler {
         return ErrorResponseUtils.createObject(HttpStatus.METHOD_NOT_ALLOWED, "Method Not Allowed", ex.getMethod());
     }
 
+    private Throwable getRootCause(Throwable ex) {
+        Throwable cause = ex;
+        while (cause.getCause() != null && cause.getCause() != cause) {
+            cause = cause.getCause();
+        }
+        return cause;
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String, Object> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        Throwable rootCause = getRootCause(e);
+
+        String message = "";
+        if (rootCause instanceof java.sql.SQLIntegrityConstraintViolationException) {
+            String sqlMessage = rootCause.getMessage();
+
+            if (sqlMessage != null && sqlMessage.contains("foreign key constraint fails")) {
+                message = GeneralErrorCode.FOREIGN_KEY__VIOLATED;
+            }
+        }
+
+        return ErrorResponseUtils.createObject(HttpStatus.CONFLICT, "Conflict", message);
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String, Object> handleAllExceptions(Exception ex) {
+    public Map<String, Object> handleAllExceptions(Exception e) {
         System.out.println("=======================================================");
-        System.out.println(ex.getClass());
-        System.out.println(ex.getMessage());
-        System.out.println(ex.getStackTrace());
+        System.out.println(e.getClass());
+        System.out.println(e.getMessage());
+        e.printStackTrace();
         System.out.println("=======================================================");
-        return ErrorResponseUtils.createObject(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", ex.getMessage());
+        return ErrorResponseUtils.createObject(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", e.getMessage());
     }
 }

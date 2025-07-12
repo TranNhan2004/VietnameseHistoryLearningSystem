@@ -15,9 +15,9 @@
 
         @if (formHelper.isInvalid('name')) {
           @if (formHelper.hasError('name', 'required')) {
-            <p class="error">{{ historicalPeriodMessage.NAME__REQUIRED }}</p>
+            <p class="error">{{ historicalPeriodMessages.NAME__REQUIRED }}</p>
           } @else if (formHelper.hasError('name', 'maxlength')) {
-            <p class="error">{{ historicalPeriodMessage.NAME__TOO_LONG }}</p>
+            <p class="error">{{ historicalPeriodMessages.NAME__TOO_LONG }}</p>
           }
         }
       </div>
@@ -35,7 +35,7 @@
 
         @if (formHelper.isInvalid('startYear')) {
           @if (formHelper.hasError('startYear', 'required')) {
-            <p class="error">{{ historicalPeriodMessage.START_YEAR__REQUIRED }}</p>
+            <p class="error">{{ historicalPeriodMessages.START_YEAR__REQUIRED }}</p>
           }
         }
       </div>
@@ -53,10 +53,10 @@
 
         @if (formHelper.isInvalid('endYear')) {
           @if (formHelper.hasError('endYear', 'required')) {
-            <p class="error">{{ historicalPeriodMessage.END_YEAR__REQUIRED }}</p>
+            <p class="error">{{ historicalPeriodMessages.END_YEAR__REQUIRED }}</p>
           }
         } @else if (formGroup.get('endYear')?.value <= formGroup.get('startYear')?.value) {
-          <p class="error">{{ historicalPeriodMessage.END_YEAR__INVALID }}</p>
+          <p class="error">{{ historicalPeriodMessages.END_YEAR__INVALID }}</p>
         }
       </div>
     </label>

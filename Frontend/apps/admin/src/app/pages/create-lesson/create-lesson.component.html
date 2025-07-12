@@ -1,4 +1,8 @@
 <app-lesson-form
-  [formGroup]=""
-
+  [formGroup]="lessonForm"
+  [formHelper]="lessonFH"
+  [videoFile]="videoFile"
+  [videoUrl]="videoUrl"
+  (saveFn)="save()"
+  (cancelFn)="cancel()"
 ></app-lesson-form>

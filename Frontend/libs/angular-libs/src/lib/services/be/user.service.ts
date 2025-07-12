@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
-  Admin,
-  Avatar,
-  Learner,
+  AdminResponse,
+  AvatarResponse,
+  LearnerResponse,
   ResetPassword,
   UpdatePassword,
   UpdateUserInfo,
@@ -20,11 +20,11 @@ export class UserService {
   ) {}
 
   getAdmin(id: string) {
-    return this.httpClient.get<Admin>(`${this.webApiUrl}users/${id}`);
+    return this.httpClient.get<AdminResponse>(`${this.webApiUrl}users/${id}`);
   }
 
   getLearner(id: string) {
-    return this.httpClient.get<Learner>(`${this.webApiUrl}users/${id}`);
+    return this.httpClient.get<LearnerResponse>(`${this.webApiUrl}users/${id}`);
   }
 
   updateInfo(id: string, data: UpdateUserInfo) {
@@ -35,10 +35,10 @@ export class UserService {
     return this.httpClient.put(`${this.webApiUrl}users/password/${id}`, data);
   }
 
-  updateAvatar(id: string, file: File) {
+  uploadAvatar(id: string, file: File) {
     const formData = new FormData();
     formData.append('avatar', file);
-    return this.httpClient.put<Avatar>(
+    return this.httpClient.put<AvatarResponse>(
       `${this.webApiUrl}users/avatar/${id}`,
       formData
     );

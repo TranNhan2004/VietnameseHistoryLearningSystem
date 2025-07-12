@@ -21,7 +21,7 @@ public class ImageController {
     @PostMapping("")
     public ResponseEntity<?> uploadImage(
         @Valid @RequestPart("imageJSON") ImageReqDTO imageReqDTO,
-        @RequestPart("file") MultipartFile file
+        @RequestPart("image") MultipartFile file
     ) {
         ImageResDTO data = imageService.uploadImage(imageReqDTO, file);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()

@@ -9,11 +9,12 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import {
-  historicalPeriodMessage,
+  historicalPeriodMessages,
   initialHistoricalPeriodResponse,
 } from '@frontend/constants';
 import { ToastrService } from 'ngx-toastr';
 import { toHistoricalYear } from '@frontend/utils';
+import { environment } from '../../environments/environment.dev';
 
 @Component({
   selector: 'app-edit-historical-period-details',
@@ -38,12 +39,16 @@ export class HistoricalPeriodDetailsComponent implements OnInit {
         this.historicalPeriod = { ...res };
       },
       error: async (err: HttpErrorResponse) => {
+        if (!environment.production) {
+          console.log(err);
+        }
+
         if (err.status === 404) {
           await this.router.navigateByUrl('/404');
         }
 
-        const key = err.error.message as keyof typeof historicalPeriodMessage;
-        this.toastrService.error(historicalPeriodMessage[key]);
+        const key = err.error.message as keyof typeof historicalPeriodMessages;
+        this.toastrService.error(historicalPeriodMessages[key]);
       },
     });
   }

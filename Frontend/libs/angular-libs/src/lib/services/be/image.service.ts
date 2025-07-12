@@ -15,7 +15,7 @@ export class ImageService {
   upload(data: Image, imageFile: File) {
     const formData = new FormData();
     formData.append('imageJSON', JSON.stringify(data));
-    formData.append('file', imageFile);
+    formData.append('image', imageFile);
     return this.httpClient.post<ImageResponse>(`${this.webApiUrl}images`, data);
   }
 

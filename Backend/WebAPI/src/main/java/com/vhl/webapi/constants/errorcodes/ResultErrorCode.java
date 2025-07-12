@@ -11,5 +11,5 @@ public class ResultErrorCode {
     public static final String END_TIME__INVALID = "END_TIME__INVALID";
     public static final String CORRECT_ANSWER_NUMBER__INVALID = "CORRECT_ANSWER__INVALID";
     public static final String SCORE__INVALID = "SCORE__INVALID";
-
+    public static final String RESULT__NOT_FOUND = "RESULT__NOT_FOUND";
 }

@@ -1,6 +1,6 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.constants.errorcodes.GeneralErrorCode;
+import com.vhl.webapi.constants.errorcodes.HistoricalPeriodErrorCode;
 import com.vhl.webapi.dtos.requests.HistoricalPeriodReqDTO;
 import com.vhl.webapi.dtos.responses.HistoricalPeriodResDTO;
 import com.vhl.webapi.entities.specific.HistoricalPeriod;
@@ -31,7 +31,7 @@ public class HistoricalPeriodServiceImpl implements HistoricalPeriodService {
     public HistoricalPeriodResDTO getHistoricalPeriodById(String id) {
         System.out.println(id);
         HistoricalPeriod historicalPeriod = historicalPeriodRepository.findById(id)
-            .orElseThrow(() -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND));
+            .orElseThrow(() -> new NoInstanceFoundException(HistoricalPeriodErrorCode.HISTORICAL_PERIOD__NOT_FOUND));
         return historicalPeriodMapper.toHistoricalPeriodResDTO(historicalPeriod);
     }
 
@@ -45,7 +45,7 @@ public class HistoricalPeriodServiceImpl implements HistoricalPeriodService {
     @Override
     public void updateHistoricalPeriod(String id, HistoricalPeriodReqDTO historicalPeriodReqDTO) {
         HistoricalPeriod existing = historicalPeriodRepository.findById(id)
-            .orElseThrow(() -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND));
+            .orElseThrow(() -> new NoInstanceFoundException(HistoricalPeriodErrorCode.HISTORICAL_PERIOD__NOT_FOUND));
 
         historicalPeriodMapper.updateHistoricalPeriodFromDTO(historicalPeriodReqDTO, existing);
         historicalPeriodRepository.save(existing);
@@ -54,7 +54,7 @@ public class HistoricalPeriodServiceImpl implements HistoricalPeriodService {
     @Override
     public void deleteHistoricalPeriod(String id) {
         if (!historicalPeriodRepository.existsById(id)) {
-            throw new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND);
+            throw new NoInstanceFoundException(HistoricalPeriodErrorCode.HISTORICAL_PERIOD__NOT_FOUND);
         }
 
         historicalPeriodRepository.deleteById(id);

@@ -9,17 +9,18 @@ import {
   PasswordInputComponent,
 } from '@frontend/angular-libs';
 import {
-  authenticationMessage,
+  authenticationMessages,
   EMAIL_OR_USER_NAME_RE,
-  generalMessage,
+  generalMessages,
   PASSWORD_RE,
-  userMessage,
+  userMessages,
 } from '@frontend/constants';
 import { AuthenticationHelpers, MyFormGroupHelper } from '@frontend/utils';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { LoginRequest } from '@frontend/models';
+import { environment } from '../../environments/environment.dev';
 
 @Component({
   selector: 'app-login',
@@ -87,19 +88,23 @@ export class LoginComponent implements OnInit {
           const { accessToken, ...rest } = res;
           AuthenticationHelpers.saveAccessToken(accessToken, 'ADMIN');
           AuthenticationHelpers.saveUserInfo(rest, 'ADMIN');
-          this.toastrService.success(authenticationMessage.LOGIN__SUCCESS);
+          this.toastrService.success(authenticationMessages.LOGIN__SUCCESS);
           await this.router.navigateByUrl('/home');
         },
         error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+
           if (err.status === 404) {
-            this.toastrService.error(authenticationMessage.LOGIN__FAILED);
+            this.toastrService.error(authenticationMessages.LOGIN__FAILED);
           } else {
-            this.toastrService.error(generalMessage.UNKNOWN_ERROR);
+            this.toastrService.error(generalMessages.UNKNOWN_ERROR);
           }
         },
       });
     }
   }
 
-  protected readonly userMessage = userMessage;
+  protected readonly userMessages = userMessages;
 }

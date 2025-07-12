@@ -17,12 +17,13 @@ import { ResetPassword, SendOTP, Verification } from '@frontend/models';
 import {
   EMAIL_RE,
   PASSWORD_RE,
-  userMessage,
-  verificationMessage,
+  userMessages,
+  verificationMessages,
 } from '@frontend/constants';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../environments/environment.dev';
 
 @Component({
   selector: 'app-reset-password',
@@ -135,7 +136,7 @@ export class ResetPasswordComponent {
             otp: '',
           });
 
-          this.toastrService.success(verificationMessage['SEND_OTP__SUCCESS']);
+          this.toastrService.success(verificationMessages['SEND_OTP__SUCCESS']);
           this.isSending = false;
           this.step = 2;
 
@@ -143,13 +144,17 @@ export class ResetPasswordComponent {
           this.setCountdown();
         },
         error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+
           if (err.status === 404) {
-            const key = err.error.message as keyof typeof userMessage;
-            this.toastrService.error(userMessage[key]);
+            const key = err.error.message as keyof typeof userMessages;
+            this.toastrService.error(userMessages[key]);
             return;
           }
 
-          this.toastrService.error(verificationMessage['SEND_OTP__FAILED']);
+          this.toastrService.error(verificationMessages['SEND_OTP__FAILED']);
           this.isSending = false;
         },
       });
@@ -168,14 +173,18 @@ export class ResetPasswordComponent {
           });
 
           this.toastrService.success(
-            verificationMessage['VERIFY_OTP__SUCCESS']
+            verificationMessages['VERIFY_OTP__SUCCESS']
           );
           this.step = 3;
         },
         error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+
           if (err.status === 500) {
-            const key = err.error.message as keyof typeof verificationMessage;
-            this.toastrService.error(verificationMessage[key]);
+            const key = err.error.message as keyof typeof verificationMessages;
+            this.toastrService.error(verificationMessages[key]);
           }
         },
       });
@@ -187,19 +196,23 @@ export class ResetPasswordComponent {
       const data = this.resetPasswordForm.value as ResetPassword;
       this.userService.resetPassword(data).subscribe({
         next: async () => {
-          this.toastrService.success(userMessage['RESET_PASSWORD__SUCCESS']);
+          this.toastrService.success(userMessages['PASSWORD__RESET_SUCCESS']);
           await this.router.navigateByUrl('/auth/login');
         },
         error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+
           if (err.status === 404) {
-            const key = err.error.message as keyof typeof userMessage;
-            this.toastrService.error(userMessage[key]);
+            const key = err.error.message as keyof typeof userMessages;
+            this.toastrService.error(userMessages[key]);
           }
         },
       });
     }
   }
 
-  protected readonly userMessage = userMessage;
-  protected readonly verificationMessage = verificationMessage;
+  protected readonly userMessages = userMessages;
+  protected readonly verificationMessages = verificationMessages;
 }

@@ -6,6 +6,8 @@ public class HistoricalPeriodErrorCode {
     public static final String END_YEAR__REQUIRED = "END_YEAR__REQUIRED";
 
     public static final String NAME__TOO_LONG = "NAME__TOO_LONG";
-    
+
     public static final String END_YEAR__INVALID = "END_YEAR__INVALID";
+
+    public static final String HISTORICAL_PERIOD__NOT_FOUND = "HISTORICAL_PERIOD__NOT_FOUND";
 }

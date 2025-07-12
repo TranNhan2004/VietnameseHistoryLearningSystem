@@ -106,7 +106,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public NewAccessTokenResDTO getNewAccessToken(RefreshAccessTokenReqDTO refreshAccessTokenReqDTO, String refreshToken) {
         BaseUser baseUser = baseUserRepository.findById(refreshAccessTokenReqDTO.getId()).orElseThrow(
-            () -> new NoInstanceFoundException(BaseUserErrorCode.BASE_USER__NOT_FOUND)
+            () -> new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND)
         );
 
         NewAccessTokenResDTO newAccessTokenResDTO = new NewAccessTokenResDTO();

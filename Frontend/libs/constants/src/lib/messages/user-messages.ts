@@ -1,4 +1,4 @@
-export const userMessage = {
+export const userMessages = {
   EMAIL__REQUIRED: 'Email không được để trống',
   PASSWORD__REQUIRED: 'Mật khẩu không được để trống',
   EMAIL_OR_USER_NAME__REQUIRED: 'Email/Tên đăng nhập được để trống',
@@ -29,26 +29,29 @@ export const userMessage = {
   CONFIRM_NEW_PASSWORD__NOT_MATCH:
     'Mật khẩu nhập lại phải khớp với mật khẩu mới',
 
-  NOT_FOUND: 'Không tìm thấy thông tin người dùng',
+  USER__NOT_FOUND: 'Không tìm thấy thông tin người dùng',
 
-  UPDATE_INFO__SUCCESS: 'Cập nhật thông tin tài khoản thành công',
-  UPDATE_PASSWORD__SUCCESS: 'Đổi mật khẩu thành công',
-  UPDATE_AVATAR__SUCCESS: 'Cập nhật avatar thành công',
-  DELETE_AVATAR__SUCCESS: 'Xoá avatar thành công',
-  RESET_PASSWORD__SUCCESS:
+  AVATAR__UPLOAD_FAILED: 'Đã xảy ra lỗi khi upload avatar.',
+  AVATAR__DELETE_FAILED: 'Đã xảy ra lỗi khi xóa avatar.',
+
+  INFO__UPDATE_SUCCESS: 'Cập nhật thông tin tài khoản thành công',
+  PASSWORD__UPDATE_SUCCESS: 'Đổi mật khẩu thành công',
+  AVATAR__UPLOAD_SUCCESS: 'Upload avatar thành công',
+  AVATAR__DELETE_SUCCESS: 'Xoá avatar thành công',
+  PASSWORD__RESET_SUCCESS:
     'Đặt lại mật khẩu thành công. Vui lòng đăng nhập lại.',
 };
 
-const learnerMessage = {
-  ADDED_POINT__REQUIRED: 'Điểm cộng thêm là bắt buộc.',
+export const learnerMessages = {
+  POINT__REQUIRED: 'Điểm là bắt buộc.',
 
-  ADDED_POINT__NOT_NEGATIVE: 'Điểm cộng thêm không được âm.',
+  POINT__NOT_NEGATIVE: 'Điểm không được âm.',
   BEST_SCORE__NOT_NEGATIVE: 'Điểm cao nhất không được âm.',
   WORST_SCORE__NOT_NEGATIVE: 'Điểm thấp nhất không được âm.',
+
+  LEARNER__NOT_FOUND: 'Không tìm thấy người học với ID tương ứng.',
 };
 
-const learnerLessonAnswerMessage = {
-  LEARNER_ID__REQUIRED: 'ID người học là bắt buộc.',
-  LESSON_ID__REQUIRED: 'ID bài học là bắt buộc.',
-  ANSWER_OPTION_ID__REQUIRED: 'ID đáp án là bắt buộc.',
+export const adminMessages = {
+  ADMIN__NOT_FOUND: 'Không tìm thấy quản trị viên với ID tương ứng.',
 };

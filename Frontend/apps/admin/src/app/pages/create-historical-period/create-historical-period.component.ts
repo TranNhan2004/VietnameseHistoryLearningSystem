@@ -10,7 +10,7 @@ import {
 } from '@frontend/angular-libs';
 import { HistoricalPeriod } from '@frontend/models';
 import { ToastrService } from 'ngx-toastr';
-import { historicalPeriodMessage } from '@frontend/constants';
+import { historicalPeriodMessages } from '@frontend/constants';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { Router } from '@angular/router';
 
@@ -55,12 +55,13 @@ export class CreateHistoricalPeriodComponent {
           this.historicalPeriodForm.markAsUntouched();
 
           this.toastrService.success(
-            historicalPeriodMessage['CREATE__SUCCESS']
+            historicalPeriodMessages['CREATE__SUCCESS']
           );
         },
         error: (err: HttpErrorResponse) => {
-          const key = err.error.message as keyof typeof historicalPeriodMessage;
-          this.toastrService.error(historicalPeriodMessage[key]);
+          const key = err.error
+            .message as keyof typeof historicalPeriodMessages;
+          this.toastrService.error(historicalPeriodMessages[key]);
         },
       });
     }

@@ -30,9 +30,9 @@
         </div>
         @if (fh.isInvalid('emailOrUserName')) {
           @if (fh.hasError('emailOrUserName', 'required')) {
-            <p class="error">{{ userMessage.EMAIL_OR_USER_NAME__REQUIRED }}</p>
+            <p class="error">{{ userMessages.EMAIL_OR_USER_NAME__REQUIRED }}</p>
           } @else if (fh.hasError('emailOrUserName', 'pattern') || fh.hasError('emailOrUserName', 'maxlength')) {
-            <p class="error">{{ userMessage.EMAIL_OR_USER_NAME__INVALID }}</p>
+            <p class="error">{{ userMessages.EMAIL_OR_USER_NAME__INVALID }}</p>
           }
         }
       </div>
@@ -55,11 +55,11 @@
         </div>
         @if (fh.isInvalid('password')) {
           @if (fh.hasError('password', 'required')) {
-            <p class="error">{{ userMessage.PASSWORD__REQUIRED }}</p>
+            <p class="error">{{ userMessages.PASSWORD__REQUIRED }}</p>
           } @else if (fh.hasError('password', 'pattern') ||
           fh.hasError('password', 'minlength') ||
           fh.hasError('password', 'maxlength')) {
-            <p class="error">{{ userMessage.PASSWORD__INVALID }}</p>
+            <p class="error">{{ userMessages.PASSWORD__INVALID }}</p>
           }
         }
       </div>

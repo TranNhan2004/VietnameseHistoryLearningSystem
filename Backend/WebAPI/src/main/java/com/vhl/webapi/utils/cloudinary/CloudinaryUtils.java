@@ -22,35 +22,28 @@ public class CloudinaryUtils {
         normalized = normalized.replaceAll("[^\\w\\d\\-_]+", "_");
 
         String finalName = normalized + "_" + ShortUUID.generateShortUUID();
-
-        System.out.println(finalName);
         return finalName;
     }
 
     public static String extractPublicIdFromUrl(String url) {
         try {
             if (url == null || url.isBlank()) {
-                return null;
+                return "";
             }
 
-            String[] parts = url.split("/upload/");
+            String[] parts = url.split("/v1/");
             if (parts.length < 2) {
-                return null;
+                return "";
             }
 
             String path = parts[1];
-            int slashIndex = path.indexOf('/');
-            if (slashIndex == -1) {
-                return null;
+            int paramIndex = path.lastIndexOf("?");
+
+            if (paramIndex == -1) {
+                return path;
             }
 
-            String publicIdWithExt = path.substring(slashIndex + 1);
-            int lastDot = publicIdWithExt.lastIndexOf('.');
-            if (lastDot == -1) {
-                return publicIdWithExt;
-            }
-
-            return publicIdWithExt.substring(0, lastDot);
+            return path.substring(0, paramIndex);
         } catch (Exception e) {
             return null;
         }

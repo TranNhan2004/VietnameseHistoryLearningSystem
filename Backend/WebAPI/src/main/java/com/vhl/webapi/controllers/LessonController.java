@@ -2,11 +2,13 @@ package com.vhl.webapi.controllers;
 
 import com.vhl.webapi.dtos.requests.LessonReqDTO;
 import com.vhl.webapi.dtos.responses.LessonResDTO;
+import com.vhl.webapi.dtos.responses.LessonVideoResDTO;
 import com.vhl.webapi.services.abstraction.LessonService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -47,6 +49,18 @@ public class LessonController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteLesson(@PathVariable String id) {
         lessonService.deleteLesson(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/video/{id}")
+    public ResponseEntity<?> uploadVideo(@PathVariable String id, @RequestParam("video") MultipartFile file) {
+        LessonVideoResDTO lessonVideoResDTO = lessonService.uploadVideo(id, file);
+        return ResponseEntity.ok(lessonVideoResDTO);
+    }
+
+    @DeleteMapping("/video/{id}")
+    public ResponseEntity<?> deleteVideo(@PathVariable String id) {
+        lessonService.deleteVideo(id);
         return ResponseEntity.noContent().build();
     }
 }

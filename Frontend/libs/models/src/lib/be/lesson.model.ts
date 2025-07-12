@@ -10,10 +10,13 @@ export interface HistoricalPeriodResponse extends Id, HistoricalPeriod {}
 
 export interface Lesson {
   title: string;
-  videoUrl: string | null;
   description: string;
   adminId: string | null;
   historicalPeriodId: string;
+}
+
+export interface LessonVideoResponse {
+  videoUrl: string;
 }
 
 export interface Paragraph {
@@ -33,7 +36,12 @@ export interface ImageResponse extends Id, Image {
   imageUrl: string;
 }
 
-export interface LessonResponse extends Id, CreateTime, UpdateTime, Lesson {
+export interface LessonResponse
+  extends Id,
+    CreateTime,
+    UpdateTime,
+    Lesson,
+    LessonVideoResponse {
   paragraphs: ParagraphResponse[];
   images: ImageResponse[];
 }

@@ -6,4 +6,6 @@ public class CommentErrorCode {
     public static final String LESSON_ID__REQUIRED = "LESSON_ID__REQUIRED";
 
     public static final String CONTENT__TOO_LONG = "CONTENT__TOO_LONG";
+    
+    public static final String COMMENT__NOT_FOUND = "COMMENT__NOT_FOUND";
 }

@@ -5,4 +5,6 @@ public class ChatHistoryErrorCode {
     public static final String LEARNER_ID__REQUIRED = "LEARNER_ID__REQUIRED";
 
     public static final String TITLE__TOO_LONG = "TITLE__TOO_LONG";
+
+    public static final String CHAT_HISTORY__NOT_FOUND = "CHAT_HISTORY__NOT_FOUND";
 }

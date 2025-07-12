@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActionButtonName, UpdatePassword } from '@frontend/models';
-import { PASSWORD_RE, userMessage } from '@frontend/constants';
+import { PASSWORD_RE, userMessages } from '@frontend/constants';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationHelpers, MyFormGroupHelper } from '@frontend/utils';
 import {
@@ -114,13 +114,13 @@ export class UpdatePasswordComponent implements OnChanges {
           this.userService.updatePassword(userId, data).subscribe({
             next: () => {
               this.toastrService.success(
-                userMessage['UPDATE_PASSWORD__SUCCESS']
+                userMessages['PASSWORD__UPDATE_SUCCESS']
               );
               this.logoutFn.emit();
             },
             error: (err: HttpErrorResponse) => {
-              const key = err.error.message as keyof typeof userMessage;
-              this.toastrService.error(userMessage[key]);
+              const key = err.error.message as keyof typeof userMessages;
+              this.toastrService.error(userMessages[key]);
             },
           });
         }
@@ -134,7 +134,7 @@ export class UpdatePasswordComponent implements OnChanges {
     });
   }
 
-  protected readonly userMessage = userMessage;
+  protected readonly userMessages = userMessages;
   protected readonly confirm = confirm;
   protected readonly ActionButtonName = ActionButtonName;
 }

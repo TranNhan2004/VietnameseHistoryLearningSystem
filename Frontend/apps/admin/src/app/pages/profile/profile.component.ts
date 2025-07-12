@@ -10,18 +10,23 @@ import {
 import {
   DATE_TIME_FORMAT,
   fullRoleReader,
-  initialAdmin,
-  userMessage,
+  initialAdminResponse,
+  userMessages,
 } from '@frontend/constants';
 import { AuthenticationHelpers } from '@frontend/utils';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
-import { ActionButtonName, Admin, FullRoleType } from '@frontend/models';
+import {
+  ActionButtonName,
+  AdminResponse,
+  FullRoleType,
+} from '@frontend/models';
 import { NgIcon } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UpdateUserInfoComponent } from '../../components/update-user-info/update-user-info.component';
 import { UpdatePasswordComponent } from '../../components/update-password/update-password.component';
+import { environment } from '../../environments/environment.dev';
 
 @Component({
   selector: 'app-profile',
@@ -40,7 +45,7 @@ import { UpdatePasswordComponent } from '../../components/update-password/update
   styleUrl: './profile.component.css',
 })
 export class ProfileComponent {
-  user: Admin = initialAdmin;
+  user: AdminResponse = initialAdminResponse;
   isChangeAvatar = false;
 
   protected userId: string;
@@ -74,9 +79,12 @@ export class ProfileComponent {
         this.user = res;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err);
-        const key = err.error.message as keyof typeof userMessage;
-        this.toastrService.error(userMessage[key]);
+        if (!environment.production) {
+          console.log(err);
+        }
+
+        const key = err.error.message as keyof typeof userMessages;
+        this.toastrService.error(userMessages[key]);
       },
     });
   }
@@ -92,15 +100,18 @@ export class ProfileComponent {
       const file = input.files[0];
       this.isChangeAvatar = true;
 
-      this.userService.updateAvatar(this.userId, file).subscribe({
+      this.userService.uploadAvatar(this.userId, file).subscribe({
         next: (res) => {
           this.user.avatarUrl = res.avatarUrl;
-          this.toastrService.success(userMessage['UPDATE_AVATAR__SUCCESS']);
+          this.toastrService.success(userMessages['AVATAR__UPLOAD_SUCCESS']);
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err);
-          const key = err.error.message as keyof typeof userMessage;
-          this.toastrService.error(userMessage[key]);
+          if (!environment.production) {
+            console.log(err);
+          }
+
+          const key = err.error.message as keyof typeof userMessages;
+          this.toastrService.error(userMessages[key]);
         },
         complete: () => {
           this.isChangeAvatar = false;
@@ -114,11 +125,15 @@ export class ProfileComponent {
     this.userService.deleteAvatar(this.userId).subscribe({
       next: () => {
         this.user.avatarUrl = '';
-        this.toastrService.success(userMessage['DELETE_AVATAR__SUCCESS']);
+        this.toastrService.success(userMessages['AVATAR__DELETE_SUCCESS']);
       },
       error: (err: HttpErrorResponse) => {
-        const key = err.error.message as keyof typeof userMessage;
-        this.toastrService.error(userMessage[key]);
+        if (!environment.production) {
+          console.log(err);
+        }
+
+        const key = err.error.message as keyof typeof userMessages;
+        this.toastrService.error(userMessages[key]);
       },
       complete: () => {
         this.isChangeAvatar = false;

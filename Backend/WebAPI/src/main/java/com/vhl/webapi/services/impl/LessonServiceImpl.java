@@ -1,14 +1,19 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.constants.errorcodes.GeneralErrorCode;
+import com.vhl.webapi.constants.errorcodes.AdminErrorCode;
+import com.vhl.webapi.constants.errorcodes.HistoricalPeriodErrorCode;
 import com.vhl.webapi.constants.errorcodes.LessonErrorCode;
 import com.vhl.webapi.constants.storage.CloudinaryStorageFolder;
 import com.vhl.webapi.dtos.requests.LessonReqDTO;
 import com.vhl.webapi.dtos.responses.LessonResDTO;
 import com.vhl.webapi.dtos.responses.LessonVideoResDTO;
+import com.vhl.webapi.entities.specific.Admin;
+import com.vhl.webapi.entities.specific.HistoricalPeriod;
 import com.vhl.webapi.entities.specific.Lesson;
 import com.vhl.webapi.exceptions.NoInstanceFoundException;
 import com.vhl.webapi.mappers.LessonMapper;
+import com.vhl.webapi.repositories.AdminRepository;
+import com.vhl.webapi.repositories.HistoricalPeriodRepository;
 import com.vhl.webapi.repositories.LessonRepository;
 import com.vhl.webapi.services.abstraction.FileService;
 import com.vhl.webapi.services.abstraction.LessonService;
@@ -24,6 +29,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
+    private final HistoricalPeriodRepository historicalPeriodRepository;
+    private final AdminRepository adminRepository;
     private final LessonMapper lessonMapper;
     private final FileService fileService;
 
@@ -39,7 +46,7 @@ public class LessonServiceImpl implements LessonService {
     @Transactional
     public LessonResDTO getLessonById(String id) {
         Lesson lesson = lessonRepository.findById(id)
-            .orElseThrow(() -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND));
+            .orElseThrow(() -> new NoInstanceFoundException(LessonErrorCode.LESSON__NOT_FOUND));
 
         // Trigger loading
         lessonRepository.findByIdWithParagraphs(id);
@@ -51,7 +58,15 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonResDTO createLesson(LessonReqDTO lessonReqDTO) {
+        HistoricalPeriod historicalPeriod = historicalPeriodRepository.findById(lessonReqDTO.getHistoricalPeriodId())
+            .orElseThrow(() -> new NoInstanceFoundException(HistoricalPeriodErrorCode.HISTORICAL_PERIOD__NOT_FOUND));
+
+        Admin admin = adminRepository.findById(lessonReqDTO.getAdminId())
+            .orElseThrow(() -> new NoInstanceFoundException(AdminErrorCode.ADMIN__NOT_FOUND));
+
         Lesson lesson = lessonMapper.toLesson(lessonReqDTO);
+        lesson.setHistoricalPeriod(historicalPeriod);
+        lesson.setAdmin(admin);
         Lesson saved = lessonRepository.save(lesson);
         return lessonMapper.toLessonResDTO(saved);
     }
@@ -59,16 +74,14 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public void updateLesson(String id, LessonReqDTO lessonReqDTO) {
         Lesson existing = lessonRepository.findById(id)
-            .orElseThrow(() -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND));
+            .orElseThrow(() -> new NoInstanceFoundException(LessonErrorCode.LESSON__NOT_FOUND));
         lessonMapper.updateLessonFromDTO(lessonReqDTO, existing);
         lessonRepository.save(existing);
     }
 
     @Override
     public void deleteLesson(String id) {
-        if (!lessonRepository.existsById(id)) {
-            throw new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND);
-        }
+        deleteVideo(id);
         lessonRepository.deleteById(id);
     }
 
@@ -76,7 +89,7 @@ public class LessonServiceImpl implements LessonService {
     public LessonVideoResDTO uploadVideo(String id, MultipartFile file) {
         try {
             Lesson lesson = lessonRepository.findById(id).orElseThrow(
-                () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
+                () -> new NoInstanceFoundException(LessonErrorCode.LESSON__NOT_FOUND)
             );
 
             if (lesson.getVideoUrl() != null && !lesson.getVideoUrl().isBlank()) {
@@ -101,7 +114,7 @@ public class LessonServiceImpl implements LessonService {
     public void deleteVideo(String id) {
         try {
             Lesson lesson = lessonRepository.findById(id).orElseThrow(
-                () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
+                () -> new NoInstanceFoundException(LessonErrorCode.LESSON__NOT_FOUND)
             );
 
             if (!lesson.getVideoUrl().isBlank()) {

@@ -1,5 +1,5 @@
 <div class="p-4">
-  <h3 class="text-2xl font-bold mb-8 text-my-blue">Thông tin thời kỳ lịch sử</h3>
+  <h3 class="text-2xl font-bold mb-8 text-my-blue">Thông tin bài học</h3>
 
   <form [formGroup]="formGroup" class="space-y-4">
 
@@ -14,9 +14,9 @@
 
         @if (formHelper.isInvalid('title')) {
           @if (formHelper.hasError('title', 'required')) {
-            <p class="error">{{ lessonMessage.TITLE__REQUIRED }}</p>
+            <p class="error">{{ lessonMessages.TITLE__REQUIRED }}</p>
           } @else if (formHelper.hasError('title', 'maxlength')) {
-            <p class="error">{{ lessonMessage.TITLE__TOO_LONG }}</p>
+            <p class="error">{{ lessonMessages.TITLE__TOO_LONG }}</p>
           }
         }
       </div>
@@ -34,14 +34,35 @@
 
         @if (formHelper.isInvalid('description')) {
           @if (formHelper.hasError('description', 'required')) {
-            <p class="error">{{ lessonMessage.DESCRIPTION__REQUIRED }}</p>
+            <p class="error">{{ lessonMessages.DESCRIPTION__REQUIRED }}</p>
           } @else if (formHelper.hasError('description', 'maxlength')) {
-            <p class="error">{{ lessonMessage.DESCRIPTION__TOO_LONG }}</p>
+            <p class="error">{{ lessonMessages.DESCRIPTION__TOO_LONG }}</p>
           }
         }
       </div>
     </label>
   </form>
+  <form class="mt-4 space-y-4">
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[10%]">Video:</span>
+      <div class="w-[50%]">
+        <input
+          type="file"
+          accept="video/mp4"
+          (change)="onVideoChange($event)"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full bg-white"
+        />
+
+        <video
+          *ngIf="videoUrl"
+          [src]="videoUrl"
+          controls
+          class="mt-4 w-full rounded-lg shadow"
+        ></video>
+      </div>
+    </label>
+  </form>
+
   <div class="mt-10 p-4 w-full bg-gradient-to-r from-my-lightblue to-my-lightpurple flex items-center rounded-xl">
     <div class="flex justify-end ml-auto space-x-2 ">
       <lib-action-button

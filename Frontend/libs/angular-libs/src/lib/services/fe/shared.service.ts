@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { AESCrypto } from '@frontend/utils';
 
 @Injectable({ providedIn: 'root' })
 export class SharedService {
-  private store: { [key: string]: string } = {};
-
-  private storeSubject = new BehaviorSubject<{ [key: string]: string }>({});
-  store$ = this.storeSubject.asObservable();
-
   put(key: string, value: string) {
-    this.store[key] = value;
-    this.storeSubject.next({ ...this.store });
+    const encryptedKey = AESCrypto.encypt(key);
+    const encryptedValue = AESCrypto.encypt(value);
+    localStorage.setItem(encryptedKey, encryptedValue);
   }
 
-  get(key: string): string | undefined {
-    return this.store[key];
+  get(key: string): string {
+    const encyptedKey = AESCrypto.encypt(key);
+    const encryptedValue = localStorage.getItem(encyptedKey);
+    return encryptedValue ? AESCrypto.decrypt(encryptedValue) : '';
   }
 
-  getStore(): { [key: string]: string } {
-    return { ...this.store };
+  has(key: string): boolean {
+    const encyptedKey = AESCrypto.encypt(key);
+    return localStorage.getItem(encyptedKey) !== null;
   }
 }

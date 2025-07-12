@@ -7,4 +7,6 @@ public class ImageErrorCode {
     public static final String ORDINAL_NUMBER__INVALID = "ORDINAL_NUMBER__INVALID";
     public static final String IMAGE__UPLOAD_FAILED = "UPLOAD_IMAGE__FAILED";
     public static final String IMAGE__DELETE_FAILED = "DELETE_IMAGE__FAILED";
+
+    public static final String IMAGE__NOT_FOUND = "IMAGE__NOT_FOUND";
 }

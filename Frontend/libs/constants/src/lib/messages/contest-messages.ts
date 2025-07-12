@@ -1,4 +1,4 @@
-export const contestMessage = {
+export const contestMessages = {
   // Errors
   QUESTION_NUMBER__REQUIRED: 'Số câu hỏi là bắt buộc.',
   DURATION_IN_MINUTES__REQUIRED: 'Thời lượng (phút) là bắt buộc.',
@@ -13,9 +13,11 @@ export const contestMessage = {
   CREATE__SUCCESS: 'Tạo kỳ thi thành công.',
   UPDATE__SUCCESS: 'Cập nhật kỳ thi thành công.',
   DELETE__SUCCESS: 'Xóa kỳ thi thành công.',
+
+  CONTEST__NOT_FOUND: 'Không tìm thấy cuộc thi với ID tương ứng.',
 };
 
-export const contestQuestionMessage = {
+export const contestQuestionMessages = {
   // Errors
   POINT__REQUIRED: 'Điểm số là bắt buộc.',
   POINT_ALLOCATION_RULE__REQUIRED: 'Quy tắc phân bổ điểm là bắt buộc.',
@@ -29,9 +31,12 @@ export const contestQuestionMessage = {
   CREATE__SUCCESS: 'Thêm câu hỏi vào cuộc thi thành công.',
   UPDATE__SUCCESS: 'Cập nhật câu hỏi trong cuộc thi thành công.',
   DELETE__SUCCESS: 'Xóa câu hỏi khỏi cuộc thi thành công.',
+
+  CONTEST_QUESTION__NOT_FOUND:
+    'Không tìm thấy câu hỏi của cuộc thi với ID tương ứng.',
 };
 
-export const resultMessage = {
+export const resultMessages = {
   // Errors
   START_TIME__REQUIRED: 'Thời gian bắt đầu là bắt buộc.',
   END_TIME__REQUIRED: 'Thời gian kết thúc là bắt buộc.',
@@ -46,10 +51,15 @@ export const resultMessage = {
 
   // Success
   DELETE__SUCCESS: 'Xóa kết quả thành công.',
+
+  RESULT__NOT_FOUND: 'Không tìm thấy kết quả của cuộc thi với ID tương ứng.',
 };
 
-export const resultAnswerMessage = {
+export const resultAnswerMessages = {
   // Errors
   RESULT_ID__REQUIRED: 'ID kết quả là bắt buộc.',
   ANSWER_OPTION_ID__REQUIRED: 'ID đáp án là bắt buộc.',
+
+  RESULT_ANSWER__NOT_FOUND:
+    'Không tìm thấy kết quả câu trả lời của cuộc thi với ID tương ứng.',
 };

@@ -16,9 +16,9 @@
 
       @if (editMode && userInfoFH.isInvalid('lastName')) {
         @if (userInfoFH.hasError('lastName', 'required')) {
-          <p class="error">{{ userMessage.LAST_NAME__REQUIRED }}</p>
+          <p class="error">{{ userMessages.LAST_NAME__REQUIRED }}</p>
         } @else if (userInfoFH.hasError('lastName', 'maxlength')) {
-          <p class="error">{{ userMessage.LAST_NAME__TOO_LONG }}</p>
+          <p class="error">{{ userMessages.LAST_NAME__TOO_LONG }}</p>
         }
       }
     </div>
@@ -40,9 +40,9 @@
 
       @if (editMode && userInfoFH.isInvalid('firstName')) {
         @if (userInfoFH.hasError('firstName', 'required')) {
-          <p class="error">{{ userMessage.FIRST_NAME__REQUIRED }}</p>
+          <p class="error">{{ userMessages.FIRST_NAME__REQUIRED }}</p>
         } @else if (userInfoFH.hasError('firstName', 'maxlength')) {
-          <p class="error">{{ userMessage.FIRST_NAME__TOO_LONG }}</p>
+          <p class="error">{{ userMessages.FIRST_NAME__TOO_LONG }}</p>
         }
       }
     </div>

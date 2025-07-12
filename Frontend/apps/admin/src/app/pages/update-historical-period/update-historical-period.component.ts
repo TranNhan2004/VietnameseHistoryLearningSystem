@@ -11,8 +11,9 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HistoricalPeriod } from '@frontend/models';
-import { historicalPeriodMessage } from '@frontend/constants';
+import { historicalPeriodMessages } from '@frontend/constants';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
+import { environment } from '../../environments/environment.dev';
 
 @Component({
   selector: 'app-edit-historical-period',
@@ -52,8 +53,12 @@ export class UpdateHistoricalPeriodComponent implements OnInit {
         });
       },
       error: (err: HttpErrorResponse) => {
-        const key = err.error.message as keyof typeof historicalPeriodMessage;
-        this.toastrService.error(historicalPeriodMessage[key]);
+        if (!environment.production) {
+          console.log(err);
+        }
+
+        const key = err.error.message as keyof typeof historicalPeriodMessages;
+        this.toastrService.error(historicalPeriodMessages[key]);
       },
     });
   }
@@ -66,16 +71,21 @@ export class UpdateHistoricalPeriodComponent implements OnInit {
       this.historicalPeriodService.update(id, data).subscribe({
         next: () => {
           this.toastrService.success(
-            historicalPeriodMessage['UPDATE__SUCCESS']
+            historicalPeriodMessages['UPDATE__SUCCESS']
           );
         },
         error: async (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+
           if (err.status === 404) {
             await this.router.navigateByUrl('/404');
           }
 
-          const key = err.error.message as keyof typeof historicalPeriodMessage;
-          this.toastrService.error(historicalPeriodMessage[key]);
+          const key = err.error
+            .message as keyof typeof historicalPeriodMessages;
+          this.toastrService.error(historicalPeriodMessages[key]);
         },
       });
     }

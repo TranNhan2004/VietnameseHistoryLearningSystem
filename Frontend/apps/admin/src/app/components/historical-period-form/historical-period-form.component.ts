@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MyFormGroupHelper } from '@frontend/utils';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActionButtonComponent } from '@frontend/angular-libs';
-import { historicalPeriodMessage } from '@frontend/constants';
+import { historicalPeriodMessages } from '@frontend/constants';
 import { ActionButtonName } from '@frontend/models';
 
 @Component({
@@ -18,6 +18,6 @@ export class HistoricalPeriodFormComponent {
 
   @Output() saveFn = new EventEmitter<void>();
   @Output() cancelFn = new EventEmitter<void>();
-  protected readonly historicalPeriodMessage = historicalPeriodMessage;
+  protected readonly historicalPeriodMessages = historicalPeriodMessages;
   protected readonly ActionButtonName = ActionButtonName;
 }

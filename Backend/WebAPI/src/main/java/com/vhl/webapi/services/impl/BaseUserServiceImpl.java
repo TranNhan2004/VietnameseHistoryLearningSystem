@@ -1,7 +1,6 @@
 package com.vhl.webapi.services.impl;
 
 import com.vhl.webapi.constants.errorcodes.BaseUserErrorCode;
-import com.vhl.webapi.constants.errorcodes.GeneralErrorCode;
 import com.vhl.webapi.constants.storage.CloudinaryStorageFolder;
 import com.vhl.webapi.dtos.requests.ResetPasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdatePasswordReqDTO;
@@ -34,7 +33,7 @@ public class BaseUserServiceImpl implements BaseUserService {
     @Override
     public BaseUserResDTO getUser(String id) {
         BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(
-            () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
+            () -> new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND)
         );
 
         if (baseUser.getFullRole().contains(Role.ADMIN.name())) {
@@ -42,14 +41,14 @@ public class BaseUserServiceImpl implements BaseUserService {
         } else if (baseUser.getFullRole().contains(Role.LEARNER.name())) {
             return baseUserMapper.toLearnerResponseDTO((Learner) baseUser);
         } else {
-            throw new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND);
+            throw new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND);
         }
     }
 
     @Override
     public void updateInfo(String id, UpdateUserInfoReqDTO updateUserInfoReqDTO) {
         BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(
-            () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
+            () -> new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND)
         );
 
         baseUser.setFirstName(updateUserInfoReqDTO.getFirstName());
@@ -61,7 +60,7 @@ public class BaseUserServiceImpl implements BaseUserService {
     @Override
     public void updatePassword(String id, UpdatePasswordReqDTO updatePasswordReqDTO) {
         BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(
-            () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
+            () -> new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND)
         );
 
         String hashedOldPassword = baseUser.getPassword();
@@ -78,7 +77,7 @@ public class BaseUserServiceImpl implements BaseUserService {
     public AvatarResDTO uploadAvatar(String id, MultipartFile file) {
         try {
             BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(
-                () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
+                () -> new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND)
             );
 
             if (baseUser.getAvatarUrl() != null && !baseUser.getAvatarUrl().isBlank()) {
@@ -103,7 +102,7 @@ public class BaseUserServiceImpl implements BaseUserService {
     public void deleteAvatar(String id) {
         try {
             BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(
-                () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
+                () -> new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND)
             );
 
             if (!baseUser.getAvatarUrl().isBlank()) {
@@ -119,7 +118,7 @@ public class BaseUserServiceImpl implements BaseUserService {
     @Override
     public void delete(String id) {
         if (!baseUserRepository.existsById(id)) {
-            throw new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND);
+            throw new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND);
         }
 
         baseUserRepository.deleteById(id);
@@ -128,7 +127,7 @@ public class BaseUserServiceImpl implements BaseUserService {
     @Override
     public void resetPassword(ResetPasswordReqDTO resetPasswordReqDTO) {
         BaseUser baseUser = baseUserRepository.findByEmail(resetPasswordReqDTO.getEmail())
-            .orElseThrow(() -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND));
+            .orElseThrow(() -> new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND));
 
         baseUser.setPassword(passwordEncoder.encode(resetPasswordReqDTO.getNewPassword()));
         baseUserRepository.save(baseUser);

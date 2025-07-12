@@ -32,8 +32,7 @@ public class BaseUserErrorCode {
     public static final String FIRST_NAME__TOO_LONG = "FIRST_NAME__TOO_LONG";
     public static final String LAST_NAME__TOO_LONG = "LAST_NAME__TOO_LONG";
     public static final String AVATAR_URL__TOO_LONG = "AVATAR_URL__TOO_LONG";
-
-    public static final String BASE_USER__NOT_FOUND = "BASE_USER__NOT_FOUND";
+    
     public static final String HAS_BEEN_ACTIVE = "HAS_BEEN_ACTIVE";
 
     public static final String AVATAR__UPLOAD_FAILED = "AVATAR__UPLOAD_FAILED";
@@ -44,4 +43,6 @@ public class BaseUserErrorCode {
     public static final String CONFIRM_NEW_PASSWORD__INVALID = "CONFIRM_NEW_PASSWORD__INVALID";
 
     public static final String OLD_PASSWORD__NOT_CORRECT = "OLD_PASSWORD__NOT_CORRECT";
+
+    public static final String USER__NOT_FOUND = "USER__NOT_FOUND";
 }

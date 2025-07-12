@@ -1,6 +1,5 @@
 package com.vhl.webapi.services.impl;
 
-import com.vhl.webapi.constants.errorcodes.GeneralErrorCode;
 import com.vhl.webapi.constants.errorcodes.ImageErrorCode;
 import com.vhl.webapi.constants.storage.CloudinaryStorageFolder;
 import com.vhl.webapi.dtos.requests.ImageReqDTO;
@@ -43,7 +42,7 @@ public class ImageServiceImpl implements ImageService {
     public void deleteImage(String id) {
         try {
             Image image = imageRepository.findById(id)
-                .orElseThrow(() -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND));
+                .orElseThrow(() -> new NoInstanceFoundException(ImageErrorCode.IMAGE__NOT_FOUND));
 
             fileService.deleteFile(CloudinaryUtils.extractPublicIdFromUrl(image.getImageUrl()));
             imageRepository.delete(image);

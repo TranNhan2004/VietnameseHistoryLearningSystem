@@ -76,13 +76,24 @@
             </td>
             <td class="px-4 py-3 text-gray-800">
               @for (entry of getDisplayedEntries(item); track $index) {
-                <div>
-                  <span class="font-bold">{{ entry[0] }}: </span>
-                  <span *ngIf="entry[1] === null">—</span>
-                  <span *ngIf="isDate(entry[1])">{{ entry[1] | date:'dd/MM/yyyy' }}</span>
-                  <span *ngIf="!isDate(entry[1]) && isIsoDateString(entry[1])">{{ entry[1] | date:'dd/MM/yyyy' }}</span>
-                  <span
-                    *ngIf="!isDate(entry[1]) && !isIsoDateString(entry[1]) && entry[1] !== null">{{ entry[1] }}</span>
+                <div class="flex items-start">
+                  <div class="w-[18%] font-bold">{{ entry[0] }}:</div>
+                  <div *ngIf="entry[1] === null" class="w-[75%] text-justify">—</div>
+                  <div *ngIf="isDate(entry[1])" class="w-[75%] text-justify">
+                    {{ entry[1] | date:'dd/MM/yyyy' }}
+                  </div>
+                  <div
+                    *ngIf="!isDate(entry[1]) && isIsoDateString(entry[1])"
+                    class="w-[75%] text-justify"
+                  >
+                    {{ entry[1] | date:'dd/MM/yyyy' }}
+                  </div>
+                  <div
+                    *ngIf="!isDate(entry[1]) && !isIsoDateString(entry[1]) && entry[1] !== null"
+                    class="w-[75%] text-justify"
+                  >
+                    {{ entry[1] }}
+                  </div>
                 </div>
               }
             </td>

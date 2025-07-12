@@ -16,4 +16,6 @@ public class LessonErrorCode {
 
     public static final String VIDEO__UPLOAD_FAILED = "VIDEO__UPLOAD_FAILED";
     public static final String VIDEO__DELETE_FAILED = "VIDEO__DELETE_FAILED";
+
+    public static final String LESSON__NOT_FOUND = "LESSON__NOT_FOUND";
 }

@@ -9,4 +9,6 @@ public class ContestErrorCode {
     public static final String QUESTION_NUMBER__INVALID = "QUESTION_NUMBER__INVALID";
     public static final String DURATION_IN_MINUTES__INVALID = "DURATION_IN_MINUTES__INVALID";
     public static final String END_TIME__INVALID = "END_TIME__INVALID";
+
+    public static final String CONTEST__NOT_FOUND = "CONTEST__NOT_FOUND";
 }

@@ -1,6 +1,10 @@
-import { Admin, BaseUser, Learner } from '@frontend/models';
+import {
+  AdminResponse,
+  BaseUserResponse,
+  LearnerResponse,
+} from '@frontend/models';
 
-export const initialBaseUser: BaseUser = {
+export const initialBaseUserResponse: BaseUserResponse = {
   id: '',
   userName: '',
   email: '',
@@ -13,13 +17,13 @@ export const initialBaseUser: BaseUser = {
   updatedAt: new Date(),
 };
 
-export const initialAdmin: Admin = {
-  ...initialBaseUser,
+export const initialAdminResponse: AdminResponse = {
+  ...initialBaseUserResponse,
   adminLevel: 'BASIC',
 };
 
-export const initialLearner: Learner = {
-  ...initialBaseUser,
+export const initialLearnerResponse: LearnerResponse = {
+  ...initialBaseUserResponse,
   rank: 'BEGINNER',
   point: 0,
   bestScore: null,

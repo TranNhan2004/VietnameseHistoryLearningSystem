@@ -1,1 +1,9 @@
-<p>update-lesson works!</p>
+<app-lesson-form
+  [formGroup]="lessonForm"
+  [formHelper]="lessonFH"
+  [videoFile]="videoFile"
+  [videoUrl]="videoUrl"
+  (saveFn)="save()"
+  (cancelFn)="cancel()"
+>
+</app-lesson-form>

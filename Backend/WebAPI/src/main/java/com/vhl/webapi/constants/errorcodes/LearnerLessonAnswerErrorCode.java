@@ -5,4 +5,5 @@ public class LearnerLessonAnswerErrorCode {
     public static final String LESSON_ID__REQUIRED = "LESSON_ID__REQUIRED";
     public static final String ANSWER_OPTION_ID__REQUIRED = "ANSWER_OPTION_ID__REQUIRED";
 
+    public static final String LEARNER_LESSON_ANSWER__NOT_FOUND = "LEARNER_LESSON_ANSWER__NOT_FOUND";
 }

@@ -1,4 +1,4 @@
-export const verificationMessage = {
+export const verificationMessages = {
   OTP__REQUIRED: 'Mã OTP không được bỏ trống.',
   OTP__INVALID: 'Mã OTP không hợp lệ.',
   OTP__EXPIRED: 'Mã OTP đã hết hạn.',

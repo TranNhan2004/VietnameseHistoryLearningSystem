@@ -18,8 +18,9 @@ import { toHistoricalYear } from '@frontend/utils';
 import { SearchComponent } from '../../components/search/search.component';
 import { SortComponent } from '../../components/sort/sort.component';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
-import { historicalPeriodMessage } from '@frontend/constants';
+import { generalMessages, historicalPeriodMessages } from '@frontend/constants';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environments/environment.dev';
 
 @Component({
   selector: 'app-lessons-outer',
@@ -66,7 +67,7 @@ export class LessonsOuterComponent implements OnInit {
 
   async actionClick(event: DisplayedDataAction) {
     switch (event.action) {
-      case ActionButtonName.Add:
+      case ActionButtonName.Info:
         await this.infoData(event.dataId);
         break;
       case ActionButtonName.Edit:
@@ -101,12 +102,22 @@ export class LessonsOuterComponent implements OnInit {
           );
           this.displayedData = [...this.originialDisplayedData];
           this.toastrService.success(
-            historicalPeriodMessage['DELETE__SUCCESS']
+            historicalPeriodMessages['DELETE__SUCCESS']
           );
         },
         error: (err: HttpErrorResponse) => {
-          const key = err.error.message as keyof typeof historicalPeriodMessage;
-          this.toastrService.error(historicalPeriodMessage[key]);
+          if (!environment.production) {
+            console.log(err);
+          }
+
+          if (err.status === 409) {
+            this.toastrService.error(generalMessages['FOREIGN_KEY__VIOLATED']);
+            return;
+          }
+
+          const key = err.error
+            .message as keyof typeof historicalPeriodMessages;
+          this.toastrService.error(historicalPeriodMessages[key]);
         },
       });
     });
