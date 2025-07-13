@@ -10,12 +10,15 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @Table(name = "images")
 public class Image extends IBaseEntity {
-    @Column(name = "image_url", nullable = false, length = 2048)
-    private String imageUrl;
+    @Column(name = "title", nullable = false, length = 1024)
+    private String title;
 
     @Column(name = "ordinal_number", nullable = false)
     private int ordinalNumber;
 
+    @Column(name = "image_url", nullable = false, length = 2048)
+    private String imageUrl;
+    
     @ManyToOne
     @JoinColumn(name = "lesson_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

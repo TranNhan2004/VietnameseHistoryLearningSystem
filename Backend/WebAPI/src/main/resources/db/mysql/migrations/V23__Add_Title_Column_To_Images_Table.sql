@@ -1,0 +1,5 @@
+ALTER TABLE images
+    ADD title VARCHAR(1024) NULL;
+
+ALTER TABLE images
+    MODIFY title VARCHAR(1024) NOT NULL;

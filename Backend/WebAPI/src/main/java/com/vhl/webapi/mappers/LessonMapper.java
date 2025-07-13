@@ -7,7 +7,14 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(
+    componentModel = "spring",
+    uses = {
+        ParagraphMapper.class,
+        ImageMapper.class,
+        QuestionMapper.class,
+    }
+)
 public interface LessonMapper {
     @Mapping(target = "historicalPeriodId", source = "historicalPeriod.id")
     @Mapping(target = "adminId", source = "admin.id")

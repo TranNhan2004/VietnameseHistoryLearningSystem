@@ -20,7 +20,6 @@ import com.vhl.webapi.services.abstraction.LessonService;
 import com.vhl.webapi.utils.cloudinary.CloudinaryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -43,16 +42,10 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    @Transactional
     public LessonResDTO getLessonById(String id) {
         Lesson lesson = lessonRepository.findById(id)
             .orElseThrow(() -> new NoInstanceFoundException(LessonErrorCode.LESSON__NOT_FOUND));
-
-        // Trigger loading
-        lessonRepository.findByIdWithParagraphs(id);
-        lessonRepository.findByIdWithImages(id);
-        lessonRepository.findByIdWithQuestions(id);
-
+        
         return lessonMapper.toLessonResDTO(lesson);
     }
 

@@ -1,11 +1,14 @@
 package com.vhl.webapi.services.impl;
 
 import com.vhl.webapi.constants.errorcodes.GeneralErrorCode;
+import com.vhl.webapi.constants.errorcodes.LessonErrorCode;
 import com.vhl.webapi.dtos.requests.ParagraphReqDTO;
 import com.vhl.webapi.dtos.responses.ParagraphResDTO;
+import com.vhl.webapi.entities.specific.Lesson;
 import com.vhl.webapi.entities.specific.Paragraph;
 import com.vhl.webapi.exceptions.NoInstanceFoundException;
 import com.vhl.webapi.mappers.ParagraphMapper;
+import com.vhl.webapi.repositories.LessonRepository;
 import com.vhl.webapi.repositories.ParagraphRepository;
 import com.vhl.webapi.services.abstraction.ParagraphService;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +18,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ParagraphServiceImpl implements ParagraphService {
     private final ParagraphRepository paragraphRepository;
+    private final LessonRepository lessonRepository;
     private final ParagraphMapper paragraphMapper;
 
     @Override
     public ParagraphResDTO createParagraph(ParagraphReqDTO paragraphReqDTO) {
+        Lesson lesson = lessonRepository.findById(paragraphReqDTO.getLessonId())
+            .orElseThrow(() -> new NoInstanceFoundException(LessonErrorCode.LESSON__NOT_FOUND));
+
         Paragraph paragraph = paragraphMapper.toParagraph(paragraphReqDTO);
+        paragraph.setLesson(lesson);
+
         Paragraph savedParagraph = paragraphRepository.save(paragraph);
         return paragraphMapper.toParagraphResDTO(savedParagraph);
     }

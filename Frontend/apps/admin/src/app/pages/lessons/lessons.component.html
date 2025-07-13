@@ -10,7 +10,7 @@
     <div class="w-[40%]">
       <app-search
         [originalData]="originialDisplayedData"
-        [searchKeys]="['Tiêu đề', 'Mô tả']"
+        [searchKeys]="['title', 'description']"
         (filterData)="filterData($event)"
         placeholder="Tìm kiếm theo tiêu đề, mô tả"
       >
@@ -20,10 +20,10 @@
       <app-sort
         [originalData]="originialDisplayedData"
         [sortOptions]="[
-          { label: 'Tiêu đề (A-Z)', type: 'asc', sortedKey: '_title' },
-          { label: 'Tiêu đề (Z-A)', type: 'dsc', sortedKey: '_title' },
-          { label: 'Ngày tạo (Cũ nhất)', type: 'asc', sortedKey: '_createdAt' },
-          { label: 'Ngày tạo (Mới nhất)', type: 'dsc', sortedKey: '_createdAt' },
+          { label: 'Tiêu đề (A-Z)', type: 'asc', sortedKey: 'title' },
+          { label: 'Tiêu đề (Z-A)', type: 'dsc', sortedKey: 'title' },
+          { label: 'Ngày tạo (Cũ nhất)', type: 'asc', sortedKey: 'createdAt' },
+          { label: 'Ngày tạo (Mới nhất)', type: 'dsc', sortedKey: 'createdAt' },
         ]"
         (sortData)="sortData($event)"
       >
@@ -46,6 +46,28 @@
         { name: ActionButtonName.Delete }
       ]"
       (actionClick)="actionClick($event)"
-    ></app-table>
+    >
+      <ng-template #itemTemplate let-item>
+        <div class="text-justify space-y-2">
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[18%]">Tiêu đề:</p>
+            <p class="text-gray-800 w-[80%]">{{ item.title }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[18%]">Mô tả:</p>
+            <p class="text-gray-800 w-[80%]">{{ item.description }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[18%]">Ngày tạo:</p>
+            <p class="text-gray-800 w-[80%]">{{ item.createdAt | date: 'dd/MM/yyyy' }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[18%]">Ngày cập nhật:</p>
+            <p class="text-gray-800 w-[80%]">{{ item.updatedAt | date: 'dd/MM/yyyy' }}</p>
+          </div>
+        </div>
+      </ng-template>
+
+    </app-table>
   </div>
 </div>

@@ -1,0 +1,28 @@
+<div class="w-full rounded-xl overflow-x-hidden shadow-lg">
+  <div
+    class="bg-gradient-to-r from-my-lightblue to-my-lightpurple text-white text-center py-2 text-2xl font-bold">
+    {{ ordinalNumber }}
+  </div>
+
+  <div class="bg-white h-72 p-4 flex flex-col justify-between">
+    <div class="max-h-[80%] p-2 overflow-y-auto">
+      <ng-content></ng-content>
+    </div>
+    <div class="flex justify-end space-x-4">
+      <lib-action-button
+        [name]="ActionButtonName.Edit"
+        mainTitle="Chỉnh sửa"
+        title=""
+        (btnClick)="editFn.emit(id)"
+      >
+      </lib-action-button>
+      <lib-action-button
+        [name]="ActionButtonName.Delete"
+        mainTitle="Xóa"
+        title=""
+        (btnClick)="deleteFn.emit(id)"
+      >
+      </lib-action-button>
+    </div>
+  </div>
+</div>

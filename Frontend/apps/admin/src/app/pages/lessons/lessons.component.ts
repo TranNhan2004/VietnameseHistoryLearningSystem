@@ -22,6 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgIcon } from '@ng-icons/core';
 import { lessonMessages } from '@frontend/constants';
 import { environment } from '../../environments/environment.dev';
+import { toHistoricalYear } from '@frontend/utils';
 
 @Component({
   selector: 'app-lessons',
@@ -72,13 +73,11 @@ export class LessonsComponent implements OnInit {
         next: async (res) => {
           this.lessons = [...res];
           this.originialDisplayedData = this.lessons.map((item) => ({
-            _id: item.id,
-            _title: item.title,
-            _createdAt: item.createdAt,
-            'Tiêu đề': item.title,
-            'Mô tả': item.description,
-            'Ngày tạo': item.createdAt,
-            'Ngày cập nhật': item.updatedAt,
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt,
           }));
           this.displayedData = [...this.originialDisplayedData];
         },
@@ -118,7 +117,7 @@ export class LessonsComponent implements OnInit {
         next: () => {
           this.lessons = this.lessons.filter((item) => item.id !== id);
           this.originialDisplayedData = this.originialDisplayedData.filter(
-            (item) => item._id !== id
+            (item) => item.id !== id
           );
           this.displayedData = [...this.originialDisplayedData];
           this.toastrService.success(lessonMessages['DELETE__SUCCESS']);
@@ -148,4 +147,6 @@ export class LessonsComponent implements OnInit {
   }
 
   protected readonly ActionButtonName = ActionButtonName;
+  protected readonly toHistoricalYear = toHistoricalYear;
+  protected readonly Number = Number;
 }

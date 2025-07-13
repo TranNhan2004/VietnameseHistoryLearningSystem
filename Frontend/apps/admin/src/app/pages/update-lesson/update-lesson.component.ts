@@ -9,15 +9,16 @@ import {
 } from '@frontend/angular-libs';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Lesson, LessonResponse } from '@frontend/models';
+import { Lesson, LessonResponse, ParagraphResponse } from '@frontend/models';
 import { initialLessonResponse, lessonMessages } from '@frontend/constants';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { environment } from '../../environments/environment.dev';
 import { LessonFormComponent } from '../../components/lesson-form/lesson-form.component';
+import { ParagraphsComponent } from '../../components/paragraphs/paragraphs.component';
 
 @Component({
   selector: 'app-update-lesson',
-  imports: [CommonModule, LessonFormComponent],
+  imports: [CommonModule, LessonFormComponent, ParagraphsComponent],
   templateUrl: './update-lesson.component.html',
   styleUrl: './update-lesson.component.css',
 })
@@ -123,6 +124,10 @@ export class UpdateLessonComponent implements OnInit {
       this.videoFile = input.files[0];
       this.videoUrl = URL.createObjectURL(this.videoFile);
     }
+  }
+
+  updatedParagraphs(paragraphs: ParagraphResponse[]) {
+    this.lessonResponse.paragraphs = [...paragraphs];
   }
 
   async cancel() {

@@ -1,11 +1,14 @@
 import {
+  AfterContentInit,
   Component,
+  ContentChild,
   EventEmitter,
   Input,
   OnChanges,
   OnInit,
   Output,
   SimpleChanges,
+  TemplateRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActionButtonComponent } from '@frontend/angular-libs';
@@ -23,13 +26,15 @@ import {
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
 })
-export class TableComponent implements OnInit, OnChanges {
+export class TableComponent implements OnInit, OnChanges, AfterContentInit {
   @Input({ required: true }) displayedData: DisplayedData[] = [];
   @Input({ required: true }) actionButtonConfigs: ActionButtonConfigForTable[] =
     [];
   @Input() pageSize = 5;
 
   @Output() actionClick = new EventEmitter<DisplayedDataAction>();
+
+  @ContentChild('itemTemplate') itemTemplate!: TemplateRef<any>;
 
   pagedData: DisplayedData[] = [];
   currentPage = 1;
@@ -40,17 +45,15 @@ export class TableComponent implements OnInit, OnChanges {
     this.updatePagedData();
   }
 
-  getDisplayedEntries(item: DisplayedData): [string, any][] {
-    return Object.entries(item)
-      .filter(([key]) => !key.startsWith('_'))
-      .map(([key, value]) => [key, value]);
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['displayedData']) {
       this.totalItems = this.displayedData?.length || 0;
       this.updatePagedData();
     }
+  }
+
+  ngAfterContentInit() {
+    console.log('itemTemplate:', this.itemTemplate);
   }
 
   updatePagedData() {

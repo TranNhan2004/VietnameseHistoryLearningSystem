@@ -21,14 +21,15 @@ export interface LessonVideoResponse {
 
 export interface Paragraph {
   content: string;
-  oridinalNumber: number;
+  ordinalNumber: number;
   lessonId: string;
 }
 
 export interface ParagraphResponse extends Id, Paragraph {}
 
 export interface Image {
-  oridinalNumber: number;
+  title: string;
+  ordinalNumber: number;
   lessonId: string;
 }
 

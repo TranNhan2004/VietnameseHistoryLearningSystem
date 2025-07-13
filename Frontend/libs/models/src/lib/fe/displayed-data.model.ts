@@ -1,7 +1,7 @@
 import { ActionButtonName } from './action-button.model';
-import { HiddenId } from './abstracts.model';
+import { Id } from '../be/abstracts.model';
 
-export interface DisplayedData extends HiddenId {
+export interface DisplayedData extends Id {
   [key: string]: string | number | Date | null;
 }
 

@@ -7,4 +7,5 @@ public class ParagraphResDTO {
     private String id;
     private String content;
     private int ordinalNumber;
+    private String lessonId;
 }

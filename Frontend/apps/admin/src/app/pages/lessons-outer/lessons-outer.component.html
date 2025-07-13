@@ -6,7 +6,7 @@
     <div class="w-[40%]">
       <app-search
         [originalData]="originialDisplayedData"
-        [searchKeys]="['Tên thời kỳ', 'Năm bắt đầu', 'Năm kết thúc']"
+        [searchKeys]="['name', 'startYear', 'endYear']"
         (filterData)="filterData($event)"
         placeholder="Tìm kiếm theo tên thời kỳ, năm bắt đầu và kết thúc"
       >
@@ -16,12 +16,12 @@
       <app-sort
         [originalData]="originialDisplayedData"
         [sortOptions]="[
-          { label: 'Tên thời kỳ (A-Z)', type: 'asc', sortedKey: '_name' },
-          { label: 'Tên thời kỳ (Z-A)', type: 'dsc', sortedKey: '_name' },
-          { label: 'Năm bắt đầu (Tăng dần)', type: 'asc', sortedKey: '_startYear' },
-          { label: 'Năm bắt đầu (Giảm dần)', type: 'dsc', sortedKey: '_startYear' },
-          { label: 'Năm kết thúc (Tăng dần)', type: 'asc', sortedKey: '_endYear' },
-          { label: 'Năm kết thúc (Giảm dần)', type: 'dsc', sortedKey: '_endYear' }
+          { label: 'Tên thời kỳ (A-Z)', type: 'asc', sortedKey: 'name' },
+          { label: 'Tên thời kỳ (Z-A)', type: 'dsc', sortedKey: 'name' },
+          { label: 'Năm bắt đầu (Tăng dần)', type: 'asc', sortedKey: 'startYear' },
+          { label: 'Năm bắt đầu (Giảm dần)', type: 'dsc', sortedKey: 'startYear' },
+          { label: 'Năm kết thúc (Tăng dần)', type: 'asc', sortedKey: 'endYear' },
+          { label: 'Năm kết thúc (Giảm dần)', type: 'dsc', sortedKey: 'endYear' }
         ]"
         (sortData)="sortData($event)"
       >
@@ -45,6 +45,23 @@
         { name: ActionButtonName.LinkTo, title: 'Bài học liên quan' }
       ]"
       (actionClick)="actionClick($event)"
-    ></app-table>
+    >
+      <ng-template #itemTemplate let-item>
+        <div class="text-justify space-y-2">
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[15%]">Tên thời kỳ:</p>
+            <p class="text-gray-800 w-[85%]">{{ item.name }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[15%]">Năm bắt đầu:</p>
+            <p class="text-gray-800 w-[85%]">{{ toHistoricalYear(Number(item.startYear)) }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[15%]">Năm kết thúc:</p>
+            <p class="text-gray-800 w-[85%]">{{ toHistoricalYear(Number(item.endYear)) }}</p>
+          </div>
+        </div>
+      </ng-template>
+    </app-table>
   </div>
 </div>

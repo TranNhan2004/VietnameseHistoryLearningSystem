@@ -7,3 +7,8 @@
   (cancelFn)="cancel()"
 >
 </app-lesson-form>
+
+<app-paragraphs
+  [paragraphs]="lessonResponse.paragraphs"
+  (updated)="updatedParagraphs($event)"
+></app-paragraphs>

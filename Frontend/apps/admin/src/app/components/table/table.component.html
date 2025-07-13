@@ -69,33 +69,15 @@
     </thead>
     <tbody class="divide-y divide-gray-200">
       @if (pagedData.length > 0) {
-        @for (item of pagedData; track item._id; let i = $index) {
+        @for (item of pagedData; track item.id; let i = $index) {
           <tr class="hover:bg-gray-50">
             <td class="px-4 py-3 text-sm text-gray-800">
               {{ (currentPage - 1) * pageSize + i + 1 }}
             </td>
             <td class="px-4 py-3 text-gray-800">
-              @for (entry of getDisplayedEntries(item); track $index) {
-                <div class="flex items-start">
-                  <div class="w-[18%] font-bold">{{ entry[0] }}:</div>
-                  <div *ngIf="entry[1] === null" class="w-[75%] text-justify">—</div>
-                  <div *ngIf="isDate(entry[1])" class="w-[75%] text-justify">
-                    {{ entry[1] | date:'dd/MM/yyyy' }}
-                  </div>
-                  <div
-                    *ngIf="!isDate(entry[1]) && isIsoDateString(entry[1])"
-                    class="w-[75%] text-justify"
-                  >
-                    {{ entry[1] | date:'dd/MM/yyyy' }}
-                  </div>
-                  <div
-                    *ngIf="!isDate(entry[1]) && !isIsoDateString(entry[1]) && entry[1] !== null"
-                    class="w-[75%] text-justify"
-                  >
-                    {{ entry[1] }}
-                  </div>
-                </div>
-              }
+              <ng-container
+                *ngTemplateOutlet="itemTemplate; context: { $implicit: item }">
+              </ng-container>
             </td>
             <td class="px-4 py-3">
               <div class="flex items-center space-x-2">
@@ -105,27 +87,27 @@
                     [name]="action.name"
                     [mainTitle]="action.mainTitle"
                     [title]="action.title"
-                    (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                    (btnClick)="onActionClick({ action: action.name, dataId: item.id })"
                   ></lib-action-button>
 
                   <lib-action-button
                     *ngIf="action.title === undefined && action.mainTitle !== undefined"
                     [name]="action.name"
                     [mainTitle]="action.mainTitle"
-                    (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                    (btnClick)="onActionClick({ action: action.name, dataId: item.id })"
                   ></lib-action-button>
 
                   <lib-action-button
                     *ngIf="action.title !== undefined && action.mainTitle === undefined"
                     [name]="action.name"
                     [title]="action.title"
-                    (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                    (btnClick)="onActionClick({ action: action.name, dataId: item.id })"
                   ></lib-action-button>
 
                   <lib-action-button
                     *ngIf="action.title === undefined && action.mainTitle === undefined"
                     [name]="action.name"
-                    (btnClick)="onActionClick({ action: action.name, dataId: item._id })"
+                    (btnClick)="onActionClick({ action: action.name, dataId: item.id })"
                   ></lib-action-button>
                 }
               </div>

@@ -1,0 +1,60 @@
+<div class="p-4">
+  <h1 class="mt-5 font-bold text-my-blue text-4xl text-left">Danh sách đoạn văn của bài học</h1>
+  <div class="mt-2 h-1 w-full bg-gradient-to-r from-my-blue to-my-coralaccent rounded-lg"></div>
+
+  <div class="flex items-center justify-between mt-5">
+    <div class="w-[40%]">
+      <app-search
+        [originalData]="originialDisplayedData"
+        [searchKeys]="['content']"
+        (filterData)="filterData($event)"
+        placeholder="Tìm kiếm theo nội dung"
+      >
+      </app-search>
+    </div>
+    <div class="flex items-center space-x-4">
+      <lib-action-button
+        [name]="ActionButtonName.Add"
+        mainTitle="Thêm mới"
+        title=""
+        (btnClick)="addData()"
+      ></lib-action-button>
+    </div>
+  </div>
+
+  <p class="mt-1 italic text-gray-500">
+    (*) Số trên mỗi thẻ là thứ tự xuất hiện của đoạn văn trong bài học
+  </p>
+
+  <div class="mt-5">
+    <div class="grid grid-cols-2 gap-4">
+      @for (item of displayedData; track item.id) {
+        <app-pi-card
+          [id]="item.id"
+          [ordinalNumber]="Number(item['ordinalNumber'])"
+          (editFn)="updateData(item.id)"
+          (deleteFn)="deleteData(item.id)"
+        >
+          <p class="text-justify break-words">
+            {{ item['content'] }}
+          </p>
+        </app-pi-card>
+      }
+    </div>
+  </div>
+</div>
+
+<app-create-paragraph
+  [showModal]="showCreateModal"
+  (closeModal)="closeCreateModal()"
+  (added)="addedData($event)"
+></app-create-paragraph>
+
+<app-update-paragraph
+  [showModal]="showUpdateModal"
+  [paragraphResponse]="paragraphResponse"
+  (closeModal)="closeUpdateModal()"
+  (updated)="updatedData($event)"
+>
+</app-update-paragraph>
+

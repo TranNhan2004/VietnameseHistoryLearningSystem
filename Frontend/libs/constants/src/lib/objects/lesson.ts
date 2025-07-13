@@ -1,4 +1,9 @@
-import { HistoricalPeriodResponse, LessonResponse } from '@frontend/models';
+import {
+  HistoricalPeriodResponse,
+  ImageResponse,
+  LessonResponse,
+  ParagraphResponse,
+} from '@frontend/models';
 
 export const initialHistoricalPeriodResponse: HistoricalPeriodResponse = {
   id: '',
@@ -18,4 +23,19 @@ export const initialLessonResponse: LessonResponse = {
   images: [],
   createdAt: new Date(),
   updatedAt: new Date(),
+};
+
+export const initialParagraphResponse: ParagraphResponse = {
+  id: '',
+  content: '',
+  ordinalNumber: 1,
+  lessonId: '',
+};
+
+export const initialImageReponse: ImageResponse = {
+  id: '',
+  title: '',
+  imageUrl: '',
+  ordinalNumber: 1,
+  lessonId: '',
 };

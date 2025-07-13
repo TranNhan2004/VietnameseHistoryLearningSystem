@@ -1,0 +1,9 @@
+<app-modal [showModal]="showModal">
+  <app-paragraph-form
+    [formGroup]="paragraphForm"
+    [formHelper]="paragraphFH"
+    (saveFn)="save()"
+    (cancelFn)="cancel()"
+  >
+  </app-paragraph-form>
+</app-modal>

@@ -14,13 +14,13 @@ import {
   HistoricalPeriodResponse,
 } from '@frontend/models';
 import { TableComponent } from '../../components/table/table.component';
-import { toHistoricalYear } from '@frontend/utils';
 import { SearchComponent } from '../../components/search/search.component';
 import { SortComponent } from '../../components/sort/sort.component';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { generalMessages, historicalPeriodMessages } from '@frontend/constants';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../environments/environment.dev';
+import { toHistoricalYear } from '@frontend/utils';
 
 @Component({
   selector: 'app-lessons-outer',
@@ -52,13 +52,10 @@ export class LessonsOuterComponent implements OnInit {
       next: (res) => {
         this.historicalPeriods = [...res];
         this.originialDisplayedData = this.historicalPeriods.map((item) => ({
-          _id: item.id,
-          _name: item.name,
-          _startYear: item.startYear,
-          _endYear: item.endYear,
-          'Tên thời kỳ': item.name,
-          'Năm bắt đầu': toHistoricalYear(item.startYear),
-          'Năm kết thúc': toHistoricalYear(item.endYear),
+          id: item.id,
+          name: item.name,
+          startYear: item.startYear,
+          endYear: item.endYear,
         }));
         this.displayedData = [...this.originialDisplayedData];
       },
@@ -98,7 +95,7 @@ export class LessonsOuterComponent implements OnInit {
             (item) => item.id !== id
           );
           this.originialDisplayedData = this.originialDisplayedData.filter(
-            (item) => item._id !== id
+            (item) => item.id !== id
           );
           this.displayedData = [...this.originialDisplayedData];
           this.toastrService.success(
@@ -125,7 +122,7 @@ export class LessonsOuterComponent implements OnInit {
 
   async goToRelatedLessons(id: string) {
     const data = this.originialDisplayedData.find(
-      (item) => item._id === id
+      (item) => item.id === id
     ) as DisplayedData;
     this.sharedService.put(
       id,
@@ -149,4 +146,6 @@ export class LessonsOuterComponent implements OnInit {
   }
 
   protected readonly ActionButtonName = ActionButtonName;
+  protected readonly toHistoricalYear = toHistoricalYear;
+  protected readonly Number = Number;
 }
