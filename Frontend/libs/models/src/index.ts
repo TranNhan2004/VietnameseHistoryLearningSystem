@@ -1,6 +1,8 @@
 export * from './lib/be/abstracts.model';
 export * from './lib/be/authentication.model';
+export * from './lib/be/contest.model';
 export * from './lib/be/lesson.model';
+export * from './lib/be/question.model';
 export * from './lib/be/user.model';
 export * from './lib/be/verification.model';
 

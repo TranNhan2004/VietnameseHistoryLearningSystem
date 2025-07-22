@@ -19,11 +19,11 @@ public class ResultReqDTO {
 
     @NotNull(message = ResultErrorCode.CORRECT_ANSWER_NUMBER__REQUIRED)
     @Min(value = 0, message = ResultErrorCode.CORRECT_ANSWER_NUMBER__INVALID)
-    private int correctAnswersNumber;
+    private Integer correctAnswersNumber;
 
     @NotNull(message = ResultErrorCode.SCORE__REQUIRED)
     @Min(value = 0, message = ResultErrorCode.SCORE__INVALID)
-    private double score;
+    private Double score;
 
     @NotBlank(message = ResultErrorCode.LEARNER_ID__REQUIRED)
     private String learnerId;

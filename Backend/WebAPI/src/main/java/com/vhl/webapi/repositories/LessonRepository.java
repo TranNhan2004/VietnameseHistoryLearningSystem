@@ -19,6 +19,5 @@ public interface LessonRepository extends JpaRepository<Lesson, String> {
     @Query("SELECT l FROM Lesson l LEFT JOIN FETCH l.questions WHERE l.id = :id")
     Optional<Lesson> findByIdWithQuestions(String id);
 
-    @Query("SELECT l FROM Lesson l WHERE l.historicalPeriod.id = :historicalPeriodId")
-    List<Lesson> findByHistoricalPeriodId(String historicalPeriodId);
+    List<Lesson> findAllByHistoricalPeriod_Id(String historicalPeriodId);
 }

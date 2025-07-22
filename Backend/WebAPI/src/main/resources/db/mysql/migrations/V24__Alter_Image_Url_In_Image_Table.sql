@@ -1,0 +1,2 @@
+ALTER TABLE images
+    MODIFY image_url VARCHAR(2048) NULL;

@@ -14,13 +14,17 @@ public class HistoricalPeriodReqDTO {
     private String name;
 
     @NotNull(message = HistoricalPeriodErrorCode.START_YEAR__REQUIRED)
-    private int startYear;
+    private Integer startYear;
 
     @NotNull(message = HistoricalPeriodErrorCode.END_YEAR__REQUIRED)
-    private int endYear;
+    private Integer endYear;
 
     @AssertTrue(message = HistoricalPeriodErrorCode.END_YEAR__INVALID)
     public boolean isEndYearValid() {
+        if (startYear == null || endYear == null) {
+            return true;
+        }
+
         return endYear >= startYear;
     }
 }

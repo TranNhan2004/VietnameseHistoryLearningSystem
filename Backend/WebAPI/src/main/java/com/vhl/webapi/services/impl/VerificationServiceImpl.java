@@ -67,7 +67,7 @@ public class VerificationServiceImpl implements VerificationService {
             () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
         );
 
-        if (baseUser.isActive()) {
+        if (baseUser.getActive()) {
             throw new RuntimeException(BaseUserErrorCode.HAS_BEEN_ACTIVE);
         }
 
@@ -99,7 +99,7 @@ public class VerificationServiceImpl implements VerificationService {
             () -> new NoInstanceFoundException(GeneralErrorCode.NOT_FOUND)
         );
 
-        if (baseUser.isActive()) {
+        if (baseUser.getActive()) {
             throw new RuntimeException(BaseUserErrorCode.HAS_BEEN_ACTIVE);
         }
 

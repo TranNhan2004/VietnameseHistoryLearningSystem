@@ -6,6 +6,6 @@ import lombok.Data;
 public class ParagraphResDTO {
     private String id;
     private String content;
-    private int ordinalNumber;
+    private Integer ordinalNumber;
     private String lessonId;
 }

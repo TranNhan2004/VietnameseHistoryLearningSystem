@@ -43,22 +43,32 @@
     </label>
   </form>
   <form class="mt-4 space-y-4">
-    <label class="flex items-center space-x-3 text-gray-700">
+    <label class="flex items-start space-x-3 text-gray-700">
       <span class="w-[10%]">Video:</span>
       <div class="w-[50%]">
         <input
+          #inputFile
           type="file"
           accept="video/mp4"
           (change)="onVideoChange($event)"
-          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full bg-white"
+          class="border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full bg-white"
         />
 
         <video
-          *ngIf="videoUrl"
-          [src]="videoUrl"
+          *ngIf="localVideoUrl"
+          [src]="localVideoUrl"
           controls
           class="mt-4 w-full rounded-lg shadow"
         ></video>
+      </div>
+
+      <div class="flex-shrink-0 ml-auto">
+        <lib-action-button
+          [name]="ActionButtonName.Delete"
+          mainTitle="Xóa video"
+          title=""
+          (btnClick)="deleteVideoClick()"
+        ></lib-action-button>
       </div>
     </label>
   </form>

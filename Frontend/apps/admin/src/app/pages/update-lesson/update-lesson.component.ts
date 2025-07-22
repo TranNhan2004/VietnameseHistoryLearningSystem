@@ -9,16 +9,27 @@ import {
 } from '@frontend/angular-libs';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Lesson, LessonResponse, ParagraphResponse } from '@frontend/models';
+import {
+  ImageResponse,
+  Lesson,
+  LessonResponse,
+  ParagraphResponse,
+} from '@frontend/models';
 import { initialLessonResponse, lessonMessages } from '@frontend/constants';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { environment } from '../../environments/environment.dev';
 import { LessonFormComponent } from '../../components/lesson-form/lesson-form.component';
 import { ParagraphsComponent } from '../../components/paragraphs/paragraphs.component';
+import { ImagesComponent } from '../../components/images/images.component';
 
 @Component({
   selector: 'app-update-lesson',
-  imports: [CommonModule, LessonFormComponent, ParagraphsComponent],
+  imports: [
+    CommonModule,
+    LessonFormComponent,
+    ParagraphsComponent,
+    ImagesComponent,
+  ],
   templateUrl: './update-lesson.component.html',
   styleUrl: './update-lesson.component.css',
 })
@@ -44,8 +55,8 @@ export class UpdateLessonComponent implements OnInit {
     this.lessonForm = this.myFB.group<Lesson>({
       title: ['', [Validators.required, Validators.maxLength(1024)]],
       description: ['', [Validators.required, Validators.maxLength(2048)]],
-      adminId: [adminId, []],
-      historicalPeriodId: [historicalPeriodId, []],
+      adminId: [adminId],
+      historicalPeriodId: [historicalPeriodId],
     });
 
     this.lessonFH = new MyFormGroupHelper(this.lessonForm);
@@ -117,17 +128,50 @@ export class UpdateLessonComponent implements OnInit {
     }
   }
 
-  onVideoChange(event: Event) {
-    const input = event.target as HTMLInputElement;
+  videoFileChange(video: File | null) {
+    this.videoFile = video;
+  }
 
-    if (input.files && input.files.length > 0) {
-      this.videoFile = input.files[0];
-      this.videoUrl = URL.createObjectURL(this.videoFile);
+  deleteVideo() {
+    const id = this.route.snapshot.paramMap.get('id') ?? '';
+
+    console.log(this.videoFile);
+    console.log(this.videoUrl);
+
+    if (this.videoFile) {
+      this.videoFile = null;
+      this.videoUrl = null;
+      return;
+    }
+
+    if (this.videoUrl) {
+      this.lessonService.deleteVideo(id).subscribe({
+        next: () => {
+          this.videoFile = null;
+          this.videoUrl = null;
+        },
+        error: async (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+
+          if (err.status === 404) {
+            await this.router.navigateByUrl('/404');
+          }
+
+          const key = err.error.message as keyof typeof lessonMessages;
+          this.toastrService.error(lessonMessages[key]);
+        },
+      });
     }
   }
 
   updatedParagraphs(paragraphs: ParagraphResponse[]) {
     this.lessonResponse.paragraphs = [...paragraphs];
+  }
+
+  updatedImages(images: ImageResponse[]) {
+    this.lessonResponse.images = [...images];
   }
 
   async cancel() {

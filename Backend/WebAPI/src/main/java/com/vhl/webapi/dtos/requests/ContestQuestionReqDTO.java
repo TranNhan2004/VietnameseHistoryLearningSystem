@@ -12,7 +12,7 @@ import lombok.Data;
 public class ContestQuestionReqDTO {
     @NotNull(message = ContestQuestionErrorCode.POINT__REQUIRED)
     @Min(value = 0, message = ContestQuestionErrorCode.POINT__INVALID)
-    private double point;
+    private Double point;
 
     @NotBlank(message = ContestQuestionErrorCode.POINT_ALLOCATION_RULE__REQUIRED)
     @Pattern(

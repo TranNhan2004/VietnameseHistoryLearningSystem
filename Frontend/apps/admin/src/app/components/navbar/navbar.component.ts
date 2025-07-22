@@ -61,6 +61,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       prefixRoutes: ['/contest'],
     },
     {
+      name: 'QL câu hỏi',
+      icon: 'matQuestionMarkRound',
+      route: '/questions',
+      prefixRoutes: ['/questions'],
+    },
+    {
       name: 'QL tài khoản',
       icon: 'matSupervisorAccountRound',
       route: '/accounts',

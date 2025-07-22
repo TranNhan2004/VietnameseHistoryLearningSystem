@@ -59,16 +59,23 @@ export class CreateLessonComponent {
 
       this.lessonService.create(data).subscribe({
         next: (res: LessonResponse) => {
-          this.lessonForm.setValue({
-            title: '',
-            description: '',
-            adminId: adminId,
-            historicalPeriodId: historicalPeriodId,
-          });
-
           if (this.videoFile) {
             this.lessonService.uploadVideo(res.id, this.videoFile).subscribe({
-              next: () => {},
+              next: () => {
+                this.lessonForm.setValue({
+                  title: '',
+                  description: '',
+                  adminId: adminId,
+                  historicalPeriodId: historicalPeriodId,
+                });
+
+                this.lessonForm.markAsPristine();
+                this.lessonForm.markAsUntouched();
+                this.videoFile = null;
+                this.videoUrl = null;
+
+                this.toastrService.success(lessonMessages['CREATE__SUCCESS']);
+              },
               error: (err: HttpErrorResponse) => {
                 if (!environment.production) {
                   console.log(err);
@@ -78,13 +85,6 @@ export class CreateLessonComponent {
               },
             });
           }
-
-          this.lessonForm.markAsPristine();
-          this.lessonForm.markAsUntouched();
-          this.videoFile = null;
-          this.videoUrl = null;
-
-          this.toastrService.success(lessonMessages['CREATE__SUCCESS']);
         },
         error: (err: HttpErrorResponse) => {
           if (!environment.production) {
@@ -97,7 +97,16 @@ export class CreateLessonComponent {
       });
     }
   }
-  
+
+  videoFileChange(video: File | null) {
+    this.videoFile = video;
+  }
+
+  deleteVideo() {
+    this.videoFile = null;
+    this.videoUrl = null;
+  }
+
   async cancel() {
     await this.alertService.cancelWarning(async () => {
       const historicalPeriodId =

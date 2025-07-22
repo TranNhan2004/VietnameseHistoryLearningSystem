@@ -4,7 +4,7 @@
     {{ ordinalNumber }}
   </div>
 
-  <div class="bg-white h-72 p-4 flex flex-col justify-between">
+  <div class="bg-white p-4 flex flex-col justify-between" [style]="{ height: height + 'rem' }">
     <div class="max-h-[80%] p-2 overflow-y-auto">
       <ng-content></ng-content>
     </div>

@@ -15,7 +15,7 @@ public class ImageReqDTO {
 
     @NotNull(message = ImageErrorCode.ORDINAL_NUMBER__REQUIRED)
     @Min(value = 1, message = ImageErrorCode.ORDINAL_NUMBER__INVALID)
-    private int ordinalNumber;
+    private Integer ordinalNumber;
 
     @NotBlank(message = ImageErrorCode.LESSON_ID__REQUIRED)
     private String lessonId;

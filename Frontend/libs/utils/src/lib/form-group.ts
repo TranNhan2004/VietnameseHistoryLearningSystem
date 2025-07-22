@@ -7,12 +7,12 @@ export class MyFormGroupHelper {
     this.formGroup = formGroup;
   }
 
-  hasError(field: string, error: string) {
-    return this.formGroup.get(field)?.errors?.[error];
+  hasError(path: string | string[], error: string) {
+    return this.formGroup.get(path)?.errors?.[error];
   }
 
-  isInvalid(field: string) {
-    const control = this.formGroup.get(field);
+  isInvalid(path: string | string[]) {
+    const control = this.formGroup.get(path);
     return control?.invalid && (control?.dirty || control?.touched);
   }
 }

@@ -1,7 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActionButtonComponent } from '@frontend/angular-libs';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MyFormGroupHelper } from '@frontend/utils';
 import { ActionButtonName } from '@frontend/models';
 import { lessonMessages } from '@frontend/constants';
@@ -9,20 +18,45 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-lesson-form',
-  imports: [CommonModule, ActionButtonComponent, ReactiveFormsModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ActionButtonComponent,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
   templateUrl: './lesson-form.component.html',
   styleUrl: './lesson-form.component.css',
 })
-export class LessonFormComponent {
+export class LessonFormComponent implements OnChanges {
   @Input({ required: true }) formGroup!: FormGroup;
   @Input() formHelper!: MyFormGroupHelper;
-  @Input() videoFile: File | null = null;
   @Input() videoUrl: string | null = null;
 
   @Output() saveFn = new EventEmitter<void>();
   @Output() cancelFn = new EventEmitter<void>();
+  @Output() videoFileChange = new EventEmitter<File | null>();
+  @Output() deleteVideo = new EventEmitter<void>();
+
+  @ViewChild('inputFile') inputFileRef!: ElementRef<HTMLInputElement>;
+  localVideoUrl: string | null = null;
 
   constructor(private toastrService: ToastrService) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['videoUrl']) {
+      this.localVideoUrl = this.videoUrl;
+    }
+  }
+
+  deleteVideoClick() {
+    this.deleteVideo.emit();
+    this.localVideoUrl = null;
+
+    if (this.inputFileRef?.nativeElement) {
+      this.inputFileRef.nativeElement.value = '';
+    }
+  }
 
   onVideoChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -36,8 +70,8 @@ export class LessonFormComponent {
         return;
       }
 
-      this.videoFile = file;
-      this.videoUrl = URL.createObjectURL(this.videoFile);
+      this.videoFileChange.emit(file);
+      this.localVideoUrl = URL.createObjectURL(file);
     }
   }
 

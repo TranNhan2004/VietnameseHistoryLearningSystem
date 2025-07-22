@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class SortComponent {
   @Input({ required: true }) originalData: DisplayedData[] = [];
   @Input({ required: true }) sortOptions: SortOption[] = [];
+  @Input() selectNgClass = '';
   @Output() sortData = new EventEmitter<DisplayedData[]>();
 
   selected = '';

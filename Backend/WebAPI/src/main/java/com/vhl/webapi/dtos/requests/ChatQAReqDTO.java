@@ -12,11 +12,9 @@ public class ChatQAReqDTO {
     @NotBlank(message = ChatQAErrorCode.ANSWER__REQUIRED)
     private String answer;
 
-    @NotBlank(message = ChatQAErrorCode.LIKED__REQUIRED)
-    private boolean liked = false;
-
-    @NotBlank(message = ChatQAErrorCode.DISLIKED__REQUIRED)
-    private boolean disliked = false;
+    private Boolean liked;
+    
+    private Boolean disliked;
 
     @NotBlank(message = ChatQAErrorCode.CHAT_HISTORY_ID__REQUIRED)
     private String chatHistoryId;

@@ -6,6 +6,6 @@ import lombok.Data;
 public class HistoricalPeriodResDTO {
     private String id;
     private String name;
-    private int startYear;
-    private int endYear;
+    private Integer startYear;
+    private Integer endYear;
 }

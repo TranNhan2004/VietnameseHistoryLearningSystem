@@ -22,10 +22,10 @@ public class Result extends IBaseEntity {
     private LocalDateTime endTime;
 
     @Column(name = "correct_answers_number", nullable = false)
-    private int correctAnswersNumber;
+    private Integer correctAnswersNumber;
 
     @Column(name = "score", nullable = false)
-    private double score;
+    private Double score;
 
     @ManyToOne
     @JoinColumn(name = "learner_id", nullable = false)

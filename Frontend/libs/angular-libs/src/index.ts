@@ -5,6 +5,10 @@ export * from './lib/components/default-avatar/default-avatar.component';
 export * from './lib/components/password-input/password-input.component';
 
 // ===================================================================================================
+// Directives
+export * from './lib/directives/flatpickr.directive';
+
+// ===================================================================================================
 // Guards
 export * from './lib/guards/authenticated.guard';
 export * from './lib/guards/not-authenticated.guard';
@@ -19,12 +23,15 @@ export * from './lib/interceptors/response.interceptor';
 
 // ===================================================================================================
 // Services
-
+export * from './lib/services/be/answer-option.service';
 export * from './lib/services/be/authentication.service';
+export * from './lib/services/be/contest.service';
+export * from './lib/services/be/contest-question.service';
 export * from './lib/services/be/historical-period.service';
 export * from './lib/services/be/image.service';
 export * from './lib/services/be/lesson.service';
 export * from './lib/services/be/paragraph.service';
+export * from './lib/services/be/question.service';
 export * from './lib/services/be/user.service';
 export * from './lib/services/be/verification.service';
 

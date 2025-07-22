@@ -46,14 +46,21 @@ export const imageMessages = {
   // Errors
   ORDINAL_NUMBER__REQUIRED: 'Số thứ tự là bắt buộc.',
   LESSON_ID__REQUIRED: 'ID bài học là bắt buộc.',
+  TITLE__REQUIRED: 'Tiêu đề không được bỏ trống.',
+  IMAGE_FILE__REQUIRED: 'File ảnh không được để trống.',
+
+  TITLE__TOO_LONG: 'Tiêu đề quá dài.',
+
+  IMAGE_FILE__TOO_BIG: 'File quá lớn! Vui lòng chọn file nhỏ hơn 200MB.',
 
   ORDINAL_NUMBER__INVALID: 'Số thứ tự không hợp lệ.',
   IMAGE__UPLOAD_FAILED: 'Đã xảy ra lỗi khi upload ảnh về bài học.',
   IMAGE__DELETE_FAILED: 'Đã xảy ra lỗi khi xóa ảnh về bài học.',
 
   // Success
-  UPLOAD_IMAGE__SUCCESS: 'Tải ảnh lên thành công.',
-  DELETE_IMAGE__SUCCESS: 'Xóa ảnh thành công.',
+  CREATE__SUCCESS: 'Thêm ảnh mới thành công.',
+  UPDATE__SUCCESS: 'Cập nhật ảnh thành công.',
+  DELETE__SUCCESS: 'Xóa ảnh thành công.',
 
   IMAGE__NOT_FOUND: 'Không tìm thấy ảnh của bài học với ID tương ứng.',
 };

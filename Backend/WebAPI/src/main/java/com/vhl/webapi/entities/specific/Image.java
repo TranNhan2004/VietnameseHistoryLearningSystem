@@ -14,11 +14,11 @@ public class Image extends IBaseEntity {
     private String title;
 
     @Column(name = "ordinal_number", nullable = false)
-    private int ordinalNumber;
+    private Integer ordinalNumber;
 
-    @Column(name = "image_url", nullable = false, length = 2048)
+    @Column(name = "image_url", length = 2048)
     private String imageUrl;
-    
+
     @ManyToOne
     @JoinColumn(name = "lesson_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

@@ -2,7 +2,7 @@ import { ActionButtonName } from './action-button.model';
 import { Id } from '../be/abstracts.model';
 
 export interface DisplayedData extends Id {
-  [key: string]: string | number | Date | null;
+  [key: string]: string | number | Date | null | object | Array<any>;
 }
 
 export interface DisplayedDataAction {

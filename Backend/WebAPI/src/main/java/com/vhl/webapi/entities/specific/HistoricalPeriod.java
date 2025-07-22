@@ -14,9 +14,9 @@ public class HistoricalPeriod extends IBaseEntity {
     private String name;
 
     @Column(name = "start_year", nullable = false)
-    private int startYear;
+    private Integer startYear;
 
     @Column(name = "end_year", nullable = false)
-    private int endYear;
+    private Integer endYear;
 
 }

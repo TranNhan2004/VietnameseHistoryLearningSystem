@@ -49,10 +49,11 @@
   </label>
 
   <label class="flex items-center space-x-3 text-gray-700">
-    <span class="w-[20%]">Ngày sinh (m/d/y):</span>
+    <span class="w-[20%]">Ngày sinh:</span>
     <div class="w-[70%]">
       <input
-        type="date"
+        libFlatpickr
+        type="text"
         formControlName="dateOfBirth"
         [ngClass]="{
          'flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-myblue w-full': true,

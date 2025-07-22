@@ -18,12 +18,9 @@ public class Lesson extends ICUBaseEntity {
 
     @Column(name = "video_url", length = 2048)
     private String videoUrl;
-
-    @Column(name = "likes", nullable = false)
-    private int likes = 0;
-
+    
     @Column(name = "views", nullable = false)
-    private int views = 0;
+    private Integer views = 0;
 
     @Column(name = "description", nullable = false, length = 2048)
     private String description;

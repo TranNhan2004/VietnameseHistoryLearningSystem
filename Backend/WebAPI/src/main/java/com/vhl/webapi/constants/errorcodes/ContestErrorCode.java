@@ -1,6 +1,7 @@
 package com.vhl.webapi.constants.errorcodes;
 
 public class ContestErrorCode {
+    public static final String NAME__REQUIRED = "NAME__REQUIRED";
     public static final String QUESTION_NUMBER__REQUIRED = "QUESTION_NUMBER__REQUIRED";
     public static final String DURATION_IN_MINUTES__REQUIRED = "DURATION_IN_MINUTES__REQUIRED";
     public static final String START_TIME__REQUIRED = "START_TIME__REQUIRED";
@@ -9,6 +10,9 @@ public class ContestErrorCode {
     public static final String QUESTION_NUMBER__INVALID = "QUESTION_NUMBER__INVALID";
     public static final String DURATION_IN_MINUTES__INVALID = "DURATION_IN_MINUTES__INVALID";
     public static final String END_TIME__INVALID = "END_TIME__INVALID";
+
+    public static final String QUESTION_NUMBER__EXCEEDED = "QUESTION_NUMBER__EXCEEDED";
+    public static final String NAME__TOO_LONG = "NAME__TOO_LONG";
 
     public static final String CONTEST__NOT_FOUND = "CONTEST__NOT_FOUND";
 }

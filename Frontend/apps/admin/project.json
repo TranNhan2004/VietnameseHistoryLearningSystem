@@ -26,9 +26,10 @@
           }
         ],
         "styles": [
+          "node_modules/flatpickr/dist/flatpickr.min.css",
+          "node_modules/ngx-toastr/toastr.css",
           "global.css",
-          "apps/admin/src/styles.css",
-          "node_modules/ngx-toastr/toastr.css"
+          "apps/admin/src/styles.css"
         ],
         "scripts": [
           "node_modules/sweetalert2/dist/sweetalert2.all.min.js"

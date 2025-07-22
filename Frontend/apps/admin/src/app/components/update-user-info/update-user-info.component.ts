@@ -18,6 +18,7 @@ import { MyFormGroupHelper } from '@frontend/utils';
 import {
   ActionButtonComponent,
   AlertService,
+  FlatpickrDirective,
   MyFormBuilderService,
   UserService,
 } from '@frontend/angular-libs';
@@ -26,7 +27,12 @@ import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 
 @Component({
   selector: 'app-update-user-info',
-  imports: [CommonModule, ReactiveFormsModule, ActionButtonComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ActionButtonComponent,
+    FlatpickrDirective,
+  ],
   templateUrl: './update-user-info.component.html',
   styleUrl: './update-user-info.component.css',
 })

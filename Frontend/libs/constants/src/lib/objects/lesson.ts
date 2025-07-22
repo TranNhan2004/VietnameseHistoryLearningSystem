@@ -32,7 +32,7 @@ export const initialParagraphResponse: ParagraphResponse = {
   lessonId: '',
 };
 
-export const initialImageReponse: ImageResponse = {
+export const initialImageResponse: ImageResponse = {
   id: '',
   title: '',
   imageUrl: '',

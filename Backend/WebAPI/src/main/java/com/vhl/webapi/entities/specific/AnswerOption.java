@@ -14,10 +14,11 @@ public class AnswerOption extends IBaseEntity {
     private String content;
 
     @Column(name = "is_correct", nullable = false)
-    private boolean isCorrect = false;
+    private Boolean correct;
 
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Question question;
+
 }

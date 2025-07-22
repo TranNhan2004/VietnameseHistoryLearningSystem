@@ -80,7 +80,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new NoInstanceFoundException(BaseUserErrorCode.EMAIL_OR_USER_NAME_OR_PASSWORD__INCORRECT));
         }
 
-        if (!baseUser.isActive() ||
+        if (!baseUser.getActive() ||
             !passwordEncoder.matches(loginReqDTO.getPassword(), baseUser.getPassword()) ||
             !baseUser.getFullRole().contains(loginReqDTO.getRole())
         ) {

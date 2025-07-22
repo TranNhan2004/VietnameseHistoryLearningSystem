@@ -12,11 +12,14 @@ import java.util.List;
 @Data
 @Table(name = "contests")
 public class Contest extends ICUBaseEntity {
+    @Column(name = "name", nullable = false, unique = true, length = 512)
+    private String name;
+
     @Column(name = "question_number", nullable = false)
-    private int questionNumber;
+    private Integer questionNumber;
 
     @Column(name = "duration_in_minutes", nullable = false)
-    private int durationInMinutes;
+    private Integer durationInMinutes;
 
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;

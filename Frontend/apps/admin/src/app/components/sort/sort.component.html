@@ -1,7 +1,7 @@
 <select
   [(ngModel)]="selected"
   (change)="onSortChange()"
-  class="border-[3px] border-my-lightblue bg-white px-4 py-[4%] rounded-xl w-full focus:outline-none cursor-pointer"
+  [ngClass]="'border-[3px] border-my-lightblue bg-white rounded-xl w-full focus:outline-none cursor-pointer ' + selectNgClass"
 >
   <option value="">-- Sắp xếp --</option>
   @for (option of sortOptions; track $index) {

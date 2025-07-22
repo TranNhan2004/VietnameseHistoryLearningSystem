@@ -6,7 +6,7 @@ import lombok.Data;
 public class ImageResDTO {
     private String id;
     private String title;
-    private int ordinalNumber;
+    private Integer ordinalNumber;
     private String imageUrl;
     private String lessonId;
 }

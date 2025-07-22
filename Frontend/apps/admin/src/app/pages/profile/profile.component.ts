@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   ActionButtonComponent,
@@ -44,7 +44,7 @@ import { environment } from '../../environments/environment.dev';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   user: AdminResponse = initialAdminResponse;
   isChangeAvatar = false;
 

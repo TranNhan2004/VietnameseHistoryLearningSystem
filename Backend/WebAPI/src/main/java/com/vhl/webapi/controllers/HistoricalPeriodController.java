@@ -34,13 +34,13 @@ public class HistoricalPeriodController {
     @PreAuthorize("@roleChecker.hasRolePrefix('ADMIN')")
     @PostMapping("")
     public ResponseEntity<?> createHistoricalPeriod(@Valid @RequestBody HistoricalPeriodReqDTO historicalPeriodReqDTO) {
-        HistoricalPeriodResDTO data = historicalPeriodService.createHistoricalPeriod(historicalPeriodReqDTO);
+        HistoricalPeriodResDTO historicalPeriodResDTO = historicalPeriodService.createHistoricalPeriod(historicalPeriodReqDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(data.getId())
+            .buildAndExpand(historicalPeriodResDTO.getId())
             .toUri();
 
-        return ResponseEntity.created(location).body(data);
+        return ResponseEntity.created(location).body(historicalPeriodResDTO);
     }
 
     @PreAuthorize("@roleChecker.hasRolePrefix('ADMIN')")

@@ -14,7 +14,7 @@ import org.hibernate.annotations.OnDeleteAction;
 )
 public class ContestQuestion extends IBaseEntity {
     @Column(name = "point", nullable = false)
-    private double point;
+    private Double point;
 
     @Column(name = "point_allocation_rule", nullable = false, columnDefinition = "TEXT")
     private String pointAllocationRule;

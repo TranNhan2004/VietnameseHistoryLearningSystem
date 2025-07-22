@@ -1,10 +1,11 @@
 <app-lesson-form
   [formGroup]="lessonForm"
   [formHelper]="lessonFH"
-  [videoFile]="videoFile"
   [videoUrl]="videoUrl"
   (saveFn)="save()"
   (cancelFn)="cancel()"
+  (videoFileChange)="videoFileChange($event)"
+  (deleteVideo)="deleteVideo()"
 >
 </app-lesson-form>
 
@@ -12,3 +13,8 @@
   [paragraphs]="lessonResponse.paragraphs"
   (updated)="updatedParagraphs($event)"
 ></app-paragraphs>
+
+<app-images
+  [images]="lessonResponse.images"
+  (updated)="updatedImages($event)"
+></app-images>

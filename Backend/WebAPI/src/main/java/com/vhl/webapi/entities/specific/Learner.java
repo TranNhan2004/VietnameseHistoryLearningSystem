@@ -15,7 +15,7 @@ public class Learner extends BaseUser {
     private LearnerRank rank = LearnerRank.BEGINNER;
 
     @Column(name = "point", nullable = false)
-    private int point = 0;
+    private Integer point = 0;
 
     @Column(name = "best_score")
     private Double bestScore;
@@ -23,7 +23,7 @@ public class Learner extends BaseUser {
     @Column(name = "worst_score")
     private Double worstScore;
 
-    
+
     @Override
     public String getFullRole() {
         return Role.LEARNER.name();

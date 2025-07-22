@@ -1,1 +1,11 @@
-<p>create-image works!</p>
+<app-modal [showModal]="showModal">
+  <app-image-form
+    [formGroup]="imageForm"
+    [formHelper]="imageFH"
+    [(imageFile)]="imageFile"
+    [imageUrl]="imageUrl"
+    (saveFn)="save()"
+    (cancelFn)="cancel()"
+  >
+  </app-image-form>
+</app-modal>

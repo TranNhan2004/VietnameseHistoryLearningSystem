@@ -1,1 +1,77 @@
-<p>images works!</p>
+<div class="p-4">
+  <h1 class="mt-5 font-bold text-my-blue text-4xl text-left">Danh sách hình ảnh của bài học</h1>
+  <div class="mt-2 h-1 w-full bg-gradient-to-r from-my-blue to-my-coralaccent rounded-lg"></div>
+
+  <div class="flex items-center justify-between mt-5">
+    <div class="w-[40%]">
+      <app-search
+        [originalData]="originialDisplayedData"
+        [searchKeys]="['content']"
+        (filterData)="filterData($event)"
+        placeholder="Tìm kiếm theo nội dung"
+      >
+      </app-search>
+    </div>
+    <div class="flex items-center space-x-4">
+      <lib-action-button
+        [name]="ActionButtonName.Add"
+        mainTitle="Thêm mới"
+        title=""
+        (btnClick)="addData()"
+      ></lib-action-button>
+    </div>
+  </div>
+
+  <p class="mt-1 italic text-gray-500">
+    (*) Số trên mỗi thẻ là thứ tự xuất hiện của hình ảnh trong bài học
+  </p>
+
+  <div class="mt-5">
+    <div class="grid grid-cols-2 gap-4">
+      @for (item of displayedData; track item.id) {
+        <app-pi-card
+          [id]="item.id"
+          [ordinalNumber]="Number(item['ordinalNumber'])"
+          (editFn)="updateData(item.id)"
+          (deleteFn)="deleteData(item.id)"
+          height="12"
+        >
+          <div class="text-justify space-y-2">
+            <div class="flex items-start">
+              <p class="w-[15%] text-my-darknavy">Tiêu đề:</p>
+              <p class="w-[85%] text-justify text-gray-800 break-words ">
+                {{ item['title'] }}
+              </p>
+            </div>
+            <div class="flex items-start">
+              <p class="w-[15%] text-my-darknavy">URL ảnh:</p>
+              <p class="w-[85%] text-justify text-gray-800 break-words">
+                <a
+                  [href]="item['imageUrl']"
+                  class="text-my-blue underline"
+                >
+                  {{ item['imageUrl'] }}
+                </a>
+              </p>
+            </div>
+          </div>
+        </app-pi-card>
+      }
+    </div>
+  </div>
+</div>
+
+<app-create-image
+  [showModal]="showCreateModal"
+  (closeModal)="closeCreateModal()"
+  (added)="addedData($event)"
+></app-create-image>
+
+<app-update-image
+  [showModal]="showUpdateModal"
+  [imageResponse]="imageResponse"
+  (closeModal)="closeUpdateModal()"
+  (updated)="updatedData($event)"
+>
+</app-update-image>
+

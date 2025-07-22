@@ -1,8 +1,9 @@
 <app-lesson-form
   [formGroup]="lessonForm"
   [formHelper]="lessonFH"
-  [videoFile]="videoFile"
   [videoUrl]="videoUrl"
   (saveFn)="save()"
   (cancelFn)="cancel()"
+  (videoFileChange)="videoFileChange($event)"
+  (deleteVideo)="deleteVideo()"
 ></app-lesson-form>

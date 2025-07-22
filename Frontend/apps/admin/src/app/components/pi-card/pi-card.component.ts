@@ -12,6 +12,7 @@ import { ActionButtonName } from '@frontend/models';
 export class PiCardComponent {
   @Input({ required: true }) id!: string;
   @Input({ required: true }) ordinalNumber!: number;
+  @Input() height = '18';
 
   @Output() editFn = new EventEmitter<string>();
   @Output() deleteFn = new EventEmitter<string>();

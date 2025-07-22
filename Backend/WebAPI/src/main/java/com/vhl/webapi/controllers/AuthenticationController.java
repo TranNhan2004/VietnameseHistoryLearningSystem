@@ -63,13 +63,13 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody BaseUserReqDTO baseUserReqDTO) {
-        BaseUserResDTO data = authenticationService.signup(baseUserReqDTO);
+        BaseUserResDTO baseUserResDTO = authenticationService.signup(baseUserReqDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(data.getId())
+            .buildAndExpand(baseUserResDTO.getId())
             .toUri();
 
-        return ResponseEntity.created(location).body(data);
+        return ResponseEntity.created(location).body(baseUserResDTO);
     }
 
     @PostMapping("/login")

@@ -126,9 +126,9 @@ export class LessonsOuterComponent implements OnInit {
     ) as DisplayedData;
     this.sharedService.put(
       id,
-      `Thời kỳ ${data['Tên thời kỳ']?.toString().toLowerCase()} (${
-        data['Năm bắt đầu']
-      } - ${data['Năm kết thúc']})`
+      `Thời kỳ ${data['name']?.toString().toLowerCase()} (${toHistoricalYear(
+        Number(data['startYear'])
+      )} - ${toHistoricalYear(Number(data['endYear']))})`
     );
     await this.router.navigateByUrl(`/historical-periods/${id}/lessons`);
   }

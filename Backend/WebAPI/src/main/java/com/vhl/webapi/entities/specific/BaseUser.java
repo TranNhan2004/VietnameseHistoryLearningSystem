@@ -31,7 +31,7 @@ public abstract class BaseUser extends ICUBaseEntity {
     protected LocalDate dateOfBirth;
 
     @Column(name = "is_active", nullable = false)
-    protected boolean isActive = false;
+    protected Boolean active = false;
 
     @Column(name = "avatar_url", length = 2048)
     protected String avatarUrl;

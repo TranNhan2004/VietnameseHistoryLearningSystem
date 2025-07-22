@@ -1,0 +1,9 @@
+<app-question-form
+  [formGroup]="questionForm"
+  [formHelper]="questionFH"
+  (addAnswerOption)="addAnswerOption()"
+  (deleteAnswerOption)="deleteAnswerOption($event)"
+  (saveFn)="save()"
+  (cancelFn)="cancel()"
+>
+</app-question-form>

@@ -17,10 +17,10 @@ public class ChatQA extends ICBaseEntity {
     private String answer;
 
     @Column(name = "liked", nullable = false)
-    private boolean liked = false;
+    private Boolean liked = false;
 
     @Column(name = "disliked", nullable = false)
-    private boolean disliked = false;
+    private Boolean disliked = false;
 
     @ManyToOne
     @JoinColumn(name = "chat_history_id", nullable = false)

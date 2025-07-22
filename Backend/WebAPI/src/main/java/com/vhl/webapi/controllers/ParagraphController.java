@@ -19,13 +19,13 @@ public class ParagraphController {
 
     @PostMapping("")
     public ResponseEntity<?> createParagraph(@Valid @RequestBody ParagraphReqDTO paragraphReqDTO) {
-        ParagraphResDTO data = paragraphService.createParagraph(paragraphReqDTO);
+        ParagraphResDTO paragraphResDTO = paragraphService.createParagraph(paragraphReqDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(data.getId())
+            .buildAndExpand(paragraphResDTO.getId())
             .toUri();
 
-        return ResponseEntity.created(location).body(data);
+        return ResponseEntity.created(location).body(paragraphResDTO);
     }
 
     @PutMapping("/{id}")

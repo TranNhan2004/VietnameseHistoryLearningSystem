@@ -1,23 +1,25 @@
 package com.vhl.webapi.dtos.requests;
 
 import com.vhl.webapi.constants.errorcodes.ContestErrorCode;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
 public class ContestReqDTO {
+    @NotBlank(message = ContestErrorCode.NAME__REQUIRED)
+    @Size(min = 1, max = 512, message = ContestErrorCode.NAME__TOO_LONG)
+    private String name;
+
     @NotNull(message = ContestErrorCode.QUESTION_NUMBER__REQUIRED)
     @Min(value = 1, message = ContestErrorCode.QUESTION_NUMBER__INVALID)
-    private int questionNumber;
+    private Integer questionNumber;
 
     @NotNull(message = ContestErrorCode.DURATION_IN_MINUTES__REQUIRED)
-    @Min(value = 1, message = ContestErrorCode.DURATION_IN_MINUTES__INVALID)
-    private int durationInMinutes;
-
+    @Min(value = 10, message = ContestErrorCode.DURATION_IN_MINUTES__INVALID)
+    private Integer durationInMinutes;
+    
     @NotNull(message = ContestErrorCode.START_TIME__REQUIRED)
     private LocalDateTime startTime;
 

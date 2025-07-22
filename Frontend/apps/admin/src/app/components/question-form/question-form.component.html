@@ -1,0 +1,98 @@
+<div class="p-4">
+  <h3 class="text-2xl font-bold mb-8 text-my-blue">Thông tin câu hỏi</h3>
+
+  <form [formGroup]="formGroup" class="space-y-4">
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Nội dung câu hỏi:</span>
+      <div class="w-[50%]">
+        <textarea
+          type="text"
+          formControlName="content"
+          rows="2"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        ></textarea>
+
+        @if (formHelper.isInvalid('content')) {
+          @if (formHelper.hasError('content', 'required')) {
+            <p class="error">{{ questionMessages.CONTENT__REQUIRED }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <div>
+      <lib-action-button
+        [name]="ActionButtonName.Add"
+        mainTitle="Thêm lựa chọn"
+        title=""
+        (btnClick)="addAnswerOption.emit()"
+      >
+      </lib-action-button>
+    </div>
+
+    <div formArrayName="answerOptions" class="space-y-4">
+      @if (answerOptionForms.controls.length > 0) {
+        @for (item of answerOptionForms.controls; track item.value.content; let i = $index) {
+          <div [formGroupName]="i.toString()" class="space-y-2">
+            <div class="flex items-center text-gray-700">
+              <span class="w-[16%]">Nội dung lựa chọn:</span>
+              <div class="w-[50%]">
+                <input
+                  type="text"
+                  formControlName="content"
+                  class="border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+                />
+
+                @if (formHelper.isInvalid(['answerOptions', i.toString(), 'content'])) {
+                  @if (formHelper.hasError(['answerOptions', i.toString(), 'content'], 'required')) {
+                    <p class="error">{{ answerOptionMessages.CONTENT__REQUIRED }}</p>
+                  }
+                }
+              </div>
+
+              <span class="w-[10%] ml-5">Đúng:</span>
+              <div class="-ml-20">
+                <input
+                  type="checkbox"
+                  formControlName="correct"
+                  class="h-5 w-5 text-my-blue"
+                />
+              </div>
+
+              <div class="ml-10">
+                <lib-action-button
+                  [name]="ActionButtonName.Delete"
+                  mainTitle="Xóa lựa chọn"
+                  title=""
+                  (btnClick)="deleteAnswerOption.emit(i.toString())"
+                >
+                </lib-action-button>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </form>
+
+  <div class="mt-10 p-4 w-full bg-gradient-to-r from-my-lightblue to-my-lightpurple flex items-center rounded-xl">
+    <div class="flex justify-end ml-auto space-x-2 ">
+      <lib-action-button
+        [name]="ActionButtonName.Save"
+        mainTitle="Lưu"
+        title=""
+        [disabled]="formGroup.invalid"
+        (btnClick)="saveFn.emit()"
+      ></lib-action-button>
+
+      <lib-action-button
+        [name]="ActionButtonName.Cancel"
+        mainTitle="Thoát"
+        title=""
+        (btnClick)="cancelFn.emit()"
+      ></lib-action-button>
+    </div>
+  </div>
+</div>
+

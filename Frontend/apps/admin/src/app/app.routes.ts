@@ -12,6 +12,7 @@ import { lessonRoutes } from './routes/lesson.routes';
 import { accountRoutes } from './routes/account.routes';
 import { contestRoutes } from './routes/contest.routes';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { questionRoutes } from './routes/question.routes';
 
 export const appRoutes: Route[] = [
   {
@@ -42,6 +43,7 @@ export const appRoutes: Route[] = [
       ...accountRoutes,
       ...contestRoutes,
       ...lessonRoutes,
+      ...questionRoutes,
       {
         path: 'profile',
         component: ProfileComponent,

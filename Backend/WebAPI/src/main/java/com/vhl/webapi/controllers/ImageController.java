@@ -19,22 +19,43 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("")
-    public ResponseEntity<?> uploadImage(
-        @Valid @RequestPart("imageJSON") ImageReqDTO imageReqDTO,
-        @RequestPart("image") MultipartFile file
-    ) {
-        ImageResDTO data = imageService.uploadImage(imageReqDTO, file);
+    public ResponseEntity<?> createImage(@Valid @RequestBody ImageReqDTO imageReqDTO) {
+        ImageResDTO imageResDTO = imageService.createImage(imageReqDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(data.getId())
+            .buildAndExpand(imageResDTO.getId())
             .toUri();
 
-        return ResponseEntity.created(location).body(data);
+        return ResponseEntity.created(location).body(imageResDTO);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> uploadImage(
+        @PathVariable String id,
+        @Valid @RequestBody ImageReqDTO imageReqDTO
+    ) {
+        imageService.updateImage(id, imageReqDTO);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteImage(@PathVariable String id) {
         imageService.deleteImage(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/file/{id}")
+    public ResponseEntity<?> uploadImageFile(
+        @PathVariable String id,
+        @RequestParam("image") MultipartFile file
+    ) {
+        ImageResDTO imageResDTO = imageService.uploadImageFile(id, file);
+        return ResponseEntity.ok(imageResDTO);
+    }
+
+    @DeleteMapping("file/{id}")
+    public ResponseEntity<?> deleteImageFile(@PathVariable String id) {
+        imageService.deleteImageFile(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -16,8 +16,9 @@ export * from './lib/messages/user-messages';
 export * from './lib/messages/verification-messages';
 
 export * from './lib/objects/lesson';
+export * from './lib/objects/question';
 export * from './lib/objects/user';
 
-export * from './lib/reg-exps/reg-exp';
+export * from './lib/reg-exps/all';
 
 export * from './lib/role-readers/full-role';

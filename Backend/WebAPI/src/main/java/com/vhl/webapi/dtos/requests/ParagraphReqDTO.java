@@ -13,7 +13,7 @@ public class ParagraphReqDTO {
 
     @NotNull(message = ParagraphErrorCode.ORDINAL_NUMBER__REQUIRED)
     @Min(value = 1, message = ParagraphErrorCode.ORDINAL_NUMBER__INVALID)
-    private int ordinalNumber;
+    private Integer ordinalNumber;
 
     @NotBlank(message = ParagraphErrorCode.LESSON_ID__REQUIRED)
     private String lessonId;

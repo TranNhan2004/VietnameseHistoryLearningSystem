@@ -1,0 +1,119 @@
+<div class="p-4">
+  <h3 class="text-2xl font-bold mb-8 text-my-blue">Thông tin cuộc thi</h3>
+
+  <form [formGroup]="formGroup" class="space-y-4">
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Tên cuộc thi:</span>
+      <div class="w-[50%]">
+        <input
+          type="text"
+          formControlName="name"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
+
+        @if (formHelper.isInvalid('name')) {
+          @if (formHelper.hasError('name', 'required')) {
+            <p class="error">{{ contestMessages.NAME__REQUIRED }}</p>
+          } @else if (formHelper.hasError('name', 'maxlength')) {
+            <p class="error">{{ contestMessages.NAME__TOO_LONG }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Số lượng câu hỏi:</span>
+      <div class="w-[50%]">
+        <input
+          type="number"
+          formControlName="questionNumber"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
+
+        @if (formHelper.isInvalid('questionNumber')) {
+          @if (formHelper.hasError('questionNumber', 'required')) {
+            <p class="error">{{ contestMessages.QUESTION_NUMBER__REQUIRED }}</p>
+          } @else if (formHelper.hasError('questionNumber', 'min')) {
+            <p class="error">{{ contestMessages.QUESTION_NUMBER__INVALID }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Thời gian làm bài (phút):</span>
+      <div class="w-[50%]">
+        <input
+          type="number"
+          formControlName="durationInMinutes"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
+
+        @if (formHelper.isInvalid('durationInMinutes')) {
+          @if (formHelper.hasError('durationInMinutes', 'required')) {
+            <p class="error">{{ contestMessages.DURATION_IN_MINUTES__REQUIRED }}</p>
+          } @else if (formHelper.hasError('durationInMinutes', 'min')) {
+            <p class="error">{{ contestMessages.DURATION_IN_MINUTES__INVALID }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Thời điểm bắt đầu cuộc thi:</span>
+      <div class="w-[50%]">
+        <input
+          libFlatpickr
+          type="text"
+          formControlName="startTime"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
+
+        @if (formHelper.isInvalid('startTime')) {
+          @if (formHelper.hasError('startTime', 'required')) {
+            <p class="error">{{ contestMessages.START_TIME__REQUIRED }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Thời điểm kết thúc cuộc thi:</span>
+      <div class="w-[50%]">
+        <input
+          libFlatpickr
+          type="text"
+          formControlName="endTime"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
+
+        @if (formHelper.isInvalid('endTime')) {
+          @if (formHelper.hasError('endTime', 'required')) {
+            <p class="error">{{ contestMessages.END_TIME__REQUIRED }}</p>
+          }
+        } @else if (isInvalidTime()) {
+          <p class="error">{{ contestMessages.END_TIME__INVALID }}</p>
+        }
+      </div>
+    </label>
+  </form>
+  <div class="mt-10 p-4 w-full bg-gradient-to-r from-my-lightblue to-my-lightpurple flex items-center rounded-xl">
+    <div class="flex justify-end ml-auto space-x-2 ">
+      <lib-action-button
+        [name]="ActionButtonName.Save"
+        mainTitle="Lưu"
+        title=""
+        [disabled]="formGroup.invalid"
+        (btnClick)="saveFn.emit()"
+      ></lib-action-button>
+
+      <lib-action-button
+        [name]="ActionButtonName.Cancel"
+        mainTitle="Thoát"
+        title=""
+        (btnClick)="cancelFn.emit()"
+      ></lib-action-button>
+    </div>
+  </div>
+</div>
+

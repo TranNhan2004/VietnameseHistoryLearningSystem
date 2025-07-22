@@ -14,7 +14,7 @@ public class Paragraph extends IBaseEntity {
     private String content;
 
     @Column(name = "ordinal_number", nullable = false)
-    private int ordinalNumber;
+    private Integer ordinalNumber;
 
     @ManyToOne
     @JoinColumn(name = "lesson_id", nullable = false)

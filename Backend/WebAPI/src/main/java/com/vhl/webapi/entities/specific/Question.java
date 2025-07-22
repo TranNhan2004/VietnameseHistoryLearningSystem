@@ -21,6 +21,6 @@ public class Question extends IBaseEntity {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Lesson lesson;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<AnswerOption> answerOptions = new ArrayList<>();
 }
