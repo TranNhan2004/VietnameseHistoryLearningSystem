@@ -45,6 +45,10 @@ const BUTTON_CONFIG: Record<ActionButtonName, { icon: string; title: string }> =
       icon: 'matArrowOutwardRound',
       title: 'Dẫn đến',
     },
+    [ActionButtonName.ChangeAdminLevel]: {
+      icon: 'matGroupsRound',
+      title: 'Đổi cấp bậc quản trị',
+    },
   };
 
 @Component({

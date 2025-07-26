@@ -1,11 +1,9 @@
 package com.vhl.webapi.controllers;
 
 import com.vhl.webapi.constants.errorcodes.JwtErrorCode;
-import com.vhl.webapi.dtos.requests.BaseUserReqDTO;
-import com.vhl.webapi.dtos.requests.LoginReqDTO;
-import com.vhl.webapi.dtos.requests.LogoutReqDTO;
-import com.vhl.webapi.dtos.requests.RefreshAccessTokenReqDTO;
-import com.vhl.webapi.dtos.responses.BaseUserResDTO;
+import com.vhl.webapi.dtos.requests.*;
+import com.vhl.webapi.dtos.responses.AdminResDTO;
+import com.vhl.webapi.dtos.responses.LearnerResDTO;
 import com.vhl.webapi.dtos.responses.NewAccessTokenResDTO;
 import com.vhl.webapi.enums.Role;
 import com.vhl.webapi.services.abstraction.AuthenticationService;
@@ -16,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,15 +60,38 @@ public class AuthenticationController {
         return null;
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody BaseUserReqDTO baseUserReqDTO) {
-        BaseUserResDTO baseUserResDTO = authenticationService.signup(baseUserReqDTO);
+//    @PostMapping("/signup")
+//    public ResponseEntity<?> signup(@Valid @RequestBody BaseUserReqDTO baseUserReqDTO) {
+//        BaseUserResDTO baseUserResDTO = authenticationService.signup(baseUserReqDTO);
+//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+//            .path("/{id}")
+//            .buildAndExpand(baseUserResDTO.getId())
+//            .toUri();
+//
+//        return ResponseEntity.created(location).body(baseUserResDTO);
+//    }
+
+    @PreAuthorize("@roleChecker.hasFullRole('ADMIN_SUPER_ADVANCED')")
+    @PostMapping("/signup-admin")
+    public ResponseEntity<?> signup(@Valid @RequestBody AdminReqDTO adminReqDTO) {
+        AdminResDTO adminResDTO = authenticationService.signupForAdmin(adminReqDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(baseUserResDTO.getId())
+            .buildAndExpand(adminResDTO.getId())
             .toUri();
 
-        return ResponseEntity.created(location).body(baseUserResDTO);
+        return ResponseEntity.created(location).body(adminResDTO);
+    }
+
+    @PostMapping("/signup-learner")
+    public ResponseEntity<?> signup(@Valid @RequestBody LearnerReqDTO learnerReqDTO) {
+        LearnerResDTO learnerResDTO = authenticationService.signupForLearner(learnerReqDTO);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(learnerResDTO.getId())
+            .toUri();
+
+        return ResponseEntity.created(location).body(learnerResDTO);
     }
 
     @PostMapping("/login")

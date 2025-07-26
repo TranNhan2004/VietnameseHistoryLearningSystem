@@ -11,7 +11,8 @@ import { NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { FooterComponent } from '../footer/footer.component';
 import { IS_COLLAPSED_LSK } from '@frontend/constants';
-import { NavbarItem } from '@frontend/models';
+import { FullRoleType, NavbarItem } from '@frontend/models';
+import { AuthenticationHelpers } from '@frontend/utils';
 
 @Component({
   selector: 'app-navbar',
@@ -71,6 +72,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       icon: 'matSupervisorAccountRound',
       route: '/accounts',
       prefixRoutes: ['/accounts'],
+      accessOnly: ['ADMIN_ADVANCED', 'ADMIN_SUPER_ADVANCED'],
     },
     {
       name: 'Thống kê',
@@ -91,8 +93,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       prefixRoutes: ['/settings'],
     },
   ];
+  fullRole: FullRoleType;
 
-  constructor(public router: Router) {}
+  constructor(public router: Router) {
+    this.fullRole = AuthenticationHelpers.getUserInfo('ADMIN')
+      ?.fullRole as FullRoleType;
+  }
 
   ngOnInit() {
     const saved = localStorage.getItem(IS_COLLAPSED_LSK);

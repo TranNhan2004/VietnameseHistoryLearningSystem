@@ -40,9 +40,23 @@ export class TableComponent implements OnInit, OnChanges, AfterContentInit {
   currentPage = 1;
   totalItems = 0;
 
+  resolvedActions: { [id: string]: ActionButtonConfigForTable[] } = {};
+
+  private updateResolveActions() {
+    this.resolvedActions = {};
+    for (const item of this.displayedData) {
+      this.resolvedActions[item.id] = this.actionButtonConfigs.filter(
+        (action) => {
+          return !action.conceal || !action.conceal(item.id);
+        }
+      );
+    }
+  }
+
   ngOnInit(): void {
     this.totalItems = this.displayedData?.length || 0;
     this.updatePagedData();
+    this.updateResolveActions();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -50,6 +64,8 @@ export class TableComponent implements OnInit, OnChanges, AfterContentInit {
       this.totalItems = this.displayedData?.length || 0;
       this.updatePagedData();
     }
+
+    this.updateResolveActions();
   }
 
   ngAfterContentInit() {

@@ -1,7 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
+  Admin,
+  AdminResponse,
   FullRoleType,
+  Learner,
+  LearnerResponse,
   LoginRequest,
   LoginResponse,
   Logout,
@@ -26,6 +30,20 @@ export class AuthenticationService {
 
   getRole() {
     return this.role;
+  }
+
+  signupAdmin(data: Admin) {
+    return this.httpClient.post<AdminResponse>(
+      `${this.webApiUrl}auth/signup-admin`,
+      data
+    );
+  }
+
+  signupLearner(data: Learner) {
+    return this.httpClient.post<LearnerResponse>(
+      `${this.webApiUrl}auth/signup-learner`,
+      data
+    );
   }
 
   login(data: LoginRequest) {

@@ -5,6 +5,7 @@ import {
   AvatarResponse,
   LearnerResponse,
   ResetPassword,
+  RoleType,
   UpdatePassword,
   UpdateUserInfo,
 } from '@frontend/models';
@@ -18,6 +19,18 @@ export class UserService {
     private httpClient: HttpClient,
     @Inject(WEB_API_URL) private webApiUrl: string
   ) {}
+
+  getAll() {
+    return this.httpClient.get<(AdminResponse | LearnerResponse)[]>(
+      `${this.webApiUrl}users`
+    );
+  }
+
+  getByRole(role: RoleType) {
+    return this.httpClient.get<(AdminResponse | LearnerResponse)[]>(
+      `${this.webApiUrl}users?role=${role}`
+    );
+  }
 
   getAdmin(id: string) {
     return this.httpClient.get<AdminResponse>(`${this.webApiUrl}users/${id}`);

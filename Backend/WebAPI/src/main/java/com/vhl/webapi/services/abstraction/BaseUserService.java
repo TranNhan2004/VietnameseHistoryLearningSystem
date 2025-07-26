@@ -7,9 +7,15 @@ import com.vhl.webapi.dtos.responses.AvatarResDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResDTO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 public interface BaseUserService {
-    BaseUserResDTO getUser(String id);
+    List<BaseUserResDTO> getAllUsers();
+
+    List<BaseUserResDTO> getUsersByRole(String role);
+
+    BaseUserResDTO getUserById(String id);
 
     void updateInfo(String id, UpdateUserInfoReqDTO updateUserInfoReqDTO);
 

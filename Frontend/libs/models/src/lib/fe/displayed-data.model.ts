@@ -14,6 +14,7 @@ export interface ActionButtonConfigForTable {
   name: ActionButtonName;
   title?: string;
   mainTitle?: string;
+  conceal?: (id: string) => boolean;
 }
 
 export interface SortOption {

@@ -14,7 +14,7 @@ import {
   UpdateUserInfo,
 } from '@frontend/models';
 import { initialAdminResponse, userMessages } from '@frontend/constants';
-import { MyFormGroupHelper } from '@frontend/utils';
+import { formatDate, MyFormGroupHelper } from '@frontend/utils';
 import {
   ActionButtonComponent,
   AlertService,
@@ -85,6 +85,7 @@ export class UpdateUserInfoComponent implements OnChanges {
   saveUserInfo() {
     if (this.userInfoForm.valid) {
       const data: UpdateUserInfo = this.userInfoForm.value;
+      data.dateOfBirth = formatDate(new Date(data.dateOfBirth ?? '2025-07-25'));
       this.userService.updateInfo(this.user.id, data).subscribe({
         next: () => {
           this.toastrService.success(userMessages['INFO__UPDATE_SUCCESS']);

@@ -15,6 +15,8 @@ public abstract class BaseUserResDTO {
     protected String lastName;
     protected LocalDate dateOfBirth;
     protected String avatarUrl;
+    protected String fullRole;
+    protected Boolean active;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     protected Instant createdAt;

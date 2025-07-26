@@ -10,6 +10,8 @@ export const initialBaseUserResponse: BaseUserResponse = {
   email: '',
   firstName: '',
   lastName: '',
+  fullRole: 'ADMIN_BASIC',
+  active: false,
   dateOfBirth: null,
   avatarUrl: null,
   lastLogin: null,

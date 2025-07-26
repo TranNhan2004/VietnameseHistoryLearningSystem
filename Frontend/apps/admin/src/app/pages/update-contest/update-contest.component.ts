@@ -57,8 +57,8 @@ export class UpdateContestComponent implements OnInit {
           name: res.name,
           questionNumber: res.questionNumber,
           durationInMinutes: res.durationInMinutes,
-          startTime: (res.startTime as string).slice(0, 16),
-          endTime: (res.startTime as string).slice(0, 16),
+          startTime: new Date(res.startTime),
+          endTime: new Date(res.endTime),
         });
       },
       error: (err: HttpErrorResponse) => {
@@ -77,6 +77,8 @@ export class UpdateContestComponent implements OnInit {
 
     if (this.contestForm.valid) {
       const data: Contest = this.contestForm.value;
+      data.startTime = formatDateTime(new Date(data.startTime));
+      data.endTime = formatDateTime(new Date(data.endTime));
       this.contestService.update(id, data).subscribe({
         next: () => {
           this.toastrService.success(contestMessages['UPDATE__SUCCESS']);

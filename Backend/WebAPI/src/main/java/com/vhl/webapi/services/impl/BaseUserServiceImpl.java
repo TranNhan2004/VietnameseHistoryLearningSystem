@@ -5,8 +5,10 @@ import com.vhl.webapi.constants.storage.CloudinaryStorageFolder;
 import com.vhl.webapi.dtos.requests.ResetPasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdatePasswordReqDTO;
 import com.vhl.webapi.dtos.requests.UpdateUserInfoReqDTO;
+import com.vhl.webapi.dtos.responses.AdminResDTO;
 import com.vhl.webapi.dtos.responses.AvatarResDTO;
 import com.vhl.webapi.dtos.responses.BaseUserResDTO;
+import com.vhl.webapi.dtos.responses.LearnerResDTO;
 import com.vhl.webapi.entities.specific.Admin;
 import com.vhl.webapi.entities.specific.BaseUser;
 import com.vhl.webapi.entities.specific.Learner;
@@ -22,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BaseUserServiceImpl implements BaseUserService {
@@ -31,7 +35,58 @@ public class BaseUserServiceImpl implements BaseUserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public BaseUserResDTO getUser(String id) {
+    public List<BaseUserResDTO> getAllUsers() {
+        List<BaseUser> baseUsers = baseUserRepository.findAll();
+
+        return baseUsers.stream()
+            .map(baseUser -> {
+                if (baseUser.getFullRole().contains(Role.ADMIN.name())) {
+                    AdminResDTO adminResDTO = baseUserMapper.toAdminResponseDTO((Admin) baseUser);
+                    adminResDTO.setActive(baseUser.getActive());
+                    adminResDTO.setFullRole(baseUser.getFullRole());
+                    return adminResDTO;
+                } else if (baseUser.getFullRole().contains(Role.LEARNER.name())) {
+                    LearnerResDTO learnerResDTO = baseUserMapper.toLearnerResponseDTO((Learner) baseUser);
+                    learnerResDTO.setActive(baseUser.getActive());
+                    learnerResDTO.setFullRole(baseUser.getFullRole());
+                    return learnerResDTO;
+                } else {
+                    return null;
+                }
+            })
+            .filter(dto -> dto != null)
+            .toList();
+    }
+
+
+    @Override
+    public List<BaseUserResDTO> getUsersByRole(String role) {
+        List<BaseUser> baseUsers = baseUserRepository.findAll();
+
+        return baseUsers.stream()
+            .filter(user -> user.getFullRole().contains(role))
+            .map(baseUser -> {
+                if (baseUser.getFullRole().contains(Role.ADMIN.name())) {
+                    AdminResDTO adminResDTO = baseUserMapper.toAdminResponseDTO((Admin) baseUser);
+                    adminResDTO.setActive(baseUser.getActive());
+                    adminResDTO.setFullRole(baseUser.getFullRole());
+                    return adminResDTO;
+                } else if (baseUser.getFullRole().contains(Role.LEARNER.name())) {
+                    LearnerResDTO learnerResDTO = baseUserMapper.toLearnerResponseDTO((Learner) baseUser);
+                    learnerResDTO.setActive(baseUser.getActive());
+                    learnerResDTO.setFullRole(baseUser.getFullRole());
+                    return learnerResDTO;
+                } else {
+                    return null;
+                }
+            })
+            .filter(dto -> dto != null)
+            .toList();
+    }
+
+
+    @Override
+    public BaseUserResDTO getUserById(String id) {
         BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(
             () -> new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND)
         );

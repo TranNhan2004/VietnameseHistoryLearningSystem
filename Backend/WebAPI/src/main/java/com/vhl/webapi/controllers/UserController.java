@@ -12,15 +12,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private final BaseUserService baseUserService;
 
+    @GetMapping("")
+    public ResponseEntity<?> getUsers(@RequestParam(required = false) String role) {
+        List<BaseUserResDTO> users = (role == null || role.isBlank())
+            ? baseUserService.getAllUsers()
+            : baseUserService.getUsersByRole(role);
+
+        return ResponseEntity.ok(users);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable String id) {
-        BaseUserResDTO baseUserResDTO = baseUserService.getUser(id);
+        BaseUserResDTO baseUserResDTO = baseUserService.getUserById(id);
         return ResponseEntity.ok(baseUserResDTO);
     }
 

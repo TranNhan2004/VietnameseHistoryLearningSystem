@@ -12,6 +12,7 @@ export * from './lib/directives/flatpickr.directive';
 // Guards
 export * from './lib/guards/authenticated.guard';
 export * from './lib/guards/not-authenticated.guard';
+export * from './lib/guards/permission.guard';
 
 // ===================================================================================================
 // Interceptors
@@ -39,6 +40,7 @@ export * from './lib/services/fe/alert.service';
 export * from './lib/services/fe/dummy-text.service';
 export * from './lib/services/fe/my-form-builder.service';
 export * from './lib/services/fe/my-metadata.service';
+export * from './lib/services/fe/permission.service';
 export * from './lib/services/fe/shared.service';
 
 // ===================================================================================================

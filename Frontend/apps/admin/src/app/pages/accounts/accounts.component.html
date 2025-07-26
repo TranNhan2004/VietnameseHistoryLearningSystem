@@ -1,1 +1,87 @@
-<p>accounts works!</p>
+@if (permissionService.canAccess) {
+  <div class="p-4">
+    <h1 class="mt-5 font-bold text-my-blue text-4xl text-left flex items-center">
+      <p>Danh sách tài khoản</p>
+    </h1>
+    <div class="mt-2 h-1 w-full bg-gradient-to-r from-my-blue to-my-coralaccent rounded-lg"></div>
+
+    <div class="flex items-center justify-between mt-5">
+      <div class="w-[40%]">
+        <app-search
+          [originalData]="originialDisplayedData"
+          [searchKeys]="['fullName', 'userName', 'fullRoleResolved']"
+          (filterData)="filterData($event)"
+          placeholder="Tìm kiếm theo họ tên, username, vai trò"
+        >
+        </app-search>
+      </div>
+      <div class="flex items-center space-x-4">
+        <app-sort
+          selectNgClass="p-[5.5%]"
+          [originalData]="originialDisplayedData"
+          [sortOptions]="[
+          { label: 'Họ tên (A-Z)', type: 'asc', sortedKey: 'fullName' },
+          { label: 'Họ tên (Z-A)', type: 'dsc', sortedKey: 'fullName' },
+          { label: 'Tên (A-Z)', type: 'asc', sortedKey: 'lastName' },
+          { label: 'Tên (Z-A)', type: 'dsc', sortedKey: 'lastName' },
+          { label: 'Ngày tạo (Cũ nhất)', type: 'asc', sortedKey: 'createdAt' },
+          { label: 'Ngày tạo (Mới nhất)', type: 'dsc', sortedKey: 'createdAt' },
+        ]"
+          (sortData)="sortData($event)"
+        >
+        </app-sort>
+        <lib-action-button
+          [name]="ActionButtonName.Add"
+          mainTitle="Thêm mới"
+          title=""
+          (btnClick)="goToAddUserPage()"
+        ></lib-action-button>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <app-table
+        [displayedData]="displayedData"
+        [actionButtonConfigs]="actionButtonConfigs"
+        (actionClick)="actionClick($event)"
+      >
+        <ng-template #itemTemplate let-item>
+          <div class="text-justify space-y-2">
+            <div class="flex items-start">
+              <p class="text-my-darknavy font-bold w-[18%]">Họ tên:</p>
+              <p class="text-gray-800 w-[80%]">{{ item.fullName }}</p>
+            </div>
+            <div class="flex items-start">
+              <p class="text-my-darknavy font-bold w-[18%]">Username:</p>
+              <p class="text-gray-800 w-[80%]">{{ item.userName }}</p>
+            </div>
+            <div class="flex items-start">
+              <p class="text-my-darknavy font-bold w-[18%]">Vai trò:</p>
+              <p class="text-gray-800 w-[80%]">{{ item.fullRoleResolved }}</p>
+            </div>
+            <div class="flex items-start">
+              <p class="text-my-darknavy font-bold w-[18%]">Trạng thái:</p>
+              <div class="text-gray-800 w-[80%]">
+                <div *ngIf="item.active" class="flex items-center">
+                  <ng-icon name="matCheckCircleRound" color="green"></ng-icon>
+                  <p class="ml-2 text-my-green">Đang kích hoạt</p>
+                </div>
+                <div *ngIf="!item.active" class="flex items-center">
+                  <ng-icon name="matCancelRound" size="24" color="red"></ng-icon>
+                  <p class="ml-2 text-my-coralaccent">Bị vô hiệu</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <p class="text-my-darknavy font-bold w-[18%]">Ngày tạo:</p>
+              <p class="text-gray-800 w-[80%]">{{ item.createdAt | date: 'dd/MM/yyyy' }}</p>
+            </div>
+          </div>
+        </ng-template>
+
+      </app-table>
+    </div>
+  </div>
+} @else {
+  <app-forbidden></app-forbidden>
+}

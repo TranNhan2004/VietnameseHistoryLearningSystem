@@ -2,8 +2,12 @@ package com.vhl.webapi.services.impl;
 
 import com.vhl.webapi.constants.errorcodes.BaseUserErrorCode;
 import com.vhl.webapi.constants.regexps.BaseUserRegExp;
-import com.vhl.webapi.dtos.requests.*;
-import com.vhl.webapi.dtos.responses.BaseUserResDTO;
+import com.vhl.webapi.dtos.requests.AdminReqDTO;
+import com.vhl.webapi.dtos.requests.LearnerReqDTO;
+import com.vhl.webapi.dtos.requests.LoginReqDTO;
+import com.vhl.webapi.dtos.requests.RefreshAccessTokenReqDTO;
+import com.vhl.webapi.dtos.responses.AdminResDTO;
+import com.vhl.webapi.dtos.responses.LearnerResDTO;
 import com.vhl.webapi.dtos.responses.LoginResDTO;
 import com.vhl.webapi.dtos.responses.NewAccessTokenResDTO;
 import com.vhl.webapi.entities.specific.Admin;
@@ -33,39 +37,77 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private static final Pattern EMAIL_PATTERN = Pattern.compile(BaseUserRegExp.EMAIL);
 
     @Override
-    public BaseUserResDTO signup(BaseUserReqDTO baseUserReqDTO) {
-        if (baseUserRepository.existsByUserName(baseUserReqDTO.getUserName())) {
+    public AdminResDTO signupForAdmin(AdminReqDTO adminReqDTO) {
+        if (baseUserRepository.existsByUserName(adminReqDTO.getUserName())) {
             throw new RuntimeException(BaseUserErrorCode.USER_NAME__ALREADY_EXISTS);
         }
 
-        if (baseUserRepository.existsByEmail(baseUserReqDTO.getEmail())) {
+        if (baseUserRepository.existsByEmail(adminReqDTO.getEmail())) {
             throw new RuntimeException(BaseUserErrorCode.EMAIL__ALREADY_EXISTS);
         }
 
-        BaseUser baseUser;
-        BaseUserResDTO baseUserResDTO;
+        Admin admin = baseUserMapper.toAdmin(adminReqDTO);
+        admin.setPassword(passwordEncoder.encode(adminReqDTO.getPassword()));
+        admin.setActive(true);
 
-        if (baseUserReqDTO instanceof AdminReqDTO adminDTO) {
-            Admin admin = baseUserMapper.toAdmin(adminDTO);
-            admin.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
-            baseUser = admin;
-            baseUserResDTO = baseUserMapper.toAdminResponseDTO(admin);
+        Admin saved = baseUserRepository.saveAndFlush(admin);
 
-        } else if (baseUserReqDTO instanceof LearnerReqDTO learnerReqDTO) {
-            Learner learner = baseUserMapper.toLearner(learnerReqDTO);
-            learner.setPassword(passwordEncoder.encode(learnerReqDTO.getPassword()));
-            baseUser = learner;
-            baseUserResDTO = baseUserMapper.toLearnerResponseDTO(learner);
+        return baseUserMapper.toAdminResponseDTO(saved);
+    }
 
-        } else {
-            throw new IllegalArgumentException(BaseUserErrorCode.ROLE__INVALID);
+    @Override
+    public LearnerResDTO signupForLearner(LearnerReqDTO learnerReqDTO) {
+        if (baseUserRepository.existsByUserName(learnerReqDTO.getUserName())) {
+            throw new RuntimeException(BaseUserErrorCode.USER_NAME__ALREADY_EXISTS);
         }
 
-        BaseUser savedUser = baseUserRepository.save(baseUser);
-        baseUserResDTO.setId(savedUser.getId());
+        if (baseUserRepository.existsByEmail(learnerReqDTO.getEmail())) {
+            throw new RuntimeException(BaseUserErrorCode.EMAIL__ALREADY_EXISTS);
+        }
 
-        return baseUserResDTO;
+        Learner learner = baseUserMapper.toLearner(learnerReqDTO);
+        learner.setPassword(passwordEncoder.encode(learnerReqDTO.getPassword()));
+        learner.setActive(false);
+
+        Learner saved = baseUserRepository.save(learner);
+
+        return baseUserMapper.toLearnerResponseDTO(saved);
     }
+
+//    @Override
+//    public BaseUserResDTO signup(BaseUserReqDTO baseUserReqDTO) {
+//        if (baseUserRepository.existsByUserName(baseUserReqDTO.getUserName())) {
+//            throw new RuntimeException(BaseUserErrorCode.USER_NAME__ALREADY_EXISTS);
+//        }
+//
+//        if (baseUserRepository.existsByEmail(baseUserReqDTO.getEmail())) {
+//            throw new RuntimeException(BaseUserErrorCode.EMAIL__ALREADY_EXISTS);
+//        }
+//
+//        BaseUser baseUser;
+//        BaseUserResDTO baseUserResDTO;
+//
+//        if (baseUserReqDTO instanceof AdminReqDTO adminDTO) {
+//            Admin admin = baseUserMapper.toAdmin(adminDTO);
+//            admin.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
+//            baseUser = admin;
+//            baseUserResDTO = baseUserMapper.toAdminResponseDTO(admin);
+//
+//        } else if (baseUserReqDTO instanceof LearnerReqDTO learnerReqDTO) {
+//            Learner learner = baseUserMapper.toLearner(learnerReqDTO);
+//            learner.setPassword(passwordEncoder.encode(learnerReqDTO.getPassword()));
+//            baseUser = learner;
+//            baseUserResDTO = baseUserMapper.toLearnerResponseDTO(learner);
+//
+//        } else {
+//            throw new IllegalArgumentException(BaseUserErrorCode.ROLE__INVALID);
+//        }
+//
+//        BaseUser savedUser = baseUserRepository.save(baseUser);
+//        baseUserResDTO.setId(savedUser.getId());
+//
+//        return baseUserResDTO;
+//    }
 
     @Override
     public Map<String, Object> login(LoginReqDTO loginReqDTO) {

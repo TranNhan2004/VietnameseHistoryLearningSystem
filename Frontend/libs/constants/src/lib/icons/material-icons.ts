@@ -33,4 +33,7 @@ export const materialIcons = {
   matKeyboardArrowRightRound: matIcons.matKeyboardArrowRightRound,
   matDoneRound: matIcons.matDoneRound,
   matQuestionMarkRound: matIcons.matQuestionMarkRound,
+  matCheckCircleRound: matIcons.matCheckCircleRound,
+  matCancelRound: matIcons.matCancelRound,
+  matGroupsRound: matIcons.matGroupsRound,
 };
