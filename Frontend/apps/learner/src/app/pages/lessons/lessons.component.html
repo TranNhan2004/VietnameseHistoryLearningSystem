@@ -1,0 +1,74 @@
+<div class="p-4">
+  <h1 class="mt-5 font-bold text-my-blue text-4xl text-left flex items-center">
+    <p>{{ historicalPeriodHeader }}</p>
+    <ng-icon name="matKeyboardArrowRightRound"></ng-icon>
+    <p>Danh sách bài học</p>
+  </h1>
+  <div class="mt-2 h-1 w-full bg-gradient-to-r from-my-blue to-my-coralaccent rounded-lg"></div>
+
+  <div class="flex items-center justify-between mt-5">
+    <div class="w-[40%]">
+      <app-search
+        [originalData]="originialDisplayedData"
+        [searchKeys]="['title', 'description']"
+        (filterData)="filterData($event)"
+        placeholder="Tìm kiếm theo tiêu đề, mô tả"
+      >
+      </app-search>
+    </div>
+    <div class="flex items-center space-x-4">
+      <app-sort
+        selectNgClass="p-[5.5%]"
+        [originalData]="originialDisplayedData"
+        [sortOptions]="[
+          { label: 'Tiêu đề (A-Z)', type: 'asc', sortedKey: 'title' },
+          { label: 'Tiêu đề (Z-A)', type: 'dsc', sortedKey: 'title' },
+          { label: 'Ngày tạo (Cũ nhất)', type: 'asc', sortedKey: 'createdAt' },
+          { label: 'Ngày tạo (Mới nhất)', type: 'dsc', sortedKey: 'createdAt' },
+        ]"
+        (sortData)="sortData($event)"
+      >
+      </app-sort>
+      <lib-action-button
+        [name]="ActionButtonName.Add"
+        mainTitle="Thêm mới"
+        title=""
+        (btnClick)="goToAddLessonPage()"
+      ></lib-action-button>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <app-table
+      [displayedData]="displayedData"
+      [actionButtonConfigs]="[
+        { name: ActionButtonName.Info },
+        { name: ActionButtonName.Edit },
+        { name: ActionButtonName.Delete }
+      ]"
+      (actionClick)="actionClick($event)"
+    >
+      <ng-template #itemTemplate let-item>
+        <div class="text-justify space-y-2">
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[18%]">Tiêu đề:</p>
+            <p class="text-gray-800 w-[80%]">{{ item.title }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[18%]">Mô tả:</p>
+            <p class="text-gray-800 w-[80%]">{{ item.description }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[18%]">Ngày tạo:</p>
+            <p class="text-gray-800 w-[80%]">{{ item.createdAt | date: 'dd/MM/yyyy' }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[18%]">Ngày cập nhật:</p>
+            <p class="text-gray-800 w-[80%]">{{ item.updatedAt | date: 'dd/MM/yyyy' }}</p>
+          </div>
+        </div>
+      </ng-template>
+
+    </app-table>
+  </div>
+</div>

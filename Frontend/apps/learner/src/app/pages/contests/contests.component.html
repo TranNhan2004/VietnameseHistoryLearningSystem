@@ -1,0 +1,84 @@
+<div class="p-4">
+  <h1 class="mt-5 font-bold text-my-blue text-4xl text-left">Danh sách cuộc thi</h1>
+  <div class="mt-2 h-1 w-full bg-gradient-to-r from-my-blue to-my-coralaccent rounded-lg"></div>
+
+  <div class="flex items-center justify-between mt-5">
+    <div class="w-[40%]">
+      <app-search
+        [originalData]="originialDisplayedData"
+        [searchKeys]="['name']"
+        (filterData)="filterData($event)"
+        placeholder="Tìm kiếm theo tên cuộc thi"
+      >
+      </app-search>
+    </div>
+    <div class="flex items-center space-x-4">
+      <app-sort
+        selectNgClass="p-[3.5%]"
+        [originalData]="originialDisplayedData"
+        [sortOptions]="[
+          { label: 'Tên cuộc thi (A-Z)', type: 'asc', sortedKey: 'name' },
+          { label: 'Tên cuộc thi (Z-A)', type: 'dsc', sortedKey: 'name' },
+          { label: 'Số lượng câu hỏi (Nhiều nhất)', type: 'dsc', sortedKey: 'questionNumber' },
+          { label: 'Số lượng câu hỏi (Ít nhất)', type: 'asc', sortedKey: 'questionNumber' },
+          { label: 'Thời gian làm bài (Nhiều nhất)', type: 'dsc', sortedKey: 'startTime' },
+          { label: 'Thời gian làm bài (Ít nhất)', type: 'asc', sortedKey: 'startTime' },
+          { label: 'Thời điểm bắt đầu cuộc thi (Mới nhất)', type: 'dsc', sortedKey: 'endTime' },
+          { label: 'Thời điểm bắt đầu cuộc thi (Cũ nhất)', type: 'asc', sortedKey: 'endTime' }
+        ]"
+        (sortData)="sortData($event)"
+      >
+      </app-sort>
+      <lib-action-button
+        [name]="ActionButtonName.Add"
+        mainTitle="Thêm mới"
+        title=""
+        (btnClick)="goToAddContestPage()"
+      ></lib-action-button>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <app-table
+      [displayedData]="displayedData"
+      [actionButtonConfigs]="[
+        { name: ActionButtonName.Edit },
+        { name: ActionButtonName.Delete },
+      ]"
+      (actionClick)="actionClick($event)"
+    >
+      <ng-template #itemTemplate let-item>
+        <div class="text-justify space-y-2">
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[25%]">Tên cuộc thi:</p>
+            <p class="text-gray-800 w-[85%]">{{ item.name }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[25%]">Số lượng câu hỏi:</p>
+            <p class="text-gray-800 w-[85%]">{{ item.questionNumber }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[25%]">Thời gian làm bài:</p>
+            <p class="text-gray-800 w-[85%]">{{ item.durationInMinutes }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[25%]">Thời điểm bắt đầu:</p>
+            <p class="text-gray-800 w-[85%]">{{ item.startTime | date: 'dd/MM/yyyy-HH:mm' }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[25%]">Thời điểm kết thúc:</p>
+            <p class="text-gray-800 w-[85%]">{{ item.endTime | date: 'dd/MM/yyyy-HH:mm' }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[25%]">Ngày tạo:</p>
+            <p class="text-gray-800 w-[85%]">{{ item.createdAt | date: 'dd/MM/yyyy' }}</p>
+          </div>
+          <div class="flex items-start">
+            <p class="text-my-darknavy font-bold w-[25%]">Ngày cập nhật:</p>
+            <p class="text-gray-800 w-[85%]">{{ item.updatedAt | date: 'dd/MM/yyyy' }}</p>
+          </div>
+        </div>
+      </ng-template>
+    </app-table>
+  </div>
+</div>

@@ -4,7 +4,6 @@ import faiss
 import numpy as np
 import pandas as pd
 import torch
-from transformers import AutoTokenizer, AutoModel
 
 
 class FAISSRetriever:
@@ -12,7 +11,9 @@ class FAISSRetriever:
         self,
         df_path: str,
         embeddings_path: str,
-        faiss_index_path: Optional[str] = None,
+        faiss_index_path: Optional[str],
+        phobert_tokenizer,
+        phobert_model
     ):
         """
         FAISSRetriever using only one FAISS index (question-based).
@@ -26,8 +27,8 @@ class FAISSRetriever:
 
         # Load PhoBERT
         print("[INFO] Loading PhoBERT...")
-        self.tokenizer = AutoTokenizer.from_pretrained("vinai/phobert-base")
-        self.phobert_model = AutoModel.from_pretrained("vinai/phobert-base").to(self.device)
+        self.phobert_tokenizer = phobert_tokenizer
+        self.phobert_model = phobert_model
 
         # Load DataFrame
         assert df_path is not None, "Data frame path is not provided!"
@@ -54,7 +55,7 @@ class FAISSRetriever:
         """
         Encode a sentence using PhoBERT and return normalized vector (1,768)
         """
-        inputs = self.tokenizer(sentence, return_tensors='pt', truncation=True, max_length=128).to(self.device)
+        inputs = self.phobert_tokenizer(sentence, return_tensors='pt', truncation=True, max_length=128).to(self.device)
         with torch.no_grad():
             outputs = self.phobert_model(**inputs)
         cls_vector = outputs.last_hidden_state[:, 0, :].squeeze().cpu().numpy().reshape(1, -1)
@@ -95,14 +96,13 @@ class FAISSRetriever:
 
         query_vector = self.embed_sentence(query)
         D, I = self.index.search(query_vector, find_k)
-
         results = []
         t = 0
         while True:
             for score, idx in zip(D[0], I[0]):
                 if score >= threshold_trials[t]:
                     results.append({
-                        "context": self.df.iloc[idx]["Context"],
+                        "context": self.df.loc[idx, "Context"],
                         "score": score
                     })
             t += 1

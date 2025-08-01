@@ -1,0 +1,15 @@
+#logo {
+  font-family: "Cinzel Decorative Regular", "sans-serif";
+  font-size: 24px;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none !important;
+  width: 0;
+}
+
+.sidebar {
+  overflow-x: hidden !important;
+  scrollbar-width: none;
+}
+

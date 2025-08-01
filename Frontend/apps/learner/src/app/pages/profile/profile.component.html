@@ -1,0 +1,133 @@
+<div class="flex justify-center p-4">
+  <!-- Profile Card -->
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full h-[24.5rem] text-lg">
+    <div class="flex items-center justify-between">
+      <!-- Avatar Section -->
+      <div class="relative">
+        @if (user.avatarUrl) {
+          <div
+            class="p-1 w-72 h-72 rounded-xl overflow-hidden border-1 bg-gradient-to-r from-my-blue to-my-purple mb-5">
+            <img
+              [ngSrc]="user.avatarUrl"
+              width="100"
+              height="100"
+              alt="Avatar"
+              class="w-full h-full object-cover rounded-lg transition-opacity duration-300"
+              [class.opacity-30]="isChangeAvatar"
+            />
+
+            @if (isChangeAvatar) {
+              <div class="absolute inset-0 flex items-center justify-center bg-white/50">
+                <ng-icon name="matSyncRound"
+                         class="animate-spin-animation text-gray-500 -mt-10"
+                         size="48"
+                ></ng-icon>
+              </div>
+            }
+          </div>
+
+        } @else {
+          <lib-default-avatar [name]="user.firstName" [isChangeAvatar]="isChangeAvatar"></lib-default-avatar>
+        }
+
+        <div class="flex items-center justify-center w-full space-x-4">
+          <div>
+            <lib-action-button
+              [name]="ActionButtonName.Edit"
+              mainTitle="Chỉnh ảnh"
+              title=""
+              [disabled]="isChangeAvatar"
+              (btnClick)="fileInput.click()">
+            </lib-action-button>
+
+            <input
+              type="file"
+              #fileInput
+              accept=".jpg, .jpeg, .png"
+              (change)="onAvatarSelected($event)"
+              style="display: none"
+            />
+          </div>
+          <div>
+            <lib-action-button
+              [name]="ActionButtonName.Delete"
+              mainTitle="Xoá ảnh"
+              title=""
+              [disabled]="isChangeAvatar || !user.avatarUrl"
+              (btnClick)="deleteAvatar()"
+            >
+            </lib-action-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Info -->
+      <div class="flex-1 ml-6 space-y-4">
+        <h2 class="text-4xl font-bold text-gray-800">{{ user.userName }}</h2>
+        <p class="text-gray-600 text-2xl">{{ user.email }}</p>
+        <p class="text-gray-600 text-2xl">{{ user.lastName + ' ' + user.firstName }}</p>
+      </div>
+
+      <!-- Role Section -->
+      <div class="ml-auto mr-32">
+        <h2 class="text-gray-500 text-2xl">Vai trò</h2>
+        <p class="text-myblue font-semibold text-3xl">{{ fullRoleReader[fullRole] }}</p>
+      </div>
+
+      <!-- Admin Role & Dates -->
+      <div class="text-left space-y-4 mr-12">
+        <div>
+          <p class="text-gray-500 text-xl">Ngày tạo:</p>
+          <p class="text-xl">{{ user.createdAt | date: DATE_TIME_FORMAT }}</p>
+        </div>
+        <div>
+          <p class="text-gray-500 text-xl">Ngày cập nhật gần nhất:</p>
+          <p class="text-xl">{{ user.updatedAt | date: DATE_TIME_FORMAT }}</p>
+        </div>
+        <div>
+          <p class="text-gray-500 text-xl">Ngày đăng nhập gần nhất:</p>
+          <p class="text-xl">{{ user.lastLogin | date: DATE_TIME_FORMAT }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="p-4">
+  <!-- Toggle Edit Mode Button -->
+  <div class="flex justify-between items-center">
+    <div class="flex items-center space-x-3 mb-6">
+      <p class="text-xl">Chế độ chỉnh sửa</p>
+      <button (click)="toggleEditMode()">
+        @if (editMode) {
+          <ng-icon name="matToggleOnRound" size="54" color="blue"></ng-icon>
+        } @else {
+          <ng-icon name="matToggleOffRound" size="54" color="gray"></ng-icon>
+        }
+      </button>
+    </div>
+
+    <div class="ml-auto">
+      <button
+        class="bg-gradient-to-r from-my-yellow to-my-coralaccent text-white
+                  font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg hover:scale-105
+                  transition-all duration-300 flex items-center justify-center mx-auto mb-4"
+        (click)="logout()"
+      >
+        <ng-icon name="matLogoutRound" class="mr-2" size="24"></ng-icon>
+        <span class="text-lg">Đăng xuất</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Grid Layout -->
+  <div class="grid grid-cols-12 gap-6">
+    <div class="col-span-12 md:col-span-6">
+      <app-update-user-info [editMode]="editMode" [(user)]="user"></app-update-user-info>
+    </div>
+
+    <div class="col-span-12 md:col-span-6">
+      <app-update-password [editMode]="editMode" (logoutFn)="logout()"></app-update-password>
+    </div>
+  </div>
+</div>
