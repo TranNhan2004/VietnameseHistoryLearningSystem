@@ -6,6 +6,7 @@ export * from './lib/components/password-input/password-input.component';
 
 // ===================================================================================================
 // Directives
+export * from './lib/directives/click-outside.directive';
 export * from './lib/directives/flatpickr.directive';
 
 // ===================================================================================================
@@ -26,13 +27,19 @@ export * from './lib/interceptors/response.interceptor';
 // Services
 export * from './lib/services/be/answer-option.service';
 export * from './lib/services/be/authentication.service';
+export * from './lib/services/be/chat-history.service';
+export * from './lib/services/be/chat-qa.service';
+export * from './lib/services/be/comment.service';
 export * from './lib/services/be/contest.service';
 export * from './lib/services/be/contest-question.service';
+export * from './lib/services/be/favorite-lesson.service';
 export * from './lib/services/be/historical-period.service';
 export * from './lib/services/be/image.service';
+export * from './lib/services/be/learner-lesson-answer.service';
 export * from './lib/services/be/lesson.service';
 export * from './lib/services/be/paragraph.service';
 export * from './lib/services/be/question.service';
+export * from './lib/services/be/study-progress.service';
 export * from './lib/services/be/user.service';
 export * from './lib/services/be/verification.service';
 

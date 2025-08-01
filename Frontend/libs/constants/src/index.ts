@@ -21,4 +21,5 @@ export * from './lib/objects/user';
 
 export * from './lib/reg-exps/all';
 
-export * from './lib/role-readers/full-role';
+export * from './lib/readers/full-role';
+export * from './lib/readers/rank';

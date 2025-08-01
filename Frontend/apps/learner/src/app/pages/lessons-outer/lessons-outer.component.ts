@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  ActionButtonComponent,
   AlertService,
   HistoricalPeriodService,
   SharedService,
@@ -13,7 +12,6 @@ import {
   DisplayedDataAction,
   HistoricalPeriodResponse,
 } from '@frontend/models';
-import { TableComponent } from '../../components/table/table.component';
 import { SearchComponent } from '../../components/search/search.component';
 import { SortComponent } from '../../components/sort/sort.component';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
@@ -21,16 +19,11 @@ import { generalMessages, historicalPeriodMessages } from '@frontend/constants';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../environments/environment.dev';
 import { toHistoricalYear } from '@frontend/utils';
+import { CardComponent } from '../../components/card/card.component';
 
 @Component({
   selector: 'app-lessons-outer',
-  imports: [
-    CommonModule,
-    ActionButtonComponent,
-    TableComponent,
-    SearchComponent,
-    SortComponent,
-  ],
+  imports: [CommonModule, SearchComponent, SortComponent, CardComponent],
   templateUrl: './lessons-outer.component.html',
   styleUrl: './lessons-outer.component.css',
 })
@@ -46,6 +39,14 @@ export class LessonsOuterComponent implements OnInit {
     private sharedService: SharedService,
     private router: Router
   ) {}
+
+  getHistoricalPeriodString(data: DisplayedData) {
+    return `Thời kỳ ${data['name']
+      ?.toString()
+      .toLowerCase()} (${toHistoricalYear(
+      Number(data['startYear'])
+    )} - ${toHistoricalYear(Number(data['endYear']))})`;
+  }
 
   ngOnInit(): void {
     this.historicalPeriodService.getAll().subscribe({
@@ -124,12 +125,7 @@ export class LessonsOuterComponent implements OnInit {
     const data = this.originialDisplayedData.find(
       (item) => item.id === id
     ) as DisplayedData;
-    this.sharedService.put(
-      id,
-      `Thời kỳ ${data['name']?.toString().toLowerCase()} (${toHistoricalYear(
-        Number(data['startYear'])
-      )} - ${toHistoricalYear(Number(data['endYear']))})`
-    );
+    this.sharedService.put(id, this.getHistoricalPeriodString(data));
     await this.router.navigateByUrl(`/historical-periods/${id}/lessons`);
   }
 
@@ -139,10 +135,6 @@ export class LessonsOuterComponent implements OnInit {
 
   sortData(sorted: DisplayedData[]) {
     this.displayedData = [...sorted];
-  }
-
-  async goToAddHistoricalPeriodPage() {
-    await this.router.navigateByUrl('/historical-periods/add');
   }
 
   protected readonly ActionButtonName = ActionButtonName;

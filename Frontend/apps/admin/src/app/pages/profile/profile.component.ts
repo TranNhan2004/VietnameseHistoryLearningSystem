@@ -76,7 +76,7 @@ export class ProfileComponent implements OnInit {
 
     this.userService.getAdmin(this.userId).subscribe({
       next: (res) => {
-        this.user = res;
+        this.user = { ...res };
       },
       error: (err: HttpErrorResponse) => {
         if (!environment.production) {

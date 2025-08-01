@@ -15,13 +15,7 @@ public class ChatQA extends ICBaseEntity {
 
     @Column(name = "answer", nullable = false, columnDefinition = "MEDIUMTEXT")
     private String answer;
-
-    @Column(name = "liked", nullable = false)
-    private Boolean liked = false;
-
-    @Column(name = "disliked", nullable = false)
-    private Boolean disliked = false;
-
+    
     @ManyToOne
     @JoinColumn(name = "chat_history_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

@@ -36,4 +36,12 @@ export const materialIcons = {
   matCheckCircleRound: matIcons.matCheckCircleRound,
   matCancelRound: matIcons.matCancelRound,
   matGroupsRound: matIcons.matGroupsRound,
+  matAssistantRound: matIcons.matAssistantRound,
+  matStarsRound: matIcons.matStarsRound,
+  matMemoryRound: matIcons.matMemoryRound,
+  matMenuRound: matIcons.matMenuRound,
+  matSendRound: matIcons.matSendRound,
+  matContentCopyRound: matIcons.matContentCopyRound,
+  matExpandMoreRound: matIcons.matExpandMoreRound,
+  matAttachFileRound: matIcons.matAttachFileRound,
 };

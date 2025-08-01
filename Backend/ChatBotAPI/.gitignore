@@ -26,3 +26,5 @@ env/
 # Bỏ qua thư mục chứa file tạm hoặc build
 dist/
 build/
+
+**/ai_models/

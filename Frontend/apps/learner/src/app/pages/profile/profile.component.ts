@@ -10,7 +10,7 @@ import {
 import {
   DATE_TIME_FORMAT,
   fullRoleReader,
-  initialAdminResponse,
+  initialLearnerResponse,
   userMessages,
 } from '@frontend/constants';
 import { AuthenticationHelpers } from '@frontend/utils';
@@ -18,8 +18,8 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import {
   ActionButtonName,
-  AdminResponse,
   FullRoleType,
+  LearnerResponse,
 } from '@frontend/models';
 import { NgIcon } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -27,6 +27,7 @@ import { Router } from '@angular/router';
 import { UpdateUserInfoComponent } from '../../components/update-user-info/update-user-info.component';
 import { UpdatePasswordComponent } from '../../components/update-password/update-password.component';
 import { environment } from '../../environments/environment.dev';
+import { rankReader } from '../../../../../../libs/constants/src/lib/readers/rank';
 
 @Component({
   selector: 'app-profile',
@@ -45,11 +46,11 @@ import { environment } from '../../environments/environment.dev';
   styleUrl: './profile.component.css',
 })
 export class ProfileComponent implements OnInit {
-  user: AdminResponse = initialAdminResponse;
+  user: LearnerResponse = initialLearnerResponse;
   isChangeAvatar = false;
 
   protected userId: string;
-  protected fullRole: FullRoleType = 'ADMIN_BASIC';
+  protected fullRole: FullRoleType = 'LEARNER';
 
   editMode = false;
 
@@ -60,21 +61,20 @@ export class ProfileComponent implements OnInit {
     private toastrService: ToastrService,
     private router: Router
   ) {
-    const userInfo = AuthenticationHelpers.getUserInfo('ADMIN');
+    const userInfo = AuthenticationHelpers.getUserInfo('LEARNER');
     this.userId = userInfo?.id as string;
     this.fullRole = userInfo?.fullRole as FullRoleType;
   }
 
   ngOnInit() {
     this.myMetadataService.set({
-      title: 'LOTUS Admin | Hồ sơ của tôi',
+      title: 'LOTUS | Hồ sơ của tôi',
       description:
         'Trang hồ sơ của tôi tại trang web hỗ trợ học tập lịch sử Việt Nam',
-      keywords:
-        'hồ sơ, profile, admin, lotus, lịch sử, histoty, việt nam, vietnam',
+      keywords: 'hồ sơ, profile, lotus, lịch sử, histoty, việt nam, vietnam',
     });
 
-    this.userService.getAdmin(this.userId).subscribe({
+    this.userService.getLearner(this.userId).subscribe({
       next: (res) => {
         this.user = res;
       },
@@ -152,4 +152,5 @@ export class ProfileComponent implements OnInit {
   protected readonly fullRoleReader = fullRoleReader;
   protected readonly DATE_TIME_FORMAT = DATE_TIME_FORMAT;
   protected readonly ActionButtonName = ActionButtonName;
+  protected readonly rankReader = rankReader;
 }

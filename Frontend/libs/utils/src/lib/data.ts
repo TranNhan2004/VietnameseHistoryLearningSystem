@@ -18,6 +18,14 @@ export function formatDateTime(date: Date): string {
   return date.toISOString();
 }
 
+export function formatDateTimeStr(dateStr: string): string {
+  const date = new Date(dateStr);
+  const offset = date.getTimezoneOffset();
+  const localDate = new Date(date.getTime() - offset * 60000); // chuyển về local
+
+  return localDate.toISOString().slice(0, 19); // "YYYY-MM-DDTHH:mm:ss"
+}
+
 export function formatForFlatpickr(date: Date): string {
   const pad = (n: number) => n.toString().padStart(2, '0');
 

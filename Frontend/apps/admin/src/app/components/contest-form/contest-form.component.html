@@ -63,13 +63,9 @@
       <span class="w-[15%]">Thời điểm bắt đầu cuộc thi:</span>
       <div class="w-[50%]">
         <input
-          type="text"
+          type="datetime-local"
           formControlName="startTime"
           class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
-          [libFlatpickr]="{
-            mode: 'datetime',
-            defaultDate: formGroup.get('startTime')?.value
-          }"
         />
 
         @if (formHelper.isInvalid('startTime')) {
@@ -84,13 +80,9 @@
       <span class="w-[15%]">Thời điểm kết thúc cuộc thi:</span>
       <div class="w-[50%]">
         <input
-          type="text"
+          type="datetime-local"
           formControlName="endTime"
           class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
-          [libFlatpickr]="{
-            mode: 'datetime',
-            defaultDate: formGroup.get('endTime')?.value
-          }"
         />
 
         @if (formHelper.isInvalid('endTime')) {

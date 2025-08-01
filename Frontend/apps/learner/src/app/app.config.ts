@@ -31,7 +31,7 @@ export const appConfig: ApplicationConfig = {
       tapToDismiss: false,
     }),
     provideIcons(materialIcons),
-    { provide: ROLE, useValue: 'ADMIN' },
+    { provide: ROLE, useValue: 'LEARNER' },
     { provide: WEB_API_URL, useValue: environment.webApiUrl },
   ],
 };

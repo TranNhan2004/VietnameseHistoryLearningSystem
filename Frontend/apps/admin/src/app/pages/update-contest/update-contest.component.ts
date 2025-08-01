@@ -52,13 +52,13 @@ export class UpdateContestComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     this.contestService.getById(id).subscribe({
       next: (res) => {
-        // alert(JSON.stringify(res));
-        this.contestForm.patchValue({
+        alert(JSON.stringify(res));
+        this.contestForm.setValue({
           name: res.name,
           questionNumber: res.questionNumber,
           durationInMinutes: res.durationInMinutes,
-          startTime: new Date(res.startTime),
-          endTime: new Date(res.endTime),
+          startTime: (res.startTime as string) + ':00',
+          endTime: (res.endTime as string) + ':00',
         });
       },
       error: (err: HttpErrorResponse) => {

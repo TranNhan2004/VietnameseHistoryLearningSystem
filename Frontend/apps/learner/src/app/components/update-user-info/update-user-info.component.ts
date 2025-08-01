@@ -10,15 +10,14 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   ActionButtonName,
-  AdminResponse,
+  LearnerResponse,
   UpdateUserInfo,
 } from '@frontend/models';
-import { initialAdminResponse, userMessages } from '@frontend/constants';
+import { initialLearnerResponse, userMessages } from '@frontend/constants';
 import { formatDate, MyFormGroupHelper } from '@frontend/utils';
 import {
   ActionButtonComponent,
   AlertService,
-  FlatpickrDirective,
   MyFormBuilderService,
   UserService,
 } from '@frontend/angular-libs';
@@ -27,19 +26,14 @@ import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 
 @Component({
   selector: 'app-update-user-info',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    ActionButtonComponent,
-    FlatpickrDirective,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, ActionButtonComponent],
   templateUrl: './update-user-info.component.html',
   styleUrl: './update-user-info.component.css',
 })
 export class UpdateUserInfoComponent implements OnChanges {
   @Input({ required: true }) editMode = false;
-  @Input({ required: true }) user: AdminResponse = initialAdminResponse;
-  @Output() userChange = new EventEmitter<AdminResponse>();
+  @Input({ required: true }) user: LearnerResponse = initialLearnerResponse;
+  @Output() userChange = new EventEmitter<LearnerResponse>();
 
   userInfoForm: FormGroup;
   userInfoFH: MyFormGroupHelper;

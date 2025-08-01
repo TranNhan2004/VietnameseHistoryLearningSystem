@@ -52,11 +52,7 @@
     <span class="w-[20%]">Ngày sinh:</span>
     <div class="w-[70%]">
       <input
-        [libFlatpickr]="{
-          mode: 'date',
-          defaultDate: userInfoForm.get('dateOfBirth')?.value
-        }"
-        type="text"
+        type="date"
         formControlName="dateOfBirth"
         [ngClass]="{
          'flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-myblue w-full': true,

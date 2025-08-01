@@ -18,7 +18,6 @@ import { formatDate, MyFormGroupHelper } from '@frontend/utils';
 import {
   ActionButtonComponent,
   AlertService,
-  FlatpickrDirective,
   MyFormBuilderService,
   UserService,
 } from '@frontend/angular-libs';
@@ -27,12 +26,7 @@ import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 
 @Component({
   selector: 'app-update-user-info',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    ActionButtonComponent,
-    FlatpickrDirective,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, ActionButtonComponent],
   templateUrl: './update-user-info.component.html',
   styleUrl: './update-user-info.component.css',
 })
@@ -76,7 +70,7 @@ export class UpdateUserInfoComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.userInfoForm.markAsPristine();
     this.userInfoForm.markAsUntouched();
-
+    
     if (!this.editMode) {
       this.setUserInfoForm();
     }

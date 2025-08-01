@@ -69,9 +69,23 @@
       </div>
 
       <!-- Role Section -->
-      <div class="ml-auto mr-32">
-        <h2 class="text-gray-500 text-2xl">Vai trò</h2>
-        <p class="text-myblue font-semibold text-3xl">{{ fullRoleReader[fullRole] }}</p>
+      <div class="ml-auto mr-[8%] space-y-4">
+        <div class="flex items-center space-x-2">
+          <h2 class="text-gray-500 text-2xl">Cấp bậc:</h2>
+          <p class="text-myblue font-semibold text-2xl">{{ rankReader[user.rank] }}</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <h2 class="text-gray-500 text-xl">Điểm kinh nghiệm:</h2>
+          <p class="text-myblue font-semibold text-xl">{{ user.point }}</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <h2 class="text-gray-500 text-xl">Điểm bài thi cao nhất:</h2>
+          <p class="text-myblue font-semibold text-xl">{{ user.bestScore !== null ? user.bestScore : 'Chưa có' }}</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <h2 class="text-gray-500 text-xl">Điểm bài thi thấp nhất:</h2>
+          <p class="text-myblue font-semibold text-xl">{{ user.worstScore !== null ? user.worstScore : 'Chưa có' }}</p>
+        </div>
       </div>
 
       <!-- Admin Role & Dates -->

@@ -3,59 +3,58 @@
     <h1 class="text-4xl font-bold text-center text-my-blue mb-6">Khám Phá Lịch Sử Việt Nam</h1>
 
     <p class="text-lg text-center mb-8">
-      Trang web cung cấp công cụ giúp bạn dễ dàng tạo và quản lý bài học, tài khoản người dùng, và các cuộc thi về kiến
-      thức lịch sử Việt Nam một cách trực quan và hiệu quả.
+      Hệ thống giúp bạn học và ôn luyện kiến thức lịch sử Việt Nam qua các bài học được thiết kế trực quan, các cuộc thi
+      trắc nghiệm hấp dẫn, và công cụ trợ lý ảo hỗ trợ trả lời mọi thắc mắc liên quan đến lịch sử.
     </p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
         class="flex flex-col justify-between bg-gradient-to-r from-my-blue to-my-purple p-6 rounded-lg shadow-lg hover:scale-105 transition-transform min-h-[260px]">
         <div>
-          <h3 class="text-2xl font-semibold text-white mb-4">Quản Lý Bài Học</h3>
+          <h3 class="text-2xl font-semibold text-white mb-4">Bài Học Lịch Sử</h3>
           <p class="text-white">
-            Dễ dàng tạo, chỉnh sửa và tổ chức các bài học lịch sử Việt Nam theo từng giai đoạn hoặc chủ đề cụ thể.
+            Học lịch sử theo từng giai đoạn và chủ đề. Nội dung được biên soạn khoa học, dễ hiểu và sinh động.
           </p>
         </div>
         <button
           class="mt-6 bg-white text-my-blue py-2 px-4 rounded-md hover:bg-my-purple hover:text-white transition-colors"
-          (click)="goTo('/lessons')"
+          (click)="goTo('/lessons-outer')"
         >
-          Quản Lý Bài Học
+          Bắt đầu học
         </button>
       </div>
 
       <div
         class="flex flex-col justify-between bg-gradient-to-r from-my-lavender to-my-coralaccent p-6 rounded-lg shadow-lg hover:scale-105 transition-transform min-h-[260px]">
         <div>
-          <h3 class="text-2xl font-semibold text-white mb-4">Quản Lý Tài Khoản</h3>
+          <h3 class="text-2xl font-semibold text-white mb-4">Tham Gia Cuộc Thi</h3>
           <p class="text-white">
-            Quản trị viên cơ bản có thể xem thông tin người học, quản trị viên cấp cao có thể vô hiệu/kích hoạt tài
-            khoản người học, còn siêu quản trị viên có quyền thêm tài khoản quản trị viên cũng như vô hiệu/kích hoạt,
-            xóa tài khoản trong hệ thống.
+            Kiểm tra kiến thức qua các cuộc thi trắc nghiệm đa dạng. Cạnh tranh cùng bạn bè và theo dõi tiến độ học tập
+            của bạn.
           </p>
         </div>
         <button
           class="mt-6 bg-white text-my-darknavy py-2 px-4 rounded-md hover:bg-my-coralaccent hover:text-white transition-colors"
-          (click)="goTo('/accounts')"
+          (click)="goTo('/contests')"
         >
-          Quản Lý Tài Khoản
+          Vào thi
         </button>
       </div>
 
       <div
         class="flex flex-col justify-between bg-gradient-to-r from-my-purple to-my-blue p-6 rounded-lg shadow-lg hover:scale-105 transition-transform min-h-[260px]">
         <div>
-          <h3 class="text-2xl font-semibold text-white mb-4">Quản Lý Cuộc Thi</h3>
+          <h3 class="text-2xl font-semibold text-white mb-4">Trợ Lý Ảo</h3>
           <p class="text-white">
-            Tạo và quản lý các cuộc thi trắc nghiệm nhằm kiểm tra, củng cố kiến thức lịch sử. Dễ dàng thêm câu hỏi,
-            thiết lập thời gian và theo dõi kết quả người tham gia.
+            Đặt câu hỏi về bất kỳ giai đoạn nào trong lịch sử Việt Nam, trợ lý ảo sẽ giúp bạn giải đáp nhanh chóng và
+            chính xác.
           </p>
         </div>
         <button
           class="mt-6 bg-white text-my-purple py-2 px-4 rounded-md hover:bg-my-blue hover:text-white transition-colors"
-          (click)="goTo('/contests')"
+          (click)="goTo('/chat-bot')"
         >
-          Quản Lý Cuộc Thi
+          Trò chuyện ngay
         </button>
       </div>
     </div>
@@ -71,32 +70,28 @@
           <ng-icon name="matLoginRound" class="mr-2" size="24"></ng-icon>
           <span class="text-xl">Đăng nhập</span>
         </button>
-        <p class="text-lg">Đăng nhập ngay để khám phá các tính năng của hệ thống</p>
+        <p class="text-lg">Đăng nhập để bắt đầu hành trình khám phá lịch sử Việt Nam</p>
       </div>
     }
 
     <div class="mt-16 max-w-4xl mx-auto bg-gray-50 border border-gray-200 shadow-md rounded-xl p-8">
-      <h3 class="text-3xl font-bold text-my-blue mb-6 text-center">Quy Định Sử Dụng</h3>
+      <h3 class="text-3xl font-bold text-my-blue mb-6 text-center">Vì Sao Nên Học Với Chúng Tôi?</h3>
       <ul class="space-y-5 text-gray-800 text-lg list-none">
         <li class="flex items-start gap-4">
-          <ng-icon name="matCheckCircleRound"
-                   class="text-my-purple text-2xl"></ng-icon>
-          Các quản trị viên cần đăng nhập để truy cập các chức năng quản lý bài học và cuộc thi.
+          <ng-icon name="matStarsRound" class="text-my-purple text-2xl"></ng-icon>
+          Bài học được chia theo từng thời kỳ, giúp bạn dễ dàng tiếp cận và ghi nhớ kiến thức.
         </li>
         <li class="flex items-start gap-4">
-          <ng-icon name="matCheckCircleRound"
-                   class="text-my-purple text-2xl"></ng-icon>
-          Mọi nội dung bài học và câu hỏi cần được kiểm duyệt trước khi công bố.
+          <ng-icon name="matStarsRound" class="text-my-purple text-2xl"></ng-icon>
+          Các cuộc thi hấp dẫn giúp bạn luyện tập và đánh giá trình độ thực tế.
         </li>
         <li class="flex items-start gap-4">
-          <ng-icon name="matCheckCircleRound"
-                   class="text-my-purple text-2xl"></ng-icon>
-          Không sử dụng nội dung vi phạm bản quyền hoặc thông tin sai lệch về lịch sử.
+          <ng-icon name="matStarsRound" class="text-my-purple text-2xl"></ng-icon>
+          Trợ lý ảo sẵn sàng trả lời mọi thắc mắc lịch sử — học nhanh, hỏi dễ, nhớ lâu.
         </li>
         <li class="flex items-start gap-4">
-          <ng-icon name="matCheckCircleRound"
-                   class="text-my-purple text-2xl"></ng-icon>
-          Để đăng ký tài khoản quản trị viên trên hệ thống, cần liên hệ siêu quản trị viên qua email.
+          <ng-icon name="matStarsRound" class="text-my-purple text-2xl"></ng-icon>
+          Giao diện thân thiện, dễ sử dụng.
         </li>
       </ul>
     </div>

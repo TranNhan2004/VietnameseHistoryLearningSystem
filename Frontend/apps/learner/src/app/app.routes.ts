@@ -9,10 +9,9 @@ import {
 } from '@frontend/angular-libs';
 import { authRoutes } from './routes/auth.routes';
 import { lessonRoutes } from './routes/lesson.routes';
-import { accountRoutes } from './routes/account.routes';
 import { contestRoutes } from './routes/contest.routes';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
-import { questionRoutes } from './routes/question.routes';
+import { chatBotRoutes } from './routes/chat-bot.routes';
 
 export const appRoutes: Route[] = [
   {
@@ -40,10 +39,9 @@ export const appRoutes: Route[] = [
     component: SidebarLayoutComponent,
     canActivate: [authenticatedGuard],
     children: [
-      ...accountRoutes,
       ...contestRoutes,
       ...lessonRoutes,
-      ...questionRoutes,
+      ...chatBotRoutes,
       {
         path: 'profile',
         component: ProfileComponent,

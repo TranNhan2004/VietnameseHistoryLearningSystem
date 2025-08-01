@@ -1,22 +1,22 @@
 <div class="p-4">
-  <h1 class="mt-5 font-bold text-my-blue text-4xl text-left">Danh sách thời kỳ lịch sử</h1>
-  <div class="mt-2 h-1 w-full bg-gradient-to-r from-my-blue to-my-coralaccent rounded-lg"></div>
+    <h1 class="mt-5 font-bold text-my-blue text-4xl text-left">Các thời kỳ lịch sử</h1>
+    <div class="mt-2 h-1 w-full bg-gradient-to-r from-my-blue to-my-coralaccent rounded-lg"></div>
 
-  <div class="flex items-center justify-between mt-5">
-    <div class="w-[40%]">
-      <app-search
-        [originalData]="originialDisplayedData"
-        [searchKeys]="['name', 'startYear', 'endYear']"
-        (filterData)="filterData($event)"
-        placeholder="Tìm kiếm theo tên thời kỳ, năm bắt đầu và kết thúc"
-      >
-      </app-search>
-    </div>
-    <div class="flex items-center space-x-4">
-      <app-sort
-        selectNgClass="p-[4.5%]"
-        [originalData]="originialDisplayedData"
-        [sortOptions]="[
+    <div class="flex items-center justify-between mt-5">
+        <div class="w-[40%]">
+            <app-search
+                    [originalData]="originialDisplayedData"
+                    [searchKeys]="['name', 'startYear', 'endYear']"
+                    (filterData)="filterData($event)"
+                    placeholder="Tìm kiếm theo tên thời kỳ, năm bắt đầu và kết thúc"
+            >
+            </app-search>
+        </div>
+        <div class="flex items-center space-x-4">
+            <app-sort
+                    selectNgClass="p-[4.5%]"
+                    [originalData]="originialDisplayedData"
+                    [sortOptions]="[
           { label: 'Tên thời kỳ (A-Z)', type: 'asc', sortedKey: 'name' },
           { label: 'Tên thời kỳ (Z-A)', type: 'dsc', sortedKey: 'name' },
           { label: 'Năm bắt đầu (Tăng dần)', type: 'asc', sortedKey: 'startYear' },
@@ -24,45 +24,52 @@
           { label: 'Năm kết thúc (Tăng dần)', type: 'asc', sortedKey: 'endYear' },
           { label: 'Năm kết thúc (Giảm dần)', type: 'dsc', sortedKey: 'endYear' }
         ]"
-        (sortData)="sortData($event)"
-      >
-      </app-sort>
-      <lib-action-button
-        [name]="ActionButtonName.Add"
-        mainTitle="Thêm mới"
-        title=""
-        (btnClick)="goToAddHistoricalPeriodPage()"
-      ></lib-action-button>
-    </div>
-  </div>
-
-  <div class="mt-5">
-    <app-table
-      [displayedData]="displayedData"
-      [actionButtonConfigs]="[
-        { name: ActionButtonName.Info },
-        { name: ActionButtonName.Edit },
-        { name: ActionButtonName.Delete },
-        { name: ActionButtonName.LinkTo, title: 'Bài học liên quan' }
-      ]"
-      (actionClick)="actionClick($event)"
-    >
-      <ng-template #itemTemplate let-item>
-        <div class="text-justify space-y-2">
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[15%]">Tên thời kỳ:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.name }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[15%]">Năm bắt đầu:</p>
-            <p class="text-gray-800 w-[85%]">{{ toHistoricalYear(Number(item.startYear)) }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[15%]">Năm kết thúc:</p>
-            <p class="text-gray-800 w-[85%]">{{ toHistoricalYear(Number(item.endYear)) }}</p>
-          </div>
+                    (sortData)="sortData($event)"
+            >
+            </app-sort>
         </div>
-      </ng-template>
-    </app-table>
-  </div>
+    </div>
+
+    <div class="mt-5 grid grid-cols-2 gap-4">
+        @for (item of displayedData; track item.id) {
+            <app-card
+                    width="full"
+                    height="50px"
+                    customClasses="cursor-pointer"
+                    (click)="goToRelatedLessons(item.id)"
+            >
+                {{ getHistoricalPeriodString(item) }}
+                
+            </app-card>
+        }
+    </div>
 </div>
+
+
+<!--<app-table-->
+<!--        [displayedData]="displayedData"-->
+<!--        [actionButtonConfigs]="[-->
+<!--        { name: ActionButtonName.Info },-->
+<!--        { name: ActionButtonName.Edit },-->
+<!--        { name: ActionButtonName.Delete },-->
+<!--        { name: ActionButtonName.LinkTo, title: 'Bài học liên quan' }-->
+<!--      ]"-->
+<!--        (actionClick)="actionClick($event)"-->
+<!--&gt;-->
+<!--    <ng-template #itemTemplate let-item>-->
+<!--        <div class="text-justify space-y-2">-->
+<!--            <div class="flex items-start">-->
+<!--                <p class="text-my-darknavy font-bold w-[15%]">Tên thời kỳ:</p>-->
+<!--                <p class="text-gray-800 w-[85%]">{{ item.name }}</p>-->
+<!--            </div>-->
+<!--            <div class="flex items-start">-->
+<!--                <p class="text-my-darknavy font-bold w-[15%]">Năm bắt đầu:</p>-->
+<!--                <p class="text-gray-800 w-[85%]">{{ toHistoricalYear(Number(item.startYear)) }}</p>-->
+<!--            </div>-->
+<!--            <div class="flex items-start">-->
+<!--                <p class="text-my-darknavy font-bold w-[15%]">Năm kết thúc:</p>-->
+<!--                <p class="text-gray-800 w-[85%]">{{ toHistoricalYear(Number(item.endYear)) }}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </ng-template>-->
+<!--</app-table>-->

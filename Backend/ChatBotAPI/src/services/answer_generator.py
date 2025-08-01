@@ -2,10 +2,18 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 
-class ViT5Generator:
-    def __init__(self, model_path: str):
+class Generator:
+    def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print("[INFO] Using device: ", self.device)
+
+    def generate(self, question: str, context: str) -> str:
+        return ""
+
+
+class ViT5Generator(Generator):
+    def __init__(self, model_path: str):
+        super().__init__();
 
         print("[INFO] Loading model...")
         assert model_path is not None, "Model path is not provided!"
@@ -17,10 +25,17 @@ class ViT5Generator:
     def generate(self, question: str, context: str) -> str:
         prompt = f"HỎI: {question}\n NGỮ CẢNH: {context}"
 
-        input_ids = self.tokenizer(prompt, return_tensors="pt").input_ids.to(self.device)
+        input_ids = self.tokenizer(
+            prompt,
+            return_tensors="pt",
+            max_length=1024,
+            truncation=True,
+            padding="max_length"
+        ).input_ids.to(self.device)
+
         output_ids = self.model.generate(
             input_ids=input_ids,
-            max_new_tokens=2048,
+            max_new_tokens=1024,
             do_sample=True,
             temperature=0.8,
             top_p=0.8,

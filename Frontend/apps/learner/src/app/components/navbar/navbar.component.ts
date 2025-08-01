@@ -50,35 +50,22 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       prefixRoutes: ['/home'],
     },
     {
-      name: 'QL bài học',
+      name: 'Bài học',
       icon: 'matLibraryBooksRound',
       route: '/lessons-outer',
       prefixRoutes: ['/lessons', '/historical-period'],
     },
     {
-      name: 'QL cuộc thi',
+      name: 'Cuộc thi',
       icon: 'matQuizRound',
       route: '/contests',
       prefixRoutes: ['/contest'],
     },
     {
-      name: 'QL câu hỏi',
-      icon: 'matQuestionMarkRound',
-      route: '/questions',
-      prefixRoutes: ['/questions'],
-    },
-    {
-      name: 'QL tài khoản',
-      icon: 'matSupervisorAccountRound',
-      route: '/accounts',
-      prefixRoutes: ['/accounts'],
-      accessOnly: ['ADMIN_ADVANCED', 'ADMIN_SUPER_ADVANCED'],
-    },
-    {
-      name: 'Thống kê',
-      icon: 'matLeaderboardRound',
-      route: '/statistic',
-      prefixRoutes: ['/statistic'],
+      name: 'Chatbot',
+      icon: 'matAssistantRound',
+      route: '/chat-bot',
+      prefixRoutes: ['/chat-bot'],
     },
     {
       name: 'Hồ sơ của tôi',
@@ -86,17 +73,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       route: '/profile',
       prefixRoutes: ['/profile'],
     },
-    {
-      name: 'Cài đặt',
-      icon: 'matSettingsRound',
-      route: '/settings',
-      prefixRoutes: ['/settings'],
-    },
   ];
   fullRole: FullRoleType;
 
   constructor(public router: Router) {
-    this.fullRole = AuthenticationHelpers.getUserInfo('ADMIN')
+    this.fullRole = AuthenticationHelpers.getUserInfo('LEARNER')
       ?.fullRole as FullRoleType;
   }
 

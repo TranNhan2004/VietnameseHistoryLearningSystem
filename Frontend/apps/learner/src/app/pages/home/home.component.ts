@@ -27,10 +27,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.myMetadataService.set({
-      title: 'LOTUS Admin | Trang chủ',
-      description: 'Trang chủ trang web admin hỗ trợ học tập lịch sử Việt Nam',
-      keywords:
-        'trang chủ, home, admin, lotus, lịch sử, histoty, việt nam, vietnam',
+      title: 'LOTUS | Trang chủ',
+      description: 'Trang chủ trang web hỗ trợ học tập lịch sử Việt Nam',
+      keywords: 'trang chủ, home, lotus, lịch sử, histoty, việt nam, vietnam',
     });
   }
 

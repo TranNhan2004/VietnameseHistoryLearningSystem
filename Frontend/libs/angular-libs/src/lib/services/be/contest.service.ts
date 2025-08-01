@@ -1,10 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WEB_API_URL } from '../../tokens/tokens';
-import {
-  Contest,
-  ContestResponse,
-} from '../../../../../models/src/lib/be/contest.model';
+import { Contest, ContestResponse } from '@frontend/models';
 
 @Injectable({
   providedIn: 'root',

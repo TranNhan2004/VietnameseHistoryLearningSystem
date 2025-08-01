@@ -2,9 +2,9 @@ from pydantic import BaseModel
 
 
 class Prompt(BaseModel):
-    content: str
+    model: str
+    question: str
 
 
 class Response(BaseModel):
-    root_content: str
-    smoothed_content: str
+    answer: str

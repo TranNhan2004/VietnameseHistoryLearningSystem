@@ -40,8 +40,8 @@ export class CreateContestComponent {
       name: ['', [Validators.required, Validators.maxLength(512)]],
       questionNumber: [1, [Validators.required, Validators.min(1)]],
       durationInMinutes: [10, [Validators.required, Validators.min(10)]],
-      startTime: [current, [Validators.required]],
-      endTime: [tomorrow, [Validators.required]],
+      startTime: [formatDateTime(current), [Validators.required]],
+      endTime: [formatDateTime(tomorrow), [Validators.required]],
     });
 
     this.contestFH = new MyFormGroupHelper(this.contestForm);
@@ -56,8 +56,8 @@ export class CreateContestComponent {
       name: '',
       questionNumber: 1,
       durationInMinutes: 10,
-      startTime: current,
-      endTime: tomorrow,
+      startTime: formatDateTime(current),
+      endTime: formatDateTime(tomorrow),
     });
 
     this.contestForm.markAsPristine();

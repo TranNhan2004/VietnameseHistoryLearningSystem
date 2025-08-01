@@ -1,0 +1,42 @@
+@if (isOpen) {
+  <div
+    class="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-40"
+  >
+    <div
+      class="bg-white w-[90%] h-[80%] overflow-y-auto rounded-2xl border border-gray-300 shadow-lg p-6"
+    >
+      <h2 class="text-xl font-semibold mb-4 text-center">Lịch sử chat</h2>
+
+      @for (group of groupedHistories; track group.createdAt) {
+        <div class="mb-2 mt-6">
+          <div class="text-sm text-gray-500 mb-1">
+            {{ group.createdAt | date: 'dd/MM/yyyy' }}
+          </div>
+          <div class="h-px bg-gray-300"></div>
+        </div>
+
+        @for (item of group.histories; track item.id) {
+          <div
+            class="py-2 px-3 hover:bg-gray-100 rounded cursor-pointer"
+          >
+            <div class="flex justify-between items-center gap-2">
+              <button
+                class="text-base font-medium text-gray-800 text-left truncate"
+                (click)="selectHistory.emit(item.id)"
+              >
+                {{ item.title }}
+              </button>
+
+              <lib-action-button
+                [name]="ActionButtonName.Delete"
+                title="Xóa lịch sử chat"
+                mainTitle=""
+                (btnClick)="deleteHistory.emit(item.id)"
+              ></lib-action-button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+}

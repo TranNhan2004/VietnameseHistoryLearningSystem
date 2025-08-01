@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
           Validators.maxLength(50),
         ],
       ],
-      role: ['ADMIN'],
+      role: ['LEARNER'],
     });
 
     this.fh = new MyFormGroupHelper(this.loginForm);
@@ -72,11 +72,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.myMetadatService.set({
-      title: 'LOTUS Admin | Đăng nhập',
-      description:
-        'Đăng nhập vào trang web admin hỗ trợ học tập lịch sử Việt Nam',
-      keywords:
-        'đăng nhập, login, admin, lotus, lịch sử, histoty, việt nam, vietnam',
+      title: 'LOTUS | Đăng nhập',
+      description: 'Đăng nhập vào trang web hỗ trợ học tập lịch sử Việt Nam',
+      keywords: 'đăng nhập, login, lotus, lịch sử, histoty, việt nam, vietnam',
     });
   }
 
@@ -86,8 +84,8 @@ export class LoginComponent implements OnInit {
       this.authService.login(loginData).subscribe({
         next: async (res) => {
           const { accessToken, ...rest } = res;
-          AuthenticationHelpers.saveAccessToken(accessToken, 'ADMIN');
-          AuthenticationHelpers.saveUserInfo(rest, 'ADMIN');
+          AuthenticationHelpers.saveAccessToken(accessToken, 'LEARNER');
+          AuthenticationHelpers.saveUserInfo(rest, 'LEARNER');
           this.toastrService.success(authenticationMessages.LOGIN__SUCCESS);
           await this.router.navigateByUrl('/home');
         },
