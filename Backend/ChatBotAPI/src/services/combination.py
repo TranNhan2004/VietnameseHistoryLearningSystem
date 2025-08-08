@@ -105,8 +105,12 @@ class GenerateService:
                     self.ag_top_p,
                     self.ag_repeat_penalty
                 )
-                return self.smoothing_model.smoothing_answer_markdown(answer) if PRODUCTION \
-                    else self.smoothing_model.smoothing_answer(answer), contexts_str
+
+                if answer.strip() != '':
+                    return self.smoothing_model.smoothing_answer_markdown(answer) if PRODUCTION \
+                        else self.smoothing_model.smoothing_answer(answer), contexts_str
+                else:
+                    return self.default_answer, self.null_context
 
         return self.default_answer, self.null_context
 
@@ -141,7 +145,11 @@ class GenerateService:
                     self.ag_top_p,
                     self.ag_repeat_penalty
                 )
-                return self.smoothing_model.smoothing_answer_markdown(answer) if PRODUCTION \
-                    else self.smoothing_model.smoothing_answer(answer), contexts_str
+                
+                if answer.strip() != '':
+                    return self.smoothing_model.smoothing_answer_markdown(answer) if PRODUCTION \
+                        else self.smoothing_model.smoothing_answer(answer), contexts_str
+                else:
+                    return self.default_answer, self.null_context
 
         return self.default_answer, self.null_context
