@@ -1,5 +1,6 @@
-from llama_cpp import Llama
 from huggingface_hub import login, hf_hub_download
+from llama_cpp import Llama
+
 
 class AnswerGenerator:
     def __init__(
@@ -8,12 +9,12 @@ class AnswerGenerator:
         repo_id: str,
         filename: str,
         n_ctx: int,
-        n_threads: int, 
+        n_threads: int,
         n_batch: int
     ) -> None:
         print("[INFO] Initializing Answer Generator...")
         login(token=hf_token)
-        
+
         self.model_path = hf_hub_download(
             repo_id=repo_id,
             filename=filename,
@@ -30,9 +31,9 @@ class AnswerGenerator:
         print("[INFO] Loading Answer Generator successfully!")
 
     def generate(
-        self, 
-        question: str, 
-        context: str, 
+        self,
+        question: str,
+        context: str,
         max_tokens: int,
         temperature: float,
         top_p: float,
@@ -47,7 +48,7 @@ QUESTION: {question}
 CONTEXT: {context}
 
 ### Assistant:
-""" 
+"""
         output_text = ''
         for i in range(5):
             output = self.llm(
@@ -61,20 +62,14 @@ CONTEXT: {context}
 
             output_text = output["choices"][0]["text"]
 
-            if "QUESTION: {question}" in output_text:
-                output_text = output_text.replace("QUESTION: {question}", "")
-            if "CONTEXT: {context}" in output_text:
-                output_text = output_text.replace("CONTEXT: {context}", "")
+            if f"QUESTION: {question}" in output_text:
+                output_text = output_text.replace(f"QUESTION: {question}", "")
+            if f"CONTEXT: {context}" in output_text:
+                output_text = output_text.replace(f"CONTEXT: {context}", "")
             if "ANSWER:" in output_text:
                 output_text = output_text.replace("ANSWER:", "")
 
             if output_text.strip() != '':
-                return output_text.strip() 
-        
+                return output_text.strip()
+
         return output_text.strip()
-
-
-
-
-
-
