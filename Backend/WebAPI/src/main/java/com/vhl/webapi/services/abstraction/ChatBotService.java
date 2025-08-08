@@ -7,7 +7,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface ChatHistoryService {
+public interface ChatBotService {
+    void setConfig(String config);
+
+    String getConfig();
+
     ChatQAResDTO createOrUpdateChatHistory(String learnerId, String model, ChatQAReqDTO chatQAReqDTO, MultipartFile pdf) throws Exception;
 
     ChatHistoryResDTO getChatHistory(String id);

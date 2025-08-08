@@ -4,7 +4,6 @@ import {
   ActionButtonComponent,
   AlertService,
   MyMetadataService,
-  PermissionService,
   UserService,
 } from '@frontend/angular-libs';
 import { ForbiddenComponent } from '../forbidden/forbidden.component';
@@ -57,7 +56,6 @@ export class AccountsComponent implements OnInit {
   fullRole: FullRoleType;
 
   constructor(
-    public permissionService: PermissionService,
     private myMetadataService: MyMetadataService,
     private userService: UserService,
     private toastrService: ToastrService,

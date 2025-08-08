@@ -3,20 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MyFormGroupHelper } from '@frontend/utils';
 import { ActionButtonName } from '@frontend/models';
-import { contestMessages, questionMessages } from '@frontend/constants';
-import {
-  ActionButtonComponent,
-  FlatpickrDirective,
-} from '@frontend/angular-libs';
+import { contestMessages } from '@frontend/constants';
+import { ActionButtonComponent } from '@frontend/angular-libs';
 
 @Component({
   selector: 'app-contest-form',
-  imports: [
-    CommonModule,
-    ActionButtonComponent,
-    ReactiveFormsModule,
-    FlatpickrDirective,
-  ],
+  imports: [CommonModule, ActionButtonComponent, ReactiveFormsModule],
   templateUrl: './contest-form.component.html',
   styleUrl: './contest-form.component.css',
 })
@@ -36,5 +28,4 @@ export class ContestFormComponent {
 
   protected readonly contestMessages = contestMessages;
   protected readonly ActionButtonName = ActionButtonName;
-  protected readonly questionMessages = questionMessages;
 }

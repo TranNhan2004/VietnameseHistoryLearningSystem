@@ -1,16 +1,23 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  OnInit,
+  SecurityContext,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { FormsModule } from '@angular/forms';
-import {
-  ChatHistoryService,
-  ClickOutsideDirective,
-} from '@frontend/angular-libs';
+import { ChatBotService, ClickOutsideDirective } from '@frontend/angular-libs';
 import { AuthenticationHelpers } from '@frontend/utils';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { ChatHistoryResponse, ChatQA } from '@frontend/models';
 import { environment } from '../../environments/environment.dev';
 import { ChatHistoryModalComponent } from '../../components/chat-history-modal/chat-history-modal.component';
+import {
+  MarkdownComponent,
+  MarkdownService,
+  provideMarkdown,
+} from 'ngx-markdown';
 
 interface Message {
   type: 'question' | 'answer' | 'error';
@@ -26,6 +33,11 @@ interface Message {
     FormsModule,
     ChatHistoryModalComponent,
     ClickOutsideDirective,
+    MarkdownComponent,
+  ],
+  providers: [
+    MarkdownService,
+    provideMarkdown({ sanitize: SecurityContext.NONE }),
   ],
   templateUrl: './chat-bot.component.html',
   styleUrl: './chat-bot.component.css',
@@ -34,8 +46,8 @@ export class ChatBotComponent implements OnInit, AfterViewChecked {
   input = '';
   messages: Message[] = [];
 
-  models = ['ViT5'];
-  selectedModel = 'ViT5';
+  models = ['LOTUS-v1'];
+  selectedModel = 'LOTUS-v1';
   showModelDropdown = false;
 
   chatHistoryResponses: ChatHistoryResponse[] = [];
@@ -46,12 +58,12 @@ export class ChatBotComponent implements OnInit, AfterViewChecked {
   pdf: File | null = null;
   isOpenHistoryModal = false;
 
-  constructor(private chatHistoryService: ChatHistoryService) {
+  constructor(private chatBotService: ChatBotService) {
     this.learnerId = AuthenticationHelpers.getUserInfo('LEARNER')?.id ?? '';
   }
 
   ngOnInit() {
-    this.chatHistoryService.getAllByLearner(this.learnerId).subscribe({
+    this.chatBotService.getAllByLearner(this.learnerId).subscribe({
       next: (res) => {
         this.chatHistoryResponses = [...res];
       },
@@ -78,7 +90,7 @@ export class ChatBotComponent implements OnInit, AfterViewChecked {
       chatHistoryId: this.selectedChatHistoryId,
     };
 
-    this.chatHistoryService
+    this.chatBotService
       .createOrUpdate(this.learnerId, this.selectedModel, data, this.pdf)
       .subscribe({
         next: (res) => {
@@ -92,18 +104,16 @@ export class ChatBotComponent implements OnInit, AfterViewChecked {
           );
 
           if (idx === -1) {
-            this.chatHistoryService
-              .getById(this.selectedChatHistoryId)
-              .subscribe({
-                next: (res1) => {
-                  this.chatHistoryResponses.push(res1);
-                },
-                error: (err: HttpErrorResponse) => {
-                  if (!environment.production) {
-                    console.log(err);
-                  }
-                },
-              });
+            this.chatBotService.getById(this.selectedChatHistoryId).subscribe({
+              next: (res1) => {
+                this.chatHistoryResponses.push(res1);
+              },
+              error: (err: HttpErrorResponse) => {
+                if (!environment.production) {
+                  console.log(err);
+                }
+              },
+            });
           } else {
             this.chatHistoryResponses[idx].chatQAs.push(res);
           }
@@ -143,10 +153,11 @@ export class ChatBotComponent implements OnInit, AfterViewChecked {
       this.messages.push({ type: 'question', text: item.question });
       this.messages.push({ type: 'answer', text: item.answer });
     }
+    console.log(this.messages);
   }
 
   deleteHistory(id: string) {
-    this.chatHistoryService.delete(id).subscribe({
+    this.chatBotService.delete(id).subscribe({
       next: () => {
         this.chatHistoryResponses = this.chatHistoryResponses.filter(
           (item) => item.id !== id

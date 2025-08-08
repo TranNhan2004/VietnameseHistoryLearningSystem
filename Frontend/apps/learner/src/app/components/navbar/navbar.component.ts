@@ -64,8 +64,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     {
       name: 'Chatbot',
       icon: 'matAssistantRound',
-      route: '/chat-bot',
-      prefixRoutes: ['/chat-bot'],
+      route: '/chatbot',
+      prefixRoutes: ['/chatbot'],
     },
     {
       name: 'Hồ sơ của tôi',

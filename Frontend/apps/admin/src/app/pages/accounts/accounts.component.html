@@ -1,4 +1,4 @@
-@if (permissionService.canAccess) {
+@if (fullRole === 'ADMIN_ADVANCED' || fullRole === 'ADMIN_SUPER_ADVANCED') {
   <div class="p-4">
     <h1 class="mt-5 font-bold text-my-blue text-4xl text-left flex items-center">
       <p>Danh sách tài khoản</p>

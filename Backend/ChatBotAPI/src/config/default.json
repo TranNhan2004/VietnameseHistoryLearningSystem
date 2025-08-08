@@ -1,0 +1,12 @@
+{
+    "icr_top_k": 5,
+    "ocr_top_k": 5,
+    "max_pdf_words": 512,
+    "fc_alpha": 0.7,
+    "fc_top_k": 10,
+    "fc_min_threshold": 0.6,
+    "ag_max_tokens": 768,
+    "ag_temperature": 0.7,
+    "ag_top_p": 0.9,
+    "ag_repeat_penalty": 1.2
+}

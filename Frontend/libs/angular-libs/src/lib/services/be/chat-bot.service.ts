@@ -1,16 +1,31 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WEB_API_URL } from '../../tokens/tokens';
-import { ChatHistoryResponse, ChatQA, ChatQAResponse } from '@frontend/models';
+import {
+  ChatBotConfig,
+  ChatHistoryResponse,
+  ChatQA,
+  ChatQAResponse,
+} from '@frontend/models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChatHistoryService {
+export class ChatBotService {
   constructor(
     private httpClient: HttpClient,
     @Inject(WEB_API_URL) private webApiUrl: string
   ) {}
+
+  setConfig(data: ChatBotConfig) {
+    return this.httpClient.put(`${this.webApiUrl}chatbot/config`, data);
+  }
+
+  getConfig() {
+    return this.httpClient.get<ChatBotConfig>(
+      `${this.webApiUrl}chatbot/config`
+    );
+  }
 
   createOrUpdate(
     learnerId: string,
@@ -26,24 +41,24 @@ export class ChatHistoryService {
     }
 
     return this.httpClient.post<ChatQAResponse>(
-      `${this.webApiUrl}chat-histories?learnerId=${learnerId}&model=${model}`,
+      `${this.webApiUrl}chatbot/histories?learnerId=${learnerId}&model=${model}`,
       formData
     );
   }
 
   getAllByLearner(learnerId: string) {
     return this.httpClient.get<ChatHistoryResponse[]>(
-      `${this.webApiUrl}chat-histories?learnerId=${learnerId}`
+      `${this.webApiUrl}chatbot/histories?learnerId=${learnerId}`
     );
   }
 
   getById(id: string) {
     return this.httpClient.get<ChatHistoryResponse>(
-      `${this.webApiUrl}chat-histories/${id}`
+      `${this.webApiUrl}chatbot/histories/${id}`
     );
   }
 
   delete(id: string) {
-    return this.httpClient.delete(`${this.webApiUrl}chat-histories/${id}`);
+    return this.httpClient.delete(`${this.webApiUrl}chatbot/histories/${id}`);
   }
 }

@@ -3,6 +3,9 @@ package com.vhl.webapi.services.impl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vhl.webapi.services.abstraction.PythonApiClient;
+import com.vhl.webapi.services.abstraction.SSRedisService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,10 +21,18 @@ import java.io.File;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class PythonApiClientImpl implements PythonApiClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final SSRedisService ssRedisService;
+
+    @Value("${spring.data.redis.ai-key}")
+    private String redisAIKey;
+
+    @Value("${ai-api-url}")
+    private String aiApiUrl;
 
     @Override
     public String askQuestion(String model, String question, MultipartFile pdf) throws Exception {
@@ -34,8 +45,29 @@ public class PythonApiClientImpl implements PythonApiClient {
         }
     }
 
+    @Override
+    public void setConfig(String config) {
+        System.out.println(config);
+
+        ssRedisService.set(redisAIKey, config, null);
+
+        String url = aiApiUrl + "config";
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Failed to set config: " + response.getStatusCode() + " - " + response.getBody());
+        }
+    }
+
+    @Override
+    public String getConfig() {
+        String url = aiApiUrl + "config";
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return ssRedisService.get(redisAIKey).orElse(null);
+    }
+
     private String askQuestionWithPdf(String model, String question, MultipartFile pdf) throws Exception {
-        String url = "http://localhost:8000/api/chatbot/generate-with-pdf";
+        String url = aiApiUrl + "generate-with-pdf";
 
         Map<String, Object> metadata = Map.of("question", question, "model", model);
         String metadataJson = objectMapper.writeValueAsString(metadata);
@@ -61,7 +93,7 @@ public class PythonApiClientImpl implements PythonApiClient {
     }
 
     private String askQuestionTextOnly(String model, String question) throws Exception {
-        String url = "http://localhost:8000/api/chatbot/generate";
+        String url = aiApiUrl + "generate";
 
         Map<String, Object> payload = Map.of("question", question, "model", model);
         HttpHeaders headers = new HttpHeaders();

@@ -1,13 +1,12 @@
-from typing import List, Dict
-
 import numpy as np
+from typing import List, Dict
 from underthesea import sent_tokenize
-
 from src.services.embedding import EmbeddingModel
-
+from src.services.text_ranking import TextRankingModel
 
 class FilterContexts:
-    def __init__(self, embedding_model: EmbeddingModel):
+    def __init__(self, text_ranking_model: TextRankingModel, embedding_model: EmbeddingModel):
+        self.text_ranking_model = text_ranking_model
         self.embedding_model = embedding_model
 
     def filter(
@@ -15,30 +14,40 @@ class FilterContexts:
         question: str,
         inner_contexts: List[Dict],
         outer_contexts: List[Dict],
-        threshold: float = 0.4,
-        top_k: int = 10
+        alpha = 0.7,
+        top_k: int = 10,
+        min_threshold: float = 0.6
     ) -> str | None:
-        contexts = []
-        for inner_context in inner_contexts:
-            contexts.extend(inner_context["context"])
 
-        if outer_contexts:
-            for outer_context in outer_contexts:
-                contexts.extend(sent_tokenize(outer_context["context"]))
+        sentences = set()
 
-        query_embedding = self.embedding_model.embed_text([question])
-        context_embeddings = self.embedding_model.embed_text(contexts)
+        for inner in inner_contexts or []:
+            for s in inner["context"].split("\n"):
+                s = s.strip()
+                if s:
+                    sentences.add(s)
 
-        similarity = query_embedding @ context_embeddings.T
-        similarity = similarity.flatten()
+        for outer in outer_contexts or []:
+            for s in sent_tokenize(outer["context"]):
+                s = s.strip()
+                if s:
+                    sentences.add(s)
 
-        top_k_indices = np.argsort(similarity)[-top_k:][::-1]
+        if not sentences:
+            return None
 
-        selected_contexts = [
-            contexts[i] for i in top_k_indices if similarity[i] >= threshold
-        ]
+        sentences = list(sentences)
+        pairs = [(question, s) for s in sentences]
 
-        if selected_contexts:
-            return "\n".join(selected_contexts)
+        ranking_scores = self.text_ranking_model.predict(pairs)
 
-        return None
+        question_emb = self.embedding_model.embed_text([question])
+        sentence_embs = self.embedding_model.embed_text(sentences)
+        cosine_scores = (question_emb @ sentence_embs.T).flatten()
+
+        final_scores = alpha * ranking_scores + (1 - alpha) * cosine_scores
+
+        top_indices = np.argsort(final_scores)[-top_k:][::-1]
+        selected = [sentences[i] for i in top_indices if final_scores[i] >= min_threshold]
+
+        return "\n".join(selected) if selected else None

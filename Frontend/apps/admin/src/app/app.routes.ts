@@ -13,6 +13,7 @@ import { accountRoutes } from './routes/account.routes';
 import { contestRoutes } from './routes/contest.routes';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { questionRoutes } from './routes/question.routes';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 export const appRoutes: Route[] = [
   {
@@ -47,6 +48,10 @@ export const appRoutes: Route[] = [
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent,
       },
       {
         path: '**',

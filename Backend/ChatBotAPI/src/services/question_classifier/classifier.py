@@ -3,6 +3,7 @@ import fasttext
 
 class FastTextClassifier:
     def __init__(self, model_path: str):
+        print("[INFO] Fast Text For Question Classifier Loading...")
         self.model = fasttext.load_model(model_path)
 
     def predict(self, question: str) -> int:

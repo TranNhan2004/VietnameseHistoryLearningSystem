@@ -14,7 +14,7 @@ import com.vhl.webapi.mappers.ChatQAMapper;
 import com.vhl.webapi.repositories.ChatHistoryRepository;
 import com.vhl.webapi.repositories.ChatQARepository;
 import com.vhl.webapi.repositories.LearnerRepository;
-import com.vhl.webapi.services.abstraction.ChatHistoryService;
+import com.vhl.webapi.services.abstraction.ChatBotService;
 import com.vhl.webapi.services.abstraction.PythonApiClient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +25,23 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ChatHistoryServiceImpl implements ChatHistoryService {
+public class ChatBotServiceImpl implements ChatBotService {
     private final ChatHistoryRepository chatHistoryRepository;
     private final ChatQARepository chatQARepository;
     private final LearnerRepository learnerRepository;
     private final ChatHistoryMapper chatHistoryMapper;
     private final ChatQAMapper chatQAMapper;
     private final PythonApiClient pythonApiClient;
+
+    @Override
+    public void setConfig(String config) {
+        pythonApiClient.setConfig(config);
+    }
+
+    @Override
+    public String getConfig() {
+        return pythonApiClient.getConfig();
+    }
 
     @Override
     @Transactional
@@ -41,6 +51,7 @@ public class ChatHistoryServiceImpl implements ChatHistoryService {
         ChatQAReqDTO chatQAReqDTO,
         MultipartFile pdf
     ) throws Exception {
+
         Learner learner = learnerRepository.findById(learnerId)
             .orElseThrow(() -> new NoInstanceFoundException(LearnerErrorCode.LEARNER__NOT_FOUND));
 

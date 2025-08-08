@@ -1,0 +1,178 @@
+@if (fullRole === 'ADMIN_SUPER_ADVANCED') {
+  <div class="p-4">
+    <h3 class="text-2xl font-bold mb-8 text-my-blue">Cấu hình Chatbot</h3>
+
+    <form [formGroup]="formGroup" class="space-y-4">
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[20%]">Top-k ngữ cảnh trong:</span>
+        <div class="w-[50%]">
+          <input
+            type="number"
+            formControlName="icrTopK"
+            class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+          />
+          @if (formHelper.isInvalid('icrTopK')) {
+            @if (formHelper.hasError('icrTopK', 'required')) {
+              <p class="error">{{ chatBotConfigMessages.ICR_TOP_K__REQUIRED }}</p>
+            } @else if (formHelper.hasError('icrTopK', 'min')) {
+              <p class="error">{{ chatBotConfigMessages.ICR_TOP_K__MIN_1 }}</p>
+            } @else if (formHelper.hasError('icrTopK', 'pattern')) {
+              <p class="error">{{ chatBotConfigMessages.ICR_TOP_K__IS_INTEGER }}</p>
+            }
+          }
+        </div>
+      </label>
+
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[20%]">Top-k ngữ cảnh ngoài:</span>
+        <div class="w-[50%]">
+          <input type="number" formControlName="ocrTopK" class="flex-1 border rounded-lg p-2 w-full"/>
+          @if (formHelper.isInvalid('ocrTopK')) {
+            @if (formHelper.hasError('ocrTopK', 'required')) {
+              <p class="error">{{ chatBotConfigMessages.OCR_TOP_K__REQUIRED }}</p>
+            } @else if (formHelper.hasError('ocrTopK', 'min')) {
+              <p class="error">{{ chatBotConfigMessages.OCR_TOP_K__MIN_1 }}</p>
+            } @else if (formHelper.hasError('ocrTopK', 'pattern')) {
+              <p class="error">{{ chatBotConfigMessages.OCR_TOP_K__IS_INTEGER }}</p>
+            }
+          }
+        </div>
+      </label>
+
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[20%]">Số từ tối đa PDF:</span>
+        <div class="w-[50%]">
+          <input type="number" formControlName="maxPdfWords" class="flex-1 border rounded-lg p-2 w-full"/>
+          @if (formHelper.isInvalid('maxPdfWords')) {
+            @if (formHelper.hasError('maxPdfWords', 'required')) {
+              <p class="error">{{ chatBotConfigMessages.MAX_PDF_WORDS__REQUIRED }}</p>
+            } @else if (formHelper.hasError('maxPdfWords', 'min')) {
+              <p class="error">{{ chatBotConfigMessages.MAX_PDF_WORDS__MIN_1 }}</p>
+            } @else if (formHelper.hasError('maxPdfWords', 'pattern')) {
+              <p class="error">{{ chatBotConfigMessages.MAX_PDF_WORDS__IS_INTEGER }}</p>
+            }
+          }
+        </div>
+      </label>
+
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[20%]">Alpha:</span>
+        <div class="w-[50%]">
+          <input type="number" step="0.01" formControlName="fcAlpha" class="flex-1 border rounded-lg p-2 w-full"/>
+          @if (formHelper.isInvalid('fcAlpha')) {
+            @if (formHelper.hasError('fcAlpha', 'required')) {
+              <p class="error">{{ chatBotConfigMessages.FC_ALPHA__REQUIRED }}</p>
+            } @else if (formHelper.hasError('fcAlpha', 'min') || formHelper.hasError('fcAlpha', 'max')) {
+              <p class="error">{{ chatBotConfigMessages.FC_ALPHA__ZERO_ONE }}</p>
+            }
+          }
+        </div>
+      </label>
+
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[20%]">Top-k sau lọc:</span>
+        <div class="w-[50%]">
+          <input type="number" formControlName="fcTopK" class="flex-1 border rounded-lg p-2 w-full"/>
+          @if (formHelper.isInvalid('fcTopK')) {
+            @if (formHelper.hasError('fcTopK', 'required')) {
+              <p class="error">{{ chatBotConfigMessages.FC_TOP_K__REQUIRED }}</p>
+            } @else if (formHelper.hasError('fcTopK', 'min')) {
+              <p class="error">{{ chatBotConfigMessages.FC_TOP_K__MIN_1 }}</p>
+            } @else if (formHelper.hasError('fcTopK', 'pattern')) {
+              <p class="error">{{ chatBotConfigMessages.FC_TOP_K__IS_INTEGER }}</p>
+            }
+          }
+        </div>
+      </label>
+
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[20%]">Ngưỡng tối thiểu sau lọc:</span>
+        <div class="w-[50%]">
+          <input type="number" step="0.01" formControlName="fcMinThreshold"
+                 class="flex-1 border rounded-lg p-2 w-full"/>
+          @if (formHelper.isInvalid('fcMinThreshold')) {
+            @if (formHelper.hasError('fcMinThreshold', 'required')) {
+              <p class="error">{{ chatBotConfigMessages.FC_MIN_THRESHOLD__REQUIRED }}</p>
+            } @else if (formHelper.hasError('fcMinThreshold', 'min') || formHelper.hasError('fcMinThreshold', 'max')) {
+              <p class="error">{{ chatBotConfigMessages.FC_ALPHA__ZERO_ONE }}</p>
+            }
+          }
+        </div>
+      </label>
+
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[20%]">Số token tối đa:</span>
+        <div class="w-[50%]">
+          <input type="number" formControlName="agMaxTokens" class="flex-1 border rounded-lg p-2 w-full"/>
+          @if (formHelper.isInvalid('agMaxTokens')) {
+            @if (formHelper.hasError('agMaxTokens', 'required')) {
+              <p class="error">{{ chatBotConfigMessages.AG_MAX_TOKENS__REQUIRED }}</p>
+            } @else if (formHelper.hasError('agMaxTokens', 'min')) {
+              <p class="error">{{ chatBotConfigMessages.AG_MAX_TOKENS__MIN_1 }}</p>
+            } @else if (formHelper.hasError('agMaxTokens', 'pattern')) {
+              <p class="error">{{ chatBotConfigMessages.AG_MAX_TOKENS__IS_INTEGER }}</p>
+            }
+          }
+        </div>
+      </label>
+
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[20%]">Temperature:</span>
+        <div class="w-[50%]">
+          <input type="number" step="0.01" formControlName="agTemperature" class="flex-1 border rounded-lg p-2 w-full"/>
+          @if (formHelper.isInvalid('agTemperature')) {
+            @if (formHelper.hasError('agTemperature', 'required')) {
+              <p class="error">{{ chatBotConfigMessages.AG_TEMPERATURE__REQUIRED }}</p>
+            }
+          }
+        </div>
+      </label>
+
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[20%]">Top-p:</span>
+        <div class="w-[50%]">
+          <input type="number" step="0.01" formControlName="agTopP" class="flex-1 border rounded-lg p-2 w-full"/>
+          @if (formHelper.isInvalid('agTopP')) {
+            @if (formHelper.hasError('agTopP', 'required')) {
+              <p class="error">{{ chatBotConfigMessages.AG_TOP_P__REQUIRED }}</p>
+            } @else if (formHelper.hasError('agTopP', 'min')) {
+              <p class="error">{{ chatBotConfigMessages.AG_TOP_P__MIN_0 }}</p>
+            }
+          }
+        </div>
+      </label>
+
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[20%]">Hệ số phạt lặp lại:</span>
+        <div class="w-[50%]">
+          <input type="number" step="0.01" formControlName="agRepeatPenalty"
+                 class="flex-1 border rounded-lg p-2 w-full"/>
+          @if (formHelper.isInvalid('agRepeatPenalty')) {
+            @if (formHelper.hasError('agRepeatPenalty', 'required')) {
+              <p class="error">{{ chatBotConfigMessages.AG_REPEAT_PENALTY__REQUIRED }}</p>
+            }
+          }
+        </div>
+      </label>
+    </form>
+
+    <div class="mt-10 p-4 w-full bg-gradient-to-r from-my-lightblue to-my-lightpurple flex items-center rounded-xl">
+      <div class="flex justify-end ml-auto space-x-2">
+        <lib-action-button
+          [name]="ActionButtonName.Save"
+          mainTitle="Lưu"
+          title=""
+          [disabled]="formGroup.invalid"
+          (btnClick)="save()"
+        ></lib-action-button>
+
+        <lib-action-button
+          [name]="ActionButtonName.Cancel"
+          mainTitle="Hủy"
+          title=""
+          (btnClick)="cancel()"
+        ></lib-action-button>
+      </div>
+    </div>
+  </div>
+}

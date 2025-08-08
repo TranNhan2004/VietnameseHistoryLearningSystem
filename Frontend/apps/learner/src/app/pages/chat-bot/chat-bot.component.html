@@ -1,6 +1,5 @@
-<!-- Wrapper -->
 <div class="flex flex-col h-screen">
-  <div class="flex justify-between items-center px-4 py-3 border-b bg-gray-100 shadow-sm z-10">
+  <div class="flex justify-between items-center px-4 py-3 z-10">
     <div class="relative" libClickOutside (clickOutside)="showModelDropdown = false">
       <button
         (click)="showModelDropdown = !showModelDropdown"
@@ -46,21 +45,35 @@
 
   <div class="w-full h-[85%] flex flex-col bg-white border shadow rounded-2xl">
     <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-4">
-      @for (msg of messages; track msg) {
-        <div class="flex group" [ngClass]="msg.type === 'question' ? 'justify-end' : 'justify-start'">
-          <div
-            class="relative max-w-xl px-4 py-3 rounded-xl whitespace-pre-wrap leading-relaxed"
-            [ngClass]="
-              msg.type === 'question'
-                ? 'bg-my-lightblue text-gray-800'
-                : msg.type === 'answer'
-                ? 'bg-gray-100 text-gray-800'
-                : 'bg-red-100 text-my-coralaccent'
-            "
-          >
-            <p class="break-words">{{ msg.text }}</p>
+      @for (msg of messages; track $index) {
+        @if (msg.type === 'answer') {
+          <div class="flex justify-center group">
+            <div class="relative prose max-w-5xl w-full bg-white p-6 rounded-lg shadow">
+              <markdown [data]="msg.text" class="-mt-2"></markdown>
+              <button
+                (click)="copyText(msg.text)"
+                class="absolute left-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1 rounded-md"
+                title="Sao chép nội dung"
+              >
+                <ng-icon name="matContentCopyRound" size="18"></ng-icon>
+              </button>
+            </div>
+          </div>
 
-            @if (msg.type !== 'error') {
+        } @else if (msg.type === 'error') {
+          <div class="flex justify-center">
+            <div class="max-w-5xl w-full bg-red-50 p-4 rounded-lg shadow-inner border border-red-100">
+              <p class="whitespace-pre-wrap text-red-600 leading-relaxed">{{ msg.text }}</p>
+            </div>
+          </div>
+
+        } @else {
+          <div class="flex justify-end group">
+            <div
+              class="relative max-w-xl px-4 py-3 rounded-xl bg-my-lightblue text-gray-800 whitespace-pre-wrap leading-relaxed"
+            >
+              <p class="break-words">{{ msg.text }}</p>
+
               <button
                 (click)="copyText(msg.text)"
                 class="absolute left-0 bottom-[-35px] opacity-0 group-hover:opacity-100 transition-opacity"
@@ -68,9 +81,9 @@
               >
                 <ng-icon name="matContentCopyRound" size="20" color="gray"></ng-icon>
               </button>
-            }
+            </div>
           </div>
-        </div>
+        }
       }
 
       @if (isThinking) {
@@ -98,7 +111,7 @@
         <textarea
           [(ngModel)]="input"
           name="input"
-          rows="4"
+          rows="3"
           class="w-full p-2 resize-none rounded-lg focus:outline-none"
           placeholder="Nội dung câu hỏi..."
           required
@@ -124,11 +137,9 @@
   </div>
 </div>
 
-<div libClickOutside (clickOutside)="isOpenHistoryModal = false">
-  <app-chat-history-modal
-    [isOpen]="isOpenHistoryModal"
-    [chatHistoryResponses]="chatHistoryResponses"
-    (selectHistory)="selectHistory($event)"
-    (deleteHistory)="deleteHistory($event)"
-  ></app-chat-history-modal>
-</div>
+<app-chat-history-modal
+  [isOpen]="isOpenHistoryModal"
+  [chatHistoryResponses]="chatHistoryResponses"
+  (selectHistory)="selectHistory($event)"
+  (deleteHistory)="deleteHistory($event)"
+></app-chat-history-modal>

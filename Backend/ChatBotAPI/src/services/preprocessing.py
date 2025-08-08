@@ -1,7 +1,7 @@
 import re
 
 
-class Preprocess:
+class Preprocessor:
     @staticmethod
     def remove_special_chars(text: str) -> str:
         temp = re.sub(r"\[\d+\]", "", text)

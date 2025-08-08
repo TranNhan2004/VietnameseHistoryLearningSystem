@@ -13,7 +13,6 @@ export * from './lib/directives/flatpickr.directive';
 // Guards
 export * from './lib/guards/authenticated.guard';
 export * from './lib/guards/not-authenticated.guard';
-export * from './lib/guards/permission.guard';
 
 // ===================================================================================================
 // Interceptors
@@ -27,8 +26,7 @@ export * from './lib/interceptors/response.interceptor';
 // Services
 export * from './lib/services/be/answer-option.service';
 export * from './lib/services/be/authentication.service';
-export * from './lib/services/be/chat-history.service';
-export * from './lib/services/be/chat-qa.service';
+export * from './lib/services/be/chat-bot.service';
 export * from './lib/services/be/comment.service';
 export * from './lib/services/be/contest.service';
 export * from './lib/services/be/contest-question.service';
@@ -47,7 +45,6 @@ export * from './lib/services/fe/alert.service';
 export * from './lib/services/fe/dummy-text.service';
 export * from './lib/services/fe/my-form-builder.service';
 export * from './lib/services/fe/my-metadata.service';
-export * from './lib/services/fe/permission.service';
 export * from './lib/services/fe/shared.service';
 
 // ===================================================================================================
