@@ -20,7 +20,7 @@ load_dotenv()
 HF_TOKEN = os.getenv("HF_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 GOOGLEAI_API_KEY = os.getenv("GOOGLEAI_API_KEY")
-PRODUCTION = int(os.getenv("PRODUCTION")) | 1
+PRODUCTION = int(os.getenv("PRODUCTION"))
 
 
 class GenerateService:
@@ -145,7 +145,7 @@ class GenerateService:
                     self.ag_top_p,
                     self.ag_repeat_penalty
                 )
-                
+
                 if answer.strip() != '':
                     return self.smoothing_model.smoothing_answer_markdown(answer) if PRODUCTION \
                         else self.smoothing_model.smoothing_answer(answer), contexts_str
