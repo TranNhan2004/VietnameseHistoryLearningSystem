@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ActionButtonComponent,
+  AdminService,
   AlertService,
   MyMetadataService,
   UserService,
@@ -18,12 +19,19 @@ import {
   DisplayedDataAction,
   FullRoleType,
   LearnerResponse,
+  UpdateAdminLevel,
 } from '@frontend/models';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationHelpers } from '@frontend/utils';
 import { NgIcon } from '@ng-icons/core';
-import { fullRoleReader } from '@frontend/constants';
+import {
+  adminMessages,
+  fullRoleReader,
+  userMessages,
+} from '@frontend/constants';
+import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
+import { environment } from '../../environments/environment.dev';
 
 @Component({
   selector: 'app-accounts',
@@ -54,10 +62,12 @@ export class AccountsComponent implements OnInit {
   ];
 
   fullRole: FullRoleType;
+  adminData: UpdateAdminLevel = { adminLevel: 'BASIC' };
 
   constructor(
     private myMetadataService: MyMetadataService,
     private userService: UserService,
+    private adminService: AdminService,
     private toastrService: ToastrService,
     private alertService: AlertService,
     private route: ActivatedRoute,
@@ -78,36 +88,47 @@ export class AccountsComponent implements OnInit {
     this.userService.getAll().subscribe({
       next: async (res) => {
         this.users = [...res];
-        this.originialDisplayedData = this.users.map((item) => {
-          const result: any = {
-            id: item.id,
-            active: item.active,
-            createdAt: item.createdAt,
-            updatedAt: item.updatedAt,
-            firstName: item.firstName,
-            lastName: item.lastName,
-            fullName: item.lastName + ' ' + item.firstName,
-            fullRole: item.fullRole,
-            fullRoleResolved: fullRoleReader[item.fullRole],
-            dateOfBirth: item.dateOfBirth,
-            userName: item.userName,
-            email: item.email,
-            lastLogin: item.lastLogin,
-          };
+        this.originialDisplayedData = this.users
+          .filter((item) => {
+            if (
+              item.fullRole.includes('ADMIN') &&
+              this.fullRole !== 'ADMIN_SUPER_ADVANCED'
+            ) {
+              return false;
+            }
+            return true;
+          })
+          .map((item) => {
+            const result: any = {
+              id: item.id,
+              active: item.active,
+              createdAt: item.createdAt,
+              updatedAt: item.updatedAt,
+              firstName: item.firstName,
+              lastName: item.lastName,
+              fullName: item.lastName + ' ' + item.firstName,
+              fullRole: item.fullRole,
+              fullRoleResolved: fullRoleReader[item.fullRole],
+              dateOfBirth: item.dateOfBirth,
+              userName: item.userName,
+              email: item.email,
+              lastLogin: item.lastLogin,
+            };
 
-          if ('adminLevel' in item) {
-            result['adminLevel'] = item.adminLevel;
-          }
+            if ('adminLevel' in item) {
+              result['adminLevel'] = item.adminLevel;
+            }
 
-          if ('rank' in item) {
-            result['rank'] = item.rank;
-            result['point'] = item.point;
-            result['bestScore'] = item.bestScore;
-            result['worstScore'] = item.worstScore;
-          }
+            if ('rank' in item) {
+              result['rank'] = item.rank;
+              result['point'] = item.point;
+              result['bestScore'] = item.bestScore;
+              result['worstScore'] = item.worstScore;
+            }
 
-          return result;
-        });
+            return result;
+          });
+
         this.displayedData = [...this.originialDisplayedData];
         console.log(this.originialDisplayedData);
       },
@@ -120,13 +141,13 @@ export class AccountsComponent implements OnInit {
         await this.infoData(event.dataId);
         break;
       case ActionButtonName.ChangeAdminLevel:
-        await this.changeAdminLevel(event.dataId);
+        this.changeAdminLevel(event.dataId);
         break;
       case ActionButtonName.Lock:
-        await this.lockData(event.dataId);
+        this.lockData(event.dataId);
         break;
       case ActionButtonName.Unlock:
-        await this.unlockData(event.dataId);
+        this.unlockData(event.dataId);
         break;
     }
   }
@@ -135,30 +156,44 @@ export class AccountsComponent implements OnInit {
     await this.router.navigate([`${id}`], { relativeTo: this.route });
   }
 
-  async changeAdminLevel(id: string) {}
+  changeAdminLevel(id: string) {
+    this.adminService.updateAdminLevel(id, this.adminData).subscribe({
+      next: () => {
+        this.toastrService.success(
+          adminMessages['UPDATE_ADMIN_LEVEL__SUCCESS']
+        );
+      },
+      error: (err: HttpErrorResponse) => {
+        if (!environment.production) {
+          console.log(err);
+        }
+      },
+    });
+  }
 
-  async lockData(id: string) {}
+  lockData(id: string) {
+    this.userService.lock(id).subscribe({
+      next: () => {
+        this.toastrService.success(userMessages['LOCK__SUCCESS']);
+      },
+      error: (err: HttpErrorResponse) => {
+        if (!environment.production) {
+          console.log(err);
+        }
+      },
+    });
+  }
 
-  async unlockData(id: string) {
-    await this.alertService.deleteWarning(() => {
-      // this.userService.delete(id).subscribe({
-      //   next: () => {
-      //     this.users = this.users.filter((item) => item.id !== id);
-      //     this.originialDisplayedData = this.originialDisplayedData.filter(
-      //       (item) => item.id !== id
-      //     );
-      //     this.displayedData = [...this.originialDisplayedData];
-      //     this.toastrService.success(userMessages['DELETE__SUCCESS']);
-      //   },
-      //   error: (err: HttpErrorResponse) => {
-      //     if (!environment.production) {
-      //       console.log(err);
-      //     }
-      //
-      //     const key = err.error.message as keyof typeof userMessages;
-      //     this.toastrService.error(userMessages[key]);
-      //   },
-      // });
+  unlockData(id: string) {
+    this.userService.unlock(id).subscribe({
+      next: () => {
+        this.toastrService.success(userMessages['UNLOCK__SUCCESS']);
+      },
+      error: (err: HttpErrorResponse) => {
+        if (!environment.production) {
+          console.log(err);
+        }
+      },
     });
   }
 
@@ -182,7 +217,7 @@ export class AccountsComponent implements OnInit {
     this.displayedData = [...sorted];
   }
 
-  async goToAddUserPage() {
+  async goToAddAdminPage() {
     await this.router.navigate(['add'], { relativeTo: this.route });
   }
 

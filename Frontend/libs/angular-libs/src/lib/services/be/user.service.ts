@@ -32,6 +32,14 @@ export class UserService {
     );
   }
 
+  lock(id: string) {
+    return this.httpClient.put(`${this.webApiUrl}users/lock/${id}`, {});
+  }
+
+  unlock(id: string) {
+    return this.httpClient.put(`${this.webApiUrl}users/unlock/${id}`, {});
+  }
+
   getAdmin(id: string) {
     return this.httpClient.get<AdminResponse>(`${this.webApiUrl}users/${id}`);
   }

@@ -22,8 +22,9 @@ public class RoleChecker {
         if (authentication == null) {
             return false;
         }
-
+        
         return authentication.getAuthorities().stream()
             .anyMatch(authority -> authority.getAuthority().equals("ROLE_" + fullRole));
     }
+
 }

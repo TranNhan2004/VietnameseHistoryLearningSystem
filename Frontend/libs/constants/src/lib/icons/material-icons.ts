@@ -44,4 +44,5 @@ export const materialIcons = {
   matContentCopyRound: matIcons.matContentCopyRound,
   matExpandMoreRound: matIcons.matExpandMoreRound,
   matAttachFileRound: matIcons.matAttachFileRound,
+  matPersonAddRound: matIcons.matPersonAddRound,
 };

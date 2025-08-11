@@ -1,4 +1,5 @@
 export const userMessages = {
+  USER_NAME__REQUIRED: 'Tên đăng nhập không được để trống',
   EMAIL__REQUIRED: 'Email không được để trống',
   PASSWORD__REQUIRED: 'Mật khẩu không được để trống',
   EMAIL_OR_USER_NAME__REQUIRED: 'Email/Tên đăng nhập được để trống',
@@ -6,17 +7,21 @@ export const userMessages = {
   LAST_NAME__REQUIRED: 'Họ không được bỏ trống',
   OLD_PASSWORD__REQUIRED: 'Mật khẩu cũ không được bỏ trống',
   NEW_PASSWORD__REQUIRED: 'Mật khẩu mới không được bỏ trống',
+  CONFIRM_PASSWORD__REQUIRED: 'Mật khẩu nhập lại không được bỏ trống',
   CONFIRM_NEW_PASSWORD__REQUIRED: 'Mật khẩu nhập lại không được bỏ trống',
+  USER_NAME__ALREADY_EXISTS: 'Tên đăng nhập đã tồn tại',
+  EMAIL__ALREADY_EXISTS: 'Email đã tồn tại',
 
   EMAIL__INVALID: 'Email không hợp lệ',
+  USER_NAME__INVALID: 'Tên đăng nhập không hợp lệ',
   PASSWORD__INVALID:
     'Mật khẩu phải chứa ít nhất 1 chữ thường (a-z), 1 chữ hoa (A-Z), 1 chữ số (0-9) và 1 ký tự đặc biệt',
   OLD_PASSWORD__INVALID:
     'Mật khẩu cũ phải chứa ít nhất 1 chữ thường (a-z), 1 chữ hoa (A-Z), 1 chữ số (0-9) và 1 ký tự đặc biệt',
   NEW_PASSWORD__INVALID:
     'Mật khẩu mới phải chứa ít nhất 1 chữ thường (a-z), 1 chữ hoa (A-Z), 1 chữ số (0-9) và 1 ký tự đặc biệt',
-  CONFIRM_NEW_PASSWORD__INVALID:
-    'Mật khẩu nhập lại phải chứa ít nhất 1 chữ thường (a-z), 1 chữ hoa (A-Z), 1 chữ số (0-9) và 1 ký tự đặc biệt',
+  CONFIRM_NEW_PASSWORD__INVALID: 'Mật khẩu nhập lại phải trùng với mật khẩu',
+  CONFIRM_PASSWORD__INVALID: 'Mật khẩu nhập lại phải trùng với mật khẩu',
   EMAIL_OR_USER_NAME__INVALID: 'Email/Tên đăng nhập không hợp lệ',
 
   FIRST_NAME__TOO_LONG: 'Tên quá dài, tối đa 100 ký tự',
@@ -40,6 +45,10 @@ export const userMessages = {
   AVATAR__DELETE_SUCCESS: 'Xoá avatar thành công',
   PASSWORD__RESET_SUCCESS:
     'Đặt lại mật khẩu thành công. Vui lòng đăng nhập lại.',
+
+  CREATE_NEW_ADMIN__SUCCESS: 'Tạo tài khoản quản trị viên mới thành công',
+  LOCK__SUCCESS: 'Khóa tài khoản thành công',
+  UNLOCK__SUCCESS: 'Mở khóa tài khoản thành công',
 };
 
 export const learnerMessages = {
@@ -53,5 +62,6 @@ export const learnerMessages = {
 };
 
 export const adminMessages = {
+  UPDATE_ADMIN_LEVEL__SUCCESS: 'Cập nhật cấp bậc admin thành công',
   ADMIN__NOT_FOUND: 'Không tìm thấy quản trị viên với ID tương ứng.',
 };

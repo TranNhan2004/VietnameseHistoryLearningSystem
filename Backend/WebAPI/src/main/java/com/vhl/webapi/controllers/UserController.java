@@ -71,4 +71,16 @@ public class UserController {
         baseUserService.resetPassword(resetPasswordReqDTO);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/lock/{id}")
+    public ResponseEntity<?> lock(@PathVariable String id) {
+        baseUserService.lock(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/unlock/{id}")
+    public ResponseEntity<?> unlock(@PathVariable String id) {
+        baseUserService.unlock(id);
+        return ResponseEntity.noContent().build();
+    }
 }

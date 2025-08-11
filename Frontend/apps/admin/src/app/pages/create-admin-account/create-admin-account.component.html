@@ -1,0 +1,181 @@
+<div class="p-4">
+  <h3 class="text-2xl font-bold mb-8 text-my-blue">Tạo tài khoản quản trị viên</h3>
+
+  <form [formGroup]="adminForm" class="space-y-4">
+    <!-- Các trường input trước đó giữ nguyên -->
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Họ</span>
+      <div class="w-[50%]">
+        <input
+          id="lastName"
+          type="text"
+          placeholder="Nhập họ"
+          formControlName="lastName"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
+        @if (adminFH.isInvalid('lastName')) {
+          @if (adminFH.hasError('lastName', 'required')) {
+            <p class="error">{{ userMessages.LAST_NAME__REQUIRED }}</p>
+          } @else if (adminFH.hasError('lastName', 'maxlength')) {
+            <p class="error">{{ userMessages.LAST_NAME__TOO_LONG }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Tên</span>
+      <div class="w-[50%]">
+        <input
+          id="firstName"
+          type="text"
+          placeholder="Nhập tên"
+          formControlName="firstName"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
+        @if (adminFH.isInvalid('firstName')) {
+          @if (adminFH.hasError('firstName', 'required')) {
+            <p class="error">{{ userMessages.FIRST_NAME__REQUIRED }}</p>
+          } @else if (adminFH.hasError('firstName', 'maxlength')) {
+            <p class="error">{{ userMessages.FIRST_NAME__TOO_LONG }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Tên đăng nhập</span>
+      <div class="w-[50%]">
+        <input
+          id="userName"
+          type="text"
+          placeholder="Nhập tên đăng nhập"
+          formControlName="userName"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
+        @if (adminFH.isInvalid('userName')) {
+          @if (adminFH.hasError('userName', 'required')) {
+            <p class="error">{{ userMessages.USER_NAME__REQUIRED }}</p>
+          } @else if (adminFH.hasError('userName', 'maxlength') || adminFH.hasError('userName', 'pattern')) {
+            <p class="error">{{ userMessages.USER_NAME__INVALID }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Email</span>
+      <div class="w-[50%]">
+        <input
+          id="email"
+          type="text"
+          placeholder="Nhập email"
+          formControlName="email"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        />
+        @if (adminFH.isInvalid('email')) {
+          @if (adminFH.hasError('email', 'required')) {
+            <p class="error">{{ userMessages.EMAIL__REQUIRED }}</p>
+          } @else if (adminFH.hasError('email', 'pattern') || adminFH.hasError('email', 'maxlength')) {
+            <p class="error">{{ userMessages.EMAIL__INVALID }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label for="password" class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Nhập mật khẩu</span>
+      <div class="w-[50%]">
+        <div class="border border-gray-300 rounded-lg shadow-sm">
+          <lib-password-input
+            inputId="password"
+            formControlName="password"
+            containerClass="flex-1"
+            inputClass="px-4 py-2 border-none rounded-lg focus:outline-none w-full"
+            visibilityClass="right-3"
+            inputPlaceholder="Nhập mật khẩu"
+          >
+          </lib-password-input>
+        </div>
+        @if (adminFH.isInvalid('password')) {
+          @if (adminFH.hasError('password', 'required')) {
+            <p class="error">{{ userMessages.PASSWORD__REQUIRED }}</p>
+          } @else if (adminFH.hasError('password', 'pattern') ||
+          adminFH.hasError('password', 'minlength') ||
+          adminFH.hasError('password', 'maxlength')) {
+            <p class="error">{{ userMessages.PASSWORD__INVALID }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label for="confirm-password" class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Nhập lại mật khẩu</span>
+      <div class="w-[50%]">
+        <div class="border border-gray-300 rounded-lg shadow-sm">
+          <lib-password-input
+            inputId="confirm-password"
+            formControlName="confirmPassword"
+            containerClass="flex-1"
+            inputClass="px-4 py-2 border-none rounded-lg focus:outline-none w-full"
+            visibilityClass="right-3"
+            inputPlaceholder="Nhập lại mật khẩu"
+          >
+          </lib-password-input>
+        </div>
+        @if (adminFH.isInvalid('confirmPassword')) {
+          @if (adminFH.hasError('confirmPassword', 'required')) {
+            <p class="error">{{ userMessages.CONFIRM_PASSWORD__REQUIRED }}</p>
+          } @else if (invalidConfirmPassword()) {
+            <p class="error">{{ userMessages.CONFIRM_PASSWORD__INVALID }}</p>
+          }
+        }
+      </div>
+    </label>
+
+    <label class="flex items-center space-x-3 text-gray-700 mt-5 pt-2">
+      <span class="w-[15%]">Bậc quản trị</span>
+      <div class="w-[50%] flex space-x-6">
+        <label class="inline-flex items-center space-x-2">
+          <input
+            type="radio"
+            formControlName="adminLevel"
+            value="BASIC"
+            class="form-radio text-my-blue"
+          />
+          <span>Cơ bản</span>
+        </label>
+
+        <label class="inline-flex items-center space-x-2">
+          <input
+            type="radio"
+            formControlName="adminLevel"
+            value="ADVANCED"
+            class="form-radio text-my-blue"
+          />
+          <span>Cấp cao</span>
+        </label>
+      </div>
+    </label>
+  </form>
+
+  <div class="mt-10 p-4 w-full bg-gradient-to-r from-my-lightblue to-my-lightpurple flex items-center rounded-xl">
+    <div class="flex justify-end ml-auto space-x-2">
+      <lib-action-button
+        [name]="ActionButtonName.Save"
+        mainTitle="Lưu"
+        title=""
+        [disabled]="adminForm.invalid"
+        (btnClick)="signupForAdmin()"
+      ></lib-action-button>
+
+      <lib-action-button
+        [name]="ActionButtonName.Cancel"
+        mainTitle="Thoát"
+        title=""
+        (btnClick)="cancel()"
+      ></lib-action-button>
+    </div>
+  </div>
+</div>

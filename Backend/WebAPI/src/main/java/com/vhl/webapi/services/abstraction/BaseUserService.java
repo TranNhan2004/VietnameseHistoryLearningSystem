@@ -28,4 +28,8 @@ public interface BaseUserService {
     void delete(String id);
 
     void resetPassword(ResetPasswordReqDTO resetPasswordReqDTO);
+
+    void lock(String id);
+    
+    void unlock(String id);
 }

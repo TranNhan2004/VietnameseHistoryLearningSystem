@@ -60,20 +60,9 @@ public class AuthenticationController {
         return null;
     }
 
-//    @PostMapping("/signup")
-//    public ResponseEntity<?> signup(@Valid @RequestBody BaseUserReqDTO baseUserReqDTO) {
-//        BaseUserResDTO baseUserResDTO = authenticationService.signup(baseUserReqDTO);
-//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-//            .path("/{id}")
-//            .buildAndExpand(baseUserResDTO.getId())
-//            .toUri();
-//
-//        return ResponseEntity.created(location).body(baseUserResDTO);
-//    }
-
     @PreAuthorize("@roleChecker.hasFullRole('ADMIN_SUPER_ADVANCED')")
     @PostMapping("/signup-admin")
-    public ResponseEntity<?> signup(@Valid @RequestBody AdminReqDTO adminReqDTO) {
+    public ResponseEntity<?> signupAdmin(@Valid @RequestBody AdminReqDTO adminReqDTO) {
         AdminResDTO adminResDTO = authenticationService.signupForAdmin(adminReqDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
@@ -84,7 +73,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup-learner")
-    public ResponseEntity<?> signup(@Valid @RequestBody LearnerReqDTO learnerReqDTO) {
+    public ResponseEntity<?> signupLearner(@Valid @RequestBody LearnerReqDTO learnerReqDTO) {
         LearnerResDTO learnerResDTO = authenticationService.signupForLearner(learnerReqDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")

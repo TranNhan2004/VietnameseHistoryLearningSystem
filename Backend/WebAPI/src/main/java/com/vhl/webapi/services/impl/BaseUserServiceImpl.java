@@ -188,5 +188,22 @@ public class BaseUserServiceImpl implements BaseUserService {
         baseUserRepository.save(baseUser);
     }
 
+    @Override
+    public void lock(String id) {
+        BaseUser baseUser = baseUserRepository.findById(id)
+            .orElseThrow(() -> new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND));
 
+        baseUser.setActive(false);
+        baseUserRepository.save(baseUser);
+    }
+
+    @Override
+    public void unlock(String id) {
+        BaseUser baseUser = baseUserRepository.findById(id)
+            .orElseThrow(() -> new NoInstanceFoundException(BaseUserErrorCode.USER__NOT_FOUND));
+
+        baseUser.setActive(true);
+        baseUserRepository.save(baseUser);
+    }
+    
 }

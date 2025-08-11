@@ -1,0 +1,184 @@
+<div class="max-w-3xl h-auto mx-auto mt-16 bg-white shadow-2xl rounded-2xl overflow-hidden p-8 md:p-12">
+  <h1 class="text-3xl font-bold text-gray-800 text-center -mt-3 mb-6">Đăng ký tài khoản</h1>
+
+  @if (step === 1) {
+    <form [formGroup]="learnerForm" class="space-y-5">
+
+      <!-- Họ + Tên trên cùng một hàng -->
+      <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex-1">
+          <label for="lastName" class="form-label">Họ</label>
+          <input id="lastName" type="text" placeholder="Nhập họ" formControlName="lastName" class="form-input"/>
+          @if (learnerFH.isInvalid('lastName')) {
+            @if (learnerFH.hasError('lastName', 'required')) {
+              <p class="error">{{ userMessages.LAST_NAME__REQUIRED }}</p>
+            } @else if (learnerFH.hasError('lastName', 'maxlength')) {
+              <p class="error">{{ userMessages.LAST_NAME__TOO_LONG }}</p>
+            }
+          }
+        </div>
+        <div class="flex-1">
+          <label for="firstName" class="form-label">Tên</label>
+          <input id="firstName" type="text" placeholder="Nhập tên" formControlName="firstName" class="form-input"/>
+          @if (learnerFH.isInvalid('firstName')) {
+            @if (learnerFH.hasError('firstName', 'required')) {
+              <p class="error">{{ userMessages.FIRST_NAME__REQUIRED }}</p>
+            } @else if (learnerFH.hasError('firstName', 'maxlength')) {
+              <p class="error">{{ userMessages.FIRST_NAME__TOO_LONG }}</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Tên đăng nhập + Email -->
+      <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex-1">
+          <label for="userName" class="form-label">Tên đăng nhập</label>
+          <input id="userName" type="text" placeholder="Nhập tên đăng nhập" formControlName="userName"
+                 class="form-input"/>
+          @if (learnerFH.isInvalid('userName')) {
+            @if (learnerFH.hasError('userName', 'required')) {
+              <p class="error">{{ userMessages.USER_NAME__REQUIRED }}</p>
+            } @else if (learnerFH.hasError('userName', 'maxlength') ||
+            learnerFH.hasError('userName', 'pattern')) {
+              <p class="error">{{ userMessages.USER_NAME__INVALID }}</p>
+            }
+          }
+        </div>
+        <div class="flex-1">
+          <label for="email" class="form-label">Email</label>
+          <input id="email" type="text" placeholder="Nhập email" formControlName="email" class="form-input"/>
+          @if (learnerFH.isInvalid('email')) {
+            @if (learnerFH.hasError('email', 'required')) {
+              <p class="error">{{ userMessages.EMAIL__REQUIRED }}</p>
+            } @else if (learnerFH.hasError('email', 'pattern') ||
+            learnerFH.hasError('email', 'maxlength')) {
+              <p class="error">{{ userMessages.EMAIL__INVALID }}</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Mật khẩu + Nhập lại mật khẩu -->
+      <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex-1">
+          <label for="password" class="form-label">Nhập mật khẩu</label>
+          <div class="border border-gray-300 rounded-lg shadow-sm">
+            <lib-password-input
+              inputId="password"
+              formControlName="password"
+              containerClass="flex-1"
+              inputClass="px-4 py-2 border-none rounded-lg focus:outline-none w-full"
+              visibilityClass="right-3"
+              inputPlaceholder="Nhập mật khẩu">
+            </lib-password-input>
+          </div>
+          @if (learnerFH.isInvalid('password')) {
+            @if (learnerFH.hasError('password', 'required')) {
+              <p class="error">{{ userMessages.PASSWORD__REQUIRED }}</p>
+            } @else if (learnerFH.hasError('password', 'pattern') ||
+            learnerFH.hasError('password', 'minlength') ||
+            learnerFH.hasError('password', 'maxlength')) {
+              <p class="error">{{ userMessages.PASSWORD__INVALID }}</p>
+            }
+          }
+        </div>
+        <div class="flex-1">
+          <label for="confirm-password" class="form-label">Nhập lại mật khẩu</label>
+          <div class="border border-gray-300 rounded-lg shadow-sm">
+            <lib-password-input
+              inputId="confirm-password"
+              formControlName="confirmPassword"
+              containerClass="flex-1"
+              inputClass="px-4 py-2 border-none rounded-lg focus:outline-none w-full"
+              visibilityClass="right-3"
+              inputPlaceholder="Nhập lại mật khẩu">
+            </lib-password-input>
+          </div>
+          @if (learnerFH.isInvalid('confirmPassword')) {
+            @if (learnerFH.hasError('confirmPassword', 'required')) {
+              <p class="error">{{ userMessages.CONFIRM_PASSWORD__REQUIRED }}</p>
+            } @else if (learnerForm.get('confirmPassword')?.value !== learnerForm.get('password')?.value) {
+              <p class="error">{{ userMessages.CONFIRM_PASSWORD__INVALID }}</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Ngày sinh -->
+      <div>
+        <label for="dateOfBirth" class="form-label">Ngày sinh</label>
+        <input id="dateOfBirth" type="date" formControlName="dateOfBirth" class="form-input"/>
+      </div>
+
+      <!-- Links -->
+      <div class="flex justify-between text-sm">
+        <a routerLink="/auth/login" class="link">Về trang đăng nhập</a>
+        <a routerLink="/home" class="link">Về trang chủ</a>
+      </div>
+
+      <button [disabled]="learnerForm.invalid || isSending" (click)="signupAndSendOTP()" class="btn-primary">
+        Tiếp tục
+      </button>
+    </form>
+
+  } @else if (step === 2) {
+    <form [formGroup]="verificationForm" class="space-y-6">
+      <div>
+        <label for="otp" class="block text-sm font-medium text-gray-700">
+          OTP
+        </label>
+        <div class="mt-1 flex items-center border border-gray-300 rounded-lg shadow-sm">
+          <input
+            id="otp"
+            type="text"
+            placeholder="Nhập OTP"
+            formControlName="otp"
+            class="flex-1 px-4 py-2 border-none rounded-lg focus:outline-none"
+          />
+        </div>
+        @if (verificationFH.isInvalid('otp')) {
+          @if (verificationFH.hasError('otp', 'required')) {
+            <p class="error">{{ verificationMessages.OTP__REQUIRED }}</p>
+          }
+        }
+      </div>
+
+      <div class="flex items-start text-sm">
+        @if (resendOTPCountdown > 0) {
+          <p class="italic text-gray-500">Không nhận được mã OTP? Gửi lại sau {{ resendOTPCountdown }} giây</p>
+        } @else {
+          <p class="italic text-gray-500">
+            Không nhận được mã OTP?
+            <button
+              [disabled]="isSending"
+              (click)="sendOTP()"
+              class="italic text-blue-600 hover:underline bg-transparent border-none p-0 m-0 cursor-pointer"
+            >
+              <ng-container *ngIf="!isSending; else sendingTpl">Gửi lại OTP</ng-container>
+              <ng-template #sendingTpl>
+                Đang gửi lại OTP
+                <span class="inline-flex gap-1 ml-1">
+                    <span class="animate-bounce-dots">.</span>
+                    <span class="animate-bounce-dots [animation-delay:.2s]">.</span>
+                    <span class="animate-bounce-dots [animation-delay:.4s]">.</span>
+                  </span>
+              </ng-template>
+            </button>
+          </p>
+        }
+      </div>
+
+      <button
+        [disabled]="verificationForm.invalid"
+        (click)="verifyAccount()"
+        class="w-full py-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold
+          hover:from-blue-600 hover:to-purple-700 transition duration-300 ease-in-out flex items-center
+          justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+      >
+        Xác nhận OTP
+      </button>
+    </form>
+  }
+</div>
+

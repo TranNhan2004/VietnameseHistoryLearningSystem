@@ -1,5 +1,6 @@
 package com.vhl.webapi.dtos.requests;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.vhl.webapi.constants.errorcodes.BaseUserErrorCode;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
     @JsonSubTypes.Type(value = AdminReqDTO.class, name = "ADMIN"),
     @JsonSubTypes.Type(value = LearnerReqDTO.class, name = "LEARNER")
 })
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseUserReqDTO {
     @NotBlank(message = BaseUserErrorCode.USER_NAME__REQUIRED)
     @Size(max = 64, message = BaseUserErrorCode.USER_NAME__TOO_LONG)

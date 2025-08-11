@@ -1,1 +1,60 @@
-<p>lesson-details works!</p>
+<div class="h-screen flex flex-col">
+  <!-- Thanh progress sticky -->
+  <div
+    class="sticky top-0 z-50 bg-white pt-4 pb-2 px-4 shadow-sm"
+    aria-label="Progress bar"
+  >
+    <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div
+        class="h-full bg-blue-600 transition-all duration-300"
+        [style.width.%]="progressPercent"
+      ></div>
+    </div>
+  </div>
+
+  <!-- Container scroll -->
+  <div
+    #container
+    (scroll)="onScroll()"
+    class="flex-1 overflow-y-auto scroll-smooth py-5 px-4"
+  >
+    <h2 class="text-center text-3xl font-bold mb-2">{{ title }}</h2>
+    <div class="flex items-center justify-center">
+      <video
+        [src]="videoUrl"
+        controls
+        class="mt-4 mb-8 w-[80%] h-auto rounded-lg shadow"
+      ></video>
+    </div>
+    <div
+      *ngFor="let item of lessonContents; let i = index"
+      class="mb-6"
+    >
+      <ng-container [ngSwitch]="item.type">
+        <div *ngSwitchCase="'paragraph'">
+          <p class="text-lg leading-relaxed break-words text-justify">
+            {{ asParagraphResponse(item.data).content }}
+          </p>
+        </div>
+
+        <div *ngSwitchCase="'image'">
+          <div class="flex items-center justify-center">
+            <img
+              [ngSrc]="asImageResponse(item.data).imageUrl"
+              [alt]="asImageResponse(item.data).title || 'Image'"
+              class="w-[60%] h-auto rounded shadow-md"
+              width="200"
+              height="500"
+            />
+          </div>
+
+          <div class="flex items-center justify-center mt-2">
+            <h6 class="italic text-xl">{{ asImageResponse(item.data).title }}</h6>
+          </div>
+        </div>
+
+
+      </ng-container>
+    </div>
+  </div>
+</div>

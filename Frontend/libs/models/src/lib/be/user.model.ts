@@ -1,12 +1,15 @@
 import { CreateTime, Id, UpdateTime } from './abstracts.model';
-import { FullRoleType } from './authentication.model';
+import { FullRoleType, RoleType } from './authentication.model';
 
 export interface BaseUser {
   userName: string;
   email: string;
+  password: string;
+  confirmPassword: string;
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string | null;
+  role: RoleType;
 }
 
 export interface Admin extends BaseUser {
@@ -63,4 +66,8 @@ export interface ResetPassword {
   email: string;
   newPassword: string;
   confirmNewPassword: string;
+}
+
+export interface UpdateAdminLevel {
+  adminLevel: Admin['adminLevel'];
 }

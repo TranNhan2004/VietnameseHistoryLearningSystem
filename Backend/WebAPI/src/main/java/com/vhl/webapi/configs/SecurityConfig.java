@@ -35,12 +35,14 @@ public class SecurityConfig {
                     "/api/auth/signup-learner",
                     "/api/auth/login",
                     "/api/auth/token/refresh",
-                    "/api/verify/**",
-                    "/api/users/reset-password"
+                    "/api/users/reset-password",
+                    "/api/verify/**"
                 )
                 .permitAll()
                 .anyRequest().authenticated()
             )
+            .formLogin(form -> form.disable())
+            .httpBasic(httpBasic -> httpBasic.disable())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .exceptionHandling(exception ->
                 exception

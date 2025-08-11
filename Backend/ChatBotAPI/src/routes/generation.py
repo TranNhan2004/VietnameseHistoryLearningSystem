@@ -14,10 +14,11 @@ load_dotenv()
 router = APIRouter()
 generate_service = GenerateService()
 
+REDIS_HOST = os.getenv("REDIS_HOST")
 REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 REDIS_AI_KEY = os.getenv("REDIS_AI_KEY")
 redis_client = Redis(
-    host="localhost",
+    host=REDIS_HOST,
     port=6379,
     db=0,
     password=REDIS_PASSWORD,

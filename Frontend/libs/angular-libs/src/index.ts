@@ -24,6 +24,7 @@ export * from './lib/interceptors/response.interceptor';
 
 // ===================================================================================================
 // Services
+export * from './lib/services/be/admin.service';
 export * from './lib/services/be/answer-option.service';
 export * from './lib/services/be/authentication.service';
 export * from './lib/services/be/chat-bot.service';

@@ -63,16 +63,30 @@
       <div class="mt-16 text-center">
         <button
           class="bg-gradient-to-r from-my-blue to-my-purple text-white
-                  font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:scale-105
-                  transition-all duration-300 flex items-center justify-center mx-auto mb-4"
+              font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:scale-105
+              transition-all duration-300 flex items-center justify-center mx-auto mb-4"
           (click)="goTo('/auth/login')"
         >
           <ng-icon name="matLoginRound" class="mr-2" size="24"></ng-icon>
           <span class="text-xl">Đăng nhập</span>
         </button>
-        <p class="text-lg">Đăng nhập để bắt đầu hành trình khám phá lịch sử Việt Nam</p>
+        <p class="text-xl">Đăng nhập để bắt đầu hành trình khám phá lịch sử Việt Nam</p>
+
+        <div class="mt-6">
+          <p class="text-lg text-gray-700 mb-3">Chưa có tài khoản?</p>
+          <button
+            class="bg-gradient-to-r from-my-purple to-my-blue text-white
+                font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:scale-105
+                transition-all duration-300 flex items-center justify-center mx-auto"
+            (click)="goTo('/auth/signup')"
+          >
+            <ng-icon name="matPersonAddRound" class="mr-2" size="24"></ng-icon>
+            <span class="text-lg">Đăng ký ngay</span>
+          </button>
+        </div>
       </div>
     }
+
 
     <div class="mt-16 max-w-4xl mx-auto bg-gray-50 border border-gray-200 shadow-md rounded-xl p-8">
       <h3 class="text-3xl font-bold text-my-blue mb-6 text-center">Vì Sao Nên Học Với Chúng Tôi?</h3>
