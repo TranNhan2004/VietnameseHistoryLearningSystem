@@ -15,7 +15,9 @@ export interface AnswerOption {
   correct: boolean;
 }
 
-export interface AnswerOptionResponse extends Id, AnswerOption {}
+export interface AnswerOptionResponse extends Id, AnswerOption {
+  questionId: string;
+}
 
 export interface UpdateAnswerOption extends AnswerOption {
   id: string | null;
@@ -23,4 +25,9 @@ export interface UpdateAnswerOption extends AnswerOption {
 
 export interface UpdateQuestion extends Omit<Question, 'answerOptions'> {
   answerOptions: UpdateAnswerOption[];
+}
+
+export interface UpdateQuestionForLesson {
+  lessonId: string;
+  questionIds: string[];
 }

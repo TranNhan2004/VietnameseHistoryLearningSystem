@@ -29,46 +29,62 @@
         (sortData)="sortData($event)"
       >
       </app-sort>
-      <lib-action-button
-        [name]="ActionButtonName.Add"
-        mainTitle="Thêm mới"
-        title=""
-        (btnClick)="goToAddLessonPage()"
-      ></lib-action-button>
     </div>
   </div>
 
-  <div class="mt-5">
-    <app-table
-      [displayedData]="displayedData"
-      [actionButtonConfigs]="[
-        { name: ActionButtonName.Info },
-        { name: ActionButtonName.Edit },
-        { name: ActionButtonName.Delete }
-      ]"
-      (actionClick)="actionClick($event)"
-    >
-      <ng-template #itemTemplate let-item>
-        <div class="text-justify space-y-2">
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[18%]">Tiêu đề:</p>
-            <p class="text-gray-800 w-[80%]">{{ item.title }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[18%]">Mô tả:</p>
-            <p class="text-gray-800 w-[80%]">{{ item.description }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[18%]">Ngày tạo:</p>
-            <p class="text-gray-800 w-[80%]">{{ item.createdAt | date: 'dd/MM/yyyy' }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[18%]">Ngày cập nhật:</p>
-            <p class="text-gray-800 w-[80%]">{{ item.updatedAt | date: 'dd/MM/yyyy' }}</p>
+  <div class="mt-5 grid grid-cols-2 gap-4">
+    @for (item of displayedData; track item.id) {
+      <app-card width="full" height="275px">
+        <div card-body>
+          <h6 class="text-lg font-bold mb-2">{{ item['title'] }}</h6>
+          <div class="text-justify space-y-2">
+            <div>
+              <p class="text-my-darknavy font-bold ">Mô tả:</p>
+              <p class="text-gray-800">{{ item['description'] }}</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Số lượt xem:</p>
+              <p class="text-gray-800">{{ item['views'] }}</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Trạng thái:</p>
+              <div class="text-gray-800">
+                @if (isStudied(item)) {
+                  <div class="flex items-center">
+                    <ng-icon name="matCheckCircleRound" size="24" color="green"></ng-icon>
+                    <p class="ml-2 text-my-green">Đã học</p>
+                  </div>
+                } @else {
+                  <div class="flex items-center">
+                    <ng-icon name="matPendingRound" size="24" color="gray"></ng-icon>
+                    <p class="ml-2 text-gray-500">Chưa học</p>
+                  </div>
+                }
+              </div>
+            </div>
           </div>
         </div>
-      </ng-template>
-
-    </app-table>
+        <div card-footer>
+          <div class="space-x-4">
+            @if (!favoritedLessonIds.includes(item.id)) {
+              <lib-action-button
+                [name]="ActionButtonName.Favorite"
+                mainTitle="Thích"
+                title=""
+                (btnClick)="saveFavorite(item.id)"
+              >
+              </lib-action-button>
+            }
+            <lib-action-button
+              [name]="ActionButtonName.LinkTo"
+              mainTitle="Học"
+              title=""
+              (btnClick)="goToDetailsPage(item.id)"
+            >
+            </lib-action-button>
+          </div>
+        </div>
+      </app-card>
+    }
   </div>
 </div>

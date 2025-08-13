@@ -22,25 +22,6 @@
     </label>
 
     <label class="flex items-center space-x-3 text-gray-700">
-      <span class="w-[15%]">Số lượng câu hỏi:</span>
-      <div class="w-[50%]">
-        <input
-          type="number"
-          formControlName="questionNumber"
-          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
-        />
-
-        @if (formHelper.isInvalid('questionNumber')) {
-          @if (formHelper.hasError('questionNumber', 'required')) {
-            <p class="error">{{ contestMessages.QUESTION_NUMBER__REQUIRED }}</p>
-          } @else if (formHelper.hasError('questionNumber', 'min')) {
-            <p class="error">{{ contestMessages.QUESTION_NUMBER__INVALID }}</p>
-          }
-        }
-      </div>
-    </label>
-
-    <label class="flex items-center space-x-3 text-gray-700">
       <span class="w-[15%]">Thời gian làm bài (phút):</span>
       <div class="w-[50%]">
         <input
@@ -91,6 +72,24 @@
           }
         } @else if (isInvalidTime()) {
           <p class="error">{{ contestMessages.END_TIME__INVALID }}</p>
+        }
+      </div>
+    </label>
+
+    <label class="flex items-center space-x-3 text-gray-700">
+      <span class="w-[15%]">Mô tả:</span>
+      <div class="w-[50%]">
+        <textarea
+          type="text"
+          rows="3"
+          formControlName="description"
+          class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+        ></textarea>
+
+        @if (formHelper.isInvalid('description')) {
+          @if (formHelper.hasError('description', 'maxlength')) {
+            <p class="error">{{ contestMessages.DESCRIPTION__TOO_LONG }}</p>
+          }
         }
       </div>
     </label>

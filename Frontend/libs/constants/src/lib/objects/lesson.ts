@@ -19,8 +19,10 @@ export const initialLessonResponse: LessonResponse = {
   adminId: '',
   historicalPeriodId: '',
   videoUrl: '',
+  views: 0,
   paragraphs: [],
   images: [],
+  questions: [],
   createdAt: new Date(),
   updatedAt: new Date(),
 };

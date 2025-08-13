@@ -1,0 +1,109 @@
+<div class="rounded-lg shadow-md">
+  <!-- Header thông tin tổng số -->
+  <div class="flex justify-between items-center mb-3">
+    <div class="text-sm text-gray-600">
+      Hiển thị {{ fromItem }} - {{ toItem }} trên {{ totalItems }} mục
+    </div>
+    <!-- Phân trang -->
+    <div class="flex items-center space-x-2">
+      <!-- First -->
+      <button
+        (click)="goToPage(1)"
+        [disabled]="currentPage === 1"
+        class="px-3 py-1 text-sm rounded border bg-white hover:bg-gray-100 disabled:opacity-50"
+      >
+        Đầu
+      </button>
+
+      <!-- Prev -->
+      <button
+        (click)="onPrev()"
+        [disabled]="currentPage === 1"
+        class="px-3 py-1 text-sm rounded border bg-white hover:bg-gray-100 disabled:opacity-50"
+      >
+        Trước
+      </button>
+
+      <!-- Page numbers -->
+      @for (page of pagesToShow; track $index) {
+        <button
+          (click)="goToPage(page)"
+          class="px-3 py-1 text-sm rounded border bg-white hover:bg-gray-100"
+          [ngClass]="{
+            'underline text-my-blue font-semibold': page === currentPage,
+            'text-gray-700': page !== currentPage
+          }"
+        >
+          {{ page }}
+        </button>
+      }
+
+      <!-- Next -->
+      <button
+        (click)="onNext()"
+        [disabled]="currentPage === totalPages"
+        class="px-3 py-1 text-sm rounded border bg-white hover:bg-gray-100 disabled:opacity-50"
+      >
+        Sau
+      </button>
+
+      <!-- Last -->
+      <button
+        (click)="goToPage(totalPages)"
+        [disabled]="currentPage === totalPages"
+        class="px-3 py-1 text-sm rounded border bg-white hover:bg-gray-100 disabled:opacity-50"
+      >
+        Cuối
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <table class="min-w-full divide-y divide-gray-200 bg-white">
+    <thead class="bg-gradient-to-r from-my-lightblue to-my-lightpurple">
+    <tr>
+      <th class="px-4 py-3 text-left text-lg font-bold text-gray-700 w-[10%]">Chọn</th>
+      <th class="px-4 py-3 text-left text-lg font-bold text-gray-700 w-[90%]">Nội dung câu hỏi</th>
+    </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      @if (pagedData.length > 0) {
+        @for (item of pagedData; track item.id) {
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 text-sm text-gray-800">
+              <input type="checkbox" (click)="choose.emit(item.id)">
+            </td>
+            <td class="px-4 py-3 text-gray-800">
+              <div class="flex flex-col text-justify text-gray-800 space-y-2">
+                <p class="font-medium">{{ cast(item).content }}</p>
+
+                @for (answerOption of cast(item).answerOptions; track answerOption.id; let i = $index) {
+                  <div
+                    class="flex items-start p-2 rounded-md"
+                    [ngClass]="answerOption.correct ? 'bg-green-100 text-green-700' : ''"
+                  >
+                    <p class="w-[5%]">{{ String.fromCharCode(i + 'A'.charCodeAt(0)) }}.</p>
+                    <p class="w-full flex items-center">
+                      <span>{{ answerOption.content }}</span>
+                      <ng-icon
+                        *ngIf="answerOption.correct"
+                        size="24"
+                        name="matDoneRound"
+                        color="green"
+                        class="ml-auto"
+                      ></ng-icon>
+                    </p>
+                  </div>
+                }
+              </div>
+            </td>
+          </tr>
+        }
+      } @else {
+        <tr class="hover:bg-gray-50">
+          <td colspan="3" height="50" class="italic text-center">Không có dữ liệu</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

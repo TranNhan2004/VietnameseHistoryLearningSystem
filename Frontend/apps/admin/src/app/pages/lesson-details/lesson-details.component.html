@@ -52,9 +52,15 @@
             <h6 class="italic text-xl">{{ asImageResponse(item.data).title }}</h6>
           </div>
         </div>
-
-
       </ng-container>
+    </div>
+    <div class="mt-2">
+      <h3 class="mb-2 text-2xl">Các câu hỏi ôn tập:</h3>
+
+      <app-answer-questions
+        [questionResponses]="lessonResponse.questions"
+      >
+      </app-answer-questions>
     </div>
   </div>
 </div>

@@ -1,10 +1,12 @@
 package com.vhl.webapi.controllers;
 
 import com.vhl.webapi.dtos.requests.ContestQuestionReqDTO;
+import com.vhl.webapi.dtos.requests.CreateContestQuestionsReqDTO;
 import com.vhl.webapi.dtos.responses.ContestQuestionResDTO;
 import com.vhl.webapi.services.abstraction.ContestQuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +45,13 @@ public class ContestQuestionController {
             .toUri();
 
         return ResponseEntity.created(location).body(contestQuestionResDTO);
+    }
+
+    @PreAuthorize("@roleChecker.hasRolePrefix('ADMIN')")
+    @PostMapping("/batch")
+    public ResponseEntity<?> createContestQuestion(@Valid @RequestBody CreateContestQuestionsReqDTO createContestQuestionsReqDTO) {
+        List<ContestQuestionResDTO> contestQuestionResDTOS = contestQuestionService.createContestQuestions(createContestQuestionsReqDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(contestQuestionResDTOS);
     }
 
 

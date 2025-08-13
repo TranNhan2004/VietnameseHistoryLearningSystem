@@ -62,6 +62,6 @@ export const learnerMessages = {
 };
 
 export const adminMessages = {
-  UPDATE_ADMIN_LEVEL__SUCCESS: 'Cập nhật cấp bậc admin thành công',
+  UPDATE_ADMIN_LEVEL__SUCCESS: 'Cập nhật cấp bậc quản trị viên thành công',
   ADMIN__NOT_FOUND: 'Không tìm thấy quản trị viên với ID tương ứng.',
 };

@@ -6,21 +6,31 @@ import {
   AlertService,
   LessonService,
   MyFormBuilderService,
+  QuestionService,
 } from '@frontend/angular-libs';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  IdsRequest,
   ImageResponse,
   Lesson,
   LessonResponse,
   ParagraphResponse,
+  UpdateAnswerOption,
+  UpdateQuestion,
 } from '@frontend/models';
-import { initialLessonResponse, lessonMessages } from '@frontend/constants';
+import {
+  initialContestResponse,
+  initialLessonResponse,
+  lessonMessages,
+  questionMessages,
+} from '@frontend/constants';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { environment } from '../../environments/environment.dev';
 import { LessonFormComponent } from '../../components/lesson-form/lesson-form.component';
 import { ParagraphsComponent } from '../../components/paragraphs/paragraphs.component';
 import { ImagesComponent } from '../../components/images/images.component';
+import { QuestionsListComponent } from '../../components/questions-list/questions-list.component';
 
 @Component({
   selector: 'app-update-lesson',
@@ -29,6 +39,7 @@ import { ImagesComponent } from '../../components/images/images.component';
     LessonFormComponent,
     ParagraphsComponent,
     ImagesComponent,
+    QuestionsListComponent,
   ],
   templateUrl: './update-lesson.component.html',
   styleUrl: './update-lesson.component.css',
@@ -39,10 +50,13 @@ export class UpdateLessonComponent implements OnInit {
   lessonResponse: LessonResponse = initialLessonResponse;
   videoFile: File | null = null;
   videoUrl: string | null = null;
+  displayedQuestionIds: IdsRequest = { ids: [] };
+  selectedQuestionIds: IdsRequest = { ids: [] };
 
   constructor(
     private myFB: MyFormBuilderService,
     private lessonService: LessonService,
+    private questionService: QuestionService,
     private toastrService: ToastrService,
     private alertService: AlertService,
     private route: ActivatedRoute,
@@ -73,6 +87,9 @@ export class UpdateLessonComponent implements OnInit {
           description: this.lessonResponse.description,
         });
         this.videoUrl = res.videoUrl;
+        this.displayedQuestionIds = {
+          ids: this.lessonResponse.questions.map((item) => item.id),
+        };
       },
       error: async (err: HttpErrorResponse) => {
         if (!environment.production) {
@@ -135,9 +152,6 @@ export class UpdateLessonComponent implements OnInit {
   deleteVideo() {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
 
-    console.log(this.videoFile);
-    console.log(this.videoUrl);
-
     if (this.videoFile) {
       this.videoFile = null;
       this.videoUrl = null;
@@ -183,4 +197,78 @@ export class UpdateLessonComponent implements OnInit {
       );
     });
   }
+
+  selectedQuestionIdsChange(questionId: string) {
+    this.selectedQuestionIds.ids.push(questionId);
+  }
+
+  saveSelectedQuestions() {
+    this.questionService
+      .updateForLesson({
+        lessonId: this.lessonResponse.id,
+        questionIds: this.selectedQuestionIds.ids,
+      })
+      .subscribe({
+        next: () => {
+          this.toastrService.success(
+            questionMessages['UPDATE_FOR_LESSON__SUCCESS']
+          );
+          this.displayedQuestionIds = {
+            ids: [
+              ...this.displayedQuestionIds.ids,
+              ...this.selectedQuestionIds.ids,
+            ],
+          };
+        },
+        error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+        },
+      });
+  }
+
+  async deleteQuestion(questionId: string) {
+    await this.alertService.deleteWarning(() => {
+      const temp = this.lessonResponse.questions.find(
+        (item) => item.id === questionId
+      );
+      if (!temp) {
+        return;
+      }
+
+      const data: UpdateQuestion = {
+        content: temp.content,
+        answerOptions: temp.answerOptions.map(
+          (item) =>
+            ({
+              id: item.id,
+              content: item.content,
+              correct: item.correct,
+            } as UpdateAnswerOption)
+        ),
+        lessonId: null,
+      };
+
+      this.questionService.update(temp.id, data).subscribe({
+        next: () => {
+          this.toastrService.success(
+            questionMessages['DELETE_FOR_LESSON__SUCCESS']
+          );
+          this.displayedQuestionIds = {
+            ids: this.displayedQuestionIds.ids.filter(
+              (item) => item !== questionId
+            ),
+          };
+        },
+        error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+        },
+      });
+    });
+  }
+
+  protected readonly contestResponse = initialContestResponse;
 }

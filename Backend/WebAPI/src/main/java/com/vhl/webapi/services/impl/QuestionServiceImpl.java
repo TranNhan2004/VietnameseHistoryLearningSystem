@@ -3,8 +3,10 @@ package com.vhl.webapi.services.impl;
 import com.vhl.webapi.constants.errorcodes.AnswerOptionErrorCode;
 import com.vhl.webapi.constants.errorcodes.LessonErrorCode;
 import com.vhl.webapi.constants.errorcodes.QuestionErrorCode;
+import com.vhl.webapi.dtos.requests.IdsReqDTO;
 import com.vhl.webapi.dtos.requests.QuestionReqDTO;
 import com.vhl.webapi.dtos.requests.UpdateQuestionReqDTO;
+import com.vhl.webapi.dtos.requests.UpdateQuestionsForLessonReqDTO;
 import com.vhl.webapi.dtos.responses.QuestionResDTO;
 import com.vhl.webapi.entities.specific.AnswerOption;
 import com.vhl.webapi.entities.specific.Lesson;
@@ -68,6 +70,35 @@ public class QuestionServiceImpl implements QuestionService {
             .toList();
     }
 
+    @Override
+    public List<QuestionResDTO> getQuestionsByIds(IdsReqDTO idsReqDTO) {
+        List<Question> questions = questionRepository.findByIdIn(idsReqDTO.getIds());
+        return questions.stream()
+            .map(questionMapper::toQuestionResDTO)
+            .toList();
+    }
+
+    @Override
+    @Transactional
+    public void updateQuestionForLesson(UpdateQuestionsForLessonReqDTO updateQuestionsForLessonReqDTO) {
+        Lesson lesson = lessonRepository.findById(updateQuestionsForLessonReqDTO.getLessonId())
+            .orElseThrow(() -> new NoInstanceFoundException(LessonErrorCode.LESSON__NOT_FOUND));
+
+        List<Question> questions = questionRepository.findByIdIn(updateQuestionsForLessonReqDTO.getQuestionIds());
+        if (questions.size() != updateQuestionsForLessonReqDTO.getQuestionIds().size()) {
+            throw new NoInstanceFoundException(QuestionErrorCode.QUESTION__NOT_FOUND);
+        }
+
+        List<Question> newQuestions = questions.stream()
+            .map(q -> {
+                q.setLesson(lesson);
+                return q;
+            })
+            .toList();
+
+        questionRepository.saveAll(newQuestions);
+    }
+
 
     @Override
     public QuestionResDTO getQuestionById(String id) {
@@ -88,6 +119,8 @@ public class QuestionServiceImpl implements QuestionService {
             Lesson lesson = lessonRepository.findById(updateQuestionReqDTO.getLessonId())
                 .orElseThrow(() -> new NoInstanceFoundException(LessonErrorCode.LESSON__NOT_FOUND));
             question.setLesson(lesson);
+        } else {
+            question.setLesson(null);
         }
 
         List<AnswerOption> updatedAnswerOptions = updateQuestionReqDTO.getAnswerOptions().stream()

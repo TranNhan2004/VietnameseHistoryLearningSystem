@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import {
   ActionButtonComponent,
   AlertService,
+  FavoriteLessonService,
+  LearnerLessonAnswerService,
   LessonService,
   MyMetadataService,
   SharedService,
@@ -11,28 +13,27 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActionButtonName,
   DisplayedData,
-  DisplayedDataAction,
   LessonResponse,
 } from '@frontend/models';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { SearchComponent } from '../../components/search/search.component';
 import { SortComponent } from '../../components/sort/sort.component';
-import { TableComponent } from '../../components/table/table.component';
 import { ToastrService } from 'ngx-toastr';
 import { NgIcon } from '@ng-icons/core';
-import { lessonMessages } from '@frontend/constants';
 import { environment } from '../../environments/environment.dev';
-import { toHistoricalYear } from '@frontend/utils';
+import { AuthenticationHelpers, toHistoricalYear } from '@frontend/utils';
+import { CardComponent } from '../../components/card/card.component';
+import { favoriteLessonMessages } from '@frontend/constants';
 
 @Component({
   selector: 'app-lessons',
   imports: [
     CommonModule,
-    ActionButtonComponent,
     SearchComponent,
     SortComponent,
-    TableComponent,
     NgIcon,
+    CardComponent,
+    ActionButtonComponent,
   ],
   templateUrl: './lessons.component.html',
   styleUrl: './lessons.component.css',
@@ -41,16 +42,23 @@ export class LessonsComponent implements OnInit {
   lessons: LessonResponse[] = [];
   originialDisplayedData: DisplayedData[] = [];
   displayedData: DisplayedData[] = [];
+  favoritedLessonIds: string[] = [];
+  studiedLessonIds: string[] = [];
+  learnerId = '';
 
   constructor(
     private myMetadataService: MyMetadataService,
     private lessonService: LessonService,
+    private favoriteLessonService: FavoriteLessonService,
+    private learnerLessonAnswerService: LearnerLessonAnswerService,
     private toastrService: ToastrService,
     private alertService: AlertService,
     private sharedService: SharedService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    this.learnerId = AuthenticationHelpers.getUserInfo('LEARNER')?.id ?? '';
+  }
 
   async ngOnInit() {
     this.myMetadataService.set({
@@ -72,65 +80,48 @@ export class LessonsComponent implements OnInit {
         next: async (res) => {
           this.lessons = [...res];
           this.originialDisplayedData = this.lessons.map((item) => ({
-            id: item.id,
-            title: item.title,
-            description: item.description,
-            createdAt: item.createdAt,
-            updatedAt: item.updatedAt,
+            ...item,
           }));
           this.displayedData = [...this.originialDisplayedData];
-        },
-      });
-  }
-
-  get historicalPeriodHeader() {
-    const id = this.route.parent?.snapshot.paramMap.get('id') ?? '';
-    return this.sharedService.get(id);
-  }
-
-  async actionClick(event: DisplayedDataAction) {
-    switch (event.action) {
-      case ActionButtonName.Info:
-        await this.infoData(event.dataId);
-        break;
-      case ActionButtonName.Edit:
-        await this.updateData(event.dataId);
-        break;
-      case ActionButtonName.Delete:
-        await this.deleteData(event.dataId);
-        break;
-    }
-  }
-
-  async infoData(id: string) {
-    await this.router.navigate([`${id}`], { relativeTo: this.route });
-  }
-
-  async updateData(id: string) {
-    await this.router.navigate([`${id}/edit`], { relativeTo: this.route });
-  }
-
-  async deleteData(id: string) {
-    await this.alertService.deleteWarning(() => {
-      this.lessonService.delete(id).subscribe({
-        next: () => {
-          this.lessons = this.lessons.filter((item) => item.id !== id);
-          this.originialDisplayedData = this.originialDisplayedData.filter(
-            (item) => item.id !== id
-          );
-          this.displayedData = [...this.originialDisplayedData];
-          this.toastrService.success(lessonMessages['DELETE__SUCCESS']);
         },
         error: (err: HttpErrorResponse) => {
           if (!environment.production) {
             console.log(err);
           }
-
-          const key = err.error.message as keyof typeof lessonMessages;
-          this.toastrService.error(lessonMessages[key]);
         },
       });
+
+    this.favoriteLessonService.getAllByLearner(this.learnerId).subscribe({
+      next: (res) => {
+        this.favoritedLessonIds = res.map((item) => item.lessonId);
+      },
+      error: (err: HttpErrorResponse) => {
+        if (!environment.production) {
+          console.log(err);
+        }
+      },
     });
+
+    this.learnerLessonAnswerService.getByLearner(this.learnerId).subscribe({
+      next: (res) => {
+        const lessonIds = res.map((item) => item.lessonId);
+        this.studiedLessonIds = Array.from(new Set<string>(lessonIds));
+      },
+      error: (err: HttpErrorResponse) => {
+        if (!environment.production) {
+          console.log(err);
+        }
+      },
+    });
+  }
+
+  isStudied(item: DisplayedData) {
+    return this.studiedLessonIds.includes(item.id);
+  }
+
+  get historicalPeriodHeader() {
+    const id = this.route.parent?.snapshot.paramMap.get('id') ?? '';
+    return this.sharedService.get(id);
   }
 
   filterData(filtered: DisplayedData[]) {
@@ -141,8 +132,31 @@ export class LessonsComponent implements OnInit {
     this.displayedData = [...sorted];
   }
 
-  async goToAddLessonPage() {
-    await this.router.navigate(['add'], { relativeTo: this.route });
+  goToDetailsPage(id: string) {
+    this.lessonService.updateViews(id).subscribe({
+      next: async () => {
+        await this.router.navigate([id], { relativeTo: this.route });
+      },
+    });
+  }
+
+  saveFavorite(id: string) {
+    this.favoriteLessonService
+      .create({
+        lessonId: id,
+        learnerId: this.learnerId,
+      })
+      .subscribe({
+        next: (res) => {
+          this.favoritedLessonIds.push(res.lessonId);
+          this.toastrService.success(favoriteLessonMessages['CREATE__SUCCESS']);
+        },
+        error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+        },
+      });
   }
 
   protected readonly ActionButtonName = ActionButtonName;

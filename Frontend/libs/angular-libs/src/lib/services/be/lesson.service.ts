@@ -1,7 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WEB_API_URL } from '../../tokens/tokens';
-import { Lesson, LessonResponse, LessonVideoResponse } from '@frontend/models';
+import {
+  IdsRequest,
+  Lesson,
+  LessonResponse,
+  LessonVideoResponse,
+} from '@frontend/models';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +16,13 @@ export class LessonService {
     private httpClient: HttpClient,
     @Inject(WEB_API_URL) private webApiUrl: string
   ) {}
+
+  getByIds(data: IdsRequest) {
+    return this.httpClient.post<LessonResponse[]>(
+      `${this.webApiUrl}lessons/by-ids`,
+      data
+    );
+  }
 
   getAllByHistoricalPeriodId(historicalPeriodId: string) {
     return this.httpClient.get<LessonResponse[]>(
@@ -33,6 +45,10 @@ export class LessonService {
 
   update(id: string, data: Lesson) {
     return this.httpClient.put(`${this.webApiUrl}lessons/${id}`, data);
+  }
+
+  updateViews(id: string) {
+    return this.httpClient.put(`${this.webApiUrl}lessons/views/${id}`, {});
   }
 
   delete(id: string) {

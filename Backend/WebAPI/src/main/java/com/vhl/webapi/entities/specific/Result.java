@@ -18,13 +18,10 @@ public class Result extends IBaseEntity {
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time")
     private LocalDateTime endTime;
 
-    @Column(name = "correct_answers_number", nullable = false)
-    private Integer correctAnswersNumber;
-
-    @Column(name = "score", nullable = false)
+    @Column(name = "score")
     private Double score;
 
     @ManyToOne

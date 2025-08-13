@@ -30,12 +30,14 @@
           (sortData)="sortData($event)"
         >
         </app-sort>
-        <lib-action-button
-          [name]="ActionButtonName.Add"
-          mainTitle="Đăng ký QTV"
-          title=""
-          (btnClick)="goToAddAdminPage()"
-        ></lib-action-button>
+        @if (fullRole === 'ADMIN_SUPER_ADVANCED') {
+          <lib-action-button
+            [name]="ActionButtonName.Add"
+            mainTitle="Đăng ký QTV"
+            title=""
+            (btnClick)="goToAddAdminPage()"
+          ></lib-action-button>
+        }
       </div>
     </div>
 
@@ -63,7 +65,7 @@
               <p class="text-my-darknavy font-bold w-[18%]">Trạng thái:</p>
               <div class="text-gray-800 w-[80%]">
                 <div *ngIf="item.active" class="flex items-center">
-                  <ng-icon name="matCheckCircleRound" color="green"></ng-icon>
+                  <ng-icon name="matCheckCircleRound" size="24" color="green"></ng-icon>
                   <p class="ml-2 text-my-green">Đang kích hoạt</p>
                 </div>
                 <div *ngIf="!item.active" class="flex items-center">
@@ -82,6 +84,57 @@
       </app-table>
     </div>
   </div>
+
+  <app-modal
+    [showModal]="isOpenUpdateAdminLevel"
+  >
+    <form class="space-y-4">
+      <label class="flex items-center space-x-3 text-gray-700 mt-5 pt-2">
+        <span class="w-[15%]">Bậc quản trị</span>
+        <div class="w-[50%] flex space-x-6">
+          <label class="inline-flex items-center space-x-2">
+            <input
+              type="radio"
+              [(ngModel)]="adminLevelData.adminLevel"
+              [ngModelOptions]="{standalone: true}"
+              value="BASIC"
+              class="form-radio text-my-blue"
+            />
+            <span>Cơ bản</span>
+          </label>
+
+          <label class="inline-flex items-center space-x-2">
+            <input
+              type="radio"
+              [(ngModel)]="adminLevelData.adminLevel"
+              [ngModelOptions]="{standalone: true}"
+              value="ADVANCED"
+              class="form-radio text-my-blue"
+            />
+            <span>Cấp cao</span>
+          </label>
+        </div>
+      </label>
+    </form>
+
+    <div class="mt-10 p-4 w-full bg-gradient-to-r from-my-lightblue to-my-lightpurple flex items-center rounded-xl">
+      <div class="flex justify-end ml-auto space-x-2">
+        <lib-action-button
+          [name]="ActionButtonName.Save"
+          mainTitle="Lưu"
+          title=""
+          (btnClick)="changeAdminLevel()"
+        ></lib-action-button>
+
+        <lib-action-button
+          [name]="ActionButtonName.Cancel"
+          mainTitle="Thoát"
+          title=""
+          (btnClick)="cancelChangeAdminLevel()"
+        ></lib-action-button>
+      </div>
+    </div>
+  </app-modal>
 } @else {
   <app-forbidden></app-forbidden>
 }

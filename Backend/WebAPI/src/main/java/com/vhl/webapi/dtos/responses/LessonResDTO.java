@@ -10,7 +10,6 @@ public class LessonResDTO {
     private String id;
     private String title;
     private String videoUrl;
-    private Integer likes;
     private Integer views;
     private String description;
     private String historicalPeriodId;

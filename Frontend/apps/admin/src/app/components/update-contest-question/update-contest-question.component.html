@@ -1,0 +1,72 @@
+<app-modal [showModal]="showModal">
+  <div class="p-4">
+    <h3 class="text-2xl font-bold mb-8 text-my-blue">Thông tin cuộc thi</h3>
+
+    <form [formGroup]="updateQuestionForm" class="space-y-4">
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[15%]">Điểm số:</span>
+        <div class="w-[50%]">
+          <input
+            type="number"
+            formControlName="point"
+            class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+          />
+
+          @if (updateQuestionFH.isInvalid('point')) {
+            @if (updateQuestionFH.hasError('point', 'required')) {
+              <p class="error">{{ contestQuestionMessages.POINT__REQUIRED }}</p>
+            } @else if (updateQuestionFH.hasError('point', 'min')) {
+              <p class="error">{{ contestQuestionMessages.POINT__INVALID }}</p>
+            }
+          }
+        </div>
+      </label>
+
+      <label class="flex items-center space-x-3 text-gray-700">
+        <span class="w-[15%]">Quy tắc phân bổ điểm:</span>
+        <div class="w-[50%]">
+          <input
+            type="text"
+            formControlName="pointAllocationRule"
+            class="flex-1 border rounded-lg p-2 focus:outline-none focus:ring focus:border-my-blue w-full"
+          />
+
+          @if (updateQuestionFH.isInvalid('pointAllocationRule')) {
+            @if (updateQuestionFH.hasError('pointAllocationRule', 'required')) {
+              <p class="error">{{ contestQuestionMessages.POINT_ALLOCATION_RULE__REQUIRED }}</p>
+            } @else if (updateQuestionFH.hasError('pointAllocationRule', 'pattern')) {
+              <p class="error">{{ contestQuestionMessages.POINT_ALLOCATION_RULE__INVALID }}</p>
+            }
+          }
+
+          <p class="mt-1 text-sm italic text-gray-500">
+            {{ pointAllocationRuleInstruction }}
+          </p>
+        </div>
+        <div>
+
+        </div>
+      </label>
+
+
+    </form>
+    <div class="mt-10 p-4 w-full bg-gradient-to-r from-my-lightblue to-my-lightpurple flex items-center rounded-xl">
+      <div class="flex justify-end ml-auto space-x-2 ">
+        <lib-action-button
+          [name]="ActionButtonName.Save"
+          mainTitle="Lưu"
+          title=""
+          [disabled]="updateQuestionForm.invalid"
+          (btnClick)="save()"
+        ></lib-action-button>
+
+        <lib-action-button
+          [name]="ActionButtonName.Cancel"
+          mainTitle="Thoát"
+          title=""
+          (btnClick)="cancel()"
+        ></lib-action-button>
+      </div>
+    </div>
+  </div>
+</app-modal>

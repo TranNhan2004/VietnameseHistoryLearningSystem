@@ -7,6 +7,9 @@ export const questionMessages = {
   UPDATE__SUCCESS: 'Cập nhật câu hỏi thành công.',
   DELETE__SUCCESS: 'Xóa câu hỏi thành công.',
 
+  UPDATE_FOR_LESSON__SUCCESS: 'Thêm câu hỏi cho bài học thành công',
+  DELETE_FOR_LESSON__SUCCESS: 'Xóa câu hỏi khỏi bài học thành công',
+
   CORRECT_ANSWER_OPTION__REQUIRED: 'Phải có ít nhất 1 lựa chọn là đúng',
 
   QUESTION__NOT_FOUND: 'Không tìm thấy câu hỏi với ID tương ứng.',

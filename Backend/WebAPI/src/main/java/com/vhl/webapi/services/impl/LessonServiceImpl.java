@@ -4,6 +4,7 @@ import com.vhl.webapi.constants.errorcodes.AdminErrorCode;
 import com.vhl.webapi.constants.errorcodes.HistoricalPeriodErrorCode;
 import com.vhl.webapi.constants.errorcodes.LessonErrorCode;
 import com.vhl.webapi.constants.storage.CloudinaryStorageFolder;
+import com.vhl.webapi.dtos.requests.IdsReqDTO;
 import com.vhl.webapi.dtos.requests.LessonReqDTO;
 import com.vhl.webapi.dtos.responses.LessonResDTO;
 import com.vhl.webapi.dtos.responses.LessonVideoResDTO;
@@ -36,6 +37,14 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public List<LessonResDTO> getAllLessonsByHistoricalPeriodId(String historicalPeriodId) {
         List<Lesson> lessons = lessonRepository.findAllByHistoricalPeriod_Id(historicalPeriodId);
+        return lessons.stream()
+            .map(lessonMapper::toLessonResDTO)
+            .toList();
+    }
+
+    @Override
+    public List<LessonResDTO> getLessonsByIds(IdsReqDTO idsReqDTO) {
+        List<Lesson> lessons = lessonRepository.findByIdIn(idsReqDTO.getIds());
         return lessons.stream()
             .map(lessonMapper::toLessonResDTO)
             .toList();
@@ -118,5 +127,14 @@ public class LessonServiceImpl implements LessonService {
         } catch (Exception e) {
             throw new RuntimeException(LessonErrorCode.VIDEO__DELETE_FAILED);
         }
+    }
+
+    @Override
+    public void updateViews(String id) {
+        Lesson lesson = lessonRepository.findById(id)
+            .orElseThrow(() -> new NoInstanceFoundException(LessonErrorCode.LESSON__NOT_FOUND));
+
+        lesson.setViews(lesson.getViews() + 1);
+        lessonRepository.save(lesson);
     }
 }

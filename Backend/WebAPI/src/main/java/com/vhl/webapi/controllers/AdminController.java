@@ -1,6 +1,7 @@
 package com.vhl.webapi.controllers;
 
 import com.vhl.webapi.dtos.requests.UpdateAdminLevelReqDTO;
+import com.vhl.webapi.dtos.responses.UpdateAdminLevelResDTO;
 import com.vhl.webapi.services.abstraction.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class AdminController {
         @PathVariable String id,
         @RequestBody UpdateAdminLevelReqDTO updateAdminLevelReqDTO
     ) {
-        adminService.updateAdminLevel(id, updateAdminLevelReqDTO);
-        return ResponseEntity.noContent().build();
+        UpdateAdminLevelResDTO updateAdminLevelResDTO = adminService.updateAdminLevel(id, updateAdminLevelReqDTO);
+        return ResponseEntity.ok(updateAdminLevelResDTO);
     }
 }

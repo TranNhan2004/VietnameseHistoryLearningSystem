@@ -2,7 +2,7 @@ import { CreateTime, Id, UpdateTime } from './abstracts.model';
 
 export interface Contest {
   name: string;
-  questionNumber: number;
+  description: string | null;
   durationInMinutes: number;
   startTime: Date | string;
   endTime: Date | string;
@@ -20,3 +20,8 @@ export interface ContestQuestion {
 }
 
 export interface ContestQuestionResponse extends Id, ContestQuestion {}
+
+export interface CreateContestQuestions {
+  contestId: string;
+  questionIds: string[];
+}

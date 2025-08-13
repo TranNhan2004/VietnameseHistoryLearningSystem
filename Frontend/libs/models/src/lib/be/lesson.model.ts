@@ -1,4 +1,5 @@
 import { CreateTime, Id, UpdateTime } from './abstracts.model';
+import { QuestionResponse } from './question.model';
 
 export interface HistoricalPeriod {
   name: string;
@@ -43,6 +44,8 @@ export interface LessonResponse
     UpdateTime,
     Lesson,
     LessonVideoResponse {
+  views: number;
   paragraphs: ParagraphResponse[];
   images: ImageResponse[];
+  questions: QuestionResponse[];
 }

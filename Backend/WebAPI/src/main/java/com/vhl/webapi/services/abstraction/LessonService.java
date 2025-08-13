@@ -1,5 +1,6 @@
 package com.vhl.webapi.services.abstraction;
 
+import com.vhl.webapi.dtos.requests.IdsReqDTO;
 import com.vhl.webapi.dtos.requests.LessonReqDTO;
 import com.vhl.webapi.dtos.responses.LessonResDTO;
 import com.vhl.webapi.dtos.responses.LessonVideoResDTO;
@@ -10,11 +11,15 @@ import java.util.List;
 public interface LessonService {
     List<LessonResDTO> getAllLessonsByHistoricalPeriodId(String historicalPeriodId);
 
+    List<LessonResDTO> getLessonsByIds(IdsReqDTO idsReqDTO);
+
     LessonResDTO getLessonById(String id);
 
     LessonResDTO createLesson(LessonReqDTO lessonReqDTO);
 
     void updateLesson(String id, LessonReqDTO lessonReqDTO);
+
+    void updateViews(String id);
 
     void deleteLesson(String id);
 

@@ -1,19 +1,31 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
   OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ImageResponse, ParagraphResponse } from '@frontend/models';
-import { LessonService } from '@frontend/angular-libs';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import {
+  ImageResponse,
+  LearnerLessonAnswer,
+  LearnerLessonAnswerResponse,
+  LessonResponse,
+  ParagraphResponse,
+} from '@frontend/models';
+import {
+  AlertService,
+  LearnerLessonAnswerService,
+  LessonService,
+} from '@frontend/angular-libs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { environment } from '../../environments/environment.dev';
+import { initialLessonResponse } from '@frontend/constants';
+import { AnswerQuestionsForLessonComponent } from '../../components/answer-questions-for-lesson/answer-questions-for-lesson.component';
+import { AuthenticationHelpers } from '@frontend/utils';
+import { ShowAnswersComponent } from '../../components/show-answers/show-answers.component';
 
 interface LessonContent {
   type: 'paragraph' | 'image';
@@ -22,31 +34,52 @@ interface LessonContent {
 
 @Component({
   selector: 'app-lesson-details',
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    NgOptimizedImage,
+    AnswerQuestionsForLessonComponent,
+    ShowAnswersComponent,
+  ],
   templateUrl: './lesson-details.component.html',
   styleUrl: './lesson-details.component.css',
 })
-export class LessonDetailsComponent implements OnInit, AfterViewInit {
+export class LessonDetailsComponent implements OnInit {
   @ViewChild('container') container!: ElementRef<HTMLDivElement>;
   @ViewChildren('contentPart') contentParts!: QueryList<
     ElementRef<HTMLDivElement>
   >;
 
+  title = '';
+  videoUrl = '';
   lessonContents: LessonContent[] = [];
-
-  focusedIndex = 0;
+  lessonResponse: LessonResponse = initialLessonResponse;
+  learnerLessonAnswerResponses: LearnerLessonAnswerResponse[] = [];
   progressPercent = 0;
+  learnerId = '';
 
   constructor(
     private lessonService: LessonService,
+    private learnerLessonAnswerService: LearnerLessonAnswerService,
+    private alertService: AlertService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    this.learnerId = AuthenticationHelpers.getUserInfo('LEARNER')?.id ?? '';
+  }
+
+  asParagraphResponse(data: ParagraphResponse | ImageResponse) {
+    return data as ParagraphResponse;
+  }
+
+  asImageResponse(data: ParagraphResponse | ImageResponse) {
+    return data as ImageResponse;
+  }
 
   ngOnInit() {
     const lessonId = this.route.snapshot.paramMap.get('id') ?? '';
     this.lessonService.getById(lessonId).subscribe({
       next: (res) => {
+        this.lessonResponse = { ...res };
         this.lessonContents = [
           ...res.paragraphs.map(
             (p) => ({ data: p, type: 'paragraph' } as LessonContent)
@@ -56,9 +89,24 @@ export class LessonDetailsComponent implements OnInit, AfterViewInit {
           ),
         ];
 
+        this.title = res.title;
+        this.videoUrl = res.videoUrl;
         this.lessonContents.sort(
           (a, b) => a.data.ordinalNumber - b.data.ordinalNumber
         );
+
+        this.learnerLessonAnswerService
+          .getByLearnerAndLesson(this.learnerId, this.lessonResponse.id)
+          .subscribe({
+            next: (res) => {
+              this.learnerLessonAnswerResponses = [...res];
+            },
+            error: async (err: HttpErrorResponse) => {
+              if (!environment.production) {
+                console.log(err);
+              }
+            },
+          });
       },
       error: async (err: HttpErrorResponse) => {
         if (!environment.production) {
@@ -72,66 +120,62 @@ export class LessonDetailsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
-    const savedProgress = localStorage.getItem('TEST_LESSON_PROGRESS');
-    if (savedProgress) {
-      this.progressPercent = Number(savedProgress);
-      this.scrollToProgress(this.progressPercent);
-    }
-    this.updateFocus();
+  hasAnswered() {
+    return (
+      this.learnerLessonAnswerResponses.length >=
+      this.lessonResponse.questions.length
+    );
   }
 
-  @HostListener('scroll', ['$event'])
-  onScroll() {
-    this.updateFocus();
+  get learnerAnswersIds() {
+    return this.learnerLessonAnswerResponses.map((item) => item.answerOptionId);
   }
 
-  updateFocus() {
-    const containerEl = this.container.nativeElement;
-    const containerTop = containerEl.getBoundingClientRect().top;
-    const containerHeight = containerEl.clientHeight;
-    const containerCenterY = containerTop + containerHeight / 2;
+  saveLearnerLessonAnswer(answerOptionIds: string[]) {
+    const data = answerOptionIds.map(
+      (item) =>
+        ({
+          learnerId: this.learnerId,
+          lessonId: this.lessonResponse.id,
+          answerOptionId: item,
+        } as LearnerLessonAnswer)
+    );
 
-    let closestIndex = 0;
-    let minDistance = Infinity;
-
-    this.contentParts.forEach((part, idx) => {
-      const el = part.nativeElement;
-      const rect = el.getBoundingClientRect();
-      const elCenterY = rect.top + rect.height / 2;
-      const distance = Math.abs(containerCenterY - elCenterY);
-
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIndex = idx;
-      }
+    this.learnerLessonAnswerService.createBatch(data).subscribe({
+      next: (res) => {
+        this.learnerLessonAnswerResponses = [...res];
+      },
+      error: async (err: HttpErrorResponse) => {
+        if (!environment.production) {
+          console.log(err);
+        }
+      },
     });
+  }
 
-    this.focusedIndex = closestIndex;
-
+  onScroll() {
+    const containerEl = this.container.nativeElement;
     const scrollTop = containerEl.scrollTop;
-    const scrollHeight = containerEl.scrollHeight;
     const clientHeight = containerEl.clientHeight;
-    const newProgress = Math.min(
+    const scrollHeight = containerEl.scrollHeight;
+
+    this.progressPercent = Math.min(
       100,
       Math.max(0, (scrollTop / (scrollHeight - clientHeight)) * 100)
     );
-
-    if (this.progressPercent !== newProgress) {
-      this.progressPercent = newProgress;
-      localStorage.setItem(
-        'TEST_LESSON_PROGRESS',
-        this.progressPercent.toString()
-      );
-    }
   }
 
-  scrollToProgress(percent: number) {
-    const containerEl = this.container.nativeElement;
-    const scrollHeight = containerEl.scrollHeight;
-    const clientHeight = containerEl.clientHeight;
+  async cancel() {
+    await this.alertService.cancelWarning(async () => {
+      await this.cancelShow();
+    });
+  }
 
-    const scrollTop = ((scrollHeight - clientHeight) * percent) / 100;
-    containerEl.scrollTo({ top: scrollTop, behavior: 'smooth' });
+  async cancelShow() {
+    const historicalPeriodId =
+      this.route.parent?.snapshot.paramMap.get('id') ?? '';
+    await this.router.navigateByUrl(
+      `/historical-periods/${historicalPeriodId}/lessons`
+    );
   }
 }

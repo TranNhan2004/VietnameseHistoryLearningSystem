@@ -71,3 +71,7 @@ export interface ResetPassword {
 export interface UpdateAdminLevel {
   adminLevel: Admin['adminLevel'];
 }
+
+export interface UpdateAdminLevelResponse {
+  fullRole: AdminResponse['fullRole'];
+}

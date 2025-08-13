@@ -10,7 +10,7 @@ import java.util.List;
 public class ContestResDTO {
     private String id;
     private String name;
-    private Integer questionNumber;
+    private String description;
     private Integer durationInMinutes;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

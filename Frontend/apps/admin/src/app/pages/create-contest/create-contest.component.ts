@@ -38,7 +38,7 @@ export class CreateContestComponent {
 
     this.contestForm = this.myFB.group<Contest>({
       name: ['', [Validators.required, Validators.maxLength(512)]],
-      questionNumber: [1, [Validators.required, Validators.min(1)]],
+      description: ['', [Validators.maxLength(2048)]],
       durationInMinutes: [10, [Validators.required, Validators.min(10)]],
       startTime: [formatDateTime(current), [Validators.required]],
       endTime: [formatDateTime(tomorrow), [Validators.required]],
@@ -54,7 +54,7 @@ export class CreateContestComponent {
 
     this.contestForm.setValue({
       name: '',
-      questionNumber: 1,
+      description: '',
       durationInMinutes: 10,
       startTime: formatDateTime(current),
       endTime: formatDateTime(tomorrow),

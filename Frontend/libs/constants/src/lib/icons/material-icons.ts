@@ -45,4 +45,10 @@ export const materialIcons = {
   matExpandMoreRound: matIcons.matExpandMoreRound,
   matAttachFileRound: matIcons.matAttachFileRound,
   matPersonAddRound: matIcons.matPersonAddRound,
+  matPublishRound: matIcons.matPublishRound,
+  matFavoriteBorderRound: matIcons.matFavoriteBorderRound,
+  matFavoriteRound: matIcons.matFavoriteRound,
+  matEmojiEventsRound: matIcons.matEmojiEventsRound,
+  matCreditScoreRound: matIcons.matCreditScoreRound,
+  matPendingRound: matIcons.matPendingRound,
 };

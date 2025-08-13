@@ -11,4 +11,5 @@ export class CardComponent {
   @Input() width = '300px';
   @Input() height = '200px';
   @Input() customClasses = '';
+  @Input() useFooter = true;
 }

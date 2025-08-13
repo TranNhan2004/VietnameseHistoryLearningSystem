@@ -10,4 +10,6 @@ export enum ActionButtonName {
   Lock = 'lock',
   Unlock = 'unlock',
   LinkTo = 'link-to',
+  SubmitQuiz = 'submit-quiz',
+  Favorite = 'favorite',
 }

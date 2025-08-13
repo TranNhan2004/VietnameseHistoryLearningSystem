@@ -7,11 +7,17 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ImageResponse, ParagraphResponse } from '@frontend/models';
+import {
+  ImageResponse,
+  LessonResponse,
+  ParagraphResponse,
+} from '@frontend/models';
 import { LessonService } from '@frontend/angular-libs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { environment } from '../../environments/environment.dev';
+import { initialLessonResponse } from '@frontend/constants';
+import { AnswerQuestionsComponent } from '../../components/answer-questions/answer-questions.component';
 
 interface LessonContent {
   type: 'paragraph' | 'image';
@@ -20,7 +26,7 @@ interface LessonContent {
 
 @Component({
   selector: 'app-lesson-details',
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule, NgOptimizedImage, AnswerQuestionsComponent],
   templateUrl: './lesson-details.component.html',
   styleUrl: './lesson-details.component.css',
 })
@@ -33,6 +39,7 @@ export class LessonDetailsComponent implements OnInit {
   title = '';
   videoUrl = '';
   lessonContents: LessonContent[] = [];
+  lessonResponse: LessonResponse = initialLessonResponse;
   progressPercent = 0;
 
   constructor(
@@ -53,6 +60,7 @@ export class LessonDetailsComponent implements OnInit {
     const lessonId = this.route.snapshot.paramMap.get('id') ?? '';
     this.lessonService.getById(lessonId).subscribe({
       next: (res) => {
+        this.lessonResponse = { ...res };
         this.lessonContents = [
           ...res.paragraphs.map(
             (p) => ({ data: p, type: 'paragraph' } as LessonContent)
@@ -86,17 +94,9 @@ export class LessonDetailsComponent implements OnInit {
     const clientHeight = containerEl.clientHeight;
     const scrollHeight = containerEl.scrollHeight;
 
-    const rawProgress = Math.min(
+    this.progressPercent = Math.min(
       100,
       Math.max(0, (scrollTop / (scrollHeight - clientHeight)) * 100)
     );
-
-    if (rawProgress > this.progressPercent) {
-      this.progressPercent = rawProgress;
-      localStorage.setItem(
-        'TEST_LESSON_PROGRESS',
-        this.progressPercent.toString()
-      );
-    }
   }
 }

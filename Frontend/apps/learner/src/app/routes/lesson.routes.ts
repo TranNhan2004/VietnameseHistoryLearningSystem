@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { LessonsOuterComponent } from '../pages/lessons-outer/lessons-outer.component';
 import { LessonsComponent } from '../pages/lessons/lessons.component';
+import { LessonDetailsComponent } from '../pages/lesson-details/lesson-details.component';
 
 export const lessonRoutes: Route[] = [
   { path: 'lessons-outer', component: LessonsOuterComponent },
@@ -12,7 +13,16 @@ export const lessonRoutes: Route[] = [
         children: [
           {
             path: 'lessons',
-            component: LessonsComponent,
+            children: [
+              {
+                path: '',
+                component: LessonsComponent,
+              },
+              {
+                path: ':id',
+                component: LessonDetailsComponent,
+              },
+            ],
           },
         ],
       },

@@ -15,6 +15,7 @@ export * from './lib/messages/question-messages';
 export * from './lib/messages/user-messages';
 export * from './lib/messages/verification-messages';
 
+export * from './lib/objects/contest';
 export * from './lib/objects/lesson';
 export * from './lib/objects/question';
 export * from './lib/objects/user';

@@ -18,3 +18,13 @@
   [images]="lessonResponse.images"
   (updated)="updatedImages($event)"
 ></app-images>
+
+<app-questions-list
+  title="Danh sách câu hỏi của bài học"
+  [notUpdateQuestion]="true"
+  [displayedQuestionIds]="displayedQuestionIds"
+  (selectedQuestionIdsChange)="selectedQuestionIdsChange($event)"
+  (saveSelectedQuestion)="saveSelectedQuestions()"
+  (deleteQuestion)="deleteQuestion($event)"
+>
+</app-questions-list>

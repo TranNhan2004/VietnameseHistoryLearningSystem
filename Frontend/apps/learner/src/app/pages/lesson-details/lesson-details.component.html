@@ -1,46 +1,75 @@
-<div
-  #container
-  (scroll)="onScroll()"
-  class="relative h-[400px] overflow-y-auto scroll-smooth py-5"
->
-  <!-- Overlay mờ trên và dưới -->
-  <div
-    class="pointer-events-none absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-white to-transparent z-10"
-  ></div>
-  <div
-    class="pointer-events-none absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent z-10"
-  ></div>
+<div class="h-screen flex flex-col">
+    <div
+            class="sticky top-0 z-50 bg-white pt-4 pb-2 px-4 shadow-sm"
+            aria-label="Progress bar"
+    >
+        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div
+                    class="h-full bg-blue-600 transition-all duration-300"
+                    [style.width.%]="progressPercent"
+            ></div>
+        </div>
+    </div>
 
-  <!-- Nội dung bài học -->
-  <div
-    *ngFor="let item of lessonContents; let i = index"
-    #contentPart
-    [ngClass]="{
-      'filter-none opacity-100 font-semibold': i === focusedIndex,
-      'blur-sm opacity-50': i !== focusedIndex
-    }"
-    class="px-4 mb-6 transition-all duration-300"
-  >
-    <ng-container [ngSwitch]="item.type">
-      <p *ngSwitchCase="'paragraph'" class="text-base leading-relaxed">
-        {{ item.data.text }}
-      </p>
-      <img
-        *ngSwitchCase="'image'"
-        [src]="item.data.url"
-        [alt]="item.data.alt || 'Image'"
-        class="max-w-full h-auto rounded shadow-md"
-      />
-    </ng-container>
-  </div>
-</div>
+    <div
+        #container
+        (scroll)="onScroll()"
+        class="flex-1 overflow-y-auto scroll-smooth py-5 px-4"
+    >
+        <h2 class="text-center text-3xl font-bold mb-2">{{ title }}</h2>
+        <div class="flex items-center justify-center">
+            <video
+                    [src]="videoUrl"
+                    controls
+                    class="mt-4 mb-8 w-[80%] h-auto rounded-lg shadow"
+            ></video>
+        </div>
+        <div
+                *ngFor="let item of lessonContents; let i = index"
+                class="mb-6"
+        >
+            <ng-container [ngSwitch]="item.type">
+                <div *ngSwitchCase="'paragraph'">
+                    <p class="text-lg leading-relaxed break-words text-justify">
+                        {{ asParagraphResponse(item.data).content }}
+                    </p>
+                </div>
 
-<div
-  class="h-2 bg-gray-200 rounded-full overflow-hidden mt-3 mx-4"
-  aria-label="Progress bar"
->
-  <div
-    class="h-full bg-blue-600 transition-all duration-300"
-    [style.width.%]="progressPercent"
-  ></div>
+                <div *ngSwitchCase="'image'">
+                    <div class="flex items-center justify-center">
+                        <img
+                                [ngSrc]="asImageResponse(item.data).imageUrl"
+                                [alt]="asImageResponse(item.data).title || 'Image'"
+                                class="w-[60%] h-auto rounded shadow-md"
+                                width="200"
+                                height="500"
+                        />
+                    </div>
+
+                    <div class="flex items-center justify-center mt-2">
+                        <h6 class="italic text-xl">{{ asImageResponse(item.data).title }}</h6>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="mt-2">
+            <h3 class="mb-2 text-2xl">Các câu hỏi ôn tập:</h3>
+
+            @if (!hasAnswered()) {
+                <app-answer-questions-for-lesson
+                        [questionResponses]="lessonResponse.questions"
+                        (submitAnswers)="saveLearnerLessonAnswer($event)"
+                        (cancelFn)="cancel()"
+                >
+                </app-answer-questions-for-lesson>
+            } @else {
+                <app-show-answers
+                        [questionResponses]="lessonResponse.questions"
+                        [learnerAnswerIds]="learnerAnswersIds"
+                        (cancelFn)="cancelShow()"
+                >
+                </app-show-answers>
+            }
+        </div>
+    </div>
 </div>

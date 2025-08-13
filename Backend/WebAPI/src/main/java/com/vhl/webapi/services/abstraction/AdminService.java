@@ -1,7 +1,8 @@
 package com.vhl.webapi.services.abstraction;
 
 import com.vhl.webapi.dtos.requests.UpdateAdminLevelReqDTO;
+import com.vhl.webapi.dtos.responses.UpdateAdminLevelResDTO;
 
 public interface AdminService {
-    void updateAdminLevel(String id, UpdateAdminLevelReqDTO updateAdminLevelReqDTO);
+    UpdateAdminLevelResDTO updateAdminLevel(String id, UpdateAdminLevelReqDTO updateAdminLevelReqDTO);
 }

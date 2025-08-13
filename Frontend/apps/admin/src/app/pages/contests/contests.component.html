@@ -19,8 +19,6 @@
         [sortOptions]="[
           { label: 'Tên cuộc thi (A-Z)', type: 'asc', sortedKey: 'name' },
           { label: 'Tên cuộc thi (Z-A)', type: 'dsc', sortedKey: 'name' },
-          { label: 'Số lượng câu hỏi (Nhiều nhất)', type: 'dsc', sortedKey: 'questionNumber' },
-          { label: 'Số lượng câu hỏi (Ít nhất)', type: 'asc', sortedKey: 'questionNumber' },
           { label: 'Thời gian làm bài (Nhiều nhất)', type: 'dsc', sortedKey: 'startTime' },
           { label: 'Thời gian làm bài (Ít nhất)', type: 'asc', sortedKey: 'startTime' },
           { label: 'Thời điểm bắt đầu cuộc thi (Mới nhất)', type: 'dsc', sortedKey: 'endTime' },
@@ -54,12 +52,16 @@
             <p class="text-gray-800 w-[85%]">{{ item.name }}</p>
           </div>
           <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[25%]">Số lượng câu hỏi:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.questionNumber }}</p>
+            <p class="text-my-darknavy font-bold w-[25%]">Mô tả:</p>
+            @if (item.description) {
+              <p class="text-gray-800 w-[85%]">{{ item.description }}</p>
+            } @else {
+              <p class="text-gray-800 w-[85%]">Chưa có mô tả</p>
+            }
           </div>
           <div class="flex items-start">
             <p class="text-my-darknavy font-bold w-[25%]">Thời gian làm bài:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.durationInMinutes }}</p>
+            <p class="text-gray-800 w-[85%]">{{ item.durationInMinutes }} phút</p>
           </div>
           <div class="flex items-start">
             <p class="text-my-darknavy font-bold w-[25%]">Thời điểm bắt đầu:</p>

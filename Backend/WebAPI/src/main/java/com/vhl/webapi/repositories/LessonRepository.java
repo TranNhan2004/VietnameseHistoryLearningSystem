@@ -20,4 +20,6 @@ public interface LessonRepository extends JpaRepository<Lesson, String> {
     Optional<Lesson> findByIdWithQuestions(String id);
 
     List<Lesson> findAllByHistoricalPeriod_Id(String historicalPeriodId);
+
+    List<Lesson> findByIdIn(List<String> ids);
 }

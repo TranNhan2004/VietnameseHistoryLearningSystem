@@ -19,8 +19,6 @@
         [sortOptions]="[
           { label: 'Tên cuộc thi (A-Z)', type: 'asc', sortedKey: 'name' },
           { label: 'Tên cuộc thi (Z-A)', type: 'dsc', sortedKey: 'name' },
-          { label: 'Số lượng câu hỏi (Nhiều nhất)', type: 'dsc', sortedKey: 'questionNumber' },
-          { label: 'Số lượng câu hỏi (Ít nhất)', type: 'asc', sortedKey: 'questionNumber' },
           { label: 'Thời gian làm bài (Nhiều nhất)', type: 'dsc', sortedKey: 'startTime' },
           { label: 'Thời gian làm bài (Ít nhất)', type: 'asc', sortedKey: 'startTime' },
           { label: 'Thời điểm bắt đầu cuộc thi (Mới nhất)', type: 'dsc', sortedKey: 'endTime' },
@@ -29,56 +27,52 @@
         (sortData)="sortData($event)"
       >
       </app-sort>
-      <lib-action-button
-        [name]="ActionButtonName.Add"
-        mainTitle="Thêm mới"
-        title=""
-        (btnClick)="goToAddContestPage()"
-      ></lib-action-button>
     </div>
   </div>
 
-  <div class="mt-5">
-    <app-table
-      [displayedData]="displayedData"
-      [actionButtonConfigs]="[
-        { name: ActionButtonName.Edit },
-        { name: ActionButtonName.Delete },
-      ]"
-      (actionClick)="actionClick($event)"
-    >
-      <ng-template #itemTemplate let-item>
-        <div class="text-justify space-y-2">
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[25%]">Tên cuộc thi:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.name }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[25%]">Số lượng câu hỏi:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.questionNumber }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[25%]">Thời gian làm bài:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.durationInMinutes }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[25%]">Thời điểm bắt đầu:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.startTime | date: 'dd/MM/yyyy-HH:mm' }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[25%]">Thời điểm kết thúc:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.endTime | date: 'dd/MM/yyyy-HH:mm' }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[25%]">Ngày tạo:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.createdAt | date: 'dd/MM/yyyy' }}</p>
-          </div>
-          <div class="flex items-start">
-            <p class="text-my-darknavy font-bold w-[25%]">Ngày cập nhật:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.updatedAt | date: 'dd/MM/yyyy' }}</p>
+  <div class="mt-5 grid grid-cols-2 gap-4">
+    @for (item of displayedData; track item.id) {
+      <app-card width="full" height="325px">
+        <div card-body>
+          <h6 class="text-lg font-bold mb-2">{{ item['name'] }}</h6>
+          <div class="text-justify space-y-2">
+            <div>
+              <p class="text-my-darknavy font-bold">Mô tả:</p>
+              @if (item['description']) {
+                <p class="text-gray-800 w-[85%]">{{ item['description'] }}</p>
+              } @else {
+                <p class="text-gray-800 w-[85%]">Chưa có mô tả</p>
+              }
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Thời gian làm bài:</p>
+              <p class="text-gray-800">{{ item['durationInMinutes'] }} phút</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Thời điểm bắt đầu:</p>
+              <p class="text-gray-800">{{ safe(item['startTime']) | date: 'dd/MM/yyyy-HH:mm' }}</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Thời điểm kết thúc:</p>
+              <p class="text-gray-800">{{ safe(item['endTime']) | date: 'dd/MM/yyyy-HH:mm' }}</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Số người đã thi:</p>
+              <p class="text-gray-800">...</p>
+            </div>
           </div>
         </div>
-      </ng-template>
-    </app-table>
+
+        <div card-footer>
+          <lib-action-button
+            [name]="ActionButtonName.LinkTo"
+            mainTitle="Vào thi"
+            title=""
+            (btnClick)="goToDoContest(item.id)"
+          >
+          </lib-action-button>
+        </div>
+      </app-card>
+    }
   </div>
 </div>

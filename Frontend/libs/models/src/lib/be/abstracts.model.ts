@@ -9,3 +9,7 @@ export interface CreateTime {
 export interface UpdateTime {
   updatedAt: Date;
 }
+
+export interface IdsRequest {
+  ids: string[];
+}

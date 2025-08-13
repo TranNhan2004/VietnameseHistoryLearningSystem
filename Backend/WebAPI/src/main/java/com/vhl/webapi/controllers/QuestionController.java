@@ -1,7 +1,9 @@
 package com.vhl.webapi.controllers;
 
+import com.vhl.webapi.dtos.requests.IdsReqDTO;
 import com.vhl.webapi.dtos.requests.QuestionReqDTO;
 import com.vhl.webapi.dtos.requests.UpdateQuestionReqDTO;
+import com.vhl.webapi.dtos.requests.UpdateQuestionsForLessonReqDTO;
 import com.vhl.webapi.dtos.responses.QuestionResDTO;
 import com.vhl.webapi.services.abstraction.QuestionService;
 import jakarta.validation.Valid;
@@ -60,4 +62,15 @@ public class QuestionController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/get-by-ids")
+    public ResponseEntity<?> getQuestionsByIds(@RequestBody IdsReqDTO idsReqDTO) {
+        List<QuestionResDTO> questionResDTOS = questionService.getQuestionsByIds(idsReqDTO);
+        return ResponseEntity.ok(questionResDTOS);
+    }
+
+    @PutMapping("/for-lesson")
+    public ResponseEntity<?> updateQuestionsForLesson(@RequestBody UpdateQuestionsForLessonReqDTO updateQuestionsForLessonReqDTO) {
+        questionService.updateQuestionForLesson(updateQuestionsForLessonReqDTO);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, Validators } from '@angular/forms';
-import { formatDateTime, MyFormGroupHelper } from '@frontend/utils';
+import {
+  formatDateTime,
+  formatDateTimeInput,
+  MyFormGroupHelper,
+} from '@frontend/utils';
 import {
   AlertService,
+  ContestQuestionService,
   ContestService,
   MyFormBuilderService,
 } from '@frontend/angular-libs';
@@ -11,23 +16,48 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { environment } from '../../environments/environment.dev';
-import { contestMessages } from '@frontend/constants';
-import { Contest } from '@frontend/models';
+import {
+  contestMessages,
+  contestQuestionMessages,
+  initialContestQuestionResponse,
+  initialContestResponse,
+} from '@frontend/constants';
+import {
+  Contest,
+  ContestQuestionResponse,
+  ContestResponse,
+  IdsRequest,
+} from '@frontend/models';
 import { ContestFormComponent } from '../../components/contest-form/contest-form.component';
+import { QuestionsListComponent } from '../../components/questions-list/questions-list.component';
+import { UpdateContestQuestionComponent } from '../../components/update-contest-question/update-contest-question.component';
 
 @Component({
   selector: 'app-update-contest',
-  imports: [CommonModule, ContestFormComponent],
+  imports: [
+    CommonModule,
+    ContestFormComponent,
+    QuestionsListComponent,
+    UpdateContestQuestionComponent,
+  ],
   templateUrl: './update-contest.component.html',
   styleUrl: './update-contest.component.css',
 })
 export class UpdateContestComponent implements OnInit {
+  contestResponse: ContestResponse = initialContestResponse;
+  displayedQuestionIds: IdsRequest = { ids: [] };
+  selectedQuestionIds: IdsRequest = { ids: [] };
   contestForm: FormGroup;
   contestFH: MyFormGroupHelper;
+
+  showUpdateContestQuestionModal = false;
+  contestQuestionResponse: ContestQuestionResponse =
+    initialContestQuestionResponse;
 
   constructor(
     private myFB: MyFormBuilderService,
     private contestService: ContestService,
+    private contestQuestionService: ContestQuestionService,
     private toastrService: ToastrService,
     private alertService: AlertService,
     private router: Router,
@@ -39,7 +69,7 @@ export class UpdateContestComponent implements OnInit {
 
     this.contestForm = this.myFB.group<Contest>({
       name: ['', [Validators.required, Validators.maxLength(512)]],
-      questionNumber: [1, [Validators.required, Validators.min(1)]],
+      description: ['', [Validators.maxLength(2048)]],
       durationInMinutes: [10, [Validators.required, Validators.min(10)]],
       startTime: [formatDateTime(current), [Validators.required]],
       endTime: [formatDateTime(tommorow), [Validators.required]],
@@ -52,14 +82,20 @@ export class UpdateContestComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     this.contestService.getById(id).subscribe({
       next: (res) => {
-        alert(JSON.stringify(res));
+        this.contestResponse = { ...res };
         this.contestForm.setValue({
           name: res.name,
-          questionNumber: res.questionNumber,
+          description: res.description,
           durationInMinutes: res.durationInMinutes,
           startTime: (res.startTime as string) + ':00',
           endTime: (res.endTime as string) + ':00',
         });
+
+        this.displayedQuestionIds = {
+          ids: this.contestResponse.contestQuestions.map(
+            (item) => item.questionId
+          ),
+        };
       },
       error: (err: HttpErrorResponse) => {
         if (!environment.production) {
@@ -77,8 +113,8 @@ export class UpdateContestComponent implements OnInit {
 
     if (this.contestForm.valid) {
       const data: Contest = this.contestForm.value;
-      data.startTime = formatDateTime(new Date(data.startTime));
-      data.endTime = formatDateTime(new Date(data.endTime));
+      data.startTime = formatDateTimeInput(new Date(data.startTime));
+      data.endTime = formatDateTimeInput(new Date(data.endTime));
       this.contestService.update(id, data).subscribe({
         next: () => {
           this.toastrService.success(contestMessages['UPDATE__SUCCESS']);
@@ -106,6 +142,78 @@ export class UpdateContestComponent implements OnInit {
   async cancel() {
     await this.alertService.cancelWarning(async () => {
       await this.router.navigateByUrl('/contests');
+    });
+  }
+
+  selectedQuestionIdsChange(questionId: string) {
+    this.selectedQuestionIds.ids.push(questionId);
+  }
+
+  saveSelectedQuestions() {
+    this.contestQuestionService
+      .createBatch({
+        contestId: this.contestResponse.id,
+        questionIds: this.selectedQuestionIds.ids,
+      })
+      .subscribe({
+        next: () => {
+          this.toastrService.success(
+            contestQuestionMessages['CREATE_BATCH__SUCCESS']
+          );
+          this.displayedQuestionIds = {
+            ids: [
+              ...this.displayedQuestionIds.ids,
+              ...this.selectedQuestionIds.ids,
+            ],
+          };
+        },
+        error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+        },
+      });
+  }
+
+  closeUpdateModal() {
+    this.showUpdateContestQuestionModal = false;
+  }
+
+  updateQuestion(questionId: string) {
+    this.showUpdateContestQuestionModal = true;
+    this.contestQuestionResponse = {
+      ...(this.contestResponse.contestQuestions.find(
+        (item) => item.questionId === questionId
+      ) || initialContestQuestionResponse),
+    };
+  }
+
+  async deleteQuestion(questionId: string) {
+    await this.alertService.deleteWarning(() => {
+      const temp = this.contestResponse.contestQuestions.find(
+        (item) => item.questionId === questionId
+      );
+      if (!temp) {
+        return;
+      }
+
+      this.contestQuestionService.delete(temp.id).subscribe({
+        next: () => {
+          this.toastrService.success(
+            contestQuestionMessages['DELETE__SUCCESS']
+          );
+          this.displayedQuestionIds = {
+            ids: this.displayedQuestionIds.ids.filter(
+              (item) => item !== questionId
+            ),
+          };
+        },
+        error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+        },
+      });
     });
   }
 }

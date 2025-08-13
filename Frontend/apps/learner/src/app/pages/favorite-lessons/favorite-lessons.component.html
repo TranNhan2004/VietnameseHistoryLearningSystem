@@ -1,0 +1,86 @@
+<div class="p-4">
+  <h1 class="mt-5 font-bold text-my-blue text-4xl text-left flex items-center">
+    <p>Danh sách bài học yêu thích</p>
+  </h1>
+  <div class="mt-2 h-1 w-full bg-gradient-to-r from-my-blue to-my-coralaccent rounded-lg"></div>
+
+  <div class="flex items-center justify-between mt-5">
+    <div class="w-[40%]">
+      <app-search
+        [originalData]="originialDisplayedData"
+        [searchKeys]="['title', 'description']"
+        (filterData)="filterData($event)"
+        placeholder="Tìm kiếm theo tiêu đề, mô tả"
+      >
+      </app-search>
+    </div>
+    <div class="flex items-center space-x-4">
+      <app-sort
+        selectNgClass="p-[5.5%]"
+        [originalData]="originialDisplayedData"
+        [sortOptions]="[
+          { label: 'Tiêu đề (A-Z)', type: 'asc', sortedKey: 'title' },
+          { label: 'Tiêu đề (Z-A)', type: 'dsc', sortedKey: 'title' },
+          { label: 'Ngày tạo (Cũ nhất)', type: 'asc', sortedKey: 'createdAt' },
+          { label: 'Ngày tạo (Mới nhất)', type: 'dsc', sortedKey: 'createdAt' },
+        ]"
+        (sortData)="sortData($event)"
+      >
+      </app-sort>
+    </div>
+  </div>
+
+  <div class="mt-5 grid grid-cols-2 gap-4">
+    @for (item of displayedData; track item.id) {
+      <app-card width="full" height="275px">
+        <div card-body>
+          <h6 class="text-lg font-bold mb-2">{{ item['title'] }}</h6>
+          <div class="text-justify space-y-2">
+            <div>
+              <p class="text-my-darknavy font-bold">Mô tả:</p>
+              <p class="text-gray-800">{{ item['description'] }}</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Số lượt xem:</p>
+              <p class="text-gray-800">{{ item['views'] }}</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Trạng thái:</p>
+              <div class="text-gray-800">
+                @if (isStudied(item)) {
+                  <div class="flex items-center">
+                    <ng-icon name="matCheckCircleRound" size="24" color="green"></ng-icon>
+                    <p class="ml-2 text-my-green">Đã học</p>
+                  </div>
+                } @else {
+                  <div class="flex items-center">
+                    <ng-icon name="matPendingRound" size="24" color="gray"></ng-icon>
+                    <p class="ml-2 text-gray-500">Chưa học</p>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <div card-footer>
+          <div class="space-x-4">
+            <lib-action-button
+              [name]="ActionButtonName.LinkTo"
+              mainTitle="Học"
+              title=""
+              (btnClick)="goToDetailsPage(item.id)"
+            >
+            </lib-action-button>
+            <lib-action-button
+              [name]="ActionButtonName.Delete"
+              mainTitle="Xóa"
+              title=""
+              (btnClick)="deleteData(item.id)"
+            >
+            </lib-action-button>
+          </div>
+        </div>
+      </app-card>
+    }
+  </div>
+</div>

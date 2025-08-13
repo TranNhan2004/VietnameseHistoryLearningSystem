@@ -1,0 +1,35 @@
+<div class="space-y-6">
+  @for (question of questionResponses; track question.id; let i = $index) {
+    <div class="p-4 border border-gray-300 rounded-xl shadow-sm bg-white">
+      <p class="font-semibold text-lg mb-3">
+        {{ i + 1 }}. {{ question.content }}
+      </p>
+
+      <ul class="space-y-2">
+        @for (option of question.answerOptions; track option.id) {
+          <li>
+            <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition">
+              <input
+                type="checkbox"
+                class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                [checked]="isChecked(question.id, option.id)"
+                (change)="toggleAnswer(question.id, option.id, $event)"
+              />
+              <span class="text-gray-700">{{ option.content }}</span>
+            </label>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>
+
+<div class="mt-4">
+  <lib-action-button
+    [name]="ActionButtonName.SubmitQuiz"
+    mainTitle="Nộp bài"
+    title=""
+    (btnClick)="submitAnswersLog()"
+  >
+  </lib-action-button>
+</div>

@@ -1,7 +1,15 @@
 <div
-  class="bg-white shadow-md rounded-xl p-4 transition-all duration-300 hover:shadow-lg"
+  class="bg-white shadow-md rounded-xl p-4 transition-all duration-300 hover:shadow-lg flex flex-col"
   [ngStyle]="{ width: width, height: height }"
   [ngClass]="customClasses"
 >
-  <ng-content></ng-content>
+  <div class="flex-1 overflow-y-auto">
+    <ng-content select="[card-body]"></ng-content>
+  </div>
+
+  @if (useFooter) {
+    <div class="pt-2 flex justify-end">
+      <ng-content select="[card-footer]"></ng-content>
+    </div>
+  }
 </div>

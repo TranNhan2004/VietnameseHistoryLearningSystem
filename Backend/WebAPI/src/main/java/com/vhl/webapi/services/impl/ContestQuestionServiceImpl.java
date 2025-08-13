@@ -4,6 +4,7 @@ import com.vhl.webapi.constants.errorcodes.ContestErrorCode;
 import com.vhl.webapi.constants.errorcodes.ContestQuestionErrorCode;
 import com.vhl.webapi.constants.errorcodes.QuestionErrorCode;
 import com.vhl.webapi.dtos.requests.ContestQuestionReqDTO;
+import com.vhl.webapi.dtos.requests.CreateContestQuestionsReqDTO;
 import com.vhl.webapi.dtos.responses.ContestQuestionResDTO;
 import com.vhl.webapi.entities.specific.Contest;
 import com.vhl.webapi.entities.specific.ContestQuestion;
@@ -48,11 +49,6 @@ public class ContestQuestionServiceImpl implements ContestQuestionService {
         Contest contest = contestRepository.findById(contestQuestionReqDTO.getContestId())
             .orElseThrow(() -> new NoInstanceFoundException(ContestErrorCode.CONTEST__NOT_FOUND));
 
-        int count = contestQuestionRepository.findAllByContest_Id(contest.getId()).size();
-        if (count == contest.getQuestionNumber()) {
-            throw new RuntimeException(ContestErrorCode.QUESTION_NUMBER__EXCEEDED);
-        }
-
         Question question = questionRepository.findById(contestQuestionReqDTO.getQuestionId())
             .orElseThrow(() -> new NoInstanceFoundException(QuestionErrorCode.QUESTION__NOT_FOUND));
 
@@ -63,6 +59,35 @@ public class ContestQuestionServiceImpl implements ContestQuestionService {
         ContestQuestion saved = contestQuestionRepository.save(contestQuestion);
         return contestQuestionMapper.toContestQuestionResDTO(saved);
     }
+
+    @Override
+    public List<ContestQuestionResDTO> createContestQuestions(CreateContestQuestionsReqDTO createContestQuestionsReqDTO) {
+        Contest contest = contestRepository.findById(createContestQuestionsReqDTO.getContestId())
+            .orElseThrow(() -> new NoInstanceFoundException(ContestErrorCode.CONTEST__NOT_FOUND));
+
+        List<Question> questions = questionRepository.findByIdIn(createContestQuestionsReqDTO.getQuestionIds());
+        if (questions.size() != createContestQuestionsReqDTO.getQuestionIds().size()) {
+            throw new NoInstanceFoundException(QuestionErrorCode.QUESTION__NOT_FOUND);
+        }
+
+        List<ContestQuestion> contestQuestions = questions.stream()
+            .map(question -> {
+                ContestQuestion cq = new ContestQuestion();
+                cq.setContest(contest);
+                cq.setQuestion(question);
+                cq.setPoint(1.0);
+                cq.setPointAllocationRule("1:100");
+                return cq;
+            })
+            .toList();
+
+        List<ContestQuestion> savedList = contestQuestionRepository.saveAll(contestQuestions);
+
+        return savedList.stream()
+            .map(contestQuestionMapper::toContestQuestionResDTO)
+            .toList();
+    }
+
 
     @Override
     public void updateContestQuestion(String id, ContestQuestionReqDTO contestQuestionReqDTO) {

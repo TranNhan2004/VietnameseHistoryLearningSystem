@@ -9,13 +9,15 @@
       <ng-content></ng-content>
     </div>
     <div class="flex justify-end space-x-4">
-      <lib-action-button
-        [name]="ActionButtonName.Edit"
-        mainTitle="Chỉnh sửa"
-        title=""
-        (btnClick)="editFn.emit(id)"
-      >
-      </lib-action-button>
+      @if (!notEdit) {
+        <lib-action-button
+          [name]="ActionButtonName.Edit"
+          mainTitle="Chỉnh sửa"
+          title=""
+          (btnClick)="editFn.emit(id)"
+        >
+        </lib-action-button>
+      }
       <lib-action-button
         [name]="ActionButtonName.Delete"
         mainTitle="Xóa"

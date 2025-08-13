@@ -15,8 +15,8 @@ public class Contest extends ICUBaseEntity {
     @Column(name = "name", nullable = false, unique = true, length = 512)
     private String name;
 
-    @Column(name = "question_number", nullable = false)
-    private Integer questionNumber;
+    @Column(name = "description", length = 2048)
+    private String description;
 
     @Column(name = "duration_in_minutes", nullable = false)
     private Integer durationInMinutes;

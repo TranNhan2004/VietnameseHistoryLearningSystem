@@ -59,7 +59,25 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       name: 'Cuộc thi',
       icon: 'matQuizRound',
       route: '/contests',
-      prefixRoutes: ['/contest'],
+      prefixRoutes: ['/contests'],
+    },
+    {
+      name: 'Kết quả thi',
+      icon: 'matCreditScoreRound',
+      route: '/results',
+      prefixRoutes: ['/results'],
+    },
+    {
+      name: 'Bài học yêu thích',
+      icon: 'matFavoriteRound',
+      route: '/favorite-lessons',
+      prefixRoutes: ['/favorite-lessons'],
+    },
+    {
+      name: 'Bảng xếp hạng',
+      icon: 'matEmojiEventsRound',
+      route: '/ranking-table',
+      prefixRoutes: ['/ranking-table'],
     },
     {
       name: 'Chatbot',

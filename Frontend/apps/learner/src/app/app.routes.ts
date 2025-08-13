@@ -12,6 +12,9 @@ import { lessonRoutes } from './routes/lesson.routes';
 import { contestRoutes } from './routes/contest.routes';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { chatBotRoutes } from './routes/chat-bot.routes';
+import { FavoriteLessonsComponent } from './pages/favorite-lessons/favorite-lessons.component';
+import { ResultsComponent } from './pages/results/results.component';
+import { RankingTableComponent } from './pages/ranking-table/ranking-table.component';
 
 export const appRoutes: Route[] = [
   {
@@ -45,6 +48,18 @@ export const appRoutes: Route[] = [
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'favorite-lessons',
+        component: FavoriteLessonsComponent,
+      },
+      {
+        path: 'results',
+        component: ResultsComponent,
+      },
+      {
+        path: 'ranking-table',
+        component: RankingTableComponent,
       },
       {
         path: '**',

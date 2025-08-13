@@ -4,3 +4,23 @@
   (saveFn)="save()"
   (cancelFn)="cancel()"
 ></app-contest-form>
+
+<app-questions-list
+  title="Danh sách câu hỏi của cuộc thi"
+  [contestQuestionResponses]="contestResponse.contestQuestions"
+  [displayedQuestionIds]="displayedQuestionIds"
+  (selectedQuestionIdsChange)="selectedQuestionIdsChange($event)"
+  (saveSelectedQuestion)="saveSelectedQuestions()"
+  (updateQuestion)="updateQuestion($event)"
+  (deleteQuestion)="deleteQuestion($event)"
+>
+
+</app-questions-list>
+
+
+<app-update-contest-question
+  [showModal]="showUpdateContestQuestionModal"
+  [contestQuestionResponse]="contestQuestionResponse"
+  (closeModal)="closeUpdateModal()"
+>
+</app-update-contest-question>

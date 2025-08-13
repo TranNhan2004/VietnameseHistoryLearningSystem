@@ -1,5 +1,6 @@
 package com.vhl.webapi.controllers;
 
+import com.vhl.webapi.dtos.requests.IdsReqDTO;
 import com.vhl.webapi.dtos.requests.LessonReqDTO;
 import com.vhl.webapi.dtos.responses.LessonResDTO;
 import com.vhl.webapi.dtos.responses.LessonVideoResDTO;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/lessons")
@@ -68,6 +70,18 @@ public class LessonController {
     @DeleteMapping("/video/{id}")
     public ResponseEntity<?> deleteVideo(@PathVariable String id) {
         lessonService.deleteVideo(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/by-ids")
+    public ResponseEntity<?> getLessonsByIds(@RequestBody IdsReqDTO idsReqDTO) {
+        List<LessonResDTO> lessonResDTOS = lessonService.getLessonsByIds(idsReqDTO);
+        return ResponseEntity.ok(lessonResDTOS);
+    }
+
+    @PutMapping("/views/{id}")
+    public ResponseEntity<?> updateViews(@PathVariable String id) {
+        lessonService.updateViews(id);
         return ResponseEntity.noContent().build();
     }
 }

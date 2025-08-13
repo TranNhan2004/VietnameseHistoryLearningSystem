@@ -1,7 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WEB_API_URL } from '../../tokens/tokens';
-import { Question, QuestionResponse, UpdateQuestion } from '@frontend/models';
+import {
+  IdsRequest,
+  Question,
+  QuestionResponse,
+  UpdateQuestion,
+  UpdateQuestionForLesson,
+} from '@frontend/models';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +30,13 @@ export class QuestionService {
     );
   }
 
+  getByIds(data: IdsRequest) {
+    return this.httpClient.post<QuestionResponse[]>(
+      `${this.webApiUrl}questions/get-by-ids`,
+      data
+    );
+  }
+
   create(data: Question) {
     return this.httpClient.post<QuestionResponse>(
       `${this.webApiUrl}questions`,
@@ -33,6 +46,10 @@ export class QuestionService {
 
   update(id: string, data: UpdateQuestion) {
     return this.httpClient.put(`${this.webApiUrl}questions/${id}`, data);
+  }
+
+  updateForLesson(data: UpdateQuestionForLesson) {
+    return this.httpClient.put(`${this.webApiUrl}questions/for-lesson`, data);
   }
 
   delete(id: string) {

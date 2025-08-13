@@ -8,27 +8,23 @@ import {
 } from '@frontend/angular-libs';
 import { SearchComponent } from '../../components/search/search.component';
 import { SortComponent } from '../../components/sort/sort.component';
-import { TableComponent } from '../../components/table/table.component';
 import {
   ActionButtonName,
   ContestResponse,
   DisplayedData,
-  DisplayedDataAction,
 } from '@frontend/models';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { contestMessages, generalMessages } from '@frontend/constants';
-import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
-import { environment } from '../../environments/environment.dev';
+import { CardComponent } from '../../components/card/card.component';
 
 @Component({
   selector: 'app-contests',
   imports: [
     CommonModule,
-    ActionButtonComponent,
     SearchComponent,
     SortComponent,
-    TableComponent,
+    CardComponent,
+    ActionButtonComponent,
   ],
   templateUrl: './contests.component.html',
   styleUrl: './contests.component.css',
@@ -48,10 +44,10 @@ export class ContestsComponent implements OnInit {
 
   ngOnInit() {
     this.myMetadataService.set({
-      title: 'LOTUS Admin | Quản lý cuộc thi',
-      description: 'Quản lý các bài thi trắc nghiệm về lịch sử Việt Nam',
+      title: 'LOTUS | Cuộc thi',
+      description: 'Các bài thi trắc nghiệm về lịch sử Việt Nam',
       keywords:
-        'cuộc thi, quản lý, contests, manage, admin, lotus, lịch sử, histoty, việt nam, vietnam',
+        'cuộc thi, contests, lotus, lịch sử, histoty, việt nam, vietnam',
     });
 
     this.contestService.getAll().subscribe({
@@ -65,47 +61,8 @@ export class ContestsComponent implements OnInit {
     });
   }
 
-  async actionClick(event: DisplayedDataAction) {
-    switch (event.action) {
-      case ActionButtonName.Edit:
-        await this.updateData(event.dataId);
-        break;
-      case ActionButtonName.Delete:
-        await this.deleteData(event.dataId);
-        break;
-    }
-  }
-
-  async updateData(id: string) {
-    await this.router.navigateByUrl(`/contests/${id}/edit`);
-  }
-
-  async deleteData(id: string) {
-    await this.alertService.deleteWarning(() => {
-      this.contestService.delete(id).subscribe({
-        next: () => {
-          this.contests = this.contests.filter((item) => item.id !== id);
-          this.originialDisplayedData = this.originialDisplayedData.filter(
-            (item) => item.id !== id
-          );
-          this.displayedData = [...this.originialDisplayedData];
-          this.toastrService.success(contestMessages['DELETE__SUCCESS']);
-        },
-        error: (err: HttpErrorResponse) => {
-          if (!environment.production) {
-            console.log(err);
-          }
-
-          if (err.status === 409) {
-            this.toastrService.error(generalMessages['FOREIGN_KEY__VIOLATED']);
-            return;
-          }
-
-          const key = err.error.message as keyof typeof contestMessages;
-          this.toastrService.error(contestMessages[key]);
-        },
-      });
-    });
+  safe(v: any) {
+    return new Date(v as string);
   }
 
   filterData(filtered: DisplayedData[]) {
@@ -116,10 +73,11 @@ export class ContestsComponent implements OnInit {
     this.displayedData = [...sorted];
   }
 
-  async goToAddContestPage() {
-    await this.router.navigateByUrl('/contests/add');
+  async goToDoContest(id: string) {
+    await this.router.navigateByUrl(`/contests/${id}`);
   }
 
   protected readonly ActionButtonName = ActionButtonName;
   protected readonly Number = Number;
+  protected readonly Date = Date;
 }

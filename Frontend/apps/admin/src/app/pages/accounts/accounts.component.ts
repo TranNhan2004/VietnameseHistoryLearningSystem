@@ -32,6 +32,8 @@ import {
 } from '@frontend/constants';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { environment } from '../../environments/environment.dev';
+import { ModalComponent } from '../../components/modal/modal.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-accounts',
@@ -43,6 +45,9 @@ import { environment } from '../../environments/environment.dev';
     SortComponent,
     TableComponent,
     NgIcon,
+    ModalComponent,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.css',
@@ -55,14 +60,22 @@ export class AccountsComponent implements OnInit {
     { name: ActionButtonName.Info },
     {
       name: ActionButtonName.ChangeAdminLevel,
-      conceal: (id: string) => this.conceal(id),
+      conceal: (id: string) => this.adminLevelConceal(id),
     },
-    { name: ActionButtonName.Lock },
-    { name: ActionButtonName.Unlock },
+    {
+      name: ActionButtonName.Lock,
+      conceal: (id: string) => this.lockConceal(id),
+    },
+    {
+      name: ActionButtonName.Unlock,
+      conceal: (id: string) => this.unlockConceal(id),
+    },
   ];
 
   fullRole: FullRoleType;
-  adminData: UpdateAdminLevel = { adminLevel: 'BASIC' };
+  adminLevelId = '';
+  adminLevelData: UpdateAdminLevel = { adminLevel: 'BASIC' };
+  isOpenUpdateAdminLevel = false;
 
   constructor(
     private myMetadataService: MyMetadataService,
@@ -77,6 +90,49 @@ export class AccountsComponent implements OnInit {
       ?.fullRole as FullRoleType;
   }
 
+  getDisplayedData() {
+    return this.users
+      .filter((item) => {
+        if (
+          item.fullRole.includes('ADMIN') &&
+          this.fullRole !== 'ADMIN_SUPER_ADVANCED'
+        ) {
+          return false;
+        }
+        return true;
+      })
+      .map((item) => {
+        const result: any = {
+          id: item.id,
+          active: item.active,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+          firstName: item.firstName,
+          lastName: item.lastName,
+          fullName: item.lastName + ' ' + item.firstName,
+          fullRole: item.fullRole,
+          fullRoleResolved: fullRoleReader[item.fullRole],
+          dateOfBirth: item.dateOfBirth,
+          userName: item.userName,
+          email: item.email,
+          lastLogin: item.lastLogin,
+        };
+
+        if ('adminLevel' in item) {
+          result['adminLevel'] = item.adminLevel;
+        }
+
+        if ('rank' in item) {
+          result['rank'] = item.rank;
+          result['point'] = item.point;
+          result['bestScore'] = item.bestScore;
+          result['worstScore'] = item.worstScore;
+        }
+
+        return result;
+      });
+  }
+
   ngOnInit() {
     this.myMetadataService.set({
       title: 'LOTUS Admin | Quản lý tài khoản',
@@ -88,49 +144,8 @@ export class AccountsComponent implements OnInit {
     this.userService.getAll().subscribe({
       next: async (res) => {
         this.users = [...res];
-        this.originialDisplayedData = this.users
-          .filter((item) => {
-            if (
-              item.fullRole.includes('ADMIN') &&
-              this.fullRole !== 'ADMIN_SUPER_ADVANCED'
-            ) {
-              return false;
-            }
-            return true;
-          })
-          .map((item) => {
-            const result: any = {
-              id: item.id,
-              active: item.active,
-              createdAt: item.createdAt,
-              updatedAt: item.updatedAt,
-              firstName: item.firstName,
-              lastName: item.lastName,
-              fullName: item.lastName + ' ' + item.firstName,
-              fullRole: item.fullRole,
-              fullRoleResolved: fullRoleReader[item.fullRole],
-              dateOfBirth: item.dateOfBirth,
-              userName: item.userName,
-              email: item.email,
-              lastLogin: item.lastLogin,
-            };
-
-            if ('adminLevel' in item) {
-              result['adminLevel'] = item.adminLevel;
-            }
-
-            if ('rank' in item) {
-              result['rank'] = item.rank;
-              result['point'] = item.point;
-              result['bestScore'] = item.bestScore;
-              result['worstScore'] = item.worstScore;
-            }
-
-            return result;
-          });
-
+        this.originialDisplayedData = this.getDisplayedData();
         this.displayedData = [...this.originialDisplayedData];
-        console.log(this.originialDisplayedData);
       },
     });
   }
@@ -141,7 +156,7 @@ export class AccountsComponent implements OnInit {
         await this.infoData(event.dataId);
         break;
       case ActionButtonName.ChangeAdminLevel:
-        this.changeAdminLevel(event.dataId);
+        this.openChangeAdminLevel(event.dataId);
         break;
       case ActionButtonName.Lock:
         this.lockData(event.dataId);
@@ -156,25 +171,57 @@ export class AccountsComponent implements OnInit {
     await this.router.navigate([`${id}`], { relativeTo: this.route });
   }
 
-  changeAdminLevel(id: string) {
-    this.adminService.updateAdminLevel(id, this.adminData).subscribe({
-      next: () => {
-        this.toastrService.success(
-          adminMessages['UPDATE_ADMIN_LEVEL__SUCCESS']
-        );
-      },
-      error: (err: HttpErrorResponse) => {
-        if (!environment.production) {
-          console.log(err);
-        }
-      },
+  openChangeAdminLevel(id: string) {
+    this.isOpenUpdateAdminLevel = true;
+    this.adminLevelId = id;
+  }
+
+  async cancelChangeAdminLevel() {
+    await this.alertService.cancelWarning(() => {
+      this.isOpenUpdateAdminLevel = false;
+      this.adminLevelId = '';
     });
+  }
+
+  changeAdminLevel() {
+    this.adminService
+      .updateAdminLevel(this.adminLevelId, this.adminLevelData)
+      .subscribe({
+        next: (res) => {
+          this.toastrService.success(
+            adminMessages['UPDATE_ADMIN_LEVEL__SUCCESS']
+          );
+          this.users = this.users.map((u) =>
+            u.id === this.adminLevelId
+              ? {
+                  ...u,
+                  adminLevel: this.adminLevelData.adminLevel,
+                  fullRole: res.fullRole,
+                }
+              : u
+          );
+          this.originialDisplayedData = this.getDisplayedData();
+          this.displayedData = [...this.originialDisplayedData];
+          this.isOpenUpdateAdminLevel = false;
+        },
+        error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+          this.isOpenUpdateAdminLevel = false;
+        },
+      });
   }
 
   lockData(id: string) {
     this.userService.lock(id).subscribe({
       next: () => {
         this.toastrService.success(userMessages['LOCK__SUCCESS']);
+        this.users = this.users.map((u) =>
+          u.id === id ? { ...u, active: false } : u
+        );
+        this.originialDisplayedData = this.getDisplayedData();
+        this.displayedData = [...this.originialDisplayedData];
       },
       error: (err: HttpErrorResponse) => {
         if (!environment.production) {
@@ -188,6 +235,11 @@ export class AccountsComponent implements OnInit {
     this.userService.unlock(id).subscribe({
       next: () => {
         this.toastrService.success(userMessages['UNLOCK__SUCCESS']);
+        this.users = this.users.map((u) =>
+          u.id === id ? { ...u, active: true } : u
+        );
+        this.originialDisplayedData = this.getDisplayedData();
+        this.displayedData = [...this.originialDisplayedData];
       },
       error: (err: HttpErrorResponse) => {
         if (!environment.production) {
@@ -197,13 +249,31 @@ export class AccountsComponent implements OnInit {
     });
   }
 
-  conceal(id: string) {
+  adminLevelConceal(id: string) {
     const data = this.displayedData?.find((item) => item.id === id);
     if (data) {
       return (
         this.fullRole !== 'ADMIN_SUPER_ADVANCED' ||
         !(data['fullRole'] as string).includes('ADMIN')
       );
+    }
+
+    return true;
+  }
+
+  lockConceal(id: string) {
+    const data = this.displayedData?.find((item) => item.id === id);
+    if (data) {
+      return !data['active'];
+    }
+
+    return true;
+  }
+
+  unlockConceal(id: string) {
+    const data = this.displayedData?.find((item) => item.id === id);
+    if (data) {
+      return !!data['active'];
     }
 
     return true;

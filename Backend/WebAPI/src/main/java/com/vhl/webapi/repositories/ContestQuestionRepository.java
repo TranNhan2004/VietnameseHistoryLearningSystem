@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ContestQuestionRepository extends JpaRepository<ContestQuestion, String> {
     List<ContestQuestion> findAllByContest_Id(String contestId);
+
+    ContestQuestion findByContest_IdAndQuestion_Id(String contestId, String questionId);
 }

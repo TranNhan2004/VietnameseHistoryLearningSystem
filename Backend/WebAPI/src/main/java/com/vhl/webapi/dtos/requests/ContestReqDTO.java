@@ -12,14 +12,13 @@ public class ContestReqDTO {
     @Size(min = 1, max = 512, message = ContestErrorCode.NAME__TOO_LONG)
     private String name;
 
-    @NotNull(message = ContestErrorCode.QUESTION_NUMBER__REQUIRED)
-    @Min(value = 1, message = ContestErrorCode.QUESTION_NUMBER__INVALID)
-    private Integer questionNumber;
+    @Size(max = 2048, message = ContestErrorCode.DESCRIPTION__TOO_LONG)
+    private String description;
 
     @NotNull(message = ContestErrorCode.DURATION_IN_MINUTES__REQUIRED)
     @Min(value = 10, message = ContestErrorCode.DURATION_IN_MINUTES__INVALID)
     private Integer durationInMinutes;
-    
+
     @NotNull(message = ContestErrorCode.START_TIME__REQUIRED)
     private LocalDateTime startTime;
 

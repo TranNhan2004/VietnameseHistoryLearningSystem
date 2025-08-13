@@ -1,15 +1,14 @@
 export const contestMessages = {
   // Errors
   NAME__REQUIRED: 'Tên cuộc thi là bắt buộc',
-  QUESTION_NUMBER__REQUIRED: 'Số câu hỏi là bắt buộc.',
   DURATION_IN_MINUTES__REQUIRED: 'Thời lượng (phút) là bắt buộc.',
   START_TIME__REQUIRED: 'Thời gian bắt đầu là bắt buộc.',
   END_TIME__REQUIRED: 'Thời gian kết thúc là bắt buộc.',
 
   NAME__TOO_LONG: 'Tên cuộc thi quá dài.',
+  DESCRIPTION__TOO_LONG: 'Mô tả cuộc thi quá dài',
   NAME__UNIQUE: 'Tên cuộc thi là duy nhất',
 
-  QUESTION_NUMBER__INVALID: 'Số câu hỏi không hợp lệ.',
   DURATION_IN_MINUTES__INVALID: 'Thời lượng (phút) không hợp lệ.',
   END_TIME__INVALID: 'Thời gian kết thúc không hợp lệ.',
 
@@ -32,7 +31,7 @@ export const contestQuestionMessages = {
   POINT_ALLOCATION_RULE__INVALID: 'Quy tắc phân bổ điểm không hợp lệ.',
 
   // Success
-  CREATE__SUCCESS: 'Thêm câu hỏi vào cuộc thi thành công.',
+  CREATE_BATCH__SUCCESS: 'Thêm các câu hỏi vào cuộc thi thành công.',
   UPDATE__SUCCESS: 'Cập nhật câu hỏi trong cuộc thi thành công.',
   DELETE__SUCCESS: 'Xóa câu hỏi khỏi cuộc thi thành công.',
 

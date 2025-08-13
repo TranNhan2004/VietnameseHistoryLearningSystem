@@ -49,6 +49,14 @@ const BUTTON_CONFIG: Record<ActionButtonName, { icon: string; title: string }> =
       icon: 'matGroupsRound',
       title: 'Đổi cấp bậc quản trị',
     },
+    [ActionButtonName.SubmitQuiz]: {
+      icon: 'matPublishRound',
+      title: 'Nộp bài',
+    },
+    [ActionButtonName.Favorite]: {
+      icon: 'matFavoriteBorderRound',
+      title: 'Thích',
+    },
   };
 
 @Component({
