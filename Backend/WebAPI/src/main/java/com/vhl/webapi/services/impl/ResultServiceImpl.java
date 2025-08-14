@@ -67,8 +67,9 @@ public class ResultServiceImpl implements ResultService {
 
     @Override
     public ResultResDTO getResultByLearnerAndContestId(String learnerId, String contestId) {
-        Result result = resultRepository.findByLearner_IdAndContest_Id(learnerId, contestId)
+        Result result = resultRepository.findByLearnerAndContest(learnerId, contestId)
             .orElseThrow(() -> new NoInstanceFoundException(ResultErrorCode.RESULT__NOT_FOUND));
+        
         return resultMapper.toResultResDTO(result);
     }
 

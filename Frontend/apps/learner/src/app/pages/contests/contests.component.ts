@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ActionButtonComponent,
-  AlertService,
   ContestService,
   MyMetadataService,
   ResultService,
+  SharedService,
 } from '@frontend/angular-libs';
 import { SearchComponent } from '../../components/search/search.component';
 import { SortComponent } from '../../components/sort/sort.component';
@@ -15,10 +15,12 @@ import {
   ContestResponse,
   DisplayedData,
 } from '@frontend/models';
-import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CardComponent } from '../../components/card/card.component';
-import { HAS_RESULT_CONTEST_IDS_LSK } from '@frontend/constants';
+import {
+  HAS_RESULT_CONTEST_IDS_LSK,
+  RESULT_DATA_LSK,
+} from '@frontend/constants';
 import { AuthenticationHelpers, DateUtils } from '@frontend/utils';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { environment } from '../../environments/environment.dev';
@@ -46,8 +48,7 @@ export class ContestsComponent implements OnInit {
     private myMetadataService: MyMetadataService,
     private contestService: ContestService,
     private resultService: ResultService,
-    private alertService: AlertService,
-    private toastrService: ToastrService,
+    private sharedService: SharedService,
     private router: Router
   ) {
     this.learnerId = AuthenticationHelpers.getUserInfo('LEARNER')?.id ?? '';
@@ -76,7 +77,7 @@ export class ContestsComponent implements OnInit {
         this.hasResultContestIds = res
           .filter((item) => item.endTime !== null)
           .map((item) => item.contestId);
-        
+
         localStorage.setItem(
           HAS_RESULT_CONTEST_IDS_LSK,
           JSON.stringify(this.hasResultContestIds)
@@ -101,6 +102,13 @@ export class ContestsComponent implements OnInit {
     return !this.hasResultContestIds.includes(id);
   }
 
+  saveToSessionStorage(key: string, value: any): Promise<void> {
+    return new Promise((resolve) => {
+      sessionStorage.setItem(key, value);
+      resolve();
+    });
+  }
+
   async goToDoContest(id: string) {
     this.resultService
       .create({
@@ -109,14 +117,17 @@ export class ContestsComponent implements OnInit {
         startTime: DateUtils.toLocalTimeStr(new Date()),
       })
       .subscribe({
-        next: () => {},
+        next: (res) => {
+          this.saveToSessionStorage(RESULT_DATA_LSK, res.id).then(async () => {
+            await this.router.navigateByUrl(`/contests/${id}`);
+          });
+        },
         error: (err: HttpErrorResponse) => {
           if (!environment.production) {
             console.log(err);
           }
         },
       });
-    await this.router.navigateByUrl(`/contests/${id}`);
   }
 
   getQuestionsLength(item: DisplayedData) {

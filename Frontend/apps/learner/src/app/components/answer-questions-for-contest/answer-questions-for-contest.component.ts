@@ -46,6 +46,7 @@ export class AnswerQuestionsForContestComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadAnswersFromStorage();
     this.loadFlagsFromStorage();
+
     this.startTimer();
   }
 

@@ -18,7 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationHelpers, DateUtils } from '@frontend/utils';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { environment } from '../../environments/environment.dev';
-import { initialResultResponse } from '@frontend/constants';
+import { initialResultResponse, RESULT_DATA_LSK } from '@frontend/constants';
 import { switchMap } from 'rxjs';
 
 @Component({
@@ -55,16 +55,17 @@ export class DoContestComponent implements OnInit {
         'làm bài thi, do contest, lotus, lịch sử, trắc nghiệm, học tập, Việt Nam',
     });
 
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) return;
+    const resultId = sessionStorage.getItem(RESULT_DATA_LSK);
+    const contestId = this.route.snapshot.paramMap.get('id') ?? '';
+    if (!resultId || !contestId) return;
 
     this.resultService
-      .getByLearnerAndContest(id, this.learnerId)
+      .getById(resultId)
       .pipe(
         switchMap((resultRes) => {
           this.resultResponse = resultRes;
 
-          return this.contestService.getById(id).pipe(
+          return this.contestService.getById(contestId).pipe(
             switchMap((contestRes) => {
               this.durationInMinutes = contestRes.durationInMinutes;
               const contestQuestionIds = contestRes.contestQuestions.map(
@@ -83,9 +84,14 @@ export class DoContestComponent implements OnInit {
           const start = DateUtils.toDate(
             this.resultResponse.startTime as string
           );
-          this.resultResponse.endTime = DateUtils.toLocalTimeStr(
+          const endTime = DateUtils.toLocalTimeStr(
             new Date(start.getTime() + this.durationInMinutes * 60 * 1000)
           );
+
+          this.resultResponse = {
+            ...this.resultResponse,
+            endTime,
+          };
         },
         error: (err: HttpErrorResponse) => {
           if (!environment.production) {
@@ -96,6 +102,7 @@ export class DoContestComponent implements OnInit {
   }
 
   safe(v: any) {
+    console.log(JSON.stringify(this.resultResponse));
     return DateUtils.toDate(v as string);
   }
 
@@ -116,6 +123,7 @@ export class DoContestComponent implements OnInit {
               await this.alertService.success(
                 'Nộp bài thành công, vui lòng xem điểm ở mục "Kết quả thi"',
                 async () => {
+                  sessionStorage.removeItem(RESULT_DATA_LSK);
                   await this.router.navigateByUrl('/contests');
                 }
               );
