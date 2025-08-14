@@ -133,6 +133,7 @@ export class AnswerQuestionsForContestComponent implements OnInit, OnDestroy {
     const temp = this.convertSetsToArrays(this.selectedAnswers);
     const flat = Object.values(temp).flat();
     const submitTime = DateUtils.toLocalTimeStr(new Date());
+    console.log(submitTime);
     this.submitAnswers.emit({ answerIds: flat, submitTime: submitTime });
     this.clearStorage();
   }
