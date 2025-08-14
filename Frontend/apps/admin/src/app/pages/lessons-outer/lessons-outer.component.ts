@@ -4,6 +4,7 @@ import {
   ActionButtonComponent,
   AlertService,
   HistoricalPeriodService,
+  MyMetadataService,
   SharedService,
 } from '@frontend/angular-libs';
 import { Router } from '@angular/router';
@@ -40,6 +41,7 @@ export class LessonsOuterComponent implements OnInit {
   displayedData: DisplayedData[] = [];
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private historicalPeriodService: HistoricalPeriodService,
     private alertService: AlertService,
     private toastrService: ToastrService,
@@ -48,6 +50,13 @@ export class LessonsOuterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Quản lý bài học',
+      description: 'Quản lý các bài học về lịch sử Việt Nam',
+      keywords:
+        'bài học, quản lý, lessons, manage, admin, lotus, lịch sử, histoty, việt nam, vietnam',
+    });
+
     this.historicalPeriodService.getAll().subscribe({
       next: (res) => {
         this.historicalPeriods = [...res];

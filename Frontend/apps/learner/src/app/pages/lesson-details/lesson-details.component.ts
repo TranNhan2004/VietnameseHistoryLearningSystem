@@ -18,6 +18,7 @@ import {
   AlertService,
   LearnerLessonAnswerService,
   LessonService,
+  MyMetadataService,
 } from '@frontend/angular-libs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
@@ -58,6 +59,7 @@ export class LessonDetailsComponent implements OnInit {
   learnerId = '';
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private lessonService: LessonService,
     private learnerLessonAnswerService: LearnerLessonAnswerService,
     private alertService: AlertService,
@@ -76,6 +78,14 @@ export class LessonDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.myMetadataService.set({
+      title: 'LOTUS | Chi tiết bài học',
+      description:
+        'Xem chi tiết nội dung bài học và các tài liệu liên quan trên hệ thống hỗ trợ học tập lịch sử Việt Nam',
+      keywords:
+        'bài học, chi tiết bài học, lesson details, lotus, lịch sử, học tập, Việt Nam',
+    });
+
     const lessonId = this.route.snapshot.paramMap.get('id') ?? '';
     this.lessonService.getById(lessonId).subscribe({
       next: (res) => {

@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContestFormComponent } from '../../components/contest-form/contest-form.component';
 import { FormGroup, Validators } from '@angular/forms';
-import { formatDateTime, MyFormGroupHelper } from '@frontend/utils';
+import { DateUtils, formatDateTime, MyFormGroupHelper } from '@frontend/utils';
 import {
   AlertService,
   ContestService,
   MyFormBuilderService,
+  MyMetadataService,
 } from '@frontend/angular-libs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -21,11 +22,12 @@ import { contestMessages } from '@frontend/constants';
   templateUrl: './create-contest.component.html',
   styleUrl: './create-contest.component.css',
 })
-export class CreateContestComponent {
+export class CreateContestComponent implements OnInit {
   contestForm: FormGroup;
   contestFH: MyFormGroupHelper;
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private myFB: MyFormBuilderService,
     private contestService: ContestService,
     private toastrService: ToastrService,
@@ -47,6 +49,15 @@ export class CreateContestComponent {
     this.contestFH = new MyFormGroupHelper(this.contestForm);
   }
 
+  ngOnInit() {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Tạo tài khoản quản trị',
+      description: 'Tạo và quản lý tài khoản admin trên hệ thống LOTUS',
+      keywords:
+        'tạo tài khoản, quản trị, admin, quản lý, lotus, hệ thống, Việt Nam',
+    });
+  }
+
   private resetForm() {
     const current = new Date();
     const tomorrow = new Date();
@@ -56,8 +67,8 @@ export class CreateContestComponent {
       name: '',
       description: '',
       durationInMinutes: 10,
-      startTime: formatDateTime(current),
-      endTime: formatDateTime(tomorrow),
+      startTime: DateUtils.toLocalTimeStr(current),
+      endTime: DateUtils.toLocalTimeStr(tomorrow),
     });
 
     this.contestForm.markAsPristine();
@@ -67,8 +78,8 @@ export class CreateContestComponent {
   save() {
     if (this.contestForm.valid) {
       const data: Contest = this.contestForm.value;
-      data.startTime = formatDateTime(new Date(data.startTime));
-      data.endTime = formatDateTime(new Date(data.endTime));
+      data.startTime = DateUtils.toLocalTimeStr(new Date(data.startTime));
+      data.endTime = DateUtils.toLocalTimeStr(new Date(data.endTime));
       this.contestService.create(data).subscribe({
         next: () => {
           this.resetForm();

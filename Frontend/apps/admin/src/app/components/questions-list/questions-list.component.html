@@ -43,14 +43,15 @@
           (deleteFn)="deleteQuestion.emit(item.id)"
         >
           <div class="flex flex-col text-justify text-gray-800 space-y-2">
-            <div class="flex items-center space-x-2">
-              <p class="font-medium">{{ cast(item).content }}</p>
-              <p class="font-medium" *ngIf="hasContest()">({{ getPoint(item) }} điểm)</p>
-            </div>
+
+
             @if (hasContest()) {
+              <p class="font-medium">{{ cast(item).content }} ({{ getPoint(item) }} điểm)</p>
               <p class="mt-1 italic text-gray-500">
                 {{ getFormattedPointAllocationRule(item) }}
               </p>
+            } @else {
+              <p class="font-medium">{{ cast(item).content }}</p>
             }
 
             @for (answerOption of cast(item).answerOptions; track answerOption.id; let i = $index) {

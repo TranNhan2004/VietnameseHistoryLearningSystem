@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AuthenticationService,
   MyFormBuilderService,
+  MyMetadataService,
   PasswordInputComponent,
   VerificationService,
 } from '@frontend/angular-libs';
@@ -33,7 +34,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   learnerForm: FormGroup;
   learnerFH: MyFormGroupHelper;
   learnerResponse: LearnerResponse = initialLearnerResponse;
@@ -44,6 +45,7 @@ export class SignupComponent {
   resendOTPCountdown = 30;
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private authenticationService: AuthenticationService,
     private verificationService: VerificationService,
     private toastrService: ToastrService,
@@ -124,6 +126,14 @@ export class SignupComponent {
     });
 
     this.verificationFH = new MyFormGroupHelper(this.verificationForm);
+  }
+
+  ngOnInit() {
+    this.myMetadataService.set({
+      title: 'LOTUS | Đăng ký',
+      description: 'Đăng ký vào hệ thống hỗ trợ học tập lịch sử Việt Nam',
+      keywords: 'Đăng ký, lotus, lịch sử, histoty, việt nam, vietnam, signup',
+    });
   }
 
   setCountdown() {

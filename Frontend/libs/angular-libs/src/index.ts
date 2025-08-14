@@ -38,6 +38,8 @@ export * from './lib/services/be/learner-lesson-answer.service';
 export * from './lib/services/be/lesson.service';
 export * from './lib/services/be/paragraph.service';
 export * from './lib/services/be/question.service';
+export * from './lib/services/be/result.service';
+export * from './lib/services/be/result-answer.service';
 export * from './lib/services/be/study-progress.service';
 export * from './lib/services/be/user.service';
 export * from './lib/services/be/verification.service';

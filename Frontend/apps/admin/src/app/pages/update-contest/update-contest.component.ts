@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, Validators } from '@angular/forms';
-import {
-  formatDateTime,
-  formatDateTimeInput,
-  MyFormGroupHelper,
-} from '@frontend/utils';
+import { DateUtils, formatDateTime, MyFormGroupHelper } from '@frontend/utils';
 import {
   AlertService,
   ContestQuestionService,
   ContestService,
   MyFormBuilderService,
+  MyMetadataService,
 } from '@frontend/angular-libs';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -55,6 +52,7 @@ export class UpdateContestComponent implements OnInit {
     initialContestQuestionResponse;
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private myFB: MyFormBuilderService,
     private contestService: ContestService,
     private contestQuestionService: ContestQuestionService,
@@ -79,6 +77,12 @@ export class UpdateContestComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Cập nhật cuộc thi',
+      description: 'Chỉnh sửa thông tin và cài đặt các cuộc thi trắc nghiệm',
+      keywords: 'cập nhật cuộc thi, update contest, admin, quản lý, lotus',
+    });
+
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     this.contestService.getById(id).subscribe({
       next: (res) => {
@@ -113,8 +117,8 @@ export class UpdateContestComponent implements OnInit {
 
     if (this.contestForm.valid) {
       const data: Contest = this.contestForm.value;
-      data.startTime = formatDateTimeInput(new Date(data.startTime));
-      data.endTime = formatDateTimeInput(new Date(data.endTime));
+      data.startTime = DateUtils.toLocalTimeStr(new Date(data.startTime));
+      data.endTime = DateUtils.toLocalTimeStr(new Date(data.endTime));
       this.contestService.update(id, data).subscribe({
         next: () => {
           this.toastrService.success(contestMessages['UPDATE__SUCCESS']);
@@ -186,6 +190,13 @@ export class UpdateContestComponent implements OnInit {
         (item) => item.questionId === questionId
       ) || initialContestQuestionResponse),
     };
+  }
+
+  updatedContestQuestion(item: ContestQuestionResponse) {
+    this.contestResponse.contestQuestions =
+      this.contestResponse.contestQuestions.map((cq) => {
+        return cq.id === item.id ? item : cq;
+      });
   }
 
   async deleteQuestion(questionId: string) {

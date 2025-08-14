@@ -51,4 +51,6 @@ export const materialIcons = {
   matEmojiEventsRound: matIcons.matEmojiEventsRound,
   matCreditScoreRound: matIcons.matCreditScoreRound,
   matPendingRound: matIcons.matPendingRound,
+  matFlagRound: matIcons.matFlagRound,
+  matTimerRound: matIcons.matTimerRound,
 };

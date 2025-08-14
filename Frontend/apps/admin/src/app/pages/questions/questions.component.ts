@@ -4,6 +4,7 @@ import { TableComponent } from '../../components/table/table.component';
 import {
   ActionButtonComponent,
   AlertService,
+  MyMetadataService,
   QuestionService,
 } from '@frontend/angular-libs';
 import { SearchComponent } from '../../components/search/search.component';
@@ -40,6 +41,7 @@ export class QuestionsComponent implements OnInit {
   displayedData: DisplayedData[] = [];
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private questionService: QuestionService,
     private alertService: AlertService,
     private toastrService: ToastrService,
@@ -47,6 +49,12 @@ export class QuestionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Quản lý câu hỏi',
+      description: 'Quản lý danh sách câu hỏi trắc nghiệm trong hệ thống LOTUS',
+      keywords: 'câu hỏi, question, admin, quản lý, lotus, lịch sử, Việt Nam',
+    });
+
     this.questionService.getAll().subscribe({
       next: (res) => {
         this.questions = [...res];

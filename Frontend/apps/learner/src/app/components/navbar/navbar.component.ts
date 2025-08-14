@@ -73,12 +73,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       route: '/favorite-lessons',
       prefixRoutes: ['/favorite-lessons'],
     },
-    {
-      name: 'Bảng xếp hạng',
-      icon: 'matEmojiEventsRound',
-      route: '/ranking-table',
-      prefixRoutes: ['/ranking-table'],
-    },
+    // {
+    //   name: 'Bảng xếp hạng',
+    //   icon: 'matEmojiEventsRound',
+    //   route: '/ranking-table',
+    //   prefixRoutes: ['/ranking-table'],
+    // },
     {
       name: 'Chatbot',
       icon: 'matAssistantRound',

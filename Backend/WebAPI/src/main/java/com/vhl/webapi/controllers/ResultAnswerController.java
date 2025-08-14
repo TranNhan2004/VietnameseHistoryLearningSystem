@@ -3,7 +3,6 @@ package com.vhl.webapi.controllers;
 import com.vhl.webapi.dtos.requests.ResultAnswerReqDTO;
 import com.vhl.webapi.dtos.responses.ResultAnswerResDTO;
 import com.vhl.webapi.services.abstraction.ResultAnswerService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,11 @@ public class ResultAnswerController {
     private final ResultAnswerService resultAnswerService;
 
     @PostMapping("/batch")
-    public ResponseEntity<?> createBatch(@Valid @RequestBody List<ResultAnswerReqDTO> resultAnswerReqDTOS) {
+    public ResponseEntity<?> createBatch(@RequestBody List<ResultAnswerReqDTO> resultAnswerReqDTOS) {
+        if (resultAnswerReqDTOS == null || resultAnswerReqDTOS.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
         List<ResultAnswerResDTO> resultAnswerResDTOS = resultAnswerService.createBatch(resultAnswerReqDTOS);
         return ResponseEntity.status(HttpStatus.CREATED).body(resultAnswerResDTOS);
     }

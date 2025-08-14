@@ -12,6 +12,10 @@ public interface ResultService {
 
     List<ResultResDTO> getResultsByLearnerId(String learnerId);
 
+    List<ResultResDTO> getResultsByContestId(String contestId);
+
+    ResultResDTO getResultByLearnerAndContestId(String learnerId, String contestId);
+
     ResultResDTO getResultById(String id);
 
     ResultResDTO updateResult(String id, UpdateResultReqDTO updateResultReqDTO);

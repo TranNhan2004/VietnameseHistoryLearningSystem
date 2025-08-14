@@ -10,6 +10,7 @@ import com.vhl.webapi.entities.specific.*;
 import com.vhl.webapi.exceptions.NoInstanceFoundException;
 import com.vhl.webapi.mappers.ResultMapper;
 import com.vhl.webapi.repositories.*;
+import com.vhl.webapi.services.abstraction.LearnerService;
 import com.vhl.webapi.services.abstraction.ResultService;
 import com.vhl.webapi.utils.rules.PointAllocationRuleUtils;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class ResultServiceImpl implements ResultService {
     private final ContestRepository contestRepository;
     private final ContestQuestionRepository contestQuestionRepository;
     private final ResultAnswerRepository resultAnswerRepository;
+    private final LearnerService learnerService;
 
     @Override
     public ResultResDTO createResult(ResultReqDTO resultReqDTO) {
@@ -56,6 +58,21 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
+    public List<ResultResDTO> getResultsByContestId(String contestId) {
+        List<Result> results = resultRepository.findAllByContest_Id(contestId);
+        return results.stream()
+            .map(resultMapper::toResultResDTO)
+            .toList();
+    }
+
+    @Override
+    public ResultResDTO getResultByLearnerAndContestId(String learnerId, String contestId) {
+        Result result = resultRepository.findByLearner_IdAndContest_Id(learnerId, contestId)
+            .orElseThrow(() -> new NoInstanceFoundException(ResultErrorCode.RESULT__NOT_FOUND));
+        return resultMapper.toResultResDTO(result);
+    }
+
+    @Override
     public ResultResDTO getResultById(String id) {
         Result result = resultRepository.findById(id)
             .orElseThrow(() -> new NoInstanceFoundException(ResultErrorCode.RESULT__NOT_FOUND));
@@ -75,11 +92,23 @@ public class ResultServiceImpl implements ResultService {
         result.setEndTime(updateResultReqDTO.getEndTime());
 
         List<ResultAnswer> resultAnswers = resultAnswerRepository.findAllByResult_Id(id);
+
+
+        if (resultAnswers == null || resultAnswers.isEmpty()) {
+            result.setScore(0.0);
+            resultRepository.save(result);
+
+            learnerService.updatePointAndRank(result.getLearner().getId(), 0);
+            learnerService.updateScore(result.getLearner().getId(), 0.0);
+            return resultMapper.toResultResDTO(result);
+        }
+
+
         Map<String, List<ResultAnswer>> answersByQuestion = resultAnswers.stream()
             .collect(Collectors.groupingBy(ra -> ra.getAnswerOption().getQuestion().getId()));
 
         double totalScore = 0.0;
-
+        double fullScore = 0.0;
         for (Map.Entry<String, List<ResultAnswer>> entry : answersByQuestion.entrySet()) {
             String questionId = entry.getKey();
             List<ResultAnswer> chosenAnswers = entry.getValue();
@@ -87,6 +116,7 @@ public class ResultServiceImpl implements ResultService {
             var contestQuestion = contestQuestionRepository
                 .findByContest_IdAndQuestion_Id(result.getContest().getId(), questionId);
 
+            fullScore += contestQuestion.getPoint();
             if (contestQuestion == null) continue;
 
             double originalPoint = contestQuestion.getPoint();
@@ -120,7 +150,11 @@ public class ResultServiceImpl implements ResultService {
         result.setScore(totalScore);
         resultRepository.save(result);
 
+        double scoreIn100 = (totalScore / fullScore) * 100;
+        learnerService.updatePointAndRank(result.getLearner().getId(), (int) scoreIn100);
+        learnerService.updateScore(result.getLearner().getId(), scoreIn100);
         return resultMapper.toResultResDTO(result);
     }
+
 
 }

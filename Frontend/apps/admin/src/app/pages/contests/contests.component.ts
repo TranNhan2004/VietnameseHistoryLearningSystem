@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 import { contestMessages, generalMessages } from '@frontend/constants';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
 import { environment } from '../../environments/environment.dev';
+import { DateUtils } from '@frontend/utils';
 
 @Component({
   selector: 'app-contests',
@@ -63,6 +64,10 @@ export class ContestsComponent implements OnInit {
         this.displayedData = [...this.originialDisplayedData];
       },
     });
+  }
+
+  safe(v: any) {
+    return DateUtils.toDate(v as string);
   }
 
   async actionClick(event: DisplayedDataAction) {

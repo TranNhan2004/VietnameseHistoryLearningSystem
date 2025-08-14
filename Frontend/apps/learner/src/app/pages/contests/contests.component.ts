@@ -5,17 +5,23 @@ import {
   AlertService,
   ContestService,
   MyMetadataService,
+  ResultService,
 } from '@frontend/angular-libs';
 import { SearchComponent } from '../../components/search/search.component';
 import { SortComponent } from '../../components/sort/sort.component';
 import {
   ActionButtonName,
+  ContestQuestionResponse,
   ContestResponse,
   DisplayedData,
 } from '@frontend/models';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CardComponent } from '../../components/card/card.component';
+import { HAS_RESULT_CONTEST_IDS_LSK } from '@frontend/constants';
+import { AuthenticationHelpers, DateUtils } from '@frontend/utils';
+import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
+import { environment } from '../../environments/environment.dev';
 
 @Component({
   selector: 'app-contests',
@@ -33,14 +39,19 @@ export class ContestsComponent implements OnInit {
   contests: ContestResponse[] = [];
   originialDisplayedData: DisplayedData[] = [];
   displayedData: DisplayedData[] = [];
+  hasResultContestIds: string[] = [];
+  learnerId = '';
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private contestService: ContestService,
+    private resultService: ResultService,
     private alertService: AlertService,
     private toastrService: ToastrService,
-    private myMetadataService: MyMetadataService,
     private router: Router
-  ) {}
+  ) {
+    this.learnerId = AuthenticationHelpers.getUserInfo('LEARNER')?.id ?? '';
+  }
 
   ngOnInit() {
     this.myMetadataService.set({
@@ -59,10 +70,23 @@ export class ContestsComponent implements OnInit {
         this.displayedData = [...this.originialDisplayedData];
       },
     });
+
+    this.resultService.getAllByLearner(this.learnerId).subscribe({
+      next: (res) => {
+        this.hasResultContestIds = res
+          .filter((item) => item.endTime !== null)
+          .map((item) => item.contestId);
+        
+        localStorage.setItem(
+          HAS_RESULT_CONTEST_IDS_LSK,
+          JSON.stringify(this.hasResultContestIds)
+        );
+      },
+    });
   }
 
   safe(v: any) {
-    return new Date(v as string);
+    return DateUtils.toDate(v as string);
   }
 
   filterData(filtered: DisplayedData[]) {
@@ -73,8 +97,35 @@ export class ContestsComponent implements OnInit {
     this.displayedData = [...sorted];
   }
 
+  canDoContest(id: string) {
+    return !this.hasResultContestIds.includes(id);
+  }
+
   async goToDoContest(id: string) {
+    this.resultService
+      .create({
+        contestId: id,
+        learnerId: this.learnerId,
+        startTime: DateUtils.toLocalTimeStr(new Date()),
+      })
+      .subscribe({
+        next: () => {},
+        error: (err: HttpErrorResponse) => {
+          if (!environment.production) {
+            console.log(err);
+          }
+        },
+      });
     await this.router.navigateByUrl(`/contests/${id}`);
+  }
+
+  getQuestionsLength(item: DisplayedData) {
+    return (item['contestQuestions'] as ContestQuestionResponse[]).length;
+  }
+
+  getFullScore(item: DisplayedData) {
+    const data = item['contestQuestions'] as ContestQuestionResponse[];
+    return data.reduce((a, b) => a + b.point, 0);
   }
 
   protected readonly ActionButtonName = ActionButtonName;

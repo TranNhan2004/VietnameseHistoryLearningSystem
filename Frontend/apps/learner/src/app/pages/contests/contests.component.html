@@ -32,11 +32,11 @@
 
   <div class="mt-5 grid grid-cols-2 gap-4">
     @for (item of displayedData; track item.id) {
-      <app-card width="full" height="325px">
+      <app-card width="full" height="360px">
         <div card-body>
-          <h6 class="text-lg font-bold mb-2">{{ item['name'] }}</h6>
+          <h6 class="text-xl font-bold mb-2">{{ item['name'] }}</h6>
           <div class="text-justify space-y-2">
-            <div>
+            <div class="mb-4">
               <p class="text-my-darknavy font-bold">Mô tả:</p>
               @if (item['description']) {
                 <p class="text-gray-800 w-[85%]">{{ item['description'] }}</p>
@@ -49,6 +49,14 @@
               <p class="text-gray-800">{{ item['durationInMinutes'] }} phút</p>
             </div>
             <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Tổng số câu:</p>
+              <p class="text-gray-800">{{ getQuestionsLength(item) }} câu</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Tổng số điểm:</p>
+              <p class="text-gray-800">{{ getFullScore(item) }} điểm</p>
+            </div>
+            <div class="flex items-start space-x-2">
               <p class="text-my-darknavy font-bold">Thời điểm bắt đầu:</p>
               <p class="text-gray-800">{{ safe(item['startTime']) | date: 'dd/MM/yyyy-HH:mm' }}</p>
             </div>
@@ -56,21 +64,19 @@
               <p class="text-my-darknavy font-bold">Thời điểm kết thúc:</p>
               <p class="text-gray-800">{{ safe(item['endTime']) | date: 'dd/MM/yyyy-HH:mm' }}</p>
             </div>
-            <div class="flex items-start space-x-2">
-              <p class="text-my-darknavy font-bold">Số người đã thi:</p>
-              <p class="text-gray-800">...</p>
-            </div>
           </div>
         </div>
 
         <div card-footer>
-          <lib-action-button
-            [name]="ActionButtonName.LinkTo"
-            mainTitle="Vào thi"
-            title=""
-            (btnClick)="goToDoContest(item.id)"
-          >
-          </lib-action-button>
+          @if (canDoContest(item.id)) {
+            <lib-action-button
+              [name]="ActionButtonName.LinkTo"
+              mainTitle="Vào thi"
+              title=""
+              (btnClick)="goToDoContest(item.id)"
+            >
+            </lib-action-button>
+          }
         </div>
       </app-card>
     }

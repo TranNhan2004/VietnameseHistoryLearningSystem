@@ -46,6 +46,7 @@ export class UpdateContestQuestionComponent implements OnChanges {
   @Input({ required: true }) contestQuestionResponse: ContestQuestionResponse =
     initialContestQuestionResponse;
   @Output() closeModal = new EventEmitter();
+  @Output() newData = new EventEmitter<ContestQuestionResponse>();
 
   updateQuestionForm: FormGroup;
   updateQuestionFH: MyFormGroupHelper;
@@ -81,7 +82,7 @@ export class UpdateContestQuestionComponent implements OnChanges {
   }
 
   get pointAllocationRuleInstruction() {
-    return '(Ghi theo quy tắc <số câu đúng>:<số % điểm>, cách nhau bởi dấu "-", ví dụ: 2:100-1:40)';
+    return '(Ghi theo quy tắc <số câu đúng>:<số % điểm>, cách nhau bởi dấu "-", ví dụ: 1:40-2:100)';
   }
 
   save() {
@@ -95,6 +96,13 @@ export class UpdateContestQuestionComponent implements OnChanges {
               contestQuestionMessages['UPDATE__SUCCESS']
             );
             this.closeModal.emit();
+            this.newData.emit({
+              id: this.contestQuestionResponse.id,
+              contestId: this.contestQuestionResponse.contestId,
+              questionId: this.contestQuestionResponse.questionId,
+              point: data.point,
+              pointAllocationRule: data.pointAllocationRule,
+            });
           },
           error: (err: HttpErrorResponse) => {
             if (!environment.production) {

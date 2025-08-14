@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.Map;
 
 @Service
@@ -49,7 +50,7 @@ public class PythonApiClientImpl implements PythonApiClient {
     public void setConfig(String config) {
         System.out.println(config);
 
-        ssRedisService.set(redisAIKey, config, null);
+        ssRedisService.set(redisAIKey, config, Duration.ofDays(365 * 1000));
 
         String url = aiApiUrl + "config";
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);

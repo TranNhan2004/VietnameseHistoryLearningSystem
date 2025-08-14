@@ -89,12 +89,20 @@ public class AuthenticationController {
         String refreshToken = map.get("refreshToken").toString();
         String cookieName = getCookieName(loginReqDTO.getRole());
 
+//        ResponseCookie cookie = ResponseCookie.from(cookieName, refreshToken)
+//            .maxAge(24 * 60 * 60)
+//            .path("/")
+//            .httpOnly(true)
+//            .secure(false)
+//            .sameSite("Lax")
+//            .build();
+
         ResponseCookie cookie = ResponseCookie.from(cookieName, refreshToken)
             .maxAge(24 * 60 * 60)
             .path("/")
             .httpOnly(true)
-            .secure(false)
-            .sameSite("Lax")
+            .secure(true)
+            .sameSite("None")
             .build();
 
         return ResponseEntity.ok()
@@ -125,13 +133,22 @@ public class AuthenticationController {
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@Valid @RequestBody LogoutReqDTO logoutReqDTO) {
         String cookieName = getCookieName(logoutReqDTO.getFullRole());
+//        ResponseCookie cookie = ResponseCookie.from(cookieName, "")
+//            .maxAge(0)
+//            .path("/")
+//            .httpOnly(true)
+//            .secure(false)
+//            .sameSite("Lax")
+//            .build();
+
         ResponseCookie cookie = ResponseCookie.from(cookieName, "")
             .maxAge(0)
             .path("/")
             .httpOnly(true)
-            .secure(false)
-            .sameSite("Lax")
+            .secure(true)
+            .sameSite("None")
             .build();
+
 
         return ResponseEntity.noContent()
             .header("Set-Cookie", cookie.toString())

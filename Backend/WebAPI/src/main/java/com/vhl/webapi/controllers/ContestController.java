@@ -1,6 +1,7 @@
 package com.vhl.webapi.controllers;
 
 import com.vhl.webapi.dtos.requests.ContestReqDTO;
+import com.vhl.webapi.dtos.requests.IdsReqDTO;
 import com.vhl.webapi.dtos.responses.ContestResDTO;
 import com.vhl.webapi.services.abstraction.ContestService;
 import jakarta.validation.Valid;
@@ -30,6 +31,12 @@ public class ContestController {
     public ResponseEntity<?> getContestById(@PathVariable String id) {
         ContestResDTO contestResDTO = contestService.getContestById(id);
         return ResponseEntity.ok(contestResDTO);
+    }
+
+    @PostMapping("/by-ids")
+    public ResponseEntity<?> getContestsByName(@RequestBody IdsReqDTO idsReqDTO) {
+        List<ContestResDTO> contestResDTOS = contestService.getAllByIds(idsReqDTO);
+        return ResponseEntity.ok(contestResDTOS);
     }
 
     @PreAuthorize("@roleChecker.hasRolePrefix('ADMIN')")

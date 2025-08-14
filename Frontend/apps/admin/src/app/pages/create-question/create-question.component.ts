@@ -1,12 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { MyFormGroupHelper } from '@frontend/utils';
-import {
-  AlertService,
-  MyFormBuilderService,
-  QuestionService,
-} from '@frontend/angular-libs';
+import { AlertService, MyFormBuilderService, MyMetadataService, QuestionService } from '@frontend/angular-libs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AnswerOption, Question } from '@frontend/models';
@@ -21,11 +17,12 @@ import { environment } from '../../environments/environment.dev';
   templateUrl: './create-question.component.html',
   styleUrl: './create-question.component.css',
 })
-export class CreateQuestionComponent {
+export class CreateQuestionComponent implements OnInit {
   questionForm: FormGroup;
   questionFH: MyFormGroupHelper;
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private myFB: MyFormBuilderService,
     private questionService: QuestionService,
     private toastrService: ToastrService,
@@ -56,6 +53,15 @@ export class CreateQuestionComponent {
     });
 
     this.questionFH = new MyFormGroupHelper(this.questionForm);
+  }
+
+  ngOnInit() {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Tạo câu hỏi',
+      description: 'Tạo và quản lý các câu hỏi trắc nghiệm cho bài học',
+      keywords:
+        'tạo câu hỏi, question, admin, quản lý, lotus, lịch sử, Việt Nam',
+    });
   }
 
   get answerOptionsArray() {

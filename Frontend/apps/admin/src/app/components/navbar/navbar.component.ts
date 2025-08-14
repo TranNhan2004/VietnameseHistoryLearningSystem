@@ -74,12 +74,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       prefixRoutes: ['/accounts'],
       accessOnly: ['ADMIN_ADVANCED', 'ADMIN_SUPER_ADVANCED'],
     },
-    {
-      name: 'Thống kê',
-      icon: 'matLeaderboardRound',
-      route: '/statistic',
-      prefixRoutes: ['/statistic'],
-    },
+    // {
+    //   name: 'Thống kê',
+    //   icon: 'matLeaderboardRound',
+    //   route: '/statistic',
+    //   prefixRoutes: ['/statistic'],
+    // },
     {
       name: 'Hồ sơ của tôi',
       icon: 'matPersonRound',

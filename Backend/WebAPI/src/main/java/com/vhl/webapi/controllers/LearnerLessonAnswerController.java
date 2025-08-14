@@ -24,7 +24,7 @@ public class LearnerLessonAnswerController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getByLearnerAndLessonId(
+    public ResponseEntity<?> getByRequestParams(
         @RequestParam String learnerId,
         @RequestParam(required = false) String lessonId
     ) {

@@ -6,6 +6,7 @@ import {
   AlertService,
   LessonService,
   MyFormBuilderService,
+  MyMetadataService,
   QuestionService,
 } from '@frontend/angular-libs';
 import { ToastrService } from 'ngx-toastr';
@@ -54,6 +55,7 @@ export class UpdateLessonComponent implements OnInit {
   selectedQuestionIds: IdsRequest = { ids: [] };
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private myFB: MyFormBuilderService,
     private lessonService: LessonService,
     private questionService: QuestionService,
@@ -62,6 +64,12 @@ export class UpdateLessonComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Cập nhật bài học',
+      description: 'Chỉnh sửa thông tin các bài học trong hệ thống LOTUS',
+      keywords: 'cập nhật bài học, update lesson, admin, lotus, lịch sử',
+    });
+
     const adminId = AuthenticationHelpers.getUserInfo('ADMIN')?.id ?? '';
     const historicalPeriodId =
       this.route.parent?.snapshot.paramMap.get('id') ?? '';

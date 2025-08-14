@@ -3,7 +3,6 @@ export const TEST_ANSWER_QUESTIONS_LSK =
   'n5ZyRUs4jJXH3cVaL0F8Ew7iBTeGh2dDq9KkYzprMClN';
 export const ANSWER_QUESTIONS_LSK =
   'pO5Dwa1UX9GvEZr7b3TYlqANSmh84cR2xnFJz6Pk0B';
-export const TEST_LESSON_PROGRESS_LSK =
-  'ZlGvJ3qUrhxEmwTY5A0bHs82tVQz6yBRXceupKdf9N4M';
-export const LESSON_PROGRESS_LSK =
+export const RESULT_DATA_LSK = 'ZlGvJ3qUrhxEmwTY5A0bHs82tVQz6yBRXceupKdf9N4M';
+export const HAS_RESULT_CONTEST_IDS_LSK =
   'p3RZ1O6fGkQn9ePVwb7mx4YgS0tDahzjL8BqEicUsuJF';

@@ -2,6 +2,7 @@ package com.vhl.webapi.services.impl;
 
 import com.vhl.webapi.constants.errorcodes.ContestErrorCode;
 import com.vhl.webapi.dtos.requests.ContestReqDTO;
+import com.vhl.webapi.dtos.requests.IdsReqDTO;
 import com.vhl.webapi.dtos.responses.ContestResDTO;
 import com.vhl.webapi.entities.specific.Contest;
 import com.vhl.webapi.exceptions.NoInstanceFoundException;
@@ -31,8 +32,16 @@ public class ContestServiceImpl implements ContestService {
     public ContestResDTO getContestById(String id) {
         Contest contest = contestRepository.findById(id)
             .orElseThrow(() -> new NoInstanceFoundException(ContestErrorCode.CONTEST__NOT_FOUND));
-        
+
         return contestMapper.toContestResDTO(contest);
+    }
+
+    @Override
+    public List<ContestResDTO> getAllByIds(IdsReqDTO idsReqDTO) {
+        List<Contest> contests = contestRepository.findAllByIdIn(idsReqDTO.getIds());
+        return contests.stream()
+            .map(contestMapper::toContestResDTO)
+            .toList();
     }
 
     @Override
@@ -50,6 +59,7 @@ public class ContestServiceImpl implements ContestService {
             .orElseThrow(() -> new NoInstanceFoundException(ContestErrorCode.CONTEST__NOT_FOUND));
 
         contestMapper.updateContestFromDTO(contestReqDTO, existing);
+        contestRepository.save(existing);
     }
 
     @Override

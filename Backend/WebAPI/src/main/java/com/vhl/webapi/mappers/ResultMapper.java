@@ -8,6 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ResultMapper {
     @Mapping(target = "contestId", source = "contest.id")
-    @Mapping(target = "leanerId", source = "learner.id")
+    @Mapping(target = "learnerId", source = "learner.id")
     ResultResDTO toResultResDTO(Result result);
 }

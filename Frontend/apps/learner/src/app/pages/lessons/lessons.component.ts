@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ActionButtonComponent,
-  AlertService,
   FavoriteLessonService,
   LearnerLessonAnswerService,
   LessonService,
@@ -52,7 +51,6 @@ export class LessonsComponent implements OnInit {
     private favoriteLessonService: FavoriteLessonService,
     private learnerLessonAnswerService: LearnerLessonAnswerService,
     private toastrService: ToastrService,
-    private alertService: AlertService,
     private sharedService: SharedService,
     private route: ActivatedRoute,
     private router: Router
@@ -62,7 +60,7 @@ export class LessonsComponent implements OnInit {
 
   async ngOnInit() {
     this.myMetadataService.set({
-      title: 'LOTUS | Bài học',
+      title: `LOTUS | Bài học - ${this.historicalPeriodHeader}`,
       description: 'Các bài học về lịch sử Việt Nam',
       keywords: 'bài học, lessons, lotus, lịch sử, histoty, việt nam, vietnam',
     });

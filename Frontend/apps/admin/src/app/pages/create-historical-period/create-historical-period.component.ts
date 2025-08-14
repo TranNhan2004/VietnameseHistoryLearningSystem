@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HistoricalPeriodFormComponent } from '../../components/historical-period-form/historical-period-form.component';
 import { FormGroup, Validators } from '@angular/forms';
@@ -7,6 +7,7 @@ import {
   AlertService,
   HistoricalPeriodService,
   MyFormBuilderService,
+  MyMetadataService,
 } from '@frontend/angular-libs';
 import { HistoricalPeriod } from '@frontend/models';
 import { ToastrService } from 'ngx-toastr';
@@ -20,11 +21,12 @@ import { Router } from '@angular/router';
   templateUrl: './create-historical-period.component.html',
   styleUrl: './create-historical-period.component.css',
 })
-export class CreateHistoricalPeriodComponent {
+export class CreateHistoricalPeriodComponent implements OnInit {
   historicalPeriodForm: FormGroup;
   historicalPeriodFH: MyFormGroupHelper;
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private myFB: MyFormBuilderService,
     private historicalPeriodService: HistoricalPeriodService,
     private toastrService: ToastrService,
@@ -38,6 +40,14 @@ export class CreateHistoricalPeriodComponent {
     });
 
     this.historicalPeriodFH = new MyFormGroupHelper(this.historicalPeriodForm);
+  }
+
+  ngOnInit() {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Tạo thời kỳ lịch sử',
+      description: 'Tạo và quản lý các thời kỳ lịch sử trong hệ thống LOTUS',
+      keywords: 'tạo thời kỳ, lịch sử, admin, quản lý, lotus, Việt Nam',
+    });
   }
 
   save() {

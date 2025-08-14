@@ -7,6 +7,7 @@ import {
   AlertService,
   HistoricalPeriodService,
   MyFormBuilderService,
+  MyMetadataService,
 } from '@frontend/angular-libs';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,6 +27,7 @@ export class UpdateHistoricalPeriodComponent implements OnInit {
   historicalPeriodFH: MyFormGroupHelper;
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private myFB: MyFormBuilderService,
     private historicalPeriodService: HistoricalPeriodService,
     private toastrService: ToastrService,
@@ -43,6 +45,13 @@ export class UpdateHistoricalPeriodComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Cập nhật thời kỳ lịch sử',
+      description:
+        'Chỉnh sửa thông tin các thời kỳ lịch sử trong hệ thống LOTUS',
+      keywords: 'cập nhật thời kỳ, lịch sử, update period, admin, lotus',
+    });
+
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     this.historicalPeriodService.getById(id).subscribe({
       next: (res) => {

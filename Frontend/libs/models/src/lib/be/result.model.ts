@@ -7,8 +7,8 @@ export interface Result {
 }
 
 export interface ResultResponse extends Id, Result {
-  endTime: Date | string;
-  score: number;
+  endTime: Date | string | null;
+  score: number | null;
 }
 
 export interface UpdateResult {

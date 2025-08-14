@@ -54,7 +54,7 @@ export class LessonsComponent implements OnInit {
 
   async ngOnInit() {
     this.myMetadataService.set({
-      title: 'LOTUS Admin | Quản lý bài học',
+      title: `LOTUS Admin | Quản lý bài học - ${this.historicalPeriodHeader}`,
       description: 'Quản lý các bài học về lịch sử Việt Nam',
       keywords:
         'bài học, quản lý, lessons, manage, admin, lotus, lịch sử, histoty, việt nam, vietnam',

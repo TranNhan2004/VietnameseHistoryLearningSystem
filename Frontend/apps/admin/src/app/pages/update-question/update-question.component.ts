@@ -7,6 +7,7 @@ import {
   AlertService,
   AnswerOptionService,
   MyFormBuilderService,
+  MyMetadataService,
   QuestionService,
 } from '@frontend/angular-libs';
 import { ToastrService } from 'ngx-toastr';
@@ -36,6 +37,7 @@ export class UpdateQuestionComponent implements OnInit {
   questionResponse: QuestionResponse = initialQuestionResponse;
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private myFB: MyFormBuilderService,
     private questionService: QuestionService,
     private answerOptionService: AnswerOptionService,
@@ -44,6 +46,12 @@ export class UpdateQuestionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Cập nhật câu hỏi',
+      description: 'Chỉnh sửa các câu hỏi trắc nghiệm cho bài học',
+      keywords: 'cập nhật câu hỏi, update question, admin, lotus, lịch sử',
+    });
+
     this.questionForm = this.myFB.group<UpdateQuestion>({
       content: ['', [Validators.required]],
       lessonId: [null],

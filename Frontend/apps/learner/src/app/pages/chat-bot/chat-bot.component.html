@@ -44,15 +44,15 @@
   </div>
 
   <div class="w-full h-[85%] flex flex-col bg-white border shadow rounded-2xl">
-    <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+    <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6">
       @for (msg of messages; track $index) {
         @if (msg.type === 'answer') {
           <div class="flex justify-center group">
             <div class="relative prose max-w-5xl w-full bg-white p-6 rounded-lg shadow">
-              <markdown [data]="msg.text" class="-mt-2"></markdown>
+              <markdown [data]="msg.text"></markdown>
               <button
                 (click)="copyText(msg.text)"
-                class="absolute left-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1 rounded-md"
+                class="absolute left-3 bottom-2 opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1 rounded-md"
                 title="Sao chép nội dung"
               >
                 <ng-icon name="matContentCopyRound" size="18"></ng-icon>
@@ -76,7 +76,7 @@
 
               <button
                 (click)="copyText(msg.text)"
-                class="absolute left-0 bottom-[-35px] opacity-0 group-hover:opacity-100 transition-opacity"
+                class="absolute left-0 bottom-[-30px] opacity-0 group-hover:opacity-100 transition-opacity"
                 title="Sao chép nội dung"
               >
                 <ng-icon name="matContentCopyRound" size="20" color="gray"></ng-icon>
@@ -140,6 +140,9 @@
 <app-chat-history-modal
   [isOpen]="isOpenHistoryModal"
   [chatHistoryResponses]="chatHistoryResponses"
+  [selectedChatHistoryId]="selectedChatHistoryId"
   (selectHistory)="selectHistory($event)"
   (deleteHistory)="deleteHistory($event)"
+  (closeModal)="isOpenHistoryModal = false"
 ></app-chat-history-modal>
+

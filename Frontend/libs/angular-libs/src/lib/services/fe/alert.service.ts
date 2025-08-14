@@ -38,6 +38,19 @@ export class AlertService {
     }
   }
 
+  async success(message: string, callback: () => void) {
+    const result = await Swal.fire({
+      title: 'Thành công',
+      text: message,
+      icon: 'success',
+      showConfirmButton: true,
+    });
+
+    if (result.isConfirmed) {
+      callback();
+    }
+  }
+
   async cancelWarning(callback: () => void) {
     await this.warning(
       'Bạn có chắc chắn, dữ liệu của bạn sẽ không được lưu khi thực hiện hành động này',

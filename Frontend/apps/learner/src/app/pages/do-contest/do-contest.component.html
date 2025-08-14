@@ -1,7 +1,11 @@
-<app-answer-questions
-  [questionResponses]="questionResponses"
-  [useCancel]="false"
-  (submitAnswers)=""
->
-
-</app-answer-questions>
+@if (resultResponse.endTime) {
+  <div class="p-4">
+    <app-answer-questions-for-contest
+      [questionResponses]="questionResponses"
+      [startTime]="safe(resultResponse.startTime)"
+      [endTime]="safe(resultResponse.endTime)"
+      (submitAnswers)="saveResultAnswers($event)"
+    >
+    </app-answer-questions-for-contest>
+  </div>
+}

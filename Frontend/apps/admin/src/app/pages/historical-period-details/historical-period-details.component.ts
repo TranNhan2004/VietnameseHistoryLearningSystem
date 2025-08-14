@@ -5,6 +5,7 @@ import { ActionButtonName, HistoricalPeriodResponse } from '@frontend/models';
 import {
   ActionButtonComponent,
   HistoricalPeriodService,
+  MyMetadataService,
 } from '@frontend/angular-libs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
@@ -26,6 +27,7 @@ export class HistoricalPeriodDetailsComponent implements OnInit {
   historicalPeriod: HistoricalPeriodResponse = initialHistoricalPeriodResponse;
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private historicalPeriodService: HistoricalPeriodService,
     private toastrService: ToastrService,
     private route: ActivatedRoute,
@@ -33,6 +35,12 @@ export class HistoricalPeriodDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Chi tiết thời kỳ lịch sử',
+      description: 'Xem chi tiết và chỉnh sửa thông tin thời kỳ lịch sử',
+      keywords: 'chi tiết thời kỳ, lịch sử, admin, quản lý, lotus',
+    });
+
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     this.historicalPeriodService.getById(id).subscribe({
       next: (res) => {

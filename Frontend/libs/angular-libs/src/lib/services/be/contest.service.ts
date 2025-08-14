@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WEB_API_URL } from '../../tokens/tokens';
-import { Contest, ContestResponse } from '@frontend/models';
+import { Contest, ContestResponse, IdsRequest } from '@frontend/models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,13 @@ export class ContestService {
 
   getAll() {
     return this.httpClient.get<ContestResponse[]>(`${this.webApiUrl}contests`);
+  }
+
+  getAllByIds(data: IdsRequest) {
+    return this.httpClient.post<ContestResponse[]>(
+      `${this.webApiUrl}contests/by-ids`,
+      data
+    );
   }
 
   getById(id: string) {

@@ -21,13 +21,19 @@ export class ResultService {
 
   getAllByLearner(learnerId: string) {
     return this.httpClient.get<ResultResponse[]>(
-      `${this.webApiUrl}results?learnerId=${learnerId}`
+      `${this.webApiUrl}results/search?learnerId=${learnerId}`
     );
   }
 
   getById(id: string) {
     return this.httpClient.get<ResultResponse>(
       `${this.webApiUrl}results/${id}`
+    );
+  }
+
+  getByLearnerAndContest(learnerId: string, contestId: string) {
+    return this.httpClient.get<ResultResponse>(
+      `${this.webApiUrl}results/search?learnerId=${learnerId}&contestId=${contestId}`
     );
   }
 

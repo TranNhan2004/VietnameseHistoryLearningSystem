@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LessonFormComponent } from '../../components/lesson-form/lesson-form.component';
 import { FormGroup, Validators } from '@angular/forms';
@@ -7,6 +7,7 @@ import {
   AlertService,
   LessonService,
   MyFormBuilderService,
+  MyMetadataService,
 } from '@frontend/angular-libs';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,13 +22,14 @@ import { environment } from '../../environments/environment.dev';
   templateUrl: './create-lesson.component.html',
   styleUrl: './create-lesson.component.css',
 })
-export class CreateLessonComponent {
+export class CreateLessonComponent implements OnInit {
   lessonForm: FormGroup;
   lessonFH: MyFormGroupHelper;
   videoFile: File | null = null;
   videoUrl: string | null = null;
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private myFB: MyFormBuilderService,
     private lessonService: LessonService,
     private toastrService: ToastrService,
@@ -47,6 +49,14 @@ export class CreateLessonComponent {
     });
 
     this.lessonFH = new MyFormGroupHelper(this.lessonForm);
+  }
+
+  ngOnInit() {
+    this.myMetadataService.set({
+      title: 'LOTUS Admin | Tạo bài học',
+      description: 'Tạo và quản lý các bài học trong hệ thống LOTUS',
+      keywords: 'tạo bài học, lesson, admin, quản lý, lotus, lịch sử, Việt Nam',
+    });
   }
 
   save() {

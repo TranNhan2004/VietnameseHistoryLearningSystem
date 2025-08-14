@@ -1,1 +1,64 @@
-<p>results works!</p>
+<div class="p-4">
+  <h1 class="mt-5 font-bold text-my-blue text-4xl text-left">Danh sách kết quả thi</h1>
+  <div class="mt-2 h-1 w-full bg-gradient-to-r from-my-blue to-my-coralaccent rounded-lg"></div>
+
+  <div class="flex items-center justify-between mt-5">
+    <div class="w-[40%]">
+      <app-search
+        [originalData]="originialDisplayedData"
+        [searchKeys]="['name']"
+        (filterData)="filterData($event)"
+        placeholder="Tìm kiếm theo tên cuộc thi"
+      >
+      </app-search>
+    </div>
+    <div class="flex items-center space-x-4">
+      <app-sort
+        selectNgClass="p-[3.5%]"
+        [originalData]="originialDisplayedData"
+        [sortOptions]="[
+          { label: 'Tên cuộc thi (A-Z)', type: 'asc', sortedKey: 'name' },
+          { label: 'Tên cuộc thi (Z-A)', type: 'dsc', sortedKey: 'name' },
+          { label: 'Thời gian làm bài (Nhiều nhất)', type: 'dsc', sortedKey: 'timeElapsed' },
+          { label: 'Thời gian làm bài (Ít nhất)', type: 'asc', sortedKey: 'timeElapsed' },
+          { label: 'Điểm số (Tăng dần)', type: 'asc', sortedKey: 'score' },
+          { label: 'Điểm số (Giảm dần)', type: 'dsc', sortedKey: 'score' }
+        ]"
+        (sortData)="sortData($event)"
+      >
+      </app-sort>
+    </div>
+  </div>
+
+  <div class="mt-5 grid grid-cols-2 gap-4">
+    @for (item of displayedData; track item.id) {
+      <app-card width="full" height="250px">
+        <div card-body>
+          <h6 class="text-xl font-bold mb-2">{{ item['name'] }}</h6>
+          <div class="text-justify space-y-2">
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Thời gian làm bài:</p>
+              <p class="text-gray-800">{{ item['timeElapsed'] }} phút</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Số điểm đạt được:</p>
+              <p class="text-gray-800">{{ item['score'] }}/{{ item['fullScore'] }} điểm</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Số điểm đạt được (thang 100):</p>
+              <p class="text-gray-800">{{ item['scoreIn100'] }}/100 điểm</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Thời điểm bắt đầu:</p>
+              <p class="text-gray-800">{{ safe(item['startTime']) | date: 'dd/MM/yyyy-HH:mm' }}</p>
+            </div>
+            <div class="flex items-start space-x-2">
+              <p class="text-my-darknavy font-bold">Thời điểm kết thúc:</p>
+              <p class="text-gray-800">{{ safe(item['endTime']) | date: 'dd/MM/yyyy-HH:mm' }}</p>
+            </div>
+          </div>
+        </div>
+      </app-card>
+    }
+  </div>
+</div>

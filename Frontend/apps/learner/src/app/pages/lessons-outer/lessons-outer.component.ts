@@ -1,23 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  AlertService,
   HistoricalPeriodService,
+  MyMetadataService,
   SharedService,
 } from '@frontend/angular-libs';
 import { Router } from '@angular/router';
 import {
   ActionButtonName,
   DisplayedData,
-  DisplayedDataAction,
   HistoricalPeriodResponse,
 } from '@frontend/models';
 import { SearchComponent } from '../../components/search/search.component';
 import { SortComponent } from '../../components/sort/sort.component';
-import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
-import { generalMessages, historicalPeriodMessages } from '@frontend/constants';
-import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../environments/environment.dev';
 import { toHistoricalYear } from '@frontend/utils';
 import { CardComponent } from '../../components/card/card.component';
 
@@ -33,9 +28,8 @@ export class LessonsOuterComponent implements OnInit {
   displayedData: DisplayedData[] = [];
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private historicalPeriodService: HistoricalPeriodService,
-    private alertService: AlertService,
-    private toastrService: ToastrService,
     private sharedService: SharedService,
     private router: Router
   ) {}
@@ -49,6 +43,12 @@ export class LessonsOuterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.myMetadataService.set({
+      title: 'LOTUS | Bài học',
+      description: 'Các bài học về lịch sử Việt Nam',
+      keywords: 'bài học, lessons, lotus, lịch sử, histoty, việt nam, vietnam',
+    });
+
     this.historicalPeriodService.getAll().subscribe({
       next: (res) => {
         this.historicalPeriods = [...res];
@@ -60,64 +60,6 @@ export class LessonsOuterComponent implements OnInit {
         }));
         this.displayedData = [...this.originialDisplayedData];
       },
-    });
-  }
-
-  async actionClick(event: DisplayedDataAction) {
-    switch (event.action) {
-      case ActionButtonName.Info:
-        await this.infoData(event.dataId);
-        break;
-      case ActionButtonName.Edit:
-        await this.updateData(event.dataId);
-        break;
-      case ActionButtonName.Delete:
-        await this.deleteData(event.dataId);
-        break;
-      case ActionButtonName.LinkTo:
-        await this.goToRelatedLessons(event.dataId);
-        break;
-    }
-  }
-
-  async infoData(id: string) {
-    await this.router.navigateByUrl(`/historical-periods/${id}`);
-  }
-
-  async updateData(id: string) {
-    await this.router.navigateByUrl(`/historical-periods/${id}/edit`);
-  }
-
-  async deleteData(id: string) {
-    await this.alertService.deleteWarning(() => {
-      this.historicalPeriodService.delete(id).subscribe({
-        next: () => {
-          this.historicalPeriods = this.historicalPeriods.filter(
-            (item) => item.id !== id
-          );
-          this.originialDisplayedData = this.originialDisplayedData.filter(
-            (item) => item.id !== id
-          );
-          this.displayedData = [...this.originialDisplayedData];
-          this.toastrService.success(
-            historicalPeriodMessages['DELETE__SUCCESS']
-          );
-        },
-        error: (err: HttpErrorResponse) => {
-          if (!environment.production) {
-            console.log(err);
-          }
-
-          if (err.status === 409) {
-            this.toastrService.error(generalMessages['FOREIGN_KEY__VIOLATED']);
-            return;
-          }
-
-          const key = err.error
-            .message as keyof typeof historicalPeriodMessages;
-          this.toastrService.error(historicalPeriodMessages[key]);
-        },
-      });
     });
   }
 

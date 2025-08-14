@@ -24,10 +24,23 @@ public class ResultController {
         return ResponseEntity.status(HttpStatus.CREATED).body(resultResDTO);
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> getAllResultsByLeanerId(@RequestParam String learnerId) {
-        List<ResultResDTO> resultResDTOS = resultService.getResultsByLearnerId(learnerId);
-        return ResponseEntity.ok(resultResDTOS);
+    @GetMapping("/search")
+    public ResponseEntity<?> getAllResultsByRequestParams(
+        @RequestParam(required = false) String learnerId,
+        @RequestParam(required = false) String contestId
+    ) {
+        if (learnerId == null && contestId == null) {
+            return ResponseEntity.badRequest().build();
+        } else if (learnerId != null) {
+            List<ResultResDTO> resultResDTOS = resultService.getResultsByLearnerId(learnerId);
+            return ResponseEntity.ok(resultResDTOS);
+        } else if (contestId != null) {
+            List<ResultResDTO> resultResDTOS = resultService.getResultsByContestId(contestId);
+            return ResponseEntity.ok(resultResDTOS);
+        } else {
+            ResultResDTO resultResDTO = resultService.getResultByLearnerAndContestId(learnerId, contestId);
+            return ResponseEntity.ok(resultResDTO);
+        }
     }
 
     @GetMapping("/{id}")
@@ -36,8 +49,8 @@ public class ResultController {
         return ResponseEntity.ok(resultResDTO);
     }
 
-    @PutMapping("")
-    public ResponseEntity<?> updateResult(@RequestParam String id, @Valid @RequestBody UpdateResultReqDTO updateResultReqDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateResult(@PathVariable String id, @Valid @RequestBody UpdateResultReqDTO updateResultReqDTO) {
         ResultResDTO resultResDTO = resultService.updateResult(id, updateResultReqDTO);
         return ResponseEntity.ok(resultResDTO);
     }

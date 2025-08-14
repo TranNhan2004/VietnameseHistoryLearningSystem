@@ -65,11 +65,11 @@
           </div>
           <div class="flex items-start">
             <p class="text-my-darknavy font-bold w-[25%]">Thời điểm bắt đầu:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.startTime | date: 'dd/MM/yyyy-HH:mm' }}</p>
+            <p class="text-gray-800 w-[85%]">{{ safe(item.startTime) | date: 'dd/MM/yyyy-HH:mm' }}</p>
           </div>
           <div class="flex items-start">
             <p class="text-my-darknavy font-bold w-[25%]">Thời điểm kết thúc:</p>
-            <p class="text-gray-800 w-[85%]">{{ item.endTime | date: 'dd/MM/yyyy-HH:mm' }}</p>
+            <p class="text-gray-800 w-[85%]">{{ safe(item.endTime) | date: 'dd/MM/yyyy-HH:mm' }}</p>
           </div>
           <div class="flex items-start">
             <p class="text-my-darknavy font-bold w-[25%]">Ngày tạo:</p>

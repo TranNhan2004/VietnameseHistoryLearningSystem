@@ -16,6 +16,7 @@ import com.vhl.webapi.repositories.LearnerLessonAnswerRepository;
 import com.vhl.webapi.repositories.LearnerRepository;
 import com.vhl.webapi.repositories.LessonRepository;
 import com.vhl.webapi.services.abstraction.LearnerLessonAnswerService;
+import com.vhl.webapi.services.abstraction.LearnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ public class LearnerLessonAnswerServiceImpl implements LearnerLessonAnswerServic
     private final AnswerOptionRepository answerOptionRepository;
     private final LearnerLessonAnswerRepository learnerLessonAnswerRepository;
     private final LearnerLessonAnswerMapper learnerLessonAnswerMapper;
+    private final LearnerService learnerService;
 
 
     @Override
@@ -68,6 +70,7 @@ public class LearnerLessonAnswerServiceImpl implements LearnerLessonAnswerServic
             })
             .toList();
 
+        learnerService.updatePointAndRank(learner.getId(), 5);
         return learnerLessonAnswerRepository.saveAll(learnerLessonAnswers).stream()
             .map(learnerLessonAnswerMapper::toLearnerLessonAnswerResDTO)
             .toList();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   FormGroup,
@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import {
   MyFormBuilderService,
+  MyMetadataService,
   PasswordInputComponent,
   UserService,
   VerificationService,
@@ -38,7 +39,7 @@ import { environment } from '../../environments/environment.dev';
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.css',
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnInit {
   sendOTPForm: FormGroup;
   sendOTPFH: MyFormGroupHelper;
   isSending = false;
@@ -53,6 +54,7 @@ export class ResetPasswordComponent {
   step = 1;
 
   constructor(
+    private myMetadataService: MyMetadataService,
     private verificationService: VerificationService,
     private userService: UserService,
     private toastrService: ToastrService,
@@ -114,6 +116,16 @@ export class ResetPasswordComponent {
     this.sendOTPFH = new MyFormGroupHelper(this.sendOTPForm);
     this.verificationFH = new MyFormGroupHelper(this.verificationForm);
     this.resetPassowordFH = new MyFormGroupHelper(this.resetPasswordForm);
+  }
+
+  ngOnInit() {
+    this.myMetadataService.set({
+      title: 'LOTUS | Đặt lại mật khẩu',
+      description:
+        'Giao diện để đặt lại mật khẩu tài khoản trên hệ thống hỗ trợ học tập lịch sử Việt Nam',
+      keywords:
+        'Đặt lại mật khẩu, reset password, lotus, lịch sử, học tập, Việt Nam',
+    });
   }
 
   setCountdown() {
